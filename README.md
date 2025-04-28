@@ -1,12 +1,13 @@
-# Project Name
+# Huddle
 
-> Project Mission Statement
+> ***Project Mission Statement:***  
+> Our mission is to create a web app where any New Yorker can, in under 30 seconds, post or discover neighborhood issues and events. By unifying 311-style reports and community activities on a real-time, interactive map, we aim to turn isolated data points into shared civic awareness and spark faster, collective responses across neighborhoods.
 
 ## Team
 
-  - teamMember: **Scrum Master, Developer**
-  - teamMember: **Developer**
-  - teamMember: **Developer**
+  - *Autumn Lydon*: **Scrum Master, Developer**
+  - *Xavier Campos*: **Developer**
+  - *Athena Chang*: **Developer**
 
 ## Table of Contents
 - [Getting Started](#getting-started)
