@@ -77,3 +77,11 @@ Looking to the future, there are several ways to expand, iterate, and scale our 
 - NYC Open Data. (n.d.). 311 service requests from 2010 to present. City of New York. https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9 
 - OpenAI. (2025). ChatGPT (April 2025 version) [Large language model]. https://chat.openai.com
 <!-- content goes above -->
+
+## 🖼️Additional Documents
+* **Mockup:**  [Excalidraw](https://excalidraw.com/#json=YbQ0Y90ve9izgWQ8rIJkn,-C5vcbsdsaPv2wJJG_s6yg) 
+![image](https://github.com/user-attachments/assets/feb88b36-a086-49b3-be20-856cb4988c35)
+
+* **ERD:** [Database Diagram](https://dbdiagram.io/d/6809185b1ca52373f513e1ad)  
+![Huddle - AXA DB Diagram](https://github.com/user-attachments/assets/39b5c53a-3e89-4c6a-a31f-82fd7a633d16)
+
