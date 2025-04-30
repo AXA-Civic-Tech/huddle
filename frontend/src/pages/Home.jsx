@@ -34,7 +34,9 @@ export default function HomePage() {
         )}
       </div>
 
-      <div>{activeForm === "login" ? <LoginForm /> : <SignUpForm />}</div>
+      <div className="form">
+        {activeForm === "login" ? <LoginForm /> : <SignUpForm />}
+      </div>
     </>
   );
 }
