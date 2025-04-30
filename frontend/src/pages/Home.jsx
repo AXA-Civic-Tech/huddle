@@ -1,7 +1,8 @@
 import { useState, useContext } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
-import { logUserIn } from "../adapters/auth-adapter";
 import CurrentUserContext from "../contexts/current-user-context";
+import LoginForm from "./Login";
+import SignUpForm from "./SignUp";
 
 export default function HomePage() {
   const [activeForm, setActiveForm] = useState("signup");
@@ -33,7 +34,7 @@ export default function HomePage() {
         )}
       </div>
 
-      <div>{activeForm === "login" ? <LoginPage /> : <SignUpPage />}</div>
+      <div>{activeForm === "login" ? <LoginForm /> : <SignUpForm />}</div>
     </>
   );
 }

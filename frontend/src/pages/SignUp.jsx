@@ -5,7 +5,7 @@ import { registerUser } from "../adapters/auth-adapter";
 
 // Controlling the sign up form is a good idea because we want to add (eventually)
 // more validation and provide real time feedback to the user about usernames and passwords
-export default function SignUpPage() {
+export default function SignUpForm() {
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const [errorText, setErrorText] = useState("");
