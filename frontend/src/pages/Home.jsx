@@ -1,8 +1,8 @@
 import { useState, useContext } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
-import LoginForm from "./Login";
-import SignUpForm from "./SignUp";
+import LoginForm from "../components/Login";
+import SignUpForm from "../components/SignUp";
 
 export default function HomePage() {
   const [activeForm, setActiveForm] = useState("signup");
