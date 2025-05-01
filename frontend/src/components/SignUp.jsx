@@ -9,8 +9,9 @@ export default function SignUpForm() {
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const [errorText, setErrorText] = useState("");
-  const [name, setName] = useState("");
-  const [emailAddress, setEmailAddress] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -21,8 +22,9 @@ export default function SignUpForm() {
       return setErrorText("Missing username or password");
 
     const [user, error] = await registerUser({
-      name,
-      emailAddress,
+      firstName,
+      lastName,
+      email,
       username,
       password,
     });
@@ -34,8 +36,9 @@ export default function SignUpForm() {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    if (name === "name") setName(value);
-    if (name === "emailAddress") setEmailAddress(value);
+    if (name === "firstName") setFirstName(value);
+    if (name === "lastName") setLastName(value);
+    if (name === "email") setEmail(value);
     if (name === "username") setUsername(value);
     if (name === "password") setPassword(value);
   };
@@ -50,25 +53,36 @@ export default function SignUpForm() {
       >
         <h2 id="create-heading">Create New User</h2>
 
-        <label htmlFor="name">First & Last Name</label>
+        <label htmlFor="name">First Name</label>
         <input
           autoComplete="off"
           type="text"
           id="name"
           name="name"
           onChange={handleChange}
-          value={name}
+          value={firstName}
           required
         />
 
-        <label htmlFor="email address">Email Address</label>
+        <label htmlFor="name">Last Name</label>
         <input
           autoComplete="off"
           type="text"
-          id="emailAddress"
-          name="emailAddress"
+          id="name"
+          name="name"
           onChange={handleChange}
-          value={emailAddress}
+          value={lastName}
+          required
+        />
+
+        <label htmlFor="email address">Email</label>
+        <input
+          autoComplete="off"
+          type="text"
+          id="email"
+          name="email"
+          onChange={handleChange}
+          value={email}
           required
         />
 
