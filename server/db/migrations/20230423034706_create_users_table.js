@@ -10,7 +10,7 @@ exports.up = function(knex) {
       table.string('email').notNullable();
       table.string('first_name').notNullable();
       table.string('last_name').notNullable();
-      table.string('password').notNullable();
+      table.string('password_hash').notNullable();
       table.string('username').notNullable();
     })
 
@@ -47,7 +47,7 @@ exports.up = function(knex) {
 
     .createTable('upvote', function(table) {
       table.increments('id').primary();
-      table.integer('event_id').unsigned().unique().references('id').inTable('event').onDelete('CASCADE');
+      table.integer('event_id').unsigned().references('id').inTable('event').onDelete('CASCADE');
       table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE');
       table.timestamp('favorited_time').defaultTo(knex.fn.now());
     });
@@ -60,9 +60,9 @@ exports.up = function(knex) {
  */
 exports.down = function(knex) {
   return knex.schema
-    .dropTableIfExists('favorites')
+    .dropTableIfExists('upvote')
     .dropTableIfExists('comments')
     .dropTableIfExists('event')
     .dropTableIfExists('address')
-    .dropTableIfExists('users');
+    .dropTableIfExists('users')
 };
