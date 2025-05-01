@@ -3,7 +3,11 @@ import CurrentUserContext from "../contexts/current-user-context";
 
 /**
  * After the Post is clicked on from the Feed, the Modal will pop up in front of the Map
- * I think Modal should take event as a prop
+ * Modal will take event as a prop
+ * This component is a reusable component:
+ * creating a new issue
+ * rendering existing issue
+ * giving the option for owner of the post to edit.
  * @returns
  */
 
