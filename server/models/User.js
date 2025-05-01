@@ -3,47 +3,42 @@ const bcrypt = require('bcrypt');
 const SALT_ROUNDS = 12;
 
 class User {
-  #passwordHash = null; // a private property
+  #passwordHash = null;
 
-  // Create a User instance with the password hidden
-  // Instances of User can be sent to clients without exposing the password
-  constructor({ id, username, password_hash }) {
+  constructor({ id, username, password_hash, email, first_name, last_name }) {
     this.id = id;
     this.username = username;
+    this.email = email;
+    this.first_name = first_name;
+    this.last_name = last_name;
     this.#passwordHash = password_hash;
   }
+  
 
-  // Controllers can use this instance method to validate passwords prior to sending responses
   isValidPassword = async (password) => {
     return await bcrypt.compare(password, this.#passwordHash);
   }
 
-  // Hashes the given password and then creates a new user
-  // in the users table. Returns the newly created user, using
-  // the constructor to hide the passwordHash. 
-  static async create(username, password) {
-    // hash the plain-text password using bcrypt before storing it in the database
+  static async create(username, password, { email = null, first_name = null, last_name = null } = {}) {
     const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
-
-    const query = `INSERT INTO users (username, password_hash)
-      VALUES (?, ?) RETURNING *`;
-    const result = await knex.raw(query, [username, passwordHash]);
-
+  
+    const query = `
+      INSERT INTO users (username, password_hash, email, first_name, last_name)
+      VALUES (?, ?, ?, ?, ?)
+      RETURNING *`;
+    const result = await knex.raw(query, [username, passwordHash, email, first_name, last_name]);
+  
     const rawUserData = result.rows[0];
     return new User(rawUserData);
-  }
+  }  
 
-  // Fetches ALL users from the users table, uses the constructor
-  // to format each user (and hide their password hash), and returns.
   static async list() {
     const query = `SELECT * FROM users`;
     const result = await knex.raw(query);
     return result.rows.map((rawUserData) => new User(rawUserData));
   }
 
-  // Fetches A single user from the users table that matches
-  // the given user id. If it finds a user, uses the constructor
-  // to format the user and returns or returns null if not.
+
   static async find(id) {
     const query = `SELECT * FROM users WHERE id = ?`;
     const result = await knex.raw(query, [id]);
