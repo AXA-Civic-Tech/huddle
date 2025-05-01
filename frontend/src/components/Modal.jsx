@@ -3,7 +3,7 @@ import CurrentUserContext from "../contexts/current-user-context";
 
 /**
  * After the Post is clicked on from the Feed, the Modal will pop up in front of the Map
- * I think Modal should take eventId as a prop
+ * I think Modal should take event as a prop
  * @returns
  */
 
