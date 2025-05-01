@@ -45,7 +45,7 @@ exports.up = function(knex) {
       table.integer('event_id').unsigned().references('id').inTable('event').onDelete('CASCADE');
     })
 
-    .createTable('favorites', function(table) {
+    .createTable('upvote', function(table) {
       table.increments('id').primary();
       table.integer('event_id').unsigned().unique().references('id').inTable('event').onDelete('CASCADE');
       table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE');
