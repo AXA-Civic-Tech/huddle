@@ -7,22 +7,26 @@ import CurrentUserContext from "../contexts/current-user-context";
  * @returns
  */
 
-export default function Modal({ event }) {
+export default function Modal({ event = {}, onClose }) {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
-  const [isEdit, setIsEdit] = useState(false);
-  const [title, setTitle] = useState(event.title);
-  const [address, setAddress] = useState(event.address);
-  const [status, setStatus] = useState(event.status);
-  const [email, setEmail] = useState(event.email);
-  const [phone, setPhone] = useState(event.phone);
-  const [description, setDescription] = useState(event.description);
+
+  const isNew = !event?.event_id;
+  const isEdit = isNew || currentUser?.id === event.user_id;
+
+  const [title, setTitle] = useState(event.title || "");
+  const [address, setAddress] = useState(event.address || "");
+  const [status, setStatus] = useState(event.status || "open");
+  const [email, setEmail] = useState(event.email || "");
+  const [phone, setPhone] = useState(event.phone || "");
+  const [description, setDescription] = useState(event.description || "");
 
   const handleSave = async () => {
-    setIsEdit(false);
+    const method = isNew ? "POST" : "PATCH";
+    const url = isNew ? "/api/events" : `/api/events/${event.event_id}`;
 
     try {
       const response = await fetch(`/api/events/${event.event_id}`, {
-        method: "PATCH",
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title,
@@ -34,7 +38,8 @@ export default function Modal({ event }) {
         }),
       });
 
-      if (!response.ok) throw new Error("Failed to update event");
+      if (!response.ok) throw new Error("Failed to save");
+      onClose();
     } catch (err) {
       console.error(err);
     }
@@ -165,7 +170,15 @@ export default function Modal({ event }) {
         <p className="description">Description: {description}</p>
       )}
 
-      <div className="comments"></div>
+      <div className="comments">
+        {event.comments.map((comment) => {
+          return (
+            <p>
+              {event.username} {comment}
+            </p>
+          );
+        })}
+      </div>
     </div>
   );
 }
