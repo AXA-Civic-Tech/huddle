@@ -11,10 +11,10 @@ import CurrentUserContext from "../contexts/current-user-context";
  * @returns
  */
 
-export default function Modal({ event = {}, onClose }) {
+export default function Modal({ event = {}, comments = {}, onClose }) {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
-  const isNew = !event?.event_id;
+  const isNew = !event?.id;
   const isEditableByUser = isNew || currentUser?.id === event.user_id;
 
   const [edit, setEdit] = useState(null);
@@ -27,7 +27,7 @@ export default function Modal({ event = {}, onClose }) {
 
   const handleSave = async () => {
     const method = isNew ? "POST" : "PATCH";
-    const url = isNew ? "/api/events" : `/api/events/${event.event_id}`;
+    const url = isNew ? "/api/events" : `/api/events/${event.id}`;
 
     try {
       const response = await fetch(url, {
@@ -89,7 +89,7 @@ export default function Modal({ event = {}, onClose }) {
   };
 
   return (
-    <div className="modal" key={event.event_id}>
+    <div className="modal" key={event.id}>
       {event.image && (
         <img src={event.image.src} alt={event.image.alt} className="image" />
       )}
@@ -126,11 +126,14 @@ export default function Modal({ event = {}, onClose }) {
       )}
 
       <div className="comments">
-        {event.comments?.map((comment, index) => (
-          <p key={index}>
-            <strong>{event.username}</strong>: {comment}
-          </p>
-        ))}
+        {Object.values(comments)?.map(
+          (comment, index) =>
+            comment.event_id === event.id && (
+              <p key={index}>
+                <strong>{event.username}</strong>: {comment}
+              </p>
+            )
+        )}
       </div>
     </div>
   );
