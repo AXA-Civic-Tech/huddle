@@ -9,14 +9,14 @@ import CurrentUserContext from "../contexts/current-user-context";
  * @returns
  */
 
-export default function Post({ eventId }) {
+export default function Post({ event }) {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
   return (
     <div className="post">
-      <img src="" alt="" />
+      <img src={event.image.src} alt={event.image.alt} />
 
-      <h2>Title</h2>
+      <h2>Ti</h2>
 
       <label>Status:</label>
       {!currentUser ? (

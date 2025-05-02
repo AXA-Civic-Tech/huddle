@@ -56,7 +56,7 @@ export default function Modal({ event = {}, onClose }) {
 
     return (
       <div className="field">
-        <label>{label}:</label>
+        <label className={name}>{label}:</label>
         {isEdit ? (
           <>
             {type === "textarea" ? (
@@ -78,7 +78,7 @@ export default function Modal({ event = {}, onClose }) {
           </>
         ) : (
           <>
-            <p>{value}</p>
+            <p className={name}>{value}</p>
             {isEditableByUser && (
               <button onClick={() => setEdit(name)}>Edit</button>
             )}
