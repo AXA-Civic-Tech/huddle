@@ -2,6 +2,11 @@ import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
 
+/**
+ * Need to add Log Out functionality if current user is logged in
+ * @returns
+ */
+
 export default function SiteHeadingAndNav() {
   const { currentUser } = useContext(CurrentUserContext);
 
