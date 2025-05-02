@@ -22,11 +22,7 @@ export default function Feed({ events }) {
 
       <div className="feed">
         {events.map((event) => (
-          <Post
-            key={event.event_id}
-            event={event}
-            onSelect={setSelectedEvent}
-          />
+          <Post key={event.id} event={event} onSelect={setSelectedEvent} />
         ))}
       </div>
       {selectedEvent && (
