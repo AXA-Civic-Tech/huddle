@@ -1,35 +1,25 @@
-import { useContext } from "react";
-import CurrentUserContext from "../contexts/current-user-context";
-
 /**
  * This component is for rendering limited amount of data for the Feed
- * With the eventId as a prop, we will extract the data and implement that for each HTML element
- * I'm not sure how we are going to implement the status from the event so status will make do for now.
- * Needs an event listener on the Post card so the Modal can pop up
+ * Post has event listener if user click on the card
  * @returns
  */
 
-export default function Post({ event }) {
-  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+export default function Post({ event, onSelect }) {
+  const handleClick = () => {
+    if (onSelect) onSelect(event);
+  };
 
   return (
-    <div className="post">
+    <div className="post" onClick={handleClick}>
       <img src={event.image.src} alt={event.image.alt} />
 
-      <h2>Ti</h2>
+      <h2 className="title">{event.title}</h2>
 
-      <label>Status:</label>
-      {!currentUser ? (
-        status
-      ) : (
-        <select>
-          <option>Open</option>
-          <option>In Progress...</option>
-          <option>Closed</option>
-        </select>
-      )}
+      <p className="status">Status: {event.status}</p>
 
-      <div className="comments"></div>
+      <button onClick={handleClick}>View More</button>
+
+      <div className="comments">{event.comments[0]}</div>
     </div>
   );
 }
