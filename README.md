@@ -1,15 +1,16 @@
 # Huddle
 
-> ***Project Mission Statement:***  
+> **_Project Mission Statement:_**  
 > Our mission is to create a web app where any New Yorker can, in under 30 seconds, post or discover neighborhood issues and events. By unifying 311-style reports and community activities on a real-time, interactive map, we aim to turn isolated data points into shared civic awareness and spark faster, collective responses across neighborhoods.
 
 ## Team
 
-  - *Autumn Lydon*: **Scrum Master, Developer**
-  - *Xavier Campos*: **Developer**
-  - *Athena Chang*: **Developer**
+- _Autumn Lydon_: **Scrum Master, Developer**
+- _Xavier Campos_: **Developer**
+- _Athena Chang_: **Developer**
 
 ## Table of Contents
+
 - [Getting Started](#getting-started)
   - [Build and Start Commands](#build-and-start-commands)
   - [Technologies Used](#technologies-used)
@@ -34,12 +35,12 @@ Before you can actually start building, you need to create a database and config
 # These values are used by knexfile.js to connect to your postgres server
 PG_HOST='127.0.0.1'
 PG_PORT=5432
-PG_USER='itsamemario'
-PG_PASS='12345'
-PG_DB='my_react_express_auth_database'
+PG_USER='autumnlydon'
+PG_PASS='1102'
+PG_DB='huddle'
 
 # Replace session secret with your own random string!
-# This is used by handleCookieSessions to hash your cookie data 
+# This is used by handleCookieSessions to hash your cookie data
 SESSION_SECRET='db8c3cffebb2159b46ee38ded600f437ee080f8605510ee360758f6976866e00d603d9b3399341b0cd37dfb8e599fff3'
 
 # When you deploy your database on render, this string can be used to test SQL queries to the deployed database.
