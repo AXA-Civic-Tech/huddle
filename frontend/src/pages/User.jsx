@@ -38,8 +38,8 @@ export default function UserPage() {
 
   return <>
     <h1>{profileUsername}</h1>
-    <p>If the user had any data, here it would be</p>
-    <p>Fake Bio or something</p>
+    <p>Welcome to Huddle!</p>
+    <p>Time to ACTUALLY learn who your neighbors are!</p>
     {
       isCurrentUserProfile ? (
         <>
