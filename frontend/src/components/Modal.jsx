@@ -91,9 +91,9 @@ export default function Modal({ event = {}, comments = {}, onClose }) {
 
   return (
     <div className="modal" key={event.id} onClose={onClose}>
-      {event.image && (
+      {/* {event.image && (
         <img src={event.image.src} alt={event.image.alt} className="image" />
-      )}
+      )} */}
 
       {render("Title", title, setTitle, "title")}
 
