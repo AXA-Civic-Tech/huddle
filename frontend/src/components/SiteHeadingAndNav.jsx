@@ -4,6 +4,11 @@ import CurrentUserContext from "../contexts/current-user-context";
 
 /**
  * Need to add Log Out functionality if current user is logged in
+ * Need to add View Map functionality if current user is logged in
+ * Needs a condition depending on the page the user is in
+ * Profile page: View Map & Log Out
+ * Map page: View Profile & Log Out
+ * Homepage (Map): Sign Up & Log In
  * @returns
  */
 

@@ -13,6 +13,9 @@ export default function Profile({ user, events }) {
           {user.first_name} {user.last_name}
         </h3>
         <h3>{user.email}</h3>
+
+        <button>View Map</button>
+        <button>Report a New Issue</button>
       </div>
 
       <div className="profile">
