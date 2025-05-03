@@ -18,7 +18,7 @@ export default function LoginForm() {
     if (error) return setErrorText(error.message);
 
     setCurrentUser(user);
-    navigate(`/users/${user.id}`);
+    navigate(`/feed`);
   };
 
   return (
