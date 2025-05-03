@@ -1,5 +1,3 @@
-export default Button() => {
-    return (
-        <button></button>
-    )
+export default function Button({ name, onClick }) {
+  return <button onClick={onClick}>{name}</button>;
 }

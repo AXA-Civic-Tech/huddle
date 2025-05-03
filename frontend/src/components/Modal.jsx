@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
+import Button from "./Button";
 
 /**
  * After the Post is clicked on from the Feed, the Modal will pop up in front of the Map
@@ -73,14 +74,14 @@ export default function Modal({ event = {}, comments = {}, onClose }) {
                 onChange={(e) => setValue(e.target.value)}
               />
             )}
-            <button onClick={() => setEdit(null)}>Cancel</button>
-            <button onClick={handleSave}>Save</button>
+            <Button name="Cancel" onClick={() => setEdit(null)} />
+            <Button name="Save" onClick={handleSave} />
           </>
         ) : (
           <>
             <p className={name}>{value}</p>
             {isEditableByUser && (
-              <button onClick={() => setEdit(name)}>Edit</button>
+              <Button name="Edit" onClick={() => setEdit(name)} />
             )}
           </>
         )}
@@ -106,8 +107,8 @@ export default function Modal({ event = {}, comments = {}, onClose }) {
             <option value="progress">In Progress...</option>
             <option value="closed">Closed</option>
           </select>
-          <button onClick={() => setEdit(null)}>Cancel</button>
-          <button onClick={handleSave}>Save</button>
+          <Button name="Cancel" onClick={() => setEdit(null)} />
+          <Button name="Save" onClick={handleSave} />
         </>
       ) : (
         <label>Status: {status}</label>
