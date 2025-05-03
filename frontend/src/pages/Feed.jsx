@@ -18,8 +18,6 @@ export default function FeedPage() {
     });
   }, []);
 
-  console.log(posts);
-
   return (
     <div>
       <h1>All Posts</h1>
