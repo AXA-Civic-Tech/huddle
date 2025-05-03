@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { getAllPosts } from "../adapters/post-adapter";
 import Post from "../components/Post";
 
 /**
@@ -8,30 +10,42 @@ import Post from "../components/Post";
  * @returns
  */
 
-export default function Feed({ events }) {
-  const [selectedEvent, setSelectedEvent] = useState(null);
+export default function FeedPage() {
+    const [posts, setPosts] = useState([]);
+    const [selectedEvent, setSelectedEvent] = useState(null);
 
-  return (
-    <>
-      <select className="sort">
-        <option value="city">City</option>
-        <option value="borough">Borough</option>
-        <option value="recent">Most Urgent</option>
-        <option value="status">Status</option>
-      </select>
-
+  
+    useEffect(() => {
+      getAllPosts().then(([data, error]) => {
+        if (data) setPosts(data)
+        else console.error(error)
+      });
+    }, []);
+  
+    return (
       <div className="feed">
-        {events.map((event) => (
-          <Post
-            key={event.event_id}
-            event={event}
+        <h1>All Posts</h1>
+        
+        <select className="sort">
+          <option value="city">City</option>
+          <option value="borough">Borough</option>
+          <option value="recent">Most Urgent</option>
+          <option value="status">Status</option>
+        </select>
+        
+        {posts.length === 0 ? (
+          <p>No posts yet!</p>
+        ) : (
+          posts.filter(Boolean).map(post => (
+            <Post
+            key={post.id}
+            event={post}
             onSelect={setSelectedEvent}
           />
-        ))}
+          ))
+        )}
+        {selectedEvent && (
+          <Modal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
+        )}
       </div>
-      {selectedEvent && (
-        <Modal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
-      )}
-    </>
-  );
-}
+    );

@@ -7,14 +7,21 @@ import {
 const baseUrl = "/api/auth";
 
 export const registerUser = async ({
-  name,
-  emailAddress,
+  firstName,
+  lastName,
+  email,
   username,
   password,
 }) => {
   return fetchHandler(
     `${baseUrl}/register`,
-    getPostOptions({ name, emailAddress, username, password })
+    getPostOptions({ 
+      username, 
+      password,
+      email,
+      first_name: firstName,
+      last_name: lastName
+    })
   );
 };
 
