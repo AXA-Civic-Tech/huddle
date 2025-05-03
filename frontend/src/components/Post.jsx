@@ -11,15 +11,16 @@ export default function Post({ event, onSelect }) {
 
   return (
     <div className="post" onClick={handleClick}>
-      <img src={event.image.src} alt={event.image.alt} />
+      {/* <img src={event.image.src} alt={event.image.alt} /> */}
 
       <h2 className="title">{event.title}</h2>
 
-      <p className="status">Status: {event.status}</p>
+
+      {/* <p className="status">Status: {event.status}</p> */}
 
       <button onClick={handleClick}>View More</button>
 
-      <div className="comments">{event.comments[0]}</div>
+      {/* <div className="comments">{event.comments[0]}</div> */}
     </div>
   );
 }
