@@ -18,8 +18,17 @@ export default function SignUpForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorText("");
-    if (!username || !password)
-      return setErrorText("Missing username or password");
+    
+    // Basic validation
+    if (!username || !password) {
+      return setErrorText("Username and password are required");
+    }
+    if (password.length < 6) {
+      return setErrorText("Password must be at least 6 characters");
+    }
+    if (!email.includes('@')) {
+      return setErrorText("Please enter a valid email address");
+    }
 
     const [user, error] = await registerUser({
       firstName,
@@ -28,6 +37,7 @@ export default function SignUpForm() {
       username,
       password,
     });
+    
     if (error) return setErrorText(error.message);
 
     setCurrentUser(user);
@@ -46,39 +56,35 @@ export default function SignUpForm() {
   return (
     <>
       <h1>Sign Up</h1>
-      <form
-        onSubmit={handleSubmit}
-        onChange={handleChange}
-        aria-labelledby="create-heading"
-      >
+      <form onSubmit={handleSubmit} aria-labelledby="create-heading">
         <h2 id="create-heading">Create New User</h2>
 
-        <label htmlFor="name">First Name</label>
+        <label htmlFor="firstName">First Name</label>
         <input
           autoComplete="off"
           type="text"
-          id="name"
-          name="name"
+          id="firstName"
+          name="firstName"
           onChange={handleChange}
           value={firstName}
           required
         />
 
-        <label htmlFor="name">Last Name</label>
+        <label htmlFor="lastName">Last Name</label>
         <input
           autoComplete="off"
           type="text"
-          id="name"
-          name="name"
+          id="lastName"
+          name="lastName"
           onChange={handleChange}
           value={lastName}
           required
         />
 
-        <label htmlFor="email address">Email</label>
+        <label htmlFor="email">Email</label>
         <input
           autoComplete="off"
-          type="text"
+          type="email"
           id="email"
           name="email"
           onChange={handleChange}
@@ -94,6 +100,7 @@ export default function SignUpForm() {
           name="username"
           onChange={handleChange}
           value={username}
+          required
         />
 
         <label htmlFor="password">Password</label>
@@ -104,6 +111,8 @@ export default function SignUpForm() {
           name="password"
           onChange={handleChange}
           value={password}
+          required
+          minLength={6}
         />
 
         {/* In reality, we'd want a LOT more validation on signup, so add more things if you have time
@@ -111,9 +120,9 @@ export default function SignUpForm() {
         <input autoComplete="off" type="password" id="password-confirm" name="passwordConfirm" />
       */}
 
-        <button>Sign Up Now!</button>
+        <button type="submit">Sign Up Now!</button>
       </form>
-      {!!errorText && <p>{errorText}</p>}
+      {!!errorText && <p className="error">{errorText}</p>}
     </>
   );
 }
