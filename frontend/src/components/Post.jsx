@@ -4,6 +4,8 @@
  * @returns
  */
 
+import Button from "./Button";
+
 export default function Post({ event, onSelect }) {
   const handleClick = () => {
     if (onSelect) onSelect(event);
@@ -17,7 +19,7 @@ export default function Post({ event, onSelect }) {
 
       <p className="status">Status: {event.status}</p>
 
-      <button onClick={handleClick}>View More</button>
+      <Button name="View More" onClick={handleClick} />
 
       <div className="comments">{event.comments[0]}</div>
     </div>
