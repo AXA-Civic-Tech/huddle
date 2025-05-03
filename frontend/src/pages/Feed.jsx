@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAllPosts } from "../adapters/post-adapter";
 import Post from "../components/Post";
+import Modal from "../components/Modal";
 
 /**
  * Feed should display different Posts based on the area when zoomed in or out

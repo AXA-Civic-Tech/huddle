@@ -90,7 +90,7 @@ export default function Modal({ event = {}, comments = {}, onClose }) {
   };
 
   return (
-    <div className="modal" key={event.id}>
+    <div className="modal" key={event.id} onClose={onClose}>
       {event.image && (
         <img src={event.image.src} alt={event.image.alt} className="image" />
       )}
