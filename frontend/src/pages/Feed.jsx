@@ -13,7 +13,8 @@ import Modal from "../components/Modal";
 
 export default function FeedPage() {
   const [posts, setPosts] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
     getAllPosts().then(([data, error]) => {
@@ -21,6 +22,16 @@ export default function FeedPage() {
       else console.error(error);
     });
   }, []);
+
+  const openModal = (event) => {
+    setSelectedPost(event);
+    setIsOpen(true);
+  };
+
+  const closeModal = (event) => {
+    setSelectedPost(null);
+    setIsOpen(false);
+  };
 
   return (
     <div className="feed">
@@ -39,11 +50,11 @@ export default function FeedPage() {
         posts
           .filter(Boolean)
           .map((post) => (
-            <Post key={post.id} event={post} onSelect={setSelectedEvent} />
+            <Post key={post.id} event={post} onSelect={setSelectedPost} />
           ))
       )}
-      {selectedEvent && (
-        <Modal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
+      {selectedPost && (
+        <Modal event={selectedPost} onClose={closeModal} isOpen={isOpen} />
       )}
     </div>
   );

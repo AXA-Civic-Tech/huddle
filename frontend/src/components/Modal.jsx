@@ -12,7 +12,7 @@ import Button from "./Button";
  * @returns
  */
 
-export default function Modal({ event = {}, comments = {}, onClose }) {
+export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
   const isNew = !event?.id;
@@ -90,7 +90,12 @@ export default function Modal({ event = {}, comments = {}, onClose }) {
   };
 
   return (
-    <div className="modal" key={event.id} onClose={onClose}>
+    <dialog
+      className="modal"
+      key={event.id}
+      open={isOpen}
+      onClick={(e) => e.target === e.currentTarget && onClose()}
+    >
       {/* {event.image && (
         <img src={event.image.src} alt={event.image.alt} className="image" />
       )} */}
@@ -136,6 +141,6 @@ export default function Modal({ event = {}, comments = {}, onClose }) {
             )
         )}
       </div>
-    </div>
+    </dialog>
   );
 }
