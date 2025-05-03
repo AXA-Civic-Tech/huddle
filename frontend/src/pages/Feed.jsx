@@ -16,7 +16,7 @@ export default function Feed({ events }) {
       <select className="sort">
         <option value="city">City</option>
         <option value="borough">Borough</option>
-        <option value="recent">Most Recent</option>
+        <option value="recent">Most Urgent</option>
         <option value="status">Status</option>
       </select>
 
