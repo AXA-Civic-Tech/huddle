@@ -1,10 +1,10 @@
+import Button from "./Button";
+
 /**
  * This component is for rendering limited amount of data for the Feed
  * Post has event listener if user click on the card
  * @returns
  */
-
-import Button from "./Button";
 
 export default function Post({ event, onSelect }) {
   const handleClick = () => {
@@ -16,7 +16,6 @@ export default function Post({ event, onSelect }) {
       {/* <img src={event.image.src} alt={event.image.alt} /> */}
 
       <h2 className="title">{event.title}</h2>
-
 
       {/* <p className="status">Status: {event.status}</p> */}
 
