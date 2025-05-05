@@ -1,3 +1,4 @@
+import Button from "../components/Button";
 import SiteHeadingAndNav from "../components/SiteHeadingAndNav";
 
 export default function Profile({ user, events }) {
@@ -13,6 +14,9 @@ export default function Profile({ user, events }) {
           {user.first_name} {user.last_name}
         </h3>
         <h3>{user.email}</h3>
+
+        <Button name="View Map" />
+        <Button name="Report a New Issue" />
       </div>
 
       <div className="profile">

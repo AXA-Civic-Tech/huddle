@@ -1,9 +1,28 @@
-import { NavLink } from "react-router-dom";
+import { useLocation, useNavigate, NavLink } from "react-router-dom";
 import { useContext } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
+import Button from "./Button";
+
+/**
+ * Need to add Log Out functionality if current user is logged in
+ * Need to add View Map functionality if current user is logged in
+ * Needs a condition depending on the page the user is in
+ * Profile page: View Map & Log Out
+ * Map page: View Profile & Log Out
+ * Homepage (Map): Sign Up & Log In
+ * @returns
+ */
 
 export default function SiteHeadingAndNav() {
   const { currentUser } = useContext(CurrentUserContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const pathname = location.pathname;
+
+  const handleLogout = () => {
+    console.log("Logging out...");
+    navigate("/");
+  };
 
   return (
     <header>
@@ -12,30 +31,42 @@ export default function SiteHeadingAndNav() {
       </a>
       <nav>
         <ul>
-          <li>
-            <NavLink to="/">Home</NavLink>
-          </li>
+          {currentUser && (
+            <>
+              {pathname === `/users.${currentUser.id}` && (
+                <>
+                  <li>
+                    <Button name="View Map" to="/map" />
+                  </li>
+                  <li>
+                    <Button name="Log Out" onClick={handleLogout} />
+                  </li>
+                </>
+              )}
 
-          {currentUser ? (
-            <>
-              <li>
-                <NavLink to="/users" end={true}>
-                  Users
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to={`/users/${currentUser.id}`}>
-                  {currentUser.username}
-                </NavLink>
-              </li>
+              {pathname === "/map" && (
+                <>
+                  <li>
+                    <Button
+                      name="View Profile"
+                      to={`/users/${currentUser.id}`}
+                    />
+                  </li>
+                  <li>
+                    <Button name="Log Out" onClick={handleLogout} />
+                  </li>
+                </>
+              )}
             </>
-          ) : (
+          )}
+
+          {!currentUser && pathname === "/" && (
             <>
               <li>
-                <NavLink to="/login">Login</NavLink>
+                <Button name="Sign Up" to="/signup" />
               </li>
               <li>
-                <NavLink to="/sign-up">Sign Up</NavLink>
+                <Button name="Log In" to="/login" />
               </li>
             </>
           )}

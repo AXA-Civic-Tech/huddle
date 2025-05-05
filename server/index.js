@@ -15,6 +15,9 @@ const logErrors = require('./middleware/logErrors');
 // controller imports
 const authControllers = require('./controllers/authControllers');
 const userControllers = require('./controllers/userControllers');
+const postControllers = require('./controllers/postControllers');
+
+// create express app
 const app = express();
 
 // middleware
@@ -22,6 +25,13 @@ app.use(handleCookieSessions); // adds a session property to each request repres
 app.use(logRoutes); // print information about each incoming request
 app.use(express.json()); // parse incoming request bodies as JSON
 app.use(express.static(path.join(__dirname, '../frontend/dist'))); // Serve static assets from the dist folder of the frontend
+
+///////////////////////////////
+// All User Routes
+///////////////////////////////
+
+app.get('/api/posts', postControllers.listPosts);
+
 
 ///////////////////////////////
 // Auth Routes
