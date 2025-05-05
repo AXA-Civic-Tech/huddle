@@ -29,8 +29,6 @@ exports.registerUser = async (req, res) => {
       }
     );
 
-    console.log("reCAPTCHA response from Google:", recaptchaRes.data);
-
     const success = recaptchaRes.data;
 
     if (!success) {

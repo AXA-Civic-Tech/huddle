@@ -5,7 +5,7 @@ import { registerUser } from "../adapters/auth-adapter";
 import ReCAPTCHA from 'react-google-recaptcha';
 
 //The site key remains public as it's a PUBLIC KEY
-const SITE_KEY = '6LfD5S0rAAAAAGHIghvESTjKJp8ae3bwKLCyKaHp'; // from Google
+const SITE_KEY = '6Lf1FC8rAAAAAJ4egdXJ_RkeePpHowuY1ZFKb20S'; // from Google
 
 // Controlling the sign up form is a good idea because we want to add (eventually)
 // more validation and provide real time feedback to the user about usernames and passwords
@@ -35,10 +35,8 @@ export default function SignUpForm() {
     }
 
     if (!recaptchaToken) {
-      return setErrorText("Please complete the reCAPTCHA");
+      return alert("Please complete the reCAPTCHA");
     }
-
-    console.log("Submitting with recaptchaToken:", recaptchaToken);
 
 
     const [user, error] = await registerUser({
