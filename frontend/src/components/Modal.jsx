@@ -17,7 +17,8 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
   const isNew = !event?.id;
-  const isEditableByUser = isNew || currentUser?.id === event.user_id;
+  const isEditableByUser =
+    isNew || (currentUser && currentUser.id === event.user_id);
 
   const [edit, setEdit] = useState(null);
   const [title, setTitle] = useState(event.title || "");
@@ -71,11 +72,11 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
       if (!response.ok) throw new Error("Failed to save");
 
       // Get the updated data
-      const savedData = await response.json();
+      const updatedData = await response.json();
 
       setEdit(null);
       // Pass updated data back to parent
-      onClose(savedData);
+      onClose(updatedData);
     } catch (err) {
       console.error(err);
     }
@@ -165,13 +166,19 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
       )}
 
       <div className="comments">
-        {Object.values(comments)?.map(
-          (comment, index) =>
-            comment.event_id === event.id && (
-              <p key={index}>
-                <strong>{event.username}</strong>: {comment}
-              </p>
+        {Object.values(comments || {}).length > 0 ? (
+          Object.values(comments)
+            .filter((comment) => comment.event_id === event_id)
+            .map(
+              (comment, index) =>
+                comment.event_id === event.id && (
+                  <p key={index}>
+                    <strong>{event.username}</strong>: {comment.content}
+                  </p>
+                )
             )
+        ) : (
+          <p>No comments yet!</p>
         )}
       </div>
 
