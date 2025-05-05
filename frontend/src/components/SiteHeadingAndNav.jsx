@@ -1,6 +1,7 @@
 import { useLocation, useNavigate, NavLink } from "react-router-dom";
 import { useContext } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
+import Button from "./Button";
 
 /**
  * Need to add Log Out functionality if current user is logged in
