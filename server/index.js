@@ -16,6 +16,8 @@ const logErrors = require('./middleware/logErrors');
 const authControllers = require('./controllers/authControllers');
 const userControllers = require('./controllers/userControllers');
 const postControllers = require('./controllers/postControllers');
+const commentControllers = require('./controllers/commentControllers');
+const upvoteControllers = require('./controllers/upvoteControllers');
 
 // create express app
 const app = express();
@@ -51,6 +53,22 @@ app.delete('/api/auth/logout', authControllers.logoutUser);
 app.get('/api/users', checkAuthentication, userControllers.listUsers);
 app.get('/api/users/:id', checkAuthentication, userControllers.showUser);
 app.patch('/api/users/:id', checkAuthentication, userControllers.updateUser);
+
+///////////////////////////////
+// Comment Routes
+///////////////////////////////
+
+app.post('/api/comments', commentControllers.createComment);
+app.get('/api/events/:eventId/comments', commentControllers.getCommentsByEvent);
+app.delete('/api/comments/:id', checkAuthentication, commentControllers.deleteComment);
+
+///////////////////////////////
+// Upvote Routes
+///////////////////////////////
+
+app.post('/api/events/:eventId/upvote', checkAuthentication, upvoteControllers.upvoteEvent);
+app.delete('/api/events/:eventId/upvote', checkAuthentication, upvoteControllers.removeUpvote);
+app.get('/api/events/:eventId/upvotes', upvoteControllers.getUpvoteCount);
 
 ///////////////////////////////
 // Fallback Routes
