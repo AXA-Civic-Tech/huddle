@@ -70,13 +70,19 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
       const postData = {
         ...formData,
         // Include ID for updates
-        id: event.id,
+        // id: event.id,
       };
 
+      // Only include ID if it exist (for updates)
+      if (event && event.id) {
+        postData.id = event.id;
+      }
+
       // Only include user_id if creating a new post
-      if (isNew && currentUser) {
+      if (isNew && currentUser && currentUser.id) {
         postData.user_id = currentUser.id;
       }
+      console.log("Saving post data:", postData);
 
       // Call the API
       const [updatedPost, error] = await updatePost(postData);
