@@ -7,11 +7,17 @@ export default function Button({
   type = "button",
   ...props
 }) {
-  const btn = () => {
+  const ButtonElement = () => {
     <button onClick={onClick} type={type} {...props}>
       {name}
     </button>;
   };
 
-  return to ? <NavLink to={to}>{btn()}</NavLink> : btn();
+  return to ? (
+    <NavLink to={to}>
+      <ButtonElement />
+    </NavLink>
+  ) : (
+    <ButtonElement />
+  );
 }
