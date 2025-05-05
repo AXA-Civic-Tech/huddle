@@ -16,6 +16,7 @@ export default function FeedPage() {
   const [posts, setPosts] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
+  const [sort, setSort] = useState("recent");
   const [loading, setLoading] = useState(true);
   const { currentUser } = useContext(CurrentUserContext);
 
@@ -48,6 +49,15 @@ export default function FeedPage() {
 
     setSelectedPost(null);
     setIsOpen(false);
+  };
+
+  const handleNewPost = () => {
+    setSelectedPost({});
+    setIsOpen(true);
+  };
+
+  const handleSort = (e) => {
+    setSort(e.target.value);
   };
 
   return (
