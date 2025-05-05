@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
 import Button from "./Button";
 
@@ -13,6 +13,7 @@ import Button from "./Button";
  */
 
 export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
+  const dialogRef = useRef();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
   const isNew = !event?.id;
@@ -25,6 +26,15 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
   const [email, setEmail] = useState(event.email || "");
   const [phone, setPhone] = useState(event.phone || "");
   const [description, setDescription] = useState(event.description || "");
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (isOpen && dialog && !dialog.open) {
+      dialog.showModal();
+    } else if (!isOpen && dialog?.open) {
+      dialog.close();
+    }
+  }, [isOpen]);
 
   const handleSave = async () => {
     const method = isNew ? "POST" : "PATCH";
@@ -93,7 +103,7 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
     <dialog
       className="modal"
       key={event.id}
-      open={isOpen}
+      ref={dialogRef}
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       {/* {event.image && (
