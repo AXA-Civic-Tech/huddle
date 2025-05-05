@@ -85,7 +85,7 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
       console.log("Saving post data:", postData);
 
       // Call the API
-      const [updatedPost, error] = await updatePost(postData);
+      const [updatedPost, error] = await updatePost({ postData });
 
       if (error) {
         console.error("Error saving post:", error);
