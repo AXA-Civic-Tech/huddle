@@ -18,7 +18,7 @@ export const getPost = async (id) => {
   return fetchHandler(`${baseUrl}/${id}`);
 };
 
-export const updatePost = async ({ postData }) => {
+export const updatePost = async (postData) => {
   // Validate postData
   if (!postData) {
     console.error("No data provided to updatePost");
