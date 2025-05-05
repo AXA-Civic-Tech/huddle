@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getAllPosts } from "../adapters/post-adapter";
 import Post from "../components/Post";
 import Modal from "../components/Modal";
+import CurrentUserContext from "../contexts/current-user-context";
 
 /**
  * Feed should display different Posts based on the area when zoomed in or out
@@ -15,12 +16,19 @@ export default function FeedPage() {
   const [posts, setPosts] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const { currentUser } = useContext(CurrentUserContext);
 
   useEffect(() => {
-    getAllPosts().then(([data, error]) => {
-      if (data) setPosts(data);
-      else console.error(error);
-    });
+    const fetchPosts = () => {
+      setLoading(true);
+      getAllPosts().then(([data, error]) => {
+        if (data) setPosts(data);
+        else console.error(error);
+      });
+    };
+
+    fetchPosts();
   }, []);
 
   const openModal = (event) => {
@@ -29,6 +37,15 @@ export default function FeedPage() {
   };
 
   const closeModal = (event) => {
+    // If we received updated data, update our post list
+    if (updatedPost && updatedPost.id) {
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post.id === updatedPost.id ? updatedPost : post
+        )
+      );
+    }
+
     setSelectedPost(null);
     setIsOpen(false);
   };
