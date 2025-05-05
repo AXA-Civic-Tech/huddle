@@ -61,7 +61,7 @@ export default function FeedPage() {
     setSort(e.target.value);
   };
 
-  const sortedSelection = [...posts].sort((a, b) => {
+  const sortedPosts = [...posts].sort((a, b) => {
     switch (sort) {
       case "city":
         return (a.city || "").localeCompare(b.city || "");
@@ -90,22 +90,24 @@ export default function FeedPage() {
         </select>
 
         {currentUser && (
+          // Thinking if we should make an icon to be our Create New Post or Report New Issue button
           <Button name="Create New Post" onClick={handleNewPost} />
         )}
       </div>
 
-      {posts.length === 0 ? (
-        <p>No posts yet!</p>
+      {loading ? (
+        <p>Loading posts...</p>
+      ) : posts.length === 0 ? (
+        <p>No posts yet! Be the first to create one.</p>
       ) : (
-        posts
+        sortedPosts
           .filter(Boolean)
           .map((post) => (
             <Post key={post.id} event={post} onSelect={openModal} />
           ))
       )}
-      {selectedPost && (
-        <Modal event={selectedPost} onClose={closeModal} isOpen={isOpen} />
-      )}
+
+      <Modal event={selectedPost || {}} onClose={closeModal} isOpen={isOpen} />
     </div>
   );
 }
