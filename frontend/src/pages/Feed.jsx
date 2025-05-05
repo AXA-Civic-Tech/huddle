@@ -50,7 +50,7 @@ export default function FeedPage() {
         posts
           .filter(Boolean)
           .map((post) => (
-            <Post key={post.id} event={post} onSelect={setSelectedPost} />
+            <Post key={post.id} event={post} onSelect={openModal} />
           ))
       )}
       {selectedPost && (
