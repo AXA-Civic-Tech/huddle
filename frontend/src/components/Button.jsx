@@ -8,10 +8,10 @@ export default function Button({
   ...props
 }) {
   const btn = () => {
-    <button onClick={onClick} type="type" {...props}>
+    <button onClick={onClick} type={type} {...props}>
       {name}
     </button>;
   };
 
-  return to ? <NavLink to={to}>{btn}</NavLink> : btn;
+  return to ? <NavLink to={to}>{btn()}</NavLink> : btn();
 }
