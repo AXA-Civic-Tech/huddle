@@ -19,12 +19,21 @@ export const getPost = async (id) => {
 };
 
 export const updatePost = async ({ postData }) => {
-  // For new posts (no ID), use POST
-  if (!postData.id) createPost(postData);
+  // Validate postData
+  if (!postData) {
+    console.error("No data provided to updatePost");
+    return [null, new Error("No data provided to updatePost")];
+  }
 
+  // For new posts (no ID), use POST
+  if (!postData.id) {
+    console.error("Creating new post with data:", postData);
+    return createPost(postData);
+  }
   // For existing posts, use PATCH
   const { id, ...updateData } = postData;
-  return fetchHandler(`${baseUrl}/${id}`, getPatchOptions({ id }));
+  console.log(`Updating post ${id} with data:`, updateData);
+  return fetchHandler(`${baseUrl}/${id}`, getPatchOptions(updateData));
 };
 
 export const deletePost = async (id) => {
