@@ -6,11 +6,8 @@ import {
 
 const baseUrl = "/api/posts";
 
-export const createPost = async ({ title, address, status, email, phone }) => {
-  return fetchHandler(
-    baseUrl,
-    getPostOptions({ title, address, status, email, phone })
-  );
+export const createPost = async (postData) => {
+  return fetchHandler(baseUrl, getPostOptions(postData));
 };
 
 export const getAllPosts = async () => {
@@ -21,6 +18,18 @@ export const getPost = async (id) => {
   return fetchHandler(`${baseUrl}/${id}`);
 };
 
-export const updatePost = async ({ id }) => {
+export const updatePost = async ({ postData }) => {
+  // For new posts (no ID), use POST
+  if (!postData.id) createPost(postData);
+
+  // For existing posts, use PATCH
+  const { id, ...updateData } = postData;
   return fetchHandler(`${baseUrl}/${id}`, getPatchOptions({ id }));
+};
+
+export const deletePost = async (id) => {
+  return fetchHandler(`${baseUrl}/${id}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
 };
