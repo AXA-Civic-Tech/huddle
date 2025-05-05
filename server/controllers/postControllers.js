@@ -9,3 +9,14 @@ exports.listPosts = async (req, res) => {
     res.status(500).send({ message: 'Error fetching posts' });
   }
 };
+
+exports.createPost = async (req, res) => {
+  try {
+    const post = await Post.create(req.body);
+    res.status(201).send(post);
+  } catch (error) {
+    console.error('Error creating post:', error);
+    res.status(500).send({ message: 'Error creating post' });
+  }
+};
+
