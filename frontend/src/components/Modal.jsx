@@ -67,7 +67,9 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
 
     return (
       <div className="field">
-        <label className={name}>{label}:</label>
+        <label className={name}>
+          <strong>{label}:</strong>
+        </label>
         {isEdit ? (
           <>
             {type === "textarea" ? (
@@ -114,7 +116,9 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
 
       {render("Address", address, setAddress, "address")}
 
-      <label>Status:</label>
+      <label>
+        <strong>Status:</strong>
+      </label>
       {isEditableByUser && edit === "status" ? (
         <>
           <select onChange={(e) => setStatus(e.target.value)} value={status}>
