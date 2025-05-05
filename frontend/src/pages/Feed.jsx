@@ -21,16 +21,17 @@ export default function FeedPage() {
   const [loading, setLoading] = useState(true);
   const { currentUser } = useContext(CurrentUserContext);
 
-  useEffect(() => {
-    const fetchPosts = () => {
-      setLoading(true);
-      getAllPosts().then(([data, error]) => {
-        if (data) setPosts(data);
-        else console.error(error);
-      });
-    };
+  const fetchPosts = () => {
+    setLoading(true);
+    getAllPosts().then(([data, error]) => {
+      if (data) setPosts(data);
+      else console.error(error);
+    });
+  };
 
+  useEffect(() => {
     fetchPosts();
+    setLoading(false);
   }, []);
 
   const openModal = (event) => {
@@ -38,7 +39,7 @@ export default function FeedPage() {
     setIsOpen(true);
   };
 
-  const closeModal = (event) => {
+  const closeModal = (updatedPost) => {
     // If we received updated data, update our post list
     if (updatedPost && updatedPost.id) {
       setPosts((prevPosts) =>
