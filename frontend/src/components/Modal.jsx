@@ -27,6 +27,18 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
   const [phone, setPhone] = useState(event.phone || "");
   const [description, setDescription] = useState(event.description || "");
 
+  // Reset form values when event changes
+  useEffect(() => {
+    setTitle(event.title || "");
+    setAddress(event.address || "");
+    setStatus(event.status || "open");
+    setEmail(event.email || "");
+    setPhone(event.phone || "");
+    setDescription(event.description || "");
+    setEdit(null);
+  }, [event]);
+
+  // Automatically show or close modal
   useEffect(() => {
     const dialog = dialogRef.current;
     if (isOpen && dialog && !dialog.open) {
@@ -51,12 +63,19 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
           email,
           phone,
           description,
+          // Add user_id if creating a new post
+          ...(isNew && currentUser ? { user_id: currentUser.id } : {}),
         }),
       });
 
       if (!response.ok) throw new Error("Failed to save");
+
+      // Get the updated data
+      const savedData = await response.json();
+
       setEdit(null);
-      onClose();
+      // Pass updated data back to parent
+      onClose(savedData);
     } catch (err) {
       console.error(err);
     }
@@ -154,6 +173,11 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
               </p>
             )
         )}
+      </div>
+
+      <div className="modal-actions">
+        <Button name="Close" onClick={onClose} />
+        {isNew && <Button name="Create Post" onClick={handleSave} />}
       </div>
     </dialog>
   );
