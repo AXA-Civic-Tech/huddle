@@ -1,24 +1,54 @@
-const User = require('../models/User');
+const axios = require("axios");
+const User = require("../models/User");
 
 exports.registerUser = async (req, res) => {
-  // Request needs a body
-  if (!req.body) {
-    return res.status(400).send({ message: 'Username and password required' });
-  }
+  console.log("req.body:", req.body);
 
-  // Body needs a username and password
-  const { username, password, email, first_name, last_name } = req.body;
+  // Destructure at the very start — BEFORE using any of the values
+  const { username, password, email, first_name, last_name, recaptchaToken } = req.body;
+
+  // Check for missing fields
   if (!username || !password) {
     return res.status(400).send({ message: 'Username and password required' });
   }
 
-  // User.create will handle hashing the password and storing in the database
-  const user = await User.create(username, password, { email, first_name, last_name });
+  if (!recaptchaToken) {
+    return res.status(400).send({ message: 'Missing reCAPTCHA token' });
+  }
 
-  // Add the user id to the cookie and send the user data back
-  req.session.userId = user.id;
-  res.send(user);
+  try {
+    // Verify the reCAPTCHA token with Google's API
+    const recaptchaRes = await axios.post(
+      `https://www.google.com/recaptcha/api/siteverify`,
+      null,
+      {
+        params: {
+          secret: process.env.RECAPTCHA_SECRET_KEY,
+          response: recaptchaToken,
+        },
+      }
+    );
+
+    const success = recaptchaRes.data;
+
+    if (!success) {
+      return res.status(403).send({ message: 'Failed reCAPTCHA verification' });
+    }
+
+    // Create the user
+    const user = await User.create(username, password, { email, first_name, last_name });
+
+    // Set session cookie and return user
+    req.session.userId = user.id;
+    res.send(user);
+
+  } catch (err) {
+    console.error('Error during user registration:', err);
+    res.status(500).send({ message: 'Error verifying reCAPTCHA or creating user' });
+  }
 };
+
+
 
 exports.loginUser = async (req, res) => {
   console.log('Login attempt with body:', JSON.stringify(req.body, null, 2));

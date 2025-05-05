@@ -2,20 +2,24 @@ import { useContext, useState } from "react";
 import { useNavigate, Navigate, Link } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { registerUser } from "../adapters/auth-adapter";
+import ReCAPTCHA from 'react-google-recaptcha';
+
+//The site key remains public as it's a PUBLIC KEY
+const SITE_KEY = '6Lf1FC8rAAAAAJ4egdXJ_RkeePpHowuY1ZFKb20S'; // from Google
 
 // Controlling the sign up form is a good idea because we want to add (eventually)
 // more validation and provide real time feedback to the user about usernames and passwords
 export default function SignUpForm() {
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
   const [errorText, setErrorText] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event) => { 
     event.preventDefault();
     setErrorText("");
     
@@ -30,12 +34,18 @@ export default function SignUpForm() {
       return setErrorText("Please enter a valid email address");
     }
 
+    if (!recaptchaToken) {
+      return alert("Please complete the reCAPTCHA");
+    }
+
+
     const [user, error] = await registerUser({
-      firstName,
-      lastName,
+      first_name : firstName,
+      last_name : lastName,
       email,
       username,
       password,
+      recaptchaToken
     });
     
     if (error) return setErrorText(error.message);
@@ -51,6 +61,10 @@ export default function SignUpForm() {
     if (name === "email") setEmail(value);
     if (name === "username") setUsername(value);
     if (name === "password") setPassword(value);
+  };
+
+  const handleCaptchaChange = (token) => {
+    setRecaptchaToken(token);
   };
 
   return (
@@ -119,6 +133,12 @@ export default function SignUpForm() {
         <label htmlFor="password-confirm">Password Confirm</label>
         <input autoComplete="off" type="password" id="password-confirm" name="passwordConfirm" />
       */}
+
+        {/* reCAPTCHA */}
+        <ReCAPTCHA
+          sitekey={SITE_KEY}
+          onChange={handleCaptchaChange}
+        />
 
         <button type="submit">Sign Up Now!</button>
       </form>
