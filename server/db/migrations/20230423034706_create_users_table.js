@@ -14,13 +14,6 @@ exports.up = function(knex) {
       table.string('username').notNullable().unique();
     })
 
-    .createTable('address', function(table) {
-      table.increments('id').primary();
-      table.decimal('lat_location', 10, 7).notNullable();
-      table.decimal('long_location', 10, 7).notNullable();
-      table.string('address').notNullable();
-      table.string('borough').notNullable();
-    })
 
     .createTable('event', function(table) {
       table.increments('id').primary();
@@ -29,11 +22,14 @@ exports.up = function(knex) {
       table.timestamp('date_created').defaultTo(knex.fn.now());
       table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE');
       table.boolean('is_issue').notNullable();
-      table.integer('address_id').unsigned().references('id').inTable('address').onDelete('SET NULL');
-      table.string('email');
-      table.string('phone');
-      table.string('status');
+      table.string('email').nullable();
+      table.string('phone').nullable();
+      table.string('status').notNullable();
       table.string('images'); // cloudinary setup as stretch
+      table.decimal('lat_location', 10, 7).nullable();
+      table.decimal('long_location', 10, 7).nullable();
+      table.string('address').nullable();
+      table.string('borough').notNullable();
     })
 
 
@@ -63,6 +59,5 @@ exports.down = function(knex) {
     .dropTableIfExists('upvote')
     .dropTableIfExists('comments')
     .dropTableIfExists('event')
-    .dropTableIfExists('address')
     .dropTableIfExists('users')
 };
