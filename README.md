@@ -35,9 +35,9 @@ Before you can actually start building, you need to create a database and config
 # These values are used by knexfile.js to connect to your postgres server
 PG_HOST='127.0.0.1'
 PG_PORT=5432
-PG_USER='autumnlydon'
-PG_PASS='1102'
-PG_DB='huddle'
+PG_USER='postgres'
+PG_PASS='postgres'
+PG_DB='postgres'
 
 # Replace session secret with your own random string!
 # This is used by handleCookieSessions to hash your cookie data

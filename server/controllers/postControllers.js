@@ -20,3 +20,27 @@ exports.createPost = async (req, res) => {
   }
 };
 
+exports.updatePost = async (req, res) => {
+  try {
+    console.log('updatePost controller called with id:', req.params.id);
+    console.log('Request body:', req.body);
+    
+    // Make sure id is a number
+    const id = parseInt(req.params.id, 10);
+    if (isNaN(id)) {
+      return res.status(400).send({ message: 'Invalid post ID' });
+    }
+    
+    const post = await Post.update(id, req.body);
+    
+    if (!post) {
+      return res.status(404).send({ message: 'Post not found or could not be updated' });
+    }
+    
+    console.log('Updated post:', post);
+    res.send(post);
+  } catch (error) {
+    console.error('Error updating post:', error);
+    res.status(500).send({ message: 'Error updating post' });
+  }
+};
