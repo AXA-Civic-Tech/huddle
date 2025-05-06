@@ -26,7 +26,7 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
   // Form fields
   const [formData, setFormData] = useState({
     title: event.title || "",
-    address: event.address || "",
+    // address: event.address || "",
     status: event.status || "open",
     email: event.email || "",
     phone: event.phone || "",
@@ -37,7 +37,7 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
   useEffect(() => {
     setFormData({
       title: event.title || "",
-      address: event.address || "",
+      // address: event.address || "",
       status: event.status || "open",
       email: event.email || "",
       phone: event.phone || "",
@@ -111,7 +111,7 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
     // Reset form data to original values
     setFormData({
       title: event.title || "",
-      address: event.address || "",
+      // address: event.address || "",
       status: event.status || "open",
       email: event.email || "",
       phone: event.phone || "",
