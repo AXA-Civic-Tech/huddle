@@ -1,19 +1,26 @@
-import { useState, useContext } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
+import { useNavigate, Navigate, useLocation } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import LoginForm from "../components/Login";
 import SignUpForm from "../components/SignUp";
 
 export default function LoginSignUpPage() {
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  const pathname = location.pathname;
+
   const [activeForm, setActiveForm] = useState("signup");
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
-
-  const navigate = useNavigate();
 
   // users shouldn't be able to see the login page if they are already logged in.
   // if the currentUser exists in the context, navigate the user to
   // the /users/:id page for that user, using the currentUser.id value
   if (currentUser) return <Navigate to={`/users/${currentUser.id}`} />;
+
+  useEffect(() => {
+    pathname === "/login" ? setActiveForm("login") : setActiveForm("signup");
+  }, [pathname]);
 
   return (
     <>

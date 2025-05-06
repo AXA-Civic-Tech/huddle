@@ -28,7 +28,7 @@ export default function App() {
           {/* Please Review the Repetive Routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginSignUpPage />} />
-          <Route path="/sign-up" element={<LoginSignUpPage />} />
+          <Route path="/signup" element={<LoginSignUpPage />} />
           <Route path="/users" element={<UsersPage />} />
           <Route path="/users/:id" element={<UserPage />} />
           <Route path="/feed" element={<HomePage />} />

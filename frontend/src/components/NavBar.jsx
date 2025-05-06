@@ -14,9 +14,10 @@ import Button from "./Button";
  */
 
 export default function NavBar() {
-  const { currentUser } = useContext(CurrentUserContext);
-  const location = useLocation();
   const navigate = useNavigate();
+  const { currentUser } = useContext(CurrentUserContext);
+
+  const location = useLocation();
   const pathname = location.pathname;
 
   const handleLogout = () => {
