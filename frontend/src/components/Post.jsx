@@ -1,3 +1,5 @@
+import Button from "./Button";
+
 /**
  * This component is for rendering limited amount of data for the Feed
  * Post has event listener if user click on the card
@@ -11,15 +13,15 @@ export default function Post({ event, onSelect }) {
 
   return (
     <div className="post" onClick={handleClick}>
-      <img src={event.image.src} alt={event.image.alt} />
+      {/* <img src={event.image.src} alt={event.image.alt} /> */}
 
       <h2 className="title">{event.title}</h2>
 
-      <p className="status">Status: {event.status}</p>
+      {/* <p className="status">Status: {event.status}</p> */}
 
-      <button onClick={handleClick}>View More</button>
+      <Button name="View More" onClick={handleClick} />
 
-      <div className="comments">{event.comments[0]}</div>
+      {/* <div className="comments">{event.comments[0]}</div> */}
     </div>
   );
 }

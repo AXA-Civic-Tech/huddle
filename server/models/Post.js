@@ -76,6 +76,14 @@ class Post {
   static async deleteAll() {
     return knex("event").del();
   }
+
+  static async update(id, updates) {
+    const result = await knex("event")
+      .where("id", id)
+      .update(updates)
+      .returning("*");
+    return result[0] ? new Post(result[0]) : null;
+  }
 }
 
 module.exports = Post;
