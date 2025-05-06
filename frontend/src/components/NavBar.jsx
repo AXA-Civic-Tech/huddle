@@ -15,29 +15,33 @@ import Button from "./Button";
 
 export default function NavBar() {
   const navigate = useNavigate();
-  const { currentUser } = useContext(CurrentUserContext);
+  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
   const location = useLocation();
   const pathname = location.pathname;
 
   const handleLogout = () => {
     console.log("Logging out...");
+    // Clear user from context
+    setCurrentUser(null);
     navigate("/");
   };
 
   return (
     <header>
-      <a id="logo" href={!currentUser ? "/" : "/main"}>
+      <a id="logo" href="/">
         Huddle
       </a>
       <nav>
         <ul>
+          {/* When user IS logged in */}
           {currentUser && (
             <>
-              {pathname === `/users.${currentUser.id}` && (
+              {/* On ProfilePage, show View Map and Log Out */}
+              {pathname === `/users/${currentUser.id}` && (
                 <>
                   <li>
-                    <Button name="View Map" to="/main" />
+                    <Button name="View Map" to="/" />
                   </li>
                   <li>
                     <Button name="Log Out" onClick={handleLogout} />
@@ -45,13 +49,11 @@ export default function NavBar() {
                 </>
               )}
 
-              {pathname === "/main" && (
+              {/* On HomePage, show My Profile and Log Out */}
+              {pathname === "/" && (
                 <>
                   <li>
-                    <Button
-                      name="View Profile"
-                      to={`/users/${currentUser.id}`}
-                    />
+                    <Button name="My Profile" to={`/users/${currentUser.id}`} />
                   </li>
                   <li>
                     <Button name="Log Out" onClick={handleLogout} />
@@ -61,6 +63,7 @@ export default function NavBar() {
             </>
           )}
 
+          {/* When user is NOT logged in and on HomePage */}
           {!currentUser && pathname === "/" && (
             <>
               <li>

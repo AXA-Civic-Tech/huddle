@@ -25,13 +25,17 @@ export default function App() {
       <NavBar />
       <main>
         <Routes>
-          {/* Please Review the Repetive Routes */}
+          {/* Main page */}
           <Route path="/" element={<HomePage />} />
+
+          {/* Auth pages */}
           <Route path="/login" element={<LoginSignUpPage />} />
           <Route path="/signup" element={<LoginSignUpPage />} />
+
+          {/* User profile pages */}
           <Route path="/users" element={<UsersPage />} />
           <Route path="/users/:id" element={<UserPage />} />
-          <Route path="/main" element={<HomePage />} />
+
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

@@ -13,14 +13,15 @@ export default function LoginSignUpPage() {
   const [activeForm, setActiveForm] = useState("signup");
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
-  // users shouldn't be able to see the login page if they are already logged in.
-  // if the currentUser exists in the context, navigate the user to
-  // the /users/:id page for that user, using the currentUser.id value
-  if (currentUser) return <Navigate to={`/users/${currentUser.id}`} />;
-
   useEffect(() => {
     pathname === "/login" ? setActiveForm("login") : setActiveForm("signup");
   }, [pathname]);
+
+  // If user is logged in, redirect to their profile page.
+  if (currentUser) return <Navigate to={`/users/${currentUser.id}`} />;
+
+  // If user is on the root path and not logged in, redirect to the main page
+  if (pathname === "/") return <Navigate to="/" />;
 
   return (
     <>

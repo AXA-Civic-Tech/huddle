@@ -8,9 +8,10 @@ import Feed from "../components/Feed";
 import Button from "../components/Button";
 
 /**
- * User should be able to edit their username here
- * User should be able to view their own posts and the posts they've upvoted
- * User should be able to sort by favorited or their posts
+ * User can edit their username here
+ * User can view their own posts and the posts they've upvoted
+ * User can sort by favorited or their posts
+ * TODO:
  * This sorting will be by most recent posts for either both their posts and upvoted
  * OR
  * Sorting favorited by the timestamp they were favorited
