@@ -8,14 +8,13 @@ import Feed from "../components/Feed";
 import Button from "../components/Button";
 
 /**
- * User can edit their username here
- * User can view their own posts and the posts they've upvoted
- * User can sort by favorited or their posts
- * TODO:
- * This sorting will be by most recent posts for either both their posts and upvoted
- * OR
- * Sorting favorited by the timestamp they were favorited
- * Feed will take care of fetching all the posts from the user and all the favorited posts if it's current user
+ * Current user can edit their username here
+ * Current user can view their own posts and the posts they've upvoted
+ * Current user can sort by favorited or their posts
+ *
+ * STRETCH: Turning UserPage into a reusable component
+ * STRETCH: Current user can view other user's profile page that only have the user's posts
+ *
  * Profile will take in user and based on the userId, pass it into Feed and it will fetch all the events related to the user.
  * "Create a New Post" might change to an icon
  * @returns

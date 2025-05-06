@@ -26,7 +26,11 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
   // Form fields
   const [formData, setFormData] = useState({
     title: event.title || "",
-    // address: event.address || "",
+    address: event.address || "",
+    city: event.city || "",
+    borough: event.borough || "",
+    state: event.state || "",
+    zipcode: event.zipcode || "",
     status: event.status || "open",
     email: event.email || "",
     phone: event.phone || "",
@@ -37,7 +41,11 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
   useEffect(() => {
     setFormData({
       title: event.title || "",
-      // address: event.address || "",
+      address: event.address || "",
+      city: event.city || "",
+      borough: event.borough || "",
+      state: event.state || "",
+      zipcode: event.zipcode || "",
       status: event.status || "open",
       email: event.email || "",
       phone: event.phone || "",
@@ -111,7 +119,11 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
     // Reset form data to original values
     setFormData({
       title: event.title || "",
-      // address: event.address || "",
+      address: event.address || "",
+      city: event.city || "",
+      borough: event.borough || "",
+      state: event.state || "",
+      zipcode: event.zipcode || "",
       status: event.status || "open",
       email: event.email || "",
       phone: event.phone || "",
@@ -247,6 +259,10 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
           <form className="edit-form">
             {renderField("title", "Title")}
             {renderField("address", "Address")}
+            {renderField("city", "City")}
+            {renderField("borough", "Borough")}
+            {renderField("state", "State")}
+            {renderField("zipcode", "Zip Code", "number")}
             {renderField("status", "Status", "select")}
             {renderField("email", "Email", "email")}
             {renderField("phone", "Phone", "tel")}
@@ -257,6 +273,10 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
           <>
             {renderField("title", "Title")}
             {renderField("address", "Address")}
+            {renderField("city", "City")}
+            {renderField("borough", "Borough")}
+            {renderField("state", "State")}
+            {renderField("zipcode", "Zip Code")}
             {renderField("status", "Status")}
             {renderField("email", "Email")}
             {renderField("phone", "Phone")}

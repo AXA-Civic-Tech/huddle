@@ -6,13 +6,23 @@ import Modal from "./Modal";
 import Button from "./Button";
 
 /**
- * Feed should display different Posts based on the area when zoomed in or out
- * Each post will receive event as a prop
- * Feed will show up on the side bar on top of the Map
- * Feed should have filtered Posts by city (most recent), borough (most recent), most recent Posts, and probably based on status
- * Feed will also be a reusable component
- * Feed will also show up in UserPage
- * Need to figure out the logic
+ * Reusable component in both HomePage and UserPage
+ * @params userId (if exist)
+ * Displays on the left side and on top of the Map
+ * Renders ALL posts && Post receive event as a prop
+ * HomePage: Sort by Most Recent (Default) && Title is "Community Posts"
+ * HomePage: Sort by City (Most Recent) && Title will change based on City
+ * HomePage: Sort by Borough (Most Recent) && Title will change based on Borough
+ * HomePage: Sort by Status: Open (Most Recent) && Title will change based on Status
+ * HomePage: Sort by Status: In Progress... (Most Recent) && Title will change based on Status
+ * HomePage: Sort by Status: Closed (Most Recent) && Title will change based on Status
+ * HomePage: Sort by Issues (Most Recent) && Title is "Issues"
+ * HomePage: Sort by Most Urgent Issues (Most Urgent/Upvotes) && Title is "Most Urgent Issues"
+ * HomePage: Sort by Events (Most Recent) && Title is "Events"
+ *
+ * UserPage: Sort by Favorites (Most Recent) && Title is "Favorites"
+ *
+ * STRETCH: Feed should display different Posts based on the area when zoomed in or out
  * @returns
  */
 
@@ -22,6 +32,8 @@ export default function Feed() {
   const [selectedPost, setSelectedPost] = useState(null);
   const [sort, setSort] = useState("recent");
   const [loading, setLoading] = useState(true);
+  const [title, setTitle] = useState("Community Posts");
+  const [filterValue, setFilterValue] = useState("");
   const { currentUser } = useContext(CurrentUserContext);
 
   const fetchPosts = () => {
@@ -29,13 +41,30 @@ export default function Feed() {
     getAllPosts().then(([data, error]) => {
       if (data) setPosts(data);
       else console.error(error);
+      setLoading(false);
     });
   };
 
   useEffect(() => {
     fetchPosts();
-    setLoading(false);
   }, []);
+
+  useEffect(() => {
+    const titleMap = {
+      recent: "Community Posts",
+      city: filterValue ? `${filterValue}` : "Posts by City",
+      borough: filterValue ? `${filterValue}` : "Posts by Borough",
+      open: "Open Issues & Events",
+      progress: "In Progress Issues & Events",
+      closed: "Closed Issues & Events",
+      issue: "Issues",
+      urgent: "Most Urgent Issues",
+      event: "Events",
+      upvote: "Your Upvoted Posts",
+    };
+
+    setTitle(titleMap[sort] || "Community Posts");
+  }, [sort, filterValue]);
 
   const openModal = (event) => {
     setSelectedPost(event);
@@ -66,9 +95,6 @@ export default function Feed() {
           }
         });
       }
-
-      // Refresh all posts
-      // await fetchPosts();
     }
 
     setSelectedPost(null);
@@ -82,34 +108,101 @@ export default function Feed() {
 
   const handleSort = (e) => {
     setSort(e.target.value);
+    setFilterValue("");
   };
 
-  const sortedPosts = [...posts].sort((a, b) => {
+  const getFilteredAndSortedPosts = () => {
+    const sortByRecent = (a, b) =>
+      new Date(b.date_created || 0) - new Date(a.date_created || 0);
+
+    const sortByUrgent = (a, b) =>
+      (b.upvotes?.length || 0) - (a.upvotes?.length || 0);
+
+    const sortByCity = (a, b) => {
+      const cityCompare = (a.city || "").localeCompare(b.city || "");
+      return cityCompare !== 0 ? cityCompare : sortByRecent(a, b);
+    };
+
+    const sortByBorough = (a, b) => {
+      const boroughCompare = (a.borough || "").localeCompare(b.borough || "");
+      return boroughCompare !== 0 ? boroughCompare : sortByRecent(a, b);
+    };
+
+    const sortFuncs = {
+      recent: sortByRecent,
+      urgent: sortByUrgent,
+      city: sortByCity,
+      borough: sortByBorough,
+      open: sortByRecent,
+      progress: sortByRecent,
+      closed: sortByRecent,
+      issue: sortByRecent,
+      event: sortByRecent,
+      upvote: sortByRecent,
+    };
+    // Apply filters
+    let filtered = [...posts];
+
     switch (sort) {
+      case "open":
+        filtered = filtered.filter((post) => post.status === "open");
+        break;
+      case "progress":
+        filtered = filtered.filter((post) => post.status === "progress");
+        break;
+      case "closed":
+        filtered = filtered.filter((post) => post.status === "closed");
+        break;
+      case "issue":
+        filtered = filtered.filter((post) => post.is_issue);
+        break;
+      case "event":
+        filtered = filtered.filter((post) => !post.is_issue);
+        break;
+      case "upvote":
+        if (currentUser) {
+          filtered = filtered.filter(
+            (post) =>
+              post.upvotes &&
+              Array.isArray(post.upvotes) &&
+              post.upvotes.includes(currentUser.id)
+          );
+        }
+        break;
       case "city":
-        return (a.city || "").localeCompare(b.city || "");
+        if (filterValue) {
+          filtered = filtered.filter((post) => post.city === filterValue);
+        }
+        break;
       case "borough":
-        return (a.borough || "").localeCompare(b.borough || "");
-      case "status":
-        return (a.status || "").localeCompare(b.status || "");
-      case "urgent":
-      // This will determined based on upvotes
-      default:
-        return new Date(b.date_created || 0) - new Date(a.date_created || 0);
+        if (filterValue) {
+          filtered = filtered.filter((post) => post.borough === filterValue);
+        }
+        break;
     }
-  });
+
+    const sortFunction = sortFuncs[sort] || sortFuncs.recent;
+    return filtered.sort(sortFunction);
+  };
+
+  const sorted = getFilteredAndSortedPosts();
 
   return (
     <div className="feed">
-      <h1>Community Posts</h1>
+      <h1>{title}</h1>
 
       <div className="feed-controls">
         <select className="sort" value={sort} onChange={handleSort}>
-          <option value="recent">Most Recent</option>
+          <option value="default">Most Recent</option>
           <option value="city">By City</option>
           <option value="borough">By Borough</option>
-          <option value="urgent">Most Urgent</option>
-          <option value="status">By Status</option>
+          <option value="open">Status: Open</option>
+          <option value="progress">Status: In Progress...</option>
+          <option value="closed">Status: Closed</option>
+          <option value="issue">Issues</option>
+          <option value="urgent">Most Urgent Issues</option>
+          <option value="event">Events</option>
+          {currentUser && <option value="upvote">Upvotes</option>}
         </select>
 
         {currentUser && (
@@ -123,7 +216,7 @@ export default function Feed() {
       ) : posts.length === 0 ? (
         <p>No posts yet! Be the first to create one.</p>
       ) : (
-        sortedPosts
+        sorted
           .filter(Boolean)
           .map((post) => (
             <Post key={post.id} event={post} onSelect={openModal} />
