@@ -188,12 +188,17 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
     return (
       <div className="comments">
         <h3>Comments</h3>
+        <input type="text" placeholder="Add a comment..." />
+        <Button name="Post" />
         {Object.values(comments || {}).length > 0 ? (
           Object.values(comments)
             .filter((comment) => comment.event_id === event.id)
             .map((comment, index) => (
               <p key={index}>
-                <strong>{comment.username || "User"}:</strong> {comment.content}
+                <strong>
+                  {<UserLink user={comment.username} /> || "User"}:
+                </strong>{" "}
+                {comment.content}
               </p>
             ))
         ) : (
