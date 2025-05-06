@@ -1,6 +1,6 @@
-const User = require('../models/User');
+const User = require("../models/User");
 
-/* 
+/*
 GET /api/users
 Returns an array of all users in the database
 */
@@ -18,7 +18,7 @@ exports.showUser = async (req, res) => {
 
   const user = await User.find(id);
   if (!user) {
-    return res.status(404).send({ message: 'User not found.' });
+    return res.status(404).send({ message: "User not found." });
   }
 
   res.send(user);
@@ -31,7 +31,7 @@ Updates a single user (if found) and only if authorized
 exports.updateUser = async (req, res) => {
   const { username } = req.body;
   if (!username) {
-    return res.status(400).send({ message: 'New username required.' });
+    return res.status(400).send({ message: "New username required." });
   }
 
   // A user is only authorized to modify their own user information
@@ -43,10 +43,22 @@ exports.updateUser = async (req, res) => {
     return res.status(403).send({ message: "Unauthorized." });
   }
 
-  const updatedUser = await User.update(userToModify, username);
-  if (!updatedUser) {
-    return res.status(404).send({ message: 'User not found.' });
-  }
+  try {
+    // Check if the username is already taken by another user
+    const existingUser = await User.findByUsername(username);
+    if (existingUser && existingUser.id !== userToModify) {
+      return res.status(409).send({ message: "Username already taken." });
+    }
 
-  res.send(updatedUser);
+    const updatedUser = await User.update(userToModify, username);
+
+    if (!updatedUser) {
+      return res.status(404).send({ message: "User not found." });
+    }
+
+    res.send(updatedUser);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: "Internal server error." });
+  }
 };
