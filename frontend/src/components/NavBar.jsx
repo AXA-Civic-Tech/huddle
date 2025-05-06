@@ -27,7 +27,7 @@ export default function NavBar() {
 
   return (
     <header>
-      <a id="logo" href="/">
+      <a id="logo" href={!currentUser ? "/" : "/main"}>
         Huddle
       </a>
       <nav>
@@ -37,7 +37,7 @@ export default function NavBar() {
               {pathname === `/users.${currentUser.id}` && (
                 <>
                   <li>
-                    <Button name="View Map" to="/map" />
+                    <Button name="View Map" to="/main" />
                   </li>
                   <li>
                     <Button name="Log Out" onClick={handleLogout} />
@@ -45,7 +45,7 @@ export default function NavBar() {
                 </>
               )}
 
-              {pathname === "/feed" && (
+              {pathname === "/main" && (
                 <>
                   <li>
                     <Button
