@@ -216,7 +216,7 @@ export default function Feed() {
       ) : posts.length === 0 ? (
         <p>No posts yet! Be the first to create one.</p>
       ) : (
-        sortedPosts
+        sorted
           .filter(Boolean)
           .map((post) => (
             <Post key={post.id} event={post} onSelect={openModal} />
