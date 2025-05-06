@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { getAllPosts } from "../adapters/post-adapter";
+import CurrentUserContext from "../contexts/current-user-context";
 import Post from "./Post";
 import Modal from "./Modal";
-import CurrentUserContext from "../contexts/current-user-context";
 import Button from "./Button";
 
 /**

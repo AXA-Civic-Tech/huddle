@@ -13,7 +13,9 @@ export default function HomePage() {
   return (
     <>
       <NavBar />
-      <Feed />
+      <div className="map-feed">
+        <Feed />
+      </div>
       <Map />
     </>
   );
