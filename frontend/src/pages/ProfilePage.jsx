@@ -1,7 +1,7 @@
 import Button from "../components/Button";
 import SiteHeadingAndNav from "../components/SiteHeadingAndNav";
 
-export default function Profile({ user, events }) {
+export default function ProfilePage({ user, events }) {
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   return (

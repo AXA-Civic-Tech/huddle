@@ -13,7 +13,7 @@ import Button from "./Button";
  * @returns
  */
 
-export default function SiteHeadingAndNav() {
+export default function NavBar() {
   const { currentUser } = useContext(CurrentUserContext);
   const location = useLocation();
   const navigate = useNavigate();

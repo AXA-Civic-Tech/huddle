@@ -4,7 +4,7 @@ import CurrentUserContext from "../contexts/current-user-context";
 import LoginForm from "../components/Login";
 import SignUpForm from "../components/SignUp";
 
-export default function HomePage() {
+export default function LoginSignUpPage() {
   const [activeForm, setActiveForm] = useState("signup");
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
