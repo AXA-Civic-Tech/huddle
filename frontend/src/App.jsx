@@ -7,7 +7,7 @@ import LoginSignUpPage from "./pages/LoginSignUpPage";
 import NavBar from "./components/NavBar";
 import NotFoundPage from "./pages/NotFoundPage";
 import UsersPage from "./pages/Users";
-import UserPage from "./pages/User";
+import UserPage from "./pages/UserPage";
 
 export default function App() {
   const { setCurrentUser } = useContext(UserContext);
