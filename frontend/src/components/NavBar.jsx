@@ -5,12 +5,9 @@ import { logUserOut } from "../adapters/auth-adapter";
 import Button from "./Button";
 
 /**
- * Need to add Log Out functionality if current user is logged in
- * Need to add View Map functionality if current user is logged in
- * Needs a condition depending on the page the user is in
- * Profile page: View Map & Log Out
- * Map page: View Profile & Log Out
- * Homepage (Map): Sign Up & Log In
+ * Root (HomePage): If user is NOT signed in, "Sign Up" & "Log In"
+ * Root (HomePage): If user signed in, "My Profile" & "Log Out"
+ * UserPage: If user is logged in, "View Map" & "Log Out"
  * @returns
  */
 
@@ -39,7 +36,7 @@ export default function NavBar() {
           {/* When user IS logged in */}
           {currentUser && (
             <>
-              {/* On ProfilePage, show View Map and Log Out */}
+              {/* On UserPage, show View Map and Log Out */}
               {pathname === `/users/${currentUser.id}` && (
                 <>
                   <li>
