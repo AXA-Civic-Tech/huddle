@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { getAllPosts } from "../adapters/post-adapter";
-import Post from "../components/Post";
-import Modal from "../components/Modal";
+import Post from "./Post";
+import Modal from "./Modal";
 import CurrentUserContext from "../contexts/current-user-context";
-import Button from "../components/Button";
+import Button from "./Button";
 
 /**
  * Feed should display different Posts based on the area when zoomed in or out
@@ -13,7 +13,7 @@ import Button from "../components/Button";
  * @returns
  */
 
-export default function FeedPage() {
+export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
