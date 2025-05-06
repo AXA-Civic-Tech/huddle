@@ -72,8 +72,6 @@ export default function UserPage() {
 
   return (
     <>
-      <NavBar />
-
       <div className="profile-header">
         <h1>{profileUsername}</h1>
         {/* Need to figure this logic */}
