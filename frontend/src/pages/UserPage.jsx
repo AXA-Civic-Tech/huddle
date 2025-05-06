@@ -76,8 +76,8 @@ export default function UserPage() {
 
       <div className="profile-header">
         <h1>{profileUsername}</h1>
-        <Button name="Edit" onClick={toggleEditMode} />
         {/* Need to figure this logic */}
+        <Button name="Edit" />
         {isCurrentUserProfile && (
           <dialog
             className="update-username-form"
