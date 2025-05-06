@@ -10,6 +10,9 @@ import Button from "./Button";
  * Each post will receive event as a prop
  * Feed will show up on the side bar on top of the Map
  * Feed should have filtered Posts by city (most recent), borough (most recent), most recent Posts, and probably based on status
+ * Feed will also be a reusable component
+ * Feed will also show up in UserPage
+ * Need to figure out the logic
  * @returns
  */
 
