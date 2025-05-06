@@ -44,7 +44,7 @@ export default function NavBar() {
                 </>
               )}
 
-              {pathname === "/map" && (
+              {pathname === "/feed" && (
                 <>
                   <li>
                     <Button
