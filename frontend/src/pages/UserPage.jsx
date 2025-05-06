@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { getUser } from "../adapters/user-adapter";
 import { logUserOut } from "../adapters/auth-adapter";
-import NavBar from "../components/NavBar";
 import UpdateUsernameForm from "../components/UpdateUsernameForm";
 import Feed from "../components/Feed";
 import Button from "../components/Button";
