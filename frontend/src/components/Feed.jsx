@@ -20,7 +20,7 @@ import Button from "./Button";
  * HomePage: Sort by Most Urgent Issues (Most Urgent/Upvotes) && Title is "Most Urgent Issues"
  * HomePage: Sort by Events (Most Recent) && Title is "Events"
  *
- * UserPage: Sort by Favorites (Most Recent) && Title is "Favorites"
+ * UserPage: Sort by Upvote (Most Recent) && Title is "Upvote"
  *
  * STRETCH: Feed should display different Posts based on the area when zoomed in or out
  * @returns

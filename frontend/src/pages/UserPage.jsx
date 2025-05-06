@@ -51,10 +51,13 @@ export default function UserPage() {
     }
   }, [isOpen]);
 
-  const handleLogout = async () => {
-    logUserOut();
-    setCurrentUser(null);
-    navigate("/");
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = (updatedUser) => {
+    setIsOpen(false);
+    if (updatedUser) setCurrentUser(updatedUser);
   };
 
   if (error)
@@ -74,30 +77,30 @@ export default function UserPage() {
       <div className="profile-header">
         <h1>{profileUsername}</h1>
         {/* Need to figure this logic */}
-        <Button name="Edit" />
+        <Button name="Edit" onClick={openModal} />
         {isCurrentUserProfile && (
           <dialog
             className="update-username-form"
             ref={dialogRef}
-            onClick={(e) => e.target == e.currentTarget && onClose()}
+            onClick={(e) => {
+              if (e.target == e.currentTarget) closeModal();
+            }}
           >
             <UpdateUsernameForm
               currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
+              setCurrentUser={(user) => {
+                setCurrentUser(user);
+                closeModal(user);
+              }}
             />
           </dialog>
         )}
-        {isCurrentUserProfile && (
-          <button onClick={handleLogout}>Log Out</button>
-        )}
 
-        <h3>
+        {/* <h3>
           {user.first_name} {user.last_name}
         </h3>
 
-        <h3>{user.email}</h3>
-
-        <Button name="View Map" to="/main" />
+        <h3>{user.email}</h3> */}
       </div>
 
       <div className="profile-feed">
