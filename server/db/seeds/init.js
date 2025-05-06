@@ -87,6 +87,7 @@ exports.seed = async (knex) => {
       long_location: -74.006,
       address: "123 Main St, Manhattan",
       borough: "Manhattan",
+      zipcode: "10001"
     },
     {
       title: "Broken Streetlight on Main",
@@ -100,6 +101,7 @@ exports.seed = async (knex) => {
       long_location: -73.9442,
       address: "456 Flatbush Ave, Brooklyn",
       borough: "Brooklyn",
+      zipcode: "11225"
     },
     {
       title: "Neighborhood BBQ",
@@ -113,6 +115,7 @@ exports.seed = async (knex) => {
       long_location: -73.7949,
       address: "789 Queens Blvd, Queens",
       borough: "Queens",
+      zipcode: "11373"
     },
     {
       title: "Trash Overflowing on 6th",
@@ -126,6 +129,7 @@ exports.seed = async (knex) => {
       long_location: -74.1502,
       address: "321 Richmond Rd, Staten Island",
       borough: "Staten Island",
+      zipcode: "10304"
     },
     {
       title: "Graffiti Removal Day",
@@ -139,6 +143,7 @@ exports.seed = async (knex) => {
       long_location: -73.8648,
       address: "654 Bronx River Pkwy, Bronx",
       borough: "Bronx",
+      zipcode: "10453"
     },
     {
       title: "Pothole on 5th Ave",
@@ -152,6 +157,7 @@ exports.seed = async (knex) => {
       long_location: -73.9855,
       address: "Times Square, Manhattan",
       borough: "Manhattan",
+      zipcode: "10036"
     },
     {
       title: "Park Yoga Session",
@@ -165,6 +171,7 @@ exports.seed = async (knex) => {
       long_location: -73.9700,
       address: "Prospect Park, Brooklyn",
       borough: "Brooklyn",
+      zipcode: "11225"
     },
     {
       title: "Leaking Hydrant",
@@ -178,6 +185,7 @@ exports.seed = async (knex) => {
       long_location: -73.9560,
       address: "Lincoln Ave, Bronx",
       borough: "Bronx",
+      zipcode: "10461"
     },
     {
       title: "Local History Walking Tour",
@@ -191,6 +199,7 @@ exports.seed = async (knex) => {
       long_location: -74.0036,
       address: "14th St & 8th Ave, Manhattan",
       borough: "Manhattan",
+      zipcode: "10014"
     },
     {
       title: "Uncollected Bulk Trash",
@@ -204,6 +213,7 @@ exports.seed = async (knex) => {
       long_location: -73.9692,
       address: "2nd Ave & 34th St, Manhattan",
       borough: "Manhattan",
+      zipcode: "10016"
     },
     {
       title: "Street Food Festival",
@@ -217,6 +227,7 @@ exports.seed = async (knex) => {
       long_location: -73.9965,
       address: "Washington Square Park, Manhattan",
       borough: "Manhattan",
+      zipcode: "10012"
     },
     {
       title: "Homeless Shelter Volunteer Drive",
@@ -230,10 +241,10 @@ exports.seed = async (knex) => {
       long_location: -74.0125,
       address: "Battery Park, Manhattan",
       borough: "Manhattan",
+      zipcode: "10004"
     },
   ];
-
-  // Insert events into the database
+  
   for (let event of events) {
     await knex("event").insert({
       title: event.title,
@@ -248,8 +259,9 @@ exports.seed = async (knex) => {
       long_location: event.long_location,
       address: event.address,
       borough: event.borough,
+      zipcode: event.zipcode
     });
-  }
+  }  
 
   // ========= 4. Create comments =========
   const commentContents = [

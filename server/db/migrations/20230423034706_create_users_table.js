@@ -30,6 +30,7 @@ exports.up = function(knex) {
       table.decimal('long_location', 10, 7).nullable();
       table.string('address').nullable();
       table.string('borough').notNullable();
+      table.string('zipcode').notNullable();
     })
 
 
