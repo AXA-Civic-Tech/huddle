@@ -11,7 +11,7 @@ export default function LoginSignUpPage() {
   const pathname = location.pathname;
 
   const [activeForm, setActiveForm] = useState("signup");
-  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
 
   useEffect(() => {
     pathname === "/login" ? setActiveForm("login") : setActiveForm("signup");

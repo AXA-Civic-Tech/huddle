@@ -1,6 +1,7 @@
 import { useLocation, useNavigate, NavLink } from "react-router-dom";
 import { useContext } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
+import { logUserOut } from "../adapters/auth-adapter";
 import Button from "./Button";
 
 /**
@@ -23,6 +24,7 @@ export default function NavBar() {
   const handleLogout = () => {
     console.log("Logging out...");
     // Clear user from context
+    logUserOut();
     setCurrentUser(null);
     navigate("/");
   };
