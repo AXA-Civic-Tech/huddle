@@ -52,7 +52,6 @@ export default function Feed() {
   useEffect(() => {
     const titleMap = {
       recent: "Community Posts",
-      city: filterValue ? `${filterValue}` : "Posts by City",
       borough: filterValue ? `${filterValue}` : "Posts by Borough",
       open: "Open Issues & Events",
       progress: "In Progress Issues & Events",
@@ -131,7 +130,6 @@ export default function Feed() {
     const sortFuncs = {
       recent: sortByRecent,
       urgent: sortByUrgent,
-      city: sortByCity,
       borough: sortByBorough,
       open: sortByRecent,
       progress: sortByRecent,
@@ -169,11 +167,6 @@ export default function Feed() {
           );
         }
         break;
-      case "city":
-        if (filterValue) {
-          filtered = filtered.filter((post) => post.city === filterValue);
-        }
-        break;
       case "borough":
         if (filterValue) {
           filtered = filtered.filter((post) => post.borough === filterValue);
@@ -194,7 +187,6 @@ export default function Feed() {
       <div className="feed-controls">
         <select className="sort" value={sort} onChange={handleSort}>
           <option value="default">Most Recent</option>
-          <option value="city">By City</option>
           <option value="borough">By Borough</option>
           <option value="open">Status: Open</option>
           <option value="progress">Status: In Progress...</option>
