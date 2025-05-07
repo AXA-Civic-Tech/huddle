@@ -26,6 +26,7 @@ export default function Modal({ event = {}, isOpen, onClose }) {
   const [isEdit, setIsEdit] = useState(isNew);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const [upvoteCount, setUpvoteCount] = useState(0);
 
   // Form fields
   const [formData, setFormData] = useState({
@@ -79,6 +80,13 @@ export default function Modal({ event = {}, isOpen, onClose }) {
       });
     }
   }, [isEdit, event.id]);
+
+  useEffect(() => {
+    getUpvoteCount(event.id).then((data) => {
+      setUpvoteCount(data[0].count);
+      console.log("Upvote count:", data[0].count);
+    });
+  }, [event.id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -164,6 +172,12 @@ export default function Modal({ event = {}, isOpen, onClose }) {
     setComments(flatComments);
   };
 
+  const handleUpvote = async () => {
+   await upvoteEvent(event.id);
+   const count = await getUpvoteCount(event.id);
+    setUpvoteCount(count[0].count);
+  };
+
   // Reusable field rendering functions
   const renderField = (name, label, type = "text") => {
     if (isEdit) {
@@ -239,7 +253,12 @@ export default function Modal({ event = {}, isOpen, onClose }) {
     }
   }}/>
         <Button name="Post" onClick={handlePostComment} />
-        <Button name="Upvote" onClick={() => upvoteEvent(event.id)} />
+
+        {/* render upvotes */}
+        <div className="upvotes">
+        <span>Upvotes: {upvoteCount}</span>
+        <Button name="Upvote" onClick={handleUpvote} />
+        </div>
         {comments.length > 0 ? (
           comments.map((comment, index) => (
             <p key={index}>
