@@ -5,7 +5,6 @@
  */
 
 export default function Post({ event, onSelect }) {
-
   const handleClick = () => {
     if (onSelect) onSelect(event);
   };
