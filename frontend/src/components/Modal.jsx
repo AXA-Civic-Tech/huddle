@@ -237,7 +237,7 @@ export default function Modal({ event = {}, isOpen, onClose }) {
           comments.map((comment, index) => (
             <p key={index}>
               <strong>
-                {comment.user_id || "User"}:
+                {comment.username || "User"}:
               </strong>{" "}
               {comment.contents}
             </p>
