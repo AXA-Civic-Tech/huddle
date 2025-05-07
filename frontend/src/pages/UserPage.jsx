@@ -100,6 +100,8 @@ export default function UserPage() {
         </h3>
 
         <h3>{user.email}</h3> */}
+
+        <Button name="View Map" to="/main" />
       </div>
 
       <div className="profile-feed">
