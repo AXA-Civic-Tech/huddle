@@ -40,7 +40,8 @@ export default function NavBar() {
               {pathname === `/users/${currentUser.id}` && (
                 <>
                   <li>
-                    <Button name="View Map" to="/" />
+                    {/* <Button name="View Map" to="/" /> */}
+                    <NavLink to="/">View Map</NavLink>
                   </li>
                   <li>
                     <Button name="Log Out" onClick={handleLogout} />
@@ -52,7 +53,10 @@ export default function NavBar() {
               {pathname === "/" && (
                 <>
                   <li>
-                    <Button name="My Profile" to={`/users/${currentUser.id}`} />
+                    {/* <Button name="My Profile" to={`/users/${currentUser.id}`} /> */}
+                    <NavLink to={`/users/${currentUser.id}`}>
+                      My Profile
+                    </NavLink>
                   </li>
                   <li>
                     <Button name="Log Out" onClick={handleLogout} />
@@ -66,10 +70,12 @@ export default function NavBar() {
           {!currentUser && pathname === "/" && (
             <>
               <li>
-                <Button name="Sign Up" to="/signup" />
+                {/* <Button name="Sign Up" to="/signup" /> */}
+                <NavLink to="/signup">Sign Up</NavLink>
               </li>
               <li>
-                <Button name="Log In" to="/login" />
+                {/* <Button name="Log In" to="/login" /> */}
+                <NavLink to="/login">Log In</NavLink>
               </li>
             </>
           )}
