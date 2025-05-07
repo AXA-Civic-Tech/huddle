@@ -2,7 +2,8 @@ import { useContext, useState, useEffect, useRef } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
 import Button from "./Button";
 import { updatePost } from "../adapters/post-adapter";
-
+import { createComment, getCommentsByEvent } from "../adapters/comment-adapter";
+import UserLink from "./UserLink";
 /**
  * After the Post is clicked on from the Feed, the Modal will pop up in front of the Map
  * Modal will take event as a prop
@@ -13,7 +14,7 @@ import { updatePost } from "../adapters/post-adapter";
  * @returns
  */
 
-export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
+export default function Modal({ event = {}, isOpen, onClose }) {
   const dialogRef = useRef();
   const { currentUser } = useContext(CurrentUserContext);
 
@@ -22,6 +23,7 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
     isNew || (currentUser && currentUser.id === event.user_id);
 
   const [isEdit, setIsEdit] = useState(isNew);
+  const [comments, setComments] = useState([]);
 
   // Form fields
   const [formData, setFormData] = useState({
@@ -63,6 +65,18 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
       dialog.close();
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!isEdit && event.id) {
+      getCommentsByEvent(event.id).then((data) => {
+        // flatten and filter as needed
+        const flatComments = (data || [])
+          .flat()
+          .filter(comment => comment && typeof comment === "object");
+        setComments(flatComments);
+      });
+    }
+  }, [isEdit, event.id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -202,17 +216,15 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
         <h3>Comments</h3>
         <input type="text" placeholder="Add a comment..." />
         <Button name="Post" />
-        {Object.values(comments || {}).length > 0 ? (
-          Object.values(comments)
-            .filter((comment) => comment.event_id === event.id)
-            .map((comment, index) => (
-              <p key={index}>
-                <strong>
-                  {<UserLink user={comment.username} /> || "User"}:
-                </strong>{" "}
-                {comment.content}
-              </p>
-            ))
+        {comments.length > 0 ? (
+          comments.map((comment, index) => (
+            <p key={index}>
+              <strong>
+                {<UserLink user={comment.user_id} /> || "User"}:
+              </strong>{" "}
+              {comment.contents}
+            </p>
+          ))
         ) : (
           <p>No comments yet!</p>
         )}

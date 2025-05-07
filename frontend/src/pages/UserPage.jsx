@@ -91,11 +91,11 @@ export default function UserPage() {
           <button onClick={handleLogout}>Log Out</button>
         )}
 
-        <h3>
+        {/* <h3>
           {user.first_name} {user.last_name}
         </h3>
 
-        <h3>{user.email}</h3>
+        <h3>{user.email}</h3> */}
 
         <Button name="View Map" to="/main" />
       </div>

@@ -13,6 +13,13 @@ class Post {
     phone,
     status,
     images,
+    address,
+    city,
+    borough,
+    state,
+    zipcode,
+    lat_location,
+    long_location,
   }) {
     this.id = id;
     this.title = title;
@@ -25,6 +32,13 @@ class Post {
     this.phone = phone;
     this.status = status;
     this.images = images;
+    this.address = address;
+    this.city = city;
+    this.borough = borough;
+    this.state = state;
+    this.zipcode = zipcode;
+    this.lat_location = lat_location;
+    this.long_location = long_location;
   }
 
   static async create({
@@ -38,13 +52,21 @@ class Post {
     phone = null,
     status = "active",
     images = null,
+    address = null,
+    city = null,
+    borough = null,
+    state = null,
+    zipcode = null,
+    lat_location = null,
+    long_location = null,
   }) {
     const query = `
       INSERT INTO event (
         title, description, date_created, user_id, is_issue, address_id,
-        email, phone, status, images
+        email, phone, status, images, address, city, borough, state, zipcode,
+        lat_location, long_location
       )
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       RETURNING *`;
 
     const result = await knex.raw(query, [
@@ -58,6 +80,13 @@ class Post {
       phone,
       status,
       images,
+      address,
+      city,
+      borough,
+      state,
+      zipcode,
+      lat_location,
+      long_location,
     ]);
 
     return new Post(result.rows[0]);
@@ -78,11 +107,25 @@ class Post {
   }
 
   static async update(id, updates) {
-    const result = await knex("event")
-      .where("id", id)
-      .update(updates)
-      .returning("*");
-    return result[0] ? new Post(result[0]) : null;
+    console.log('Post.update called with id:', id, 'and updates:', updates);
+    try {
+      const result = await knex("event")
+        .where("id", id)
+        .update(updates)
+        .returning("*");
+      
+      console.log('Update result:', result);
+      
+      if (result && result.length > 0) {
+        return new Post(result[0]);
+      } else {
+        console.log('No rows returned from update, id might not exist');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error in Post.update:', error);
+      throw error;
+    }
   }
 }
 
