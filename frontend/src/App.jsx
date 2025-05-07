@@ -4,10 +4,10 @@ import UserContext from "./contexts/current-user-context";
 import { checkForLoggedInUser } from "./adapters/auth-adapter";
 import HomePage from "./pages/HomePage";
 import LoginSignUpPage from "./pages/LoginSignUpPage";
-import NavBar from "./components/NavBar";
 import NotFoundPage from "./pages/NotFoundPage";
-import UsersPage from "./pages/Users";
 import UserPage from "./pages/UserPage";
+import UsersPage from "./pages/Users";
+import NavBar from "./components/NavBar";
 
 export default function App() {
   const { setCurrentUser } = useContext(UserContext);

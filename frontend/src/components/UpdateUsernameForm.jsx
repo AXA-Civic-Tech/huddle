@@ -2,6 +2,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { updateUsername } from "../adapters/user-adapter";
 
+/**
+ * @params currentUser, setCurrentUser
+ * A form surrounded by `dialog` in UserPage
+ * User can update their username
+ * User will see error message if the username exists
+ * @returns
+ */
+
 export default function UpdateUsernameForm({ currentUser, setCurrentUser }) {
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState("");

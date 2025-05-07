@@ -1,11 +1,11 @@
 import { useContext, useState } from "react";
 import { useNavigate, Navigate, Link } from "react-router-dom";
+import ReCAPTCHA from "react-google-recaptcha";
 import CurrentUserContext from "../contexts/current-user-context";
 import { registerUser } from "../adapters/auth-adapter";
-import ReCAPTCHA from 'react-google-recaptcha';
 
 //The site key remains public as it's a PUBLIC KEY
-const SITE_KEY = '6Lf1FC8rAAAAAJ4egdXJ_RkeePpHowuY1ZFKb20S'; // from Google
+const SITE_KEY = "6Lf1FC8rAAAAAJ4egdXJ_RkeePpHowuY1ZFKb20S"; // from Google
 
 // Controlling the sign up form is a good idea because we want to add (eventually)
 // more validation and provide real time feedback to the user about usernames and passwords
@@ -19,10 +19,10 @@ export default function SignUpForm() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const handleSubmit = async (event) => { 
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorText("");
-    
+
     // Basic validation
     if (!username || !password) {
       return setErrorText("Username and password are required");
@@ -30,7 +30,7 @@ export default function SignUpForm() {
     if (password.length < 6) {
       return setErrorText("Password must be at least 6 characters");
     }
-    if (!email.includes('@')) {
+    if (!email.includes("@")) {
       return setErrorText("Please enter a valid email address");
     }
 
@@ -38,16 +38,15 @@ export default function SignUpForm() {
       return alert("Please complete the reCAPTCHA");
     }
 
-
     const [user, error] = await registerUser({
-      first_name : firstName,
-      last_name : lastName,
+      first_name: firstName,
+      last_name: lastName,
       email,
       username,
       password,
-      recaptchaToken
+      recaptchaToken,
     });
-    
+
     if (error) return setErrorText(error.message);
 
     setCurrentUser(user);
@@ -135,10 +134,7 @@ export default function SignUpForm() {
       */}
 
         {/* reCAPTCHA */}
-        <ReCAPTCHA
-          sitekey={SITE_KEY}
-          onChange={handleCaptchaChange}
-        />
+        <ReCAPTCHA sitekey={SITE_KEY} onChange={handleCaptchaChange} />
 
         <button type="submit">Sign Up Now!</button>
       </form>

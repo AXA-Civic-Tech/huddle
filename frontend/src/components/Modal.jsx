@@ -1,17 +1,17 @@
 import { useContext, useState, useEffect, useRef } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
-import Button from "./Button";
 import { updatePost } from "../adapters/post-adapter";
 import { createComment, getCommentsByEvent } from "../adapters/comment-adapter";
 import UserLink from "./UserLink";
+import Button from "./Button";
 
 /**
- * After the Post is clicked on from the Feed, the Modal will pop up in front of the Map
- * Modal will take event as a prop
- * This component is a reusable component:
- * creating a new issue
- * rendering existing issue
- * giving the option for owner of the post to edit.
+ * @params event, isOpen, onClose
+ * Reusable Component in 3 different ways:
+ * 1. Create a new post (modal)
+ * 2. Render existing issues/events
+ * 3. Editable post (modal)
+ * After the Post card is clicked from the Feed, Modal will pop in front of the Map
  * @returns
  */
 

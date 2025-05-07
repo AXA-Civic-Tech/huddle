@@ -95,11 +95,11 @@ export default function UserPage() {
           </dialog>
         )}
 
-        {/* <h3>
+        <h3>
           {user.first_name} {user.last_name}
         </h3>
 
-        <h3>{user.email}</h3> */}
+        <h3>{user.email}</h3>
       </div>
 
       <div className="profile-feed">

@@ -4,6 +4,12 @@ import CurrentUserContext from "../contexts/current-user-context";
 import LoginForm from "../components/Login";
 import SignUpForm from "../components/SignUp";
 
+/**
+ * If "Sign Up" button was clicked on "/", "Sign Up" form will show and able to switch to "Log In"
+ * If "Log In" button was clicked on "/", "Log In" form will show and able to switch to "Sign Up"
+ * @returns
+ */
+
 export default function LoginSignUpPage() {
   const navigate = useNavigate();
 
