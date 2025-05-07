@@ -84,7 +84,6 @@ export default function Modal({ event = {}, isOpen, onClose }) {
   useEffect(() => {
     getUpvoteCount(event.id).then((data) => {
       setUpvoteCount(data[0].count);
-      console.log("Upvote count:", data[0].count);
     });
   }, [event.id]);
 
@@ -114,7 +113,6 @@ export default function Modal({ event = {}, isOpen, onClose }) {
       if (isNew && currentUser && currentUser.id) {
         postData.user_id = currentUser.id;
       }
-      console.log("Saving post data:", postData);
 
       // Call the API
       const [updatedPost, error] = await updatePost(postData);
@@ -175,6 +173,8 @@ export default function Modal({ event = {}, isOpen, onClose }) {
   const handleUpvote = async () => {
    await upvoteEvent(event.id);
    const count = await getUpvoteCount(event.id);
+   // update the upvote count
+   // access the count from the response
     setUpvoteCount(count[0].count);
   };
 
