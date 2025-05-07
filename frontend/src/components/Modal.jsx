@@ -2,7 +2,8 @@ import { useContext, useState, useEffect, useRef } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
 import Button from "./Button";
 import { updatePost } from "../adapters/post-adapter";
-
+import { createComment, getCommentsByEvent } from "../adapters/comment-adapter";
+import UserLink from "./UserLink";
 /**
  * After the Post is clicked on from the Feed, the Modal will pop up in front of the Map
  * Modal will take event as a prop
@@ -13,7 +14,7 @@ import { updatePost } from "../adapters/post-adapter";
  * @returns
  */
 
-export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
+export default function Modal({ event = {}, isOpen, onClose }) {
   const dialogRef = useRef();
   const { currentUser } = useContext(CurrentUserContext);
 
@@ -22,6 +23,8 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
     isNew || (currentUser && currentUser.id === event.user_id);
 
   const [isEdit, setIsEdit] = useState(isNew);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
 
   // Form fields
   const [formData, setFormData] = useState({
@@ -63,6 +66,18 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
       dialog.close();
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!isEdit && event.id) {
+      getCommentsByEvent(event.id).then((data) => {
+        // flatten and filter as needed
+        const allComments = (data || [])
+          .flat() // flatten nested arrays
+          .filter(comment => comment && typeof comment === "object"); // remove null values
+        setComments(allComments);
+      });
+    }
+  }, [isEdit, event.id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -130,6 +145,22 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
       description: event.description || "",
     });
     setIsEdit(false);
+  };
+
+  const handlePostComment = async () => {
+    if (!newComment.trim()) return;
+    await createComment({
+      user_id: currentUser.id,
+      contents: newComment,
+      event_id: event.id,
+    });
+    setNewComment(""); // Clear input
+    // Refresh comments
+    const data = await getCommentsByEvent(event.id);
+    const flatComments = (data || [])
+      .flat()
+      .filter(comment => comment && typeof comment === "object");
+    setComments(flatComments);
   };
 
   // Reusable field rendering functions
@@ -200,19 +231,22 @@ export default function Modal({ event = {}, comments = {}, isOpen, onClose }) {
     return (
       <div className="comments">
         <h3>Comments</h3>
-        <input type="text" placeholder="Add a comment..." />
-        <Button name="Post" />
-        {Object.values(comments || {}).length > 0 ? (
-          Object.values(comments)
-            .filter((comment) => comment.event_id === event.id)
-            .map((comment, index) => (
-              <p key={index}>
-                <strong>
-                  {<UserLink user={comment.username} /> || "User"}:
-                </strong>{" "}
-                {comment.content}
-              </p>
-            ))
+        <input type="text" placeholder="Add a comment..." value={newComment} onChange={(e) => setNewComment(e.target.value)} onKeyDown={(e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handlePostComment();
+    }
+  }}/>
+        <Button name="Post" onClick={handlePostComment} />
+        {comments.length > 0 ? (
+          comments.map((comment, index) => (
+            <p key={index}>
+              <strong>
+                {comment.username || "User"}:
+              </strong>{" "}
+              {comment.contents}
+            </p>
+          ))
         ) : (
           <p>No comments yet!</p>
         )}
