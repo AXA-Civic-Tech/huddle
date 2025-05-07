@@ -4,6 +4,7 @@ import Button from "./Button";
 import { updatePost } from "../adapters/post-adapter";
 import { createComment, getCommentsByEvent } from "../adapters/comment-adapter";
 import UserLink from "./UserLink";
+
 /**
  * After the Post is clicked on from the Feed, the Modal will pop up in front of the Map
  * Modal will take event as a prop
@@ -244,7 +245,10 @@ export default function Modal({ event = {}, isOpen, onClose }) {
         {comments.length > 0 ? (
           comments.map((comment, index) => (
             <p key={index}>
-              <strong>{comment.username || "User"}:</strong> {comment.contents}
+              <UserLink userId={comment.user_id} username={comment.username}>
+                <strong>{comment.username || "User"}:</strong>
+              </UserLink>{" "}
+              {comment.contents}
             </p>
           ))
         ) : (
