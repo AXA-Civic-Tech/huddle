@@ -231,7 +231,12 @@ export default function Modal({ event = {}, isOpen, onClose }) {
     return (
       <div className="comments">
         <h3>Comments</h3>
-        <input type="text" placeholder="Add a comment..." value={newComment} onChange={(e) => setNewComment(e.target.value)} />
+        <input type="text" placeholder="Add a comment..." value={newComment} onChange={(e) => setNewComment(e.target.value)} onKeyDown={(e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handlePostComment();
+    }
+  }}/>
         <Button name="Post" onClick={handlePostComment} />
         {comments.length > 0 ? (
           comments.map((comment, index) => (
