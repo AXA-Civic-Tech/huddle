@@ -15,6 +15,8 @@ export default function UpdateUsernameForm({ currentUser, setCurrentUser }) {
 
     // If we get an error response
     if (error) {
+      console.log("Error received:", error);
+
       // Check if it's conflict (username already taken)
       if (error.cause === 409) {
         setErrMsg("Username already taken. Please try another.");
@@ -28,7 +30,7 @@ export default function UpdateUsernameForm({ currentUser, setCurrentUser }) {
       }
 
       // Handle any other errors
-      setErrMsg("Ann error occurred. Please try again.");
+      setErrMsg("An error occurred. Please try again.");
       return;
     }
     // Success case
@@ -44,6 +46,13 @@ export default function UpdateUsernameForm({ currentUser, setCurrentUser }) {
       <input type="hidden" name="id" value={currentUser.id} />
 
       <button>Update Username</button>
+
+      {/* Display error message if present */}
+      {errMsg && (
+        <div className="error-message" role="alert">
+          {errMsg}
+        </div>
+      )}
     </form>
   );
 }
