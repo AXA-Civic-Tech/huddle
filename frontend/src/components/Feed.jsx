@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { getAllPosts } from "../adapters/post-adapter";
 import CurrentUserContext from "../contexts/current-user-context";
 import Post from "./Post";
@@ -27,6 +28,9 @@ import Button from "./Button";
  */
 
 export default function Feed() {
+  const location = useLocation();
+  const pathname = location.pathname;
+
   const [posts, setPosts] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
@@ -158,7 +162,7 @@ export default function Feed() {
         filtered = filtered.filter((post) => !post.is_issue);
         break;
       case "upvote":
-        if (currentUser) {
+        if (currentUser && pathname === `/users/${currentUser.id}`) {
           filtered = filtered.filter(
             (post) =>
               post.upvotes &&
@@ -194,7 +198,9 @@ export default function Feed() {
           <option value="issue">Issues</option>
           <option value="urgent">Most Urgent Issues</option>
           <option value="event">Events</option>
-          {currentUser && <option value="upvote">Upvotes</option>}
+          {currentUser && pathname === `/users/${currentUser.id}` && (
+            <option value="upvote">Upvotes</option>
+          )}
         </select>
 
         {currentUser && (
