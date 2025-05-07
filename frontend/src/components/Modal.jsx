@@ -4,6 +4,7 @@ import Button from "./Button";
 import { updatePost } from "../adapters/post-adapter";
 import { createComment, getCommentsByEvent } from "../adapters/comment-adapter";
 import UserLink from "./UserLink";
+import { upvoteEvent, getUpvoteCount } from "../adapters/upvote-adapter";
 /**
  * After the Post is clicked on from the Feed, the Modal will pop up in front of the Map
  * Modal will take event as a prop
@@ -238,6 +239,7 @@ export default function Modal({ event = {}, isOpen, onClose }) {
     }
   }}/>
         <Button name="Post" onClick={handlePostComment} />
+        <Button name="Upvote" onClick={() => upvoteEvent(event.id)} />
         {comments.length > 0 ? (
           comments.map((comment, index) => (
             <p key={index}>
