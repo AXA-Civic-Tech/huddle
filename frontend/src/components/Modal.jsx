@@ -24,6 +24,7 @@ export default function Modal({ event = {}, isOpen, onClose }) {
 
   const [isEdit, setIsEdit] = useState(isNew);
   const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
 
   // Form fields
   const [formData, setFormData] = useState({
@@ -70,10 +71,10 @@ export default function Modal({ event = {}, isOpen, onClose }) {
     if (!isEdit && event.id) {
       getCommentsByEvent(event.id).then((data) => {
         // flatten and filter as needed
-        const flatComments = (data || [])
-          .flat()
-          .filter(comment => comment && typeof comment === "object");
-        setComments(flatComments);
+        const allComments = (data || [])
+          .flat() // flatten nested arrays
+          .filter(comment => comment && typeof comment === "object"); // remove null values
+        setComments(allComments);
       });
     }
   }, [isEdit, event.id]);
@@ -146,6 +147,22 @@ export default function Modal({ event = {}, isOpen, onClose }) {
     setIsEdit(false);
   };
 
+  const handlePostComment = async () => {
+    if (!newComment.trim()) return;
+    await createComment({
+      user_id: currentUser.id,
+      contents: newComment,
+      event_id: event.id,
+    });
+    setNewComment(""); // Clear input
+    // Refresh comments
+    const data = await getCommentsByEvent(event.id);
+    const flatComments = (data || [])
+      .flat()
+      .filter(comment => comment && typeof comment === "object");
+    setComments(flatComments);
+  };
+
   // Reusable field rendering functions
   const renderField = (name, label, type = "text") => {
     if (isEdit) {
@@ -214,8 +231,8 @@ export default function Modal({ event = {}, isOpen, onClose }) {
     return (
       <div className="comments">
         <h3>Comments</h3>
-        <input type="text" placeholder="Add a comment..." />
-        <Button name="Post" />
+        <input type="text" placeholder="Add a comment..." value={newComment} onChange={(e) => setNewComment(e.target.value)} />
+        <Button name="Post" onClick={handlePostComment} />
         {comments.length > 0 ? (
           comments.map((comment, index) => (
             <p key={index}>
