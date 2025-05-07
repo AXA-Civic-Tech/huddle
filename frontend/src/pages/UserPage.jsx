@@ -2,7 +2,6 @@ import { useContext, useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { getUser } from "../adapters/user-adapter";
-import { logUserOut } from "../adapters/auth-adapter";
 import UpdateUsernameForm from "../components/UpdateUsernameForm";
 import Feed from "../components/Feed";
 import Button from "../components/Button";
@@ -51,10 +50,13 @@ export default function UserPage() {
     }
   }, [isOpen]);
 
-  const handleLogout = async () => {
-    logUserOut();
-    setCurrentUser(null);
-    navigate("/");
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = (updatedUser) => {
+    setIsOpen(false);
+    if (updatedUser) setCurrentUser(updatedUser);
   };
 
   if (error)
@@ -74,21 +76,23 @@ export default function UserPage() {
       <div className="profile-header">
         <h1>{profileUsername}</h1>
         {/* Need to figure this logic */}
-        <Button name="Edit" />
+        <Button name="Edit" onClick={openModal} />
         {isCurrentUserProfile && (
           <dialog
             className="update-username-form"
             ref={dialogRef}
-            onClick={(e) => e.target == e.currentTarget && onClose()}
+            onClick={(e) => {
+              if (e.target == e.currentTarget) closeModal();
+            }}
           >
             <UpdateUsernameForm
               currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
+              setCurrentUser={(user) => {
+                setCurrentUser(user);
+                closeModal(user);
+              }}
             />
           </dialog>
-        )}
-        {isCurrentUserProfile && (
-          <button onClick={handleLogout}>Log Out</button>
         )}
 
         {/* <h3>
@@ -96,8 +100,6 @@ export default function UserPage() {
         </h3>
 
         <h3>{user.email}</h3> */}
-
-        <Button name="View Map" to="/main" />
       </div>
 
       <div className="profile-feed">

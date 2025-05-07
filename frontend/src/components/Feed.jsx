@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { getAllPosts } from "../adapters/post-adapter";
 import CurrentUserContext from "../contexts/current-user-context";
 import Post from "./Post";
@@ -20,13 +21,16 @@ import Button from "./Button";
  * HomePage: Sort by Most Urgent Issues (Most Urgent/Upvotes) && Title is "Most Urgent Issues"
  * HomePage: Sort by Events (Most Recent) && Title is "Events"
  *
- * UserPage: Sort by Favorites (Most Recent) && Title is "Favorites"
+ * UserPage: Sort by Upvote (Most Recent) && Title is "Upvote"
  *
  * STRETCH: Feed should display different Posts based on the area when zoomed in or out
  * @returns
  */
 
 export default function Feed() {
+  const location = useLocation();
+  const pathname = location.pathname;
+
   const [posts, setPosts] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
@@ -52,7 +56,6 @@ export default function Feed() {
   useEffect(() => {
     const titleMap = {
       recent: "Community Posts",
-      city: filterValue ? `${filterValue}` : "Posts by City",
       borough: filterValue ? `${filterValue}` : "Posts by Borough",
       open: "Open Issues & Events",
       progress: "In Progress Issues & Events",
@@ -131,7 +134,6 @@ export default function Feed() {
     const sortFuncs = {
       recent: sortByRecent,
       urgent: sortByUrgent,
-      city: sortByCity,
       borough: sortByBorough,
       open: sortByRecent,
       progress: sortByRecent,
@@ -160,18 +162,13 @@ export default function Feed() {
         filtered = filtered.filter((post) => !post.is_issue);
         break;
       case "upvote":
-        if (currentUser) {
+        if (currentUser && pathname === `/users/${currentUser.id}`) {
           filtered = filtered.filter(
             (post) =>
               post.upvotes &&
               Array.isArray(post.upvotes) &&
               post.upvotes.includes(currentUser.id)
           );
-        }
-        break;
-      case "city":
-        if (filterValue) {
-          filtered = filtered.filter((post) => post.city === filterValue);
         }
         break;
       case "borough":
@@ -194,7 +191,6 @@ export default function Feed() {
       <div className="feed-controls">
         <select className="sort" value={sort} onChange={handleSort}>
           <option value="default">Most Recent</option>
-          <option value="city">By City</option>
           <option value="borough">By Borough</option>
           <option value="open">Status: Open</option>
           <option value="progress">Status: In Progress...</option>
@@ -202,7 +198,9 @@ export default function Feed() {
           <option value="issue">Issues</option>
           <option value="urgent">Most Urgent Issues</option>
           <option value="event">Events</option>
-          {currentUser && <option value="upvote">Upvotes</option>}
+          {currentUser && pathname === `/users/${currentUser.id}` && (
+            <option value="upvote">Upvotes</option>
+          )}
         </select>
 
         {currentUser && (

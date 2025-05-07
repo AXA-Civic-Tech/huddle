@@ -32,7 +32,6 @@ export default function Modal({ event = {}, isOpen, onClose }) {
   const [formData, setFormData] = useState({
     title: event.title || "",
     address: event.address || "",
-    city: event.city || "",
     borough: event.borough || "",
     state: event.state || "",
     zipcode: event.zipcode || "",
@@ -47,7 +46,6 @@ export default function Modal({ event = {}, isOpen, onClose }) {
     setFormData({
       title: event.title || "",
       address: event.address || "",
-      city: event.city || "",
       borough: event.borough || "",
       state: event.state || "",
       zipcode: event.zipcode || "",
@@ -75,7 +73,7 @@ export default function Modal({ event = {}, isOpen, onClose }) {
         // flatten and filter as needed
         const allComments = (data || [])
           .flat() // flatten nested arrays
-          .filter(comment => comment && typeof comment === "object"); // remove null values
+          .filter((comment) => comment && typeof comment === "object"); // remove null values
         setComments(allComments);
       });
     }
@@ -142,7 +140,6 @@ export default function Modal({ event = {}, isOpen, onClose }) {
     setFormData({
       title: event.title || "",
       address: event.address || "",
-      city: event.city || "",
       borough: event.borough || "",
       state: event.state || "",
       zipcode: event.zipcode || "",
@@ -166,7 +163,7 @@ export default function Modal({ event = {}, isOpen, onClose }) {
     const data = await getCommentsByEvent(event.id);
     const flatComments = (data || [])
       .flat()
-      .filter(comment => comment && typeof comment === "object");
+      .filter((comment) => comment && typeof comment === "object");
     setComments(flatComments);
   };
 
@@ -246,12 +243,18 @@ export default function Modal({ event = {}, isOpen, onClose }) {
     return (
       <div className="comments">
         <h3>Comments</h3>
-        <input type="text" placeholder="Add a comment..." value={newComment} onChange={(e) => setNewComment(e.target.value)} onKeyDown={(e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      handlePostComment();
-    }
-  }}/>
+        <input
+          type="text"
+          placeholder="Add a comment..."
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              handlePostComment();
+            }
+          }}
+        />
         <Button name="Post" onClick={handlePostComment} />
 
         {/* render upvotes */}
@@ -262,10 +265,7 @@ export default function Modal({ event = {}, isOpen, onClose }) {
         {comments.length > 0 ? (
           comments.map((comment, index) => (
             <p key={index}>
-              <strong>
-                {comment.username || "User"}:
-              </strong>{" "}
-              {comment.contents}
+              <strong>{comment.username || "User"}:</strong> {comment.contents}
             </p>
           ))
         ) : (
@@ -314,7 +314,6 @@ export default function Modal({ event = {}, isOpen, onClose }) {
           <form className="edit-form">
             {renderField("title", "Title")}
             {renderField("address", "Address")}
-            {renderField("city", "City")}
             {renderField("borough", "Borough")}
             {renderField("state", "State")}
             {renderField("zipcode", "Zip Code", "number")}
@@ -328,7 +327,6 @@ export default function Modal({ event = {}, isOpen, onClose }) {
           <>
             {renderField("title", "Title")}
             {renderField("address", "Address")}
-            {renderField("city", "City")}
             {renderField("borough", "Borough")}
             {renderField("state", "State")}
             {renderField("zipcode", "Zip Code")}
