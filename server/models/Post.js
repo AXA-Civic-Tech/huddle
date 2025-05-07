@@ -8,7 +8,10 @@ class Post {
     date_created,
     user_id,
     is_issue,
-    address_id,
+    address,
+    lat_location,
+    long_location,
+    borough,
     email,
     phone,
     status,
@@ -20,7 +23,10 @@ class Post {
     this.date_created = date_created;
     this.user_id = user_id;
     this.is_issue = is_issue;
-    this.address_id = address_id;
+    this.address = address; 
+    this.lat_location = lat_location;
+    this.long_location = long_location;
+    this.borough = borough;
     this.email = email;
     this.phone = phone;
     this.status = status;
@@ -33,18 +39,22 @@ class Post {
     date_created = new Date(),
     user_id,
     is_issue = false,
-    address_id = null,
     email = null,
     phone = null,
     status = "active",
     images = null,
+    lat_location = null,
+    long_location = null,
+    address = null,
+    borough = null, 
+    zipcode = null
   }) {
     const query = `
       INSERT INTO event (
-        title, description, date_created, user_id, is_issue, address_id,
+        title, description, date_created, user_id, is_issue, email, phone, status, images, lat_location, long_location, address, borough, zipcode
         email, phone, status, images
       )
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       RETURNING *`;
 
     const result = await knex.raw(query, [
@@ -53,11 +63,15 @@ class Post {
       date_created,
       user_id,
       is_issue,
-      address_id,
       email,
       phone,
       status,
       images,
+      lat_location,
+      long_location,
+      address,
+      borough,
+      zipcode
     ]);
 
     return new Post(result.rows[0]);

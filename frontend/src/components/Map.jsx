@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { getAllPosts } from '../adapters/post-adapter';
 
-// Map container styling
+//doing height with a % bugs map
 const containerStyle = {
   width: '100%',
   height: '1000px',
 };
 
-// Default map center (NYC)
+//center where map loads
 const center = {
   lat: 40.657980,
   lng: -74.005439,
@@ -15,15 +16,27 @@ const center = {
 
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
-const markers = [
-    {id: 1, position: {lat: 40.657980, lng: -74.005439}}, //center location
-    {id: 2, position: {lat: 40.7128000, lng: -74.0060000}},
-    {id: 3, position: {lat: 40.6782000, lng: -73.9442000}},
-    {id: 4, position: {lat: 40.5795000, lng: -74.1502000}},
-    {id: 5, position: {lat: 40.8448000, lng: -73.8648000}}
-];
-
 const Map = () => {
+  const [markers, setMarkers] = useState([]);
+
+  //fetches all post and filters out for locations to pin
+  useEffect(() => {
+    getAllPosts().then(([data, error]) => {
+      if (data) {
+        const eventMarkers = data
+          .filter(event => event.lat_location && event.long_location)
+          .map(event => ({
+            id: event.id,
+            position: {
+              lat: parseFloat(event.lat_location),
+              lng: parseFloat(event.long_location),
+            },
+          }));
+        setMarkers(eventMarkers);
+      }
+    });
+  }, []);
+
   return (
     <LoadScript googleMapsApiKey={apiKey}>
       <GoogleMap
@@ -31,9 +44,9 @@ const Map = () => {
         center={center}
         zoom={12}
       >
-    {markers.map(marker => (
-        <Marker key={marker.id} position={marker.position} />
-    ))}
+        {markers.map(marker => (
+          <Marker key={marker.id} position={marker.position} />
+        ))}
       </GoogleMap>
     </LoadScript>
   );
