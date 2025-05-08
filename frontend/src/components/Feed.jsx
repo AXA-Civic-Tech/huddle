@@ -2,23 +2,17 @@ import { useContext, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { getAllPosts } from "../adapters/post-adapter";
 import CurrentUserContext from "../contexts/current-user-context";
+import { getNeighborhoodFromZip } from "../utils/neighborhoods";
 import Post from "./Post";
 import Modal from "./Modal";
-import Button from "./Button";
+import FeedControls from "./FeedControls";
 
 /**
  * Reusable component in both HomePage and UserPage
  * Displays on the left side and on top of the Map
  * Renders ALL posts && Post receive event as a prop
- * HomePage: Sort by Most Recent (Default) && Title is "Community Posts"
- * HomePage: Sort by City (Most Recent) && Title will change based on City
- * HomePage: Sort by Borough (Most Recent) && Title will change based on Borough
- * HomePage: Sort by Status: Open (Most Recent) && Title will change based on Status
- * HomePage: Sort by Status: In Progress... (Most Recent) && Title will change based on Status
- * HomePage: Sort by Status: Closed (Most Recent) && Title will change based on Status
- * HomePage: Sort by Issues (Most Recent) && Title is "Issues"
- * HomePage: Sort by Most Urgent Issues (Most Urgent/Upvotes) && Title is "Most Urgent Issues"
- * HomePage: Sort by Events (Most Recent) && Title is "Events"
+ * HomePage: Filter by All Posts, Status, Type, Borough, and different Neighborhoods based on Borough
+ * HomePage: Sort by Most Recent and Most Upvotes
  *
  * UserPage: Sort by Upvote (Most Recent) && Title is "Upvote"
  *
@@ -34,11 +28,13 @@ export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
-  const [sort, setSort] = useState("recent");
   const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState("Community Posts");
-  const [filterValue, setFilterValue] = useState("");
   const { currentUser } = useContext(CurrentUserContext);
+
+  const [sort, setSort] = useState("recent");
+  const [filterType, setFilterType] = useState("all");
+  const [filterValue, setFilterValue] = useState("");
 
   // Check if current user is viewing another user's profile
   const isViewing =
@@ -58,20 +54,30 @@ export default function Feed() {
   }, []);
 
   useEffect(() => {
-    const titleMap = {
-      recent: "Community Posts",
-      borough: filterValue ? `${filterValue}` : "Posts by Borough",
-      open: "Open Issues & Events",
-      progress: "In Progress Issues & Events",
-      closed: "Closed Issues & Events",
-      issue: "Issues",
-      urgent: "Most Urgent Issues",
-      event: "Events",
-      upvote: "Your Upvoted Posts",
-    };
+    let newTitle = "Community Posts";
 
-    setTitle(titleMap[sort] || "Community Posts");
-  }, [sort, filterValue]);
+    if (filterType === "status") {
+      if (filterValue === "open") newTitle = "Open Issues & Events";
+      else if (filterValue === "progress")
+        newTitle = "In Progress Issues & Events";
+      else if (filterValue === "closed") newTitle = "Closed Issues & Events";
+    } else if (filterType === "type") {
+      if (filterValue === "issue") newTitle = "Issues";
+      else if (filterValue === "event") newTitle = "Events";
+    } else if (filterType === "borough") {
+      if (filterValue) newTitle = `${filterValue}`;
+    } else if (filterType === "neighborhood") {
+      if (filterValue) newTitle = `${filterValue}`;
+    } else if (filterType === "upvote") {
+      newTitle = "Your Upvoted Posts";
+    }
+
+    if (sort === "urgent" && filterType === "all") {
+      newTitle = "Most Urgent Issues";
+    }
+
+    setTitle(newTitle);
+  }, [sort, filterType, filterValue]);
 
   const openModal = (event) => {
     setSelectedPost(event);
@@ -113,77 +119,69 @@ export default function Feed() {
     setIsOpen(true);
   };
 
-  const handleSort = (e) => {
+  const handleSortChange = (e) => {
     setSort(e.target.value);
-    setFilterValue("");
+  };
+
+  const handleFilterChange = (e) => {
+    const value = e.target.value;
+
+    if (value.includes(":")) {
+      const [type, val] = value.split(":");
+      setFilterType(type);
+      setFilterValue(val);
+    } else {
+      setFilterType("all");
+      setFilterValue("");
+    }
   };
 
   const getFilteredAndSortedPosts = () => {
-    const sortByRecent = (a, b) =>
-      new Date(b.date_created || 0) - new Date(a.date_created || 0);
-
-    const sortByUrgent = (a, b) =>
-      (b.upvotes?.length || 0) - (a.upvotes?.length || 0);
-
-    const sortByCity = (a, b) => {
-      const cityCompare = (a.city || "").localeCompare(b.city || "");
-      return cityCompare !== 0 ? cityCompare : sortByRecent(a, b);
-    };
-
-    const sortByBorough = (a, b) => {
-      const boroughCompare = (a.borough || "").localeCompare(b.borough || "");
-      return boroughCompare !== 0 ? boroughCompare : sortByRecent(a, b);
-    };
-
-    const sortFuncs = {
-      recent: sortByRecent,
-      urgent: sortByUrgent,
-      borough: sortByBorough,
-      open: sortByRecent,
-      progress: sortByRecent,
-      closed: sortByRecent,
-      issue: sortByRecent,
-      event: sortByRecent,
-      upvote: sortByRecent,
-    };
-    // Apply filters
+    // First apply filters
     let filtered = [...posts];
 
-    switch (sort) {
-      case "open":
-        filtered = filtered.filter((post) => post.status === "open");
-        break;
-      case "progress":
-        filtered = filtered.filter((post) => post.status === "progress");
-        break;
-      case "closed":
-        filtered = filtered.filter((post) => post.status === "closed");
-        break;
-      case "issue":
+    // Apply filters based on filterType and filterValue
+    if (filterType === "status") {
+      filtered = filtered.filter((post) => post.status === filterValue);
+    } else if (filterType === "type") {
+      if (filterValue === "issue") {
         filtered = filtered.filter((post) => post.is_issue);
-        break;
-      case "event":
+      } else if (filterValue === "event") {
         filtered = filtered.filter((post) => !post.is_issue);
-        break;
-      case "upvote":
-        if (currentUser && pathname === `/users/${currentUser.id}`) {
-          filtered = filtered.filter(
-            (post) =>
-              post.upvotes &&
-              Array.isArray(post.upvotes) &&
-              post.upvotes.includes(currentUser.id)
-          );
-        }
-        break;
-      case "borough":
-        if (filterValue) {
-          filtered = filtered.filter((post) => post.borough === filterValue);
-        }
-        break;
+      }
+    } else if (filterType === "borough") {
+      filtered = filtered.filter(
+        (post) => post.borough?.toLowerCase() === filterValue.toLowerCase()
+      );
+    } else if (filterType === "neighborhood") {
+      filtered = filtered.filter(
+        (post) => getNeighborhoodFromZip(post.zipcode) === filterValue
+      );
+    } else if (
+      filterType === "upvote" &&
+      currentUser &&
+      pathname === `/users/${currentUser.id}`
+    ) {
+      filtered = filtered.filter(
+        (post) =>
+          post.upvotes &&
+          Array.isArray(post.upvotes) &&
+          post.upvotes.includes(currentUser.id)
+      );
     }
 
-    const sortFunction = sortFuncs[sort] || sortFuncs.recent;
-    return filtered.sort(sortFunction);
+    // Then sort the filtered posts
+    if (sort === "recent") {
+      return filtered.sort(
+        (a, b) => new Date(b.date_created || 0) - new Date(a.date_created || 0)
+      );
+    } else if (sort === "urgent") {
+      return filtered.sort(
+        (a, b) => (b.upvotes?.length || 0) - (a.upvotes?.length || 0)
+      );
+    }
+
+    return filtered;
   };
 
   const sorted = getFilteredAndSortedPosts();
@@ -192,26 +190,17 @@ export default function Feed() {
     <div className="feed">
       <h1>{title}</h1>
 
-      <div className="feed-controls">
-        <select className="sort" value={sort} onChange={handleSort}>
-          <option value="default">Most Recent</option>
-          <option value="borough">By Borough</option>
-          <option value="open">Status: Open</option>
-          <option value="progress">Status: In Progress...</option>
-          <option value="closed">Status: Closed</option>
-          <option value="issue">Issues</option>
-          <option value="urgent">Most Urgent Issues</option>
-          <option value="event">Events</option>
-          {currentUser && pathname === `/users/${currentUser.id}` && (
-            <option value="upvote">Upvotes</option>
-          )}
-        </select>
-
-        {currentUser && !isViewing && (
-          // Only show this button when not vewing another user's profile
-          <Button name="Create New Post" onClick={handleNewPost} />
-        )}
-      </div>
+      <FeedControls
+        filterType={filterType}
+        filterValue={filterValue}
+        sort={sort}
+        onFilterChange={handleFilterChange}
+        onSortChange={handleSortChange}
+        onNewPost={handleNewPost}
+        currentUser={currentUser}
+        isViewing={isViewing}
+        pathname={pathname}
+      />
 
       {loading ? (
         <p>Loading posts...</p>
