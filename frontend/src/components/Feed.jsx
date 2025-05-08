@@ -5,6 +5,10 @@ import CurrentUserContext from "../contexts/current-user-context";
 import Post from "./Post";
 import Modal from "./Modal";
 import Button from "./Button";
+import {
+  getNeighborhoodFromZip,
+  neighborhoodsByBorough,
+} from "../utils/neighborhoods";
 
 /**
  * Reusable component in both HomePage and UserPage
@@ -34,11 +38,13 @@ export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
-  const [sort, setSort] = useState("recent");
   const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState("Community Posts");
-  const [filterValue, setFilterValue] = useState("");
   const { currentUser } = useContext(CurrentUserContext);
+
+  const [sort, setSort] = useState("recent");
+  const [filterType, setFilterType] = useState("all");
+  const [filterValue, setFilterValue] = useState("");
 
   // Check if current user is viewing another user's profile
   const isViewing =
@@ -58,20 +64,30 @@ export default function Feed() {
   }, []);
 
   useEffect(() => {
-    const titleMap = {
-      recent: "Community Posts",
-      borough: filterValue ? `${filterValue}` : "Posts by Borough",
-      open: "Open Issues & Events",
-      progress: "In Progress Issues & Events",
-      closed: "Closed Issues & Events",
-      issue: "Issues",
-      urgent: "Most Urgent Issues",
-      event: "Events",
-      upvote: "Your Upvoted Posts",
-    };
+    let newTitle = "Community Posts";
 
-    setTitle(titleMap[sort] || "Community Posts");
-  }, [sort, filterValue]);
+    if (filterType === "status") {
+      if (filterValue === "open") newTitle = "Open Issues & Events";
+      else if (filterValue === "progress")
+        newTitle = "In Progress Issues & Events";
+      else if (filterValue === "closed") newTitle = "Closed Issues & Events";
+    } else if (filterType === "type") {
+      if (filterValue === "issue") newTitle = "Issues";
+      else if (filterValue === "event") newTitle = "Events";
+    } else if (filterType === "borough") {
+      if (filterValue) newTitle = `${filterValue}`;
+    } else if (filterType === "neighborhood") {
+      if (filterValue) newTitle = `${filterValue}`;
+    } else if (filterType === "upvote") {
+      newTitle = "Your Upvoted Posts";
+    }
+
+    if (sort === "urgent" && filterType === "all") {
+      newTitle = "Most Urgent Issues";
+    }
+
+    setTitle(newTitle);
+  }, [sort, filterType, filterValue]);
 
   const openModal = (event) => {
     setSelectedPost(event);
@@ -113,131 +129,69 @@ export default function Feed() {
     setIsOpen(true);
   };
 
-  const handleSort = (e) => {
+  const handleSortChange = (e) => {
     setSort(e.target.value);
-    setFilterValue("");
+  };
+
+  const handleFilterChange = (e) => {
+    const value = e.target.value;
+
+    if (value.includes(":")) {
+      const [type, value] = value.split(":");
+      setFilterType(type);
+      setFilterValue(value);
+    } else {
+      setFilterType("all");
+      setFilterValue("");
+    }
   };
 
   const getFilteredAndSortedPosts = () => {
-    const sortByRecent = (a, b) =>
-      new Date(b.date_created || 0) - new Date(a.date_created || 0);
-
-    const sortByUrgent = (a, b) =>
-      (b.upvotes?.length || 0) - (a.upvotes?.length || 0);
-
-    const sortByCity = (a, b) => {
-      const cityCompare = (a.city || "").localeCompare(b.city || "");
-      return cityCompare !== 0 ? cityCompare : sortByRecent(a, b);
-    };
-
-    const sortByManhattan = (a, b) => {
-      const boroughCompare = (a.borough === "manhattan" || "").localeCompare(
-        b.borough === "manhattan" || ""
-      );
-      return boroughCompare !== 0 ? boroughCompare : sortByRecent(a, b);
-    };
-
-    const sortByBrooklyn = (a, b) => {
-      const boroughCompare = (a.borough === "brooklyn" || "").localeCompare(
-        b.borough === "brooklyn" || ""
-      );
-      return boroughCompare !== 0 ? boroughCompare : sortByRecent(a, b);
-    };
-
-    const sortByQueens = (a, b) => {
-      const boroughCompare = (a.borough === "queens" || "").localeCompare(
-        b.borough === "queens" || ""
-      );
-      return boroughCompare !== 0 ? boroughCompare : sortByRecent(a, b);
-    };
-
-    const sortByBronx = (a, b) => {
-      const boroughCompare = (a.borough === "bronx" || "").localeCompare(
-        b.borough === "bronx" || ""
-      );
-      return boroughCompare !== 0 ? boroughCompare : sortByRecent(a, b);
-    };
-
-    const sortByStatenIsland = (a, b) => {
-      const boroughCompare = (a.borough === "statenIsland" || "").localeCompare(
-        b.borough === "statenIsland" || ""
-      );
-      return boroughCompare !== 0 ? boroughCompare : sortByRecent(a, b);
-    };
-
-    const sortFuncs = {
-      recent: sortByRecent,
-      urgent: sortByUrgent,
-      manhattan: sortByManhattan,
-      brooklyn: sortByBrooklyn,
-      queens: sortByQueens,
-      bronx: sortByBronx,
-      statenIsland: sortByStatenIsland,
-      open: sortByRecent,
-      progress: sortByRecent,
-      closed: sortByRecent,
-      issue: sortByRecent,
-      event: sortByRecent,
-      upvote: sortByRecent,
-    };
-    // Apply filters
+    // First apply filters
     let filtered = [...posts];
 
-    switch (sort) {
-      case "open":
-        filtered = filtered.filter((post) => post.status === "open");
-        break;
-      case "progress":
-        filtered = filtered.filter((post) => post.status === "progress");
-        break;
-      case "closed":
-        filtered = filtered.filter((post) => post.status === "closed");
-        break;
-      case "issue":
-        filtered = filtered.filter((post) => post.is_issue);
-        break;
-      case "event":
+    // Apply filters based on filterType and filterValue
+    if (filterType === "status") {
+      filtered = filtered.filter((post) => post.status === filterValue);
+    } else if (filterType === "type") {
+      if (filterValue === "issue") {
+        filtered == filtered.filter((post) => post.is_issue);
+      } else if (filterValue === "event") {
         filtered = filtered.filter((post) => !post.is_issue);
-        break;
-      case "upvote":
-        if (currentUser && pathname === `/users/${currentUser.id}`) {
-          filtered = filtered.filter(
-            (post) =>
-              post.upvotes &&
-              Array.isArray(post.upvotes) &&
-              post.upvotes.includes(currentUser.id)
-          );
-        }
-        break;
-      case "manhattan":
-        if (filterValue) {
-          filtered = filtered.filter((post) => post.borough === filterValue);
-        }
-        break;
-      case "brooklyn":
-        if (filterValue) {
-          filtered = filtered.filter((post) => post.borough === filterValue);
-        }
-        break;
-      case "queens":
-        if (filterValue) {
-          filtered = filtered.filter((post) => post.borough === filterValue);
-        }
-        break;
-      case "bronx":
-        if (filterValue) {
-          filtered = filtered.filter((post) => post.borough === filterValue);
-        }
-        break;
-      case "statenIsland":
-        if (filterValue) {
-          filtered = filtered.filter((post) => post.borough === filterValue);
-        }
-        break;
+      }
+    } else if (filterType === "borough") {
+      filtered = filtered.filter(
+        (post) => post.borough?.toLowerCase() === filterValue.toLowerCase()
+      );
+    } else if (filterType === "neighborhood") {
+      filtered = filtered.filter(
+        (post) => getNeighborhoodFromZip(post.zipcode) === filterValue
+      );
+    } else if (
+      filterType === "upvote" &&
+      currentUser &&
+      pathname === `/users/${currentUser.id}`
+    ) {
+      filtered = filtered.filter(
+        (post) =>
+          post.upvotes &&
+          Array.isArray(post.upvotes) &&
+          post.upvotes.includes(currentUser.id)
+      );
     }
 
-    const sortFunction = sortFuncs[sort] || sortFuncs.recent;
-    return filtered.sort(sortFunction);
+    // Then sort the filtered posts
+    if (sort === "recent") {
+      return filtered.sort(
+        (a, b) => new Date(b.date_created || 0) - new Date(a.date_created || 0)
+      );
+    } else if (sort === "urgent") {
+      return filtered.sort(
+        (a, b) => (b.upvotes?.length || 0) - (a.upvotes?.length || 0)
+      );
+    }
+
+    return filtered;
   };
 
   const sorted = getFilteredAndSortedPosts();
@@ -247,28 +201,77 @@ export default function Feed() {
       <h1>{title}</h1>
 
       <div className="feed-controls">
-        <select className="filter" value={sort} onChange={handleSort}>
-          <option value="open">Status: Open</option>
-          <option value="progress">Status: In Progress...</option>
-          <option value="closed">Status: Closed</option>
-          <option value="issue">Issues</option>
-          <option value="urgent">Most Urgent Issues</option>
-          <option value="event">Events</option>
-          {currentUser && pathname === `/users/${currentUser.id}` && (
-            <option value="upvote">Upvotes</option>
-          )}
-        </select>
+        {/* Filter Dropdown */}
+        <div className="filter-section">
+          <label htmlFor="filter-select">Filter: </label>
+          <select
+            id="filter-select"
+            value={`${filterType}:${filterValue}`}
+            onChange={handleFilterChange}
+          >
+            <option value="all:">All Posts</option>
+            <optgroup label="Status">
+              <option value="status:open">Open</option>
+              <option value="status:progress">In Progress</option>
+              <option value="status:closed">Closed</option>
+            </optgroup>
+            <optgroup label="Type">
+              <option value="type:issue">Issues</option>
+              <option value="type:event">Events</option>
+            </optgroup>
+            <optgroup label="Borough/Neighborhood">
+              <optgroup label="Manhattan" value="borough:manhattan">
+                {neighborhoodsByBorough[Manhattan].forEach((neighborhood) => (
+                  <option value={`neighborhood:${neighborhood}`}>
+                    {neighborhood}
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="Brooklyn" value="borough:brooklyn">
+                {neighborhoodsByBorough[Brooklyn].forEach((neighborhood) => (
+                  <option value={`neighborhood:${neighborhood}`}>
+                    {neighborhood}
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="Queens" value="borough:queens">
+                {neighborhoodsByBorough[Queens].forEach((neighborhood) => (
+                  <option value={`neighborhood:${neighborhood}`}>
+                    {neighborhood}
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="Bronx" value="borough:bronx">
+                {neighborhoodsByBorough[Bronx].forEach((neighborhood) => (
+                  <option value={`neighborhood:${neighborhood}`}>
+                    {neighborhood}
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="Staten Island" value="borough:statenIsland">
+                {neighborhoodsByBorough["Staten Island"].forEach(
+                  (neighborhood) => (
+                    <option value={`neighborhood:${neighborhood}`}>
+                      {neighborhood}
+                    </option>
+                  )
+                )}
+              </optgroup>
+            </optgroup>
+            {currentUser && pathname === `/users/${currentUser.id}` && (
+              <option value="upvote:true">My Upvoted Posts</option>
+            )}
+          </select>
+        </div>
 
-        <select className="sort" value={filter} onChange={handleFilter}>
-          <option value="recent">Most Recent</option>
-          <option value="urgent">Most Urgent Issues</option>
-          <option value="manhattan">Manhattan</option>
-          <option value="queens">Queens</option>
-          <option value="brooklyn">Brooklyn</option>
-          <option value="bronx">The Bronx</option>
-          <option value="statenIsland">Staten Island</option>
-          <option value="neighborhood">By {neighborhood}</option>
-        </select>
+        {/* Sort Dropdown */}
+        <div className="sort-section">
+          <label htmlFor="sort-select">Sort By: </label>
+          <select id="sort-select" value={sort} onChange={handleSortChange}>
+            <option value="recent">Most Recent</option>
+            <option value="urgent">Most Upvotes</option>
+          </select>
+        </div>
 
         {currentUser && !isViewing && (
           // Only show this button when not vewing another user's profile
