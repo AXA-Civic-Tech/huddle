@@ -12,31 +12,16 @@ exports.listPosts = async (req, res) => {
 
 exports.createPost = async (req, res) => {
   try {
-    console.log('createPost controller called with body:', JSON.stringify(req.body, null, 2));
-    
-    // Validate required fields
-    const requiredFields = ['title', 'borough', 'zipcode', 'description'];
-    for (const field of requiredFields) {
-      if (!req.body[field]) {
-        console.error(`Missing required field: ${field}`);
-        return res.status(400).send({ message: `Missing required field: ${field}` });
-      }
-    }
-    
     const post = await Post.create(req.body);
     res.status(201).send(post);
   } catch (error) {
-    console.error('Error creating post:', error.message);
-    console.error(error.stack);
-    res.status(500).send({ message: `Error creating post: ${error.message}` });
+    console.error('Error creating post:', error);
+    res.status(500).send({ message: 'Error creating post' });
   }
 };
 
 exports.updatePost = async (req, res) => {
   try {
-    console.log('updatePost controller called with id:', req.params.id);
-    console.log('Request body:', req.body);
-    
     // Make sure id is a number
     const id = parseInt(req.params.id, 10);
     if (isNaN(id)) {
@@ -49,7 +34,6 @@ exports.updatePost = async (req, res) => {
       return res.status(404).send({ message: 'Post not found or could not be updated' });
     }
     
-    console.log('Updated post:', post);
     res.send(post);
   } catch (error) {
     console.error('Error updating post:', error);

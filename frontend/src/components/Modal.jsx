@@ -136,18 +136,13 @@ export default function Modal({
         postData.user_id = currentUser.id;
       }
 
-      console.log("Sending data to updatePost:", postData);
-
       // Call the API
       const [updatedPost, error] = await updatePost(postData);
 
       if (error) {
         console.error("Error saving post:", error);
-        alert("Failed to save post: " + (error.message || "Unknown error"));
         return;
       }
-
-      console.log("Save successful:", updatedPost);
 
       // Exit edit mode
       setIsEdit(false);
@@ -155,7 +150,6 @@ export default function Modal({
       onClose(updatedPost);
     } catch (err) {
       console.error("Error in save process:", err);
-      alert("Error in save process: " + (err.message || "Unknown error"));
     }
   };
 
