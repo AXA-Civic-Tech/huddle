@@ -2,28 +2,17 @@ import { useContext, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { getAllPosts } from "../adapters/post-adapter";
 import CurrentUserContext from "../contexts/current-user-context";
+import { getNeighborhoodFromZip } from "../utils/neighborhoods";
 import Post from "./Post";
 import Modal from "./Modal";
-import Button from "./Button";
-import {
-  getNeighborhoodFromZip,
-  neighborhoodsByBorough,
-} from "../utils/neighborhoods";
 import FeedControls from "./FeedControls";
 
 /**
  * Reusable component in both HomePage and UserPage
  * Displays on the left side and on top of the Map
  * Renders ALL posts && Post receive event as a prop
- * HomePage: Sort by Most Recent (Default) && Title is "Community Posts"
- * HomePage: Sort by City (Most Recent) && Title will change based on City
- * HomePage: Sort by Borough (Most Recent) && Title will change based on Borough
- * HomePage: Sort by Status: Open (Most Recent) && Title will change based on Status
- * HomePage: Sort by Status: In Progress... (Most Recent) && Title will change based on Status
- * HomePage: Sort by Status: Closed (Most Recent) && Title will change based on Status
- * HomePage: Sort by Issues (Most Recent) && Title is "Issues"
- * HomePage: Sort by Most Urgent Issues (Most Urgent/Upvotes) && Title is "Most Urgent Issues"
- * HomePage: Sort by Events (Most Recent) && Title is "Events"
+ * HomePage: Filter by All Posts, Status, Type, Borough, and different Neighborhoods based on Borough
+ * HomePage: Sort by Most Recent and Most Upvotes
  *
  * UserPage: Sort by Upvote (Most Recent) && Title is "Upvote"
  *
