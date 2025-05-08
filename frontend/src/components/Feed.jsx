@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { getAllPosts } from "../adapters/post-adapter";
 import CurrentUserContext from "../contexts/current-user-context";
 import Post from "./Post";
@@ -8,7 +8,6 @@ import Button from "./Button";
 
 /**
  * Reusable component in both HomePage and UserPage
- * @params userId (if exist)
  * Displays on the left side and on top of the Map
  * Renders ALL posts && Post receive event as a prop
  * HomePage: Sort by Most Recent (Default) && Title is "Community Posts"
@@ -30,6 +29,7 @@ import Button from "./Button";
 export default function Feed() {
   const location = useLocation();
   const pathname = location.pathname;
+  const { id: urlUserId } = useParams();
 
   const [posts, setPosts] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -39,6 +39,10 @@ export default function Feed() {
   const [title, setTitle] = useState("Community Posts");
   const [filterValue, setFilterValue] = useState("");
   const { currentUser } = useContext(CurrentUserContext);
+
+  // Check if current user is viewing another user's profile
+  const isViewing =
+    currentUser && urlUserId && currentUser.id !== parseInt(urlUserId);
 
   const fetchPosts = () => {
     setLoading(true);
@@ -203,8 +207,8 @@ export default function Feed() {
           )}
         </select>
 
-        {currentUser && (
-          // Thinking if we should make an icon to be our Create New Post or Report New Issue button
+        {currentUser && !isViewing && (
+          // Only show this button when not vewing another user's profile
           <Button name="Create New Post" onClick={handleNewPost} />
         )}
       </div>
@@ -221,7 +225,12 @@ export default function Feed() {
           ))
       )}
 
-      <Modal event={selectedPost || {}} onClose={closeModal} isOpen={isOpen} />
+      <Modal
+        event={selectedPost || {}}
+        onClose={closeModal}
+        isOpen={isOpen}
+        viewing={isViewing}
+      />
     </div>
   );
 }

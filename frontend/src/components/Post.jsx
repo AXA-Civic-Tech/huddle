@@ -1,8 +1,10 @@
 import Button from "./Button";
 
 /**
- * This component is for rendering limited amount of data for the Feed
- * Post has event listener if user click on the card
+ * @params event, onSelect
+ * Renders exisitng issues/events on Feed
+ *
+ * Styling: Hover Effect for indication that it's clickable
  * @returns
  */
 

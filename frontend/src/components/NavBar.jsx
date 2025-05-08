@@ -1,5 +1,5 @@
-import { useLocation, useNavigate, NavLink } from "react-router-dom";
 import { useContext } from "react";
+import { useLocation, useNavigate, NavLink, useParams } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { logUserOut } from "../adapters/auth-adapter";
 import Button from "./Button";
@@ -17,6 +17,7 @@ export default function NavBar() {
 
   const location = useLocation();
   const pathname = location.pathname;
+  const { id: urlUserId } = useParams();
 
   const handleLogout = () => {
     console.log("Logging out...");
@@ -25,6 +26,10 @@ export default function NavBar() {
     setCurrentUser(null);
     navigate("/");
   };
+
+  // Check if we're viewing another user's profile
+  const isViewing =
+    currentUser && urlUserId && currentUser.id !== parseInt(urlUserId);
 
   return (
     <header>
@@ -37,12 +42,20 @@ export default function NavBar() {
           {currentUser && (
             <>
               {/* On UserPage, show View Map and Log Out */}
-              {pathname === `/users/${currentUser.id}` && (
+              {pathname.includes(`/users/`) && (
                 <>
                   <li>
                     {/* <Button name="View Map" to="/" /> */}
                     <NavLink to="/">View Map</NavLink>
                   </li>
+                  {isViewing && (
+                    <li>
+                      {/* <Button name='My Profile' to={`/users/${currentUser.id}`} /> */}
+                      <NavLink to={`/users/${currentUser.id}`}>
+                        My Profile
+                      </NavLink>
+                    </li>
+                  )}
                   <li>
                     <Button name="Log Out" onClick={handleLogout} />
                   </li>

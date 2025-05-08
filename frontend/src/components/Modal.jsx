@@ -1,28 +1,34 @@
 import { useContext, useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
-import Button from "./Button";
 import { updatePost } from "../adapters/post-adapter";
 import { createComment, getCommentsByEvent } from "../adapters/comment-adapter";
 import UserLink from "./UserLink";
-import { upvoteEvent, getUpvoteCount } from "../adapters/upvote-adapter";
+import Button from "./Button";
 
 /**
- * After the Post is clicked on from the Feed, the Modal will pop up in front of the Map
- * Modal will take event as a prop
- * This component is a reusable component:
- * creating a new issue
- * rendering existing issue
- * giving the option for owner of the post to edit.
+ * @params event, isOpen, onClose, viewing
+ * Reusable Component in 3 different ways:
+ * 1. Create a new post (modal)
+ * 2. Render existing issues/events
+ * 3. Editable post (modal)
+ * After the Post card is clicked from the Feed, Modal will pop in front of the Map
  * @returns
  */
 
-export default function Modal({ event = {}, isOpen, onClose }) {
+export default function Modal({
+  event = {},
+  isOpen,
+  onClose,
+  viewing = false,
+}) {
   const dialogRef = useRef();
+  const navigate = useNavigate();
   const { currentUser } = useContext(CurrentUserContext);
 
   const isNew = !event?.id;
   const isEditableByUser =
-    isNew || (currentUser && currentUser.id === event.user_id);
+    isNew || (currentUser && currentUser.id === event.user_id && !viewing);
 
   const [isEdit, setIsEdit] = useState(isNew);
   const [comments, setComments] = useState([]);
@@ -266,9 +272,14 @@ export default function Modal({ event = {}, isOpen, onClose }) {
         {comments.length > 0 ? (
           comments.map((comment, index) => (
             <p key={index}>
-              <UserLink userId={comment.user_id} username={comment.username}>
-                <strong>{comment.username || "User"}:</strong>
-              </UserLink>{" "}
+              <span onClick={() => onClose()}>
+                <UserLink
+                  userId={comment.user_id}
+                  username={comment.username || "User"}
+                >
+                  <strong>{comment.username || "User"}:</strong>
+                </UserLink>
+              </span>{" "}
               {comment.contents}
             </p>
           ))
