@@ -40,6 +40,7 @@ export default function Feed() {
   const [filterValue, setFilterValue] = useState("");
   const { currentUser } = useContext(CurrentUserContext);
 
+  // Check if current user is viewing another user's profile
   const isViewing =
     currentUser && urlUserId && currentUser.id !== parseInt(urlUserId);
 
@@ -206,8 +207,8 @@ export default function Feed() {
           )}
         </select>
 
-        {currentUser && (
-          // Thinking if we should make an icon to be our Create New Post or Report New Issue button
+        {currentUser && !isViewing && (
+          // Only show this button when not vewing another user's profile
           <Button name="Create New Post" onClick={handleNewPost} />
         )}
       </div>
@@ -224,7 +225,12 @@ export default function Feed() {
           ))
       )}
 
-      <Modal event={selectedPost || {}} onClose={closeModal} isOpen={isOpen} />
+      <Modal
+        event={selectedPost || {}}
+        onClose={closeModal}
+        isOpen={isOpen}
+        viewing={isViewing}
+      />
     </div>
   );
 }
