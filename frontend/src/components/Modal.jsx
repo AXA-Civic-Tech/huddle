@@ -142,7 +142,7 @@ export default function Modal({
       title: event.title || "",
       address: event.address || "",
       borough: event.borough || "",
-      state: event.state || "",
+      state: event.state || "NY",
       zipcode: event.zipcode || "",
       status: event.status || "open",
       email: event.email || "",

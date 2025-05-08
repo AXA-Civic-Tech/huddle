@@ -130,15 +130,49 @@ export default function Feed() {
       return cityCompare !== 0 ? cityCompare : sortByRecent(a, b);
     };
 
-    const sortByBorough = (a, b) => {
-      const boroughCompare = (a.borough || "").localeCompare(b.borough || "");
+    const sortByManhattan = (a, b) => {
+      const boroughCompare = (a.borough === "manhattan" || "").localeCompare(
+        b.borough === "manhattan" || ""
+      );
+      return boroughCompare !== 0 ? boroughCompare : sortByRecent(a, b);
+    };
+
+    const sortByBrooklyn = (a, b) => {
+      const boroughCompare = (a.borough === "brooklyn" || "").localeCompare(
+        b.borough === "brooklyn" || ""
+      );
+      return boroughCompare !== 0 ? boroughCompare : sortByRecent(a, b);
+    };
+
+    const sortByQueens = (a, b) => {
+      const boroughCompare = (a.borough === "queens" || "").localeCompare(
+        b.borough === "queens" || ""
+      );
+      return boroughCompare !== 0 ? boroughCompare : sortByRecent(a, b);
+    };
+
+    const sortByBronx = (a, b) => {
+      const boroughCompare = (a.borough === "bronx" || "").localeCompare(
+        b.borough === "bronx" || ""
+      );
+      return boroughCompare !== 0 ? boroughCompare : sortByRecent(a, b);
+    };
+
+    const sortByStatenIsland = (a, b) => {
+      const boroughCompare = (a.borough === "statenIsland" || "").localeCompare(
+        b.borough === "statenIsland" || ""
+      );
       return boroughCompare !== 0 ? boroughCompare : sortByRecent(a, b);
     };
 
     const sortFuncs = {
       recent: sortByRecent,
       urgent: sortByUrgent,
-      borough: sortByBorough,
+      manhattan: sortByManhattan,
+      brooklyn: sortByBrooklyn,
+      queens: sortByQueens,
+      bronx: sortByBronx,
+      statenIsland: sortByStatenIsland,
       open: sortByRecent,
       progress: sortByRecent,
       closed: sortByRecent,
@@ -175,7 +209,27 @@ export default function Feed() {
           );
         }
         break;
-      case "borough":
+      case "manhattan":
+        if (filterValue) {
+          filtered = filtered.filter((post) => post.borough === filterValue);
+        }
+        break;
+      case "brooklyn":
+        if (filterValue) {
+          filtered = filtered.filter((post) => post.borough === filterValue);
+        }
+        break;
+      case "queens":
+        if (filterValue) {
+          filtered = filtered.filter((post) => post.borough === filterValue);
+        }
+        break;
+      case "bronx":
+        if (filterValue) {
+          filtered = filtered.filter((post) => post.borough === filterValue);
+        }
+        break;
+      case "statenIsland":
         if (filterValue) {
           filtered = filtered.filter((post) => post.borough === filterValue);
         }
@@ -193,9 +247,7 @@ export default function Feed() {
       <h1>{title}</h1>
 
       <div className="feed-controls">
-        <select className="sort" value={sort} onChange={handleSort}>
-          <option value="default">Most Recent</option>
-          <option value="borough">By Borough</option>
+        <select className="filter" value={sort} onChange={handleSort}>
           <option value="open">Status: Open</option>
           <option value="progress">Status: In Progress...</option>
           <option value="closed">Status: Closed</option>
@@ -205,6 +257,17 @@ export default function Feed() {
           {currentUser && pathname === `/users/${currentUser.id}` && (
             <option value="upvote">Upvotes</option>
           )}
+        </select>
+
+        <select className="sort" value={filter} onChange={handleFilter}>
+          <option value="recent">Most Recent</option>
+          <option value="urgent">Most Urgent Issues</option>
+          <option value="manhattan">Manhattan</option>
+          <option value="queens">Queens</option>
+          <option value="brooklyn">Brooklyn</option>
+          <option value="bronx">The Bronx</option>
+          <option value="statenIsland">Staten Island</option>
+          <option value="neighborhood">By {neighborhood}</option>
         </select>
 
         {currentUser && !isViewing && (
