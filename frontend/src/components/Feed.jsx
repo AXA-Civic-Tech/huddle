@@ -137,9 +137,9 @@ export default function Feed() {
     const value = e.target.value;
 
     if (value.includes(":")) {
-      const [type, value] = value.split(":");
+      const [type, val] = value.split(":");
       setFilterType(type);
-      setFilterValue(value);
+      setFilterValue(val);
     } else {
       setFilterType("all");
       setFilterValue("");
@@ -155,7 +155,7 @@ export default function Feed() {
       filtered = filtered.filter((post) => post.status === filterValue);
     } else if (filterType === "type") {
       if (filterValue === "issue") {
-        filtered == filtered.filter((post) => post.is_issue);
+        filtered = filtered.filter((post) => post.is_issue);
       } else if (filterValue === "event") {
         filtered = filtered.filter((post) => !post.is_issue);
       }
@@ -194,6 +194,24 @@ export default function Feed() {
     return filtered;
   };
 
+  const renderNeighborhoodOptions = () => {
+    const options = [];
+
+    Object.keys(neighborhoodsByBorough).map((borough) => {
+      options.push(
+        <optgroup key={borough} label={borough}>
+          {neighborhoodsByBorough[borough].map((neighborhood) => (
+            <option key={neighborhood} value={`neighborhood:${neighborhood}`}>
+              {neighborhood}
+            </option>
+          ))}
+        </optgroup>
+      );
+    });
+    console.log(Object.keys(neighborhoodsByBorough));
+    return options;
+  };
+
   const sorted = getFilteredAndSortedPosts();
 
   return (
@@ -219,44 +237,27 @@ export default function Feed() {
               <option value="type:issue">Issues</option>
               <option value="type:event">Events</option>
             </optgroup>
-            <optgroup label="Borough/Neighborhood">
-              <optgroup label="Manhattan" value="borough:manhattan">
-                {neighborhoodsByBorough[Manhattan].forEach((neighborhood) => (
-                  <option value={`neighborhood:${neighborhood}`}>
-                    {neighborhood}
-                  </option>
-                ))}
-              </optgroup>
-              <optgroup label="Brooklyn" value="borough:brooklyn">
-                {neighborhoodsByBorough[Brooklyn].forEach((neighborhood) => (
-                  <option value={`neighborhood:${neighborhood}`}>
-                    {neighborhood}
-                  </option>
-                ))}
-              </optgroup>
-              <optgroup label="Queens" value="borough:queens">
-                {neighborhoodsByBorough[Queens].forEach((neighborhood) => (
-                  <option value={`neighborhood:${neighborhood}`}>
-                    {neighborhood}
-                  </option>
-                ))}
-              </optgroup>
-              <optgroup label="Bronx" value="borough:bronx">
-                {neighborhoodsByBorough[Bronx].forEach((neighborhood) => (
-                  <option value={`neighborhood:${neighborhood}`}>
-                    {neighborhood}
-                  </option>
-                ))}
-              </optgroup>
-              <optgroup label="Staten Island" value="borough:statenIsland">
-                {neighborhoodsByBorough["Staten Island"].forEach(
-                  (neighborhood) => (
-                    <option value={`neighborhood:${neighborhood}`}>
+            <optgroup label="Borough">
+              <option value="borough:Manhattan">Manhattan</option>
+              <option value="borough:Brooklyn">Brooklyn</option>
+              <option value="borough:Queens">Queens</option>
+              <option value="borough:Bronx">Bronx</option>
+              <option value="borough:Staten Island">Staten Island</option>
+            </optgroup>
+            <optgroup label="Neighborhoods">
+              {/* {renderNeighborhoodOptions()} */}
+              {Object.keys(neighborhoodsByBorough).map((borough) => {
+                <optgroup key={borough} label={borough}>
+                  {neighborhoodsByBorough[borough].map((neighborhood) => (
+                    <option
+                      key={neighborhood}
+                      value={`neighborhood:${neighborhood}`}
+                    >
                       {neighborhood}
                     </option>
-                  )
-                )}
-              </optgroup>
+                  ))}
+                </optgroup>;
+              })}
             </optgroup>
             {currentUser && pathname === `/users/${currentUser.id}` && (
               <option value="upvote:true">My Upvoted Posts</option>

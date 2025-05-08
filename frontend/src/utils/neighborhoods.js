@@ -345,10 +345,10 @@ export const getBoroughFromZip = (zipcode) => {
   const zip = parseInt(zipcode, 10);
 
   if (zip >= 10001 && zip <= 10282) return "Manhattan";
+  if (zip >= 10451 && zip <= 10475) return "Bronx";
   if (zip >= 11201 && zip <= 11256) return "Brooklyn";
   if ((zip >= 11004 && zip <= 11109) || (zip >= 11351 && zip <= 11697))
     return "Queens";
-  if (zip >= 10451 && zip <= 10475) return "Bronx";
   if (zip >= 10301 && zip <= 10314) return "Staten Island";
 
   return "Unknown";
