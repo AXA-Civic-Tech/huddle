@@ -41,7 +41,6 @@ export default function Modal({
     title: event.title || "",
     address: event.address || "",
     borough: event.borough || "",
-    state: event.state || "",
     zipcode: event.zipcode || "",
     status: event.status || "open",
     email: event.email || "",
@@ -55,7 +54,6 @@ export default function Modal({
       title: event.title || "",
       address: event.address || "",
       borough: event.borough || "",
-      state: event.state || "",
       zipcode: event.zipcode || "",
       status: event.status || "open",
       email: event.email || "",
@@ -103,12 +101,30 @@ export default function Modal({
 
   const handleSave = async () => {
     try {
+      // Validate required fields
+      const requiredFields = ['title', 'borough', 'zipcode', 'description'];
+      const missingFields = [];
+      
+      for (const field of requiredFields) {
+        if (!formData[field] || formData[field].trim() === '') {
+          missingFields.push(field);
+        }
+      }
+      
+      if (missingFields.length > 0) {
+        alert(`Please fill in the following required fields: ${missingFields.join(', ')}`);
+        return;
+      }
+      
       // Prepare data for API
       const postData = {
         ...formData,
-        // Include ID for updates
-        // id: event.id,
       };
+
+      // Clean the zipcode (ensure it's only digits)
+      if (postData.zipcode) {
+        postData.zipcode = postData.zipcode.replace(/[^0-9]/g, '').slice(0, 5);
+      }
 
       // Only include ID if it exist (for updates)
       if (event && event.id) {
@@ -120,11 +136,14 @@ export default function Modal({
         postData.user_id = currentUser.id;
       }
 
+      console.log("Sending data to updatePost:", postData);
+
       // Call the API
       const [updatedPost, error] = await updatePost(postData);
 
       if (error) {
         console.error("Error saving post:", error);
+        alert("Failed to save post: " + (error.message || "Unknown error"));
         return;
       }
 
@@ -136,6 +155,7 @@ export default function Modal({
       onClose(updatedPost);
     } catch (err) {
       console.error("Error in save process:", err);
+      alert("Error in save process: " + (err.message || "Unknown error"));
     }
   };
 
@@ -149,7 +169,6 @@ export default function Modal({
       title: event.title || "",
       address: event.address || "",
       borough: event.borough || "",
-      state: event.state || "NY",
       zipcode: event.zipcode || "",
       status: event.status || "open",
       email: event.email || "",
@@ -217,6 +236,28 @@ export default function Modal({
               <option value="progress">In Progress...</option>
               <option value="closed">Closed</option>
             </select>
+          </div>
+        );
+      } else if (name === "zipcode") {
+        // Special handling for zipcode to prevent hyphens
+        return (
+          <div className="field" key={name}>
+            <label htmlFor={name}>
+              <strong>{label}:</strong>
+            </label>
+            <input
+              type="text"
+              id={name}
+              name={name}
+              value={formData[name]}
+              onChange={(e) => {
+                // Only allow numbers and limit to 5 digits for basic ZIP
+                const value = e.target.value.replace(/[^0-9]/g, '').slice(0, 5);
+                setFormData(prev => ({ ...prev, [name]: value }));
+              }}
+              maxLength="5"
+              placeholder="5-digit ZIP code"
+            />
           </div>
         );
       } else {
@@ -331,7 +372,6 @@ export default function Modal({
             {renderField("title", "Title")}
             {renderField("address", "Address")}
             {renderField("borough", "Borough")}
-            {renderField("state", "State")}
             {renderField("zipcode", "Zip Code", "number")}
             {renderField("status", "Status", "select")}
             {renderField("email", "Email", "email")}
@@ -344,7 +384,6 @@ export default function Modal({
             {renderField("title", "Title")}
             {renderField("address", "Address")}
             {renderField("borough", "Borough")}
-            {renderField("state", "State")}
             {renderField("zipcode", "Zip Code")}
             {renderField("status", "Status")}
             {renderField("email", "Email")}

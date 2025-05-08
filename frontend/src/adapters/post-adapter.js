@@ -7,7 +7,15 @@ import {
 const baseUrl = "/api/posts";
 
 export const createPost = async (postData) => {
-  return fetchHandler(baseUrl, getPostOptions(postData));
+  console.log("Creating post with data:", JSON.stringify(postData, null, 2));
+  try {
+    const result = await fetchHandler(baseUrl, getPostOptions(postData));
+    console.log("Create post response:", result);
+    return result;
+  } catch (error) {
+    console.error("Create post error:", error);
+    return [null, error];
+  }
 };
 
 export const getAllPosts = async () => {

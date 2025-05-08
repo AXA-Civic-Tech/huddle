@@ -14,7 +14,6 @@ class Post {
     images,
     address,
     borough,
-    state,
     zipcode,
     lat_location,
     long_location,
@@ -31,7 +30,6 @@ class Post {
     this.images = images;
     this.address = address;
     this.borough = borough;
-    this.state = state;
     this.zipcode = zipcode;
     this.lat_location = lat_location;
     this.long_location = long_location;
@@ -49,39 +47,52 @@ class Post {
     images = null,
     address = null,
     borough = null,
-    state = null,
     zipcode = null,
     lat_location = null,
     long_location = null,
   }) {
-    const query = `
-      INSERT INTO event (
-        title, description, date_created, user_id, is_issue,
-        email, phone, status, images, address, borough, state, zipcode,
-        lat_location, long_location
-      )
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      RETURNING *`;
+    try {
+      console.log("Post.create - Processing zipcode:", zipcode);
+      
+      // Clean the zipcode input (remove hyphen if present)
+      let cleanedZipcode = zipcode;
+      if (zipcode && typeof zipcode === 'string') {
+        cleanedZipcode = zipcode.split('-')[0]; // Take only the first part if hyphenated
+      }
+      
+      console.log("Post.create - Using cleaned zipcode:", cleanedZipcode);
+      
+      const query = `
+        INSERT INTO event (
+          title, description, date_created, user_id, is_issue,
+          email, phone, status, images, address, borough, zipcode,
+          lat_location, long_location
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        RETURNING *`;
 
-    const result = await knex.raw(query, [
-      title,
-      description,
-      date_created,
-      user_id,
-      is_issue,
-      email,
-      phone,
-      status,
-      images,
-      address,
-      borough,
-      state,
-      zipcode,
-      lat_location,
-      long_location,
-    ]);
+      const result = await knex.raw(query, [
+        title,
+        description,
+        date_created,
+        user_id,
+        is_issue,
+        email,
+        phone,
+        status,
+        images,
+        address,
+        borough,
+        cleanedZipcode,
+        lat_location,
+        long_location,
+      ]);
 
-    return new Post(result.rows[0]);
+      return new Post(result.rows[0]);
+    } catch (error) {
+      console.error("Error in Post.create:", error);
+      throw error;
+    }
   }
   static async list() {
     const result = await knex.raw(`SELECT * FROM event`);
@@ -100,9 +111,21 @@ class Post {
   static async update(id, updates) {
     console.log('Post.update called with id:', id, 'and updates:', updates);
     try {
+      // Remove fields that don't exist in the database schema
+      const cleanedUpdates = { ...updates };
+      if ('state' in cleanedUpdates) {
+        delete cleanedUpdates.state;
+      }
+      
+      // Handle empty strings for nullable fields
+      if (cleanedUpdates.lat_location === '') cleanedUpdates.lat_location = null;
+      if (cleanedUpdates.long_location === '') cleanedUpdates.long_location = null;
+      
+      console.log('Cleaned updates:', cleanedUpdates);
+      
       const result = await knex("event")
         .where("id", id)
-        .update(updates)
+        .update(cleanedUpdates)
         .returning("*");
       
       console.log('Update result:', result);
