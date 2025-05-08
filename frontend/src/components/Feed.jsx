@@ -9,6 +9,7 @@ import {
   getNeighborhoodFromZip,
   neighborhoodsByBorough,
 } from "../utils/neighborhoods";
+import FeedControls from "./FeedControls";
 
 /**
  * Reusable component in both HomePage and UserPage
@@ -194,91 +195,23 @@ export default function Feed() {
     return filtered;
   };
 
-  const renderNeighborhoodOptions = () => {
-    const options = [];
-
-    Object.keys(neighborhoodsByBorough).map((borough) => {
-      options.push(
-        <optgroup key={borough} label={borough}>
-          {neighborhoodsByBorough[borough].map((neighborhood) => (
-            <option key={neighborhood} value={`neighborhood:${neighborhood}`}>
-              {neighborhood}
-            </option>
-          ))}
-        </optgroup>
-      );
-    });
-    console.log(Object.keys(neighborhoodsByBorough));
-    return options;
-  };
-
   const sorted = getFilteredAndSortedPosts();
 
   return (
     <div className="feed">
       <h1>{title}</h1>
 
-      <div className="feed-controls">
-        {/* Filter Dropdown */}
-        <div className="filter-section">
-          <label htmlFor="filter-select">Filter: </label>
-          <select
-            id="filter-select"
-            value={`${filterType}:${filterValue}`}
-            onChange={handleFilterChange}
-          >
-            <option value="all:">All Posts</option>
-            <optgroup label="Status">
-              <option value="status:open">Open</option>
-              <option value="status:progress">In Progress</option>
-              <option value="status:closed">Closed</option>
-            </optgroup>
-            <optgroup label="Type">
-              <option value="type:issue">Issues</option>
-              <option value="type:event">Events</option>
-            </optgroup>
-            <optgroup label="Borough">
-              <option value="borough:Manhattan">Manhattan</option>
-              <option value="borough:Brooklyn">Brooklyn</option>
-              <option value="borough:Queens">Queens</option>
-              <option value="borough:Bronx">Bronx</option>
-              <option value="borough:Staten Island">Staten Island</option>
-            </optgroup>
-            <optgroup label="Neighborhoods">
-              {/* {renderNeighborhoodOptions()} */}
-              {Object.keys(neighborhoodsByBorough).map((borough) => {
-                <optgroup key={borough} label={borough}>
-                  {neighborhoodsByBorough[borough].map((neighborhood) => (
-                    <option
-                      key={neighborhood}
-                      value={`neighborhood:${neighborhood}`}
-                    >
-                      {neighborhood}
-                    </option>
-                  ))}
-                </optgroup>;
-              })}
-            </optgroup>
-            {currentUser && pathname === `/users/${currentUser.id}` && (
-              <option value="upvote:true">My Upvoted Posts</option>
-            )}
-          </select>
-        </div>
-
-        {/* Sort Dropdown */}
-        <div className="sort-section">
-          <label htmlFor="sort-select">Sort By: </label>
-          <select id="sort-select" value={sort} onChange={handleSortChange}>
-            <option value="recent">Most Recent</option>
-            <option value="urgent">Most Upvotes</option>
-          </select>
-        </div>
-
-        {currentUser && !isViewing && (
-          // Only show this button when not vewing another user's profile
-          <Button name="Create New Post" onClick={handleNewPost} />
-        )}
-      </div>
+      <FeedControls
+        filterType={filterType}
+        filterValue={filterValue}
+        sort={sort}
+        onFilterChange={handleFilterChange}
+        onSortChange={handleSortChange}
+        onNewPost={handleNewPost}
+        currentUser={currentUser}
+        isViewing={isViewing}
+        pathname={pathname}
+      />
 
       {loading ? (
         <p>Loading posts...</p>
