@@ -2,7 +2,8 @@ import { fetchHandler, getPostOptions, deleteOptions } from "../utils/fetchingUt
 
 // Get upvote count for an event/post
 export const getUpvoteCount = async (eventId) => {
-  return await fetchHandler(`/api/events/${eventId}/upvotes`);
+  const response = await fetchHandler(`/api/events/${eventId}/upvotes`);
+  return response;
 };
 
 // Upvote an event/post

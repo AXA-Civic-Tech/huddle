@@ -1,16 +1,13 @@
 import { useContext, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import SignUpPage from "./components/SignUp";
-import LoginPage from "./components/Login";
-import SiteHeadingAndNav from "./components/SiteHeadingAndNav";
-import NotFoundPage from "./pages/NotFound";
 import UserContext from "./contexts/current-user-context";
 import { checkForLoggedInUser } from "./adapters/auth-adapter";
+import HomePage from "./pages/HomePage";
+import LoginSignUpPage from "./pages/LoginSignUpPage";
+import NotFoundPage from "./pages/NotFoundPage";
+import UserPage from "./pages/UserPage";
 import UsersPage from "./pages/Users";
-import UserPage from "./pages/User";
-import FeedPage from "./pages/Feed";
-import MapPage from "./components/Map";
+import NavBar from "./components/NavBar";
 
 export default function App() {
   const { setCurrentUser } = useContext(UserContext);
@@ -25,16 +22,20 @@ export default function App() {
 
   return (
     <>
-      <SiteHeadingAndNav />
+      <NavBar />
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/sign-up" element={<SignUpPage />} />
+          {/* Main page */}
+          <Route path="/" element={<HomePage />} />
+
+          {/* Auth pages */}
+          <Route path="/login" element={<LoginSignUpPage />} />
+          <Route path="/signup" element={<LoginSignUpPage />} />
+
+          {/* User profile pages */}
           <Route path="/users" element={<UsersPage />} />
           <Route path="/users/:id" element={<UserPage />} />
-          <Route path="/feed" element={<FeedPage />} />
-          <Route path="/map" element={<MapPage/>}/>
+
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

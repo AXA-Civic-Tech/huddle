@@ -33,6 +33,8 @@ app.use(express.static(path.join(__dirname, '../frontend/dist'))); // Serve stat
 ///////////////////////////////
 
 app.get('/api/posts', postControllers.listPosts);
+app.post('/api/posts', checkAuthentication, postControllers.createPost);
+app.patch('/api/posts/:id', checkAuthentication, postControllers.updatePost);
 
 
 ///////////////////////////////

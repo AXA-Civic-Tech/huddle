@@ -1,30 +1,66 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { updateUsername } from "../adapters/user-adapter";
 
+/**
+ * @params currentUser, setCurrentUser
+ * A form surrounded by `dialog` in UserPage
+ * User can update their username
+ * User will see error message if the username exists
+ * @returns
+ */
+
 export default function UpdateUsernameForm({ currentUser, setCurrentUser }) {
   const navigate = useNavigate();
+  const [errMsg, setErrMsg] = useState("");
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setErrMsg("");
+
     const formData = new FormData(event.target);
     const [user, error] = await updateUsername(Object.fromEntries(formData));
-    // If our user isn't who they say they are
-    // (an auth error on update) log them out
-    // We added the httpStatus as a custom cause in our error
-    if (error?.cause > 400 && error?.cause < 500) {
-      setCurrentUser(null);
-      return navigate('/');
-    }
 
+    // If we get an error response
+    if (error) {
+      console.log("Error received:", error);
+
+      // Check if it's conflict (username already taken)
+      if (error.cause === 409) {
+        setErrMsg("Username already taken. Please try another.");
+        return;
+      }
+
+      // Handle other auth errors
+      if (error.cause >= 400 && error.cause < 500) {
+        setCurrentUser(null);
+        return navigate("/");
+      }
+
+      // Handle any other errors
+      setErrMsg("An error occurred. Please try again.");
+      return;
+    }
+    // Success case
     setCurrentUser(user);
     event.target.reset();
   };
 
-  return <form onSubmit={handleSubmit} aria-labelledby="update-heading">
-    <h2 id="update-heading">Update User {currentUser.username} </h2>
-    <label htmlFor='username'>New Username</label>
-    <input type='text' id='username' name='username' />
-    <input type="hidden" name="id" value={currentUser.id} />
+  return (
+    <form onSubmit={handleSubmit} aria-labelledby="update-heading">
+      <h2 id="update-heading">Update User {currentUser.username} </h2>
+      <label htmlFor="username">New Username</label>
+      <input type="text" id="username" name="username" />
+      <input type="hidden" name="id" value={currentUser.id} />
 
-    <button>Update Username</button>
-  </form>;
+      <button>Update Username</button>
+
+      {/* Display error message if present */}
+      {errMsg && (
+        <div className="error-message" role="alert">
+          {errMsg}
+        </div>
+      )}
+    </form>
+  );
 }
