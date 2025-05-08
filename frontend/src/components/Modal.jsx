@@ -5,6 +5,7 @@ import { updatePost } from "../adapters/post-adapter";
 import { createComment, getCommentsByEvent } from "../adapters/comment-adapter";
 import UserLink from "./UserLink";
 import Button from "./Button";
+import { upvoteEvent, getUpvoteCount } from "../adapters/upvote-adapter";
 
 /**
  * @params event, isOpen, onClose, viewing

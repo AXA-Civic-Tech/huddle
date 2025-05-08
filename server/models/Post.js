@@ -8,13 +8,11 @@ class Post {
     date_created,
     user_id,
     is_issue,
-    address_id,
     email,
     phone,
     status,
     images,
     address,
-    city,
     borough,
     state,
     zipcode,
@@ -27,13 +25,11 @@ class Post {
     this.date_created = date_created;
     this.user_id = user_id;
     this.is_issue = is_issue;
-    this.address_id = address_id;
     this.email = email;
     this.phone = phone;
     this.status = status;
     this.images = images;
     this.address = address;
-    this.city = city;
     this.borough = borough;
     this.state = state;
     this.zipcode = zipcode;
@@ -47,13 +43,11 @@ class Post {
     date_created = new Date(),
     user_id,
     is_issue = false,
-    address_id = null,
     email = null,
     phone = null,
     status = "active",
     images = null,
     address = null,
-    city = null,
     borough = null,
     state = null,
     zipcode = null,
@@ -62,11 +56,11 @@ class Post {
   }) {
     const query = `
       INSERT INTO event (
-        title, description, date_created, user_id, is_issue, address_id,
-        email, phone, status, images, address, city, borough, state, zipcode,
+        title, description, date_created, user_id, is_issue,
+        email, phone, status, images, address, borough, state, zipcode,
         lat_location, long_location
       )
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       RETURNING *`;
 
     const result = await knex.raw(query, [
@@ -75,13 +69,11 @@ class Post {
       date_created,
       user_id,
       is_issue,
-      address_id,
       email,
       phone,
       status,
       images,
       address,
-      city,
       borough,
       state,
       zipcode,
@@ -91,7 +83,6 @@ class Post {
 
     return new Post(result.rows[0]);
   }
-
   static async list() {
     const result = await knex.raw(`SELECT * FROM event`);
     return result.rows.map((row) => new Post(row));
