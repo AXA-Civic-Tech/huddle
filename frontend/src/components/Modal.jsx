@@ -38,6 +38,7 @@ export default function Modal({
 
   // Form fields
   const [formData, setFormData] = useState({
+    is_issue: event.is_issue || true,
     title: event.title || "",
     address: event.address || "",
     borough: event.borough || "",
@@ -51,6 +52,7 @@ export default function Modal({
   // Reset form values when event changes
   useEffect(() => {
     setFormData({
+      is_issue: event.is_issue,
       title: event.title || "",
       address: event.address || "",
       borough: event.borough || "",
@@ -102,20 +104,30 @@ export default function Modal({
   const handleSave = async () => {
     try {
       // Validate required fields
-      const requiredFields = ['title', 'borough', 'zipcode', 'description'];
+      const requiredFields = [
+        "is_issue",
+        "title",
+        "borough",
+        "zipcode",
+        "description",
+      ];
       const missingFields = [];
-      
+
       for (const field of requiredFields) {
-        if (!formData[field] || formData[field].trim() === '') {
+        if (!formData[field] || formData[field].trim() === "") {
           missingFields.push(field);
         }
       }
-      
+
       if (missingFields.length > 0) {
-        alert(`Please fill in the following required fields: ${missingFields.join(', ')}`);
+        alert(
+          `Please fill in the following required fields: ${missingFields.join(
+            ", "
+          )}`
+        );
         return;
       }
-      
+
       // Prepare data for API
       const postData = {
         ...formData,
@@ -123,7 +135,7 @@ export default function Modal({
 
       // Clean the zipcode (ensure it's only digits)
       if (postData.zipcode) {
-        postData.zipcode = postData.zipcode.replace(/[^0-9]/g, '').slice(0, 5);
+        postData.zipcode = postData.zipcode.replace(/[^0-9]/g, "").slice(0, 5);
       }
 
       // Only include ID if it exist (for updates)
@@ -189,10 +201,10 @@ export default function Modal({
   };
 
   const handleUpvote = async () => {
-   await upvoteEvent(event.id);
-   const count = await getUpvoteCount(event.id);
-   // update the upvote count
-   // access the count from the response
+    await upvoteEvent(event.id);
+    const count = await getUpvoteCount(event.id);
+    // update the upvote count
+    // access the count from the response
     setUpvoteCount(count[0].count);
   };
 
@@ -226,9 +238,19 @@ export default function Modal({
               value={formData[name]}
               onChange={handleChange}
             >
-              <option value="open">Open</option>
-              <option value="progress">In Progress...</option>
-              <option value="closed">Closed</option>
+              {name === "status" && (
+                <>
+                  <option value="open">Open</option>
+                  <option value="progress">In Progress...</option>
+                  <option value="closed">Closed</option>
+                </>
+              )}
+              {name === "is_issue" && (
+                <>
+                  <option value={true}>Issue</option>
+                  <option value={false}>Event</option>
+                </>
+              )}
             </select>
           </div>
         );
@@ -246,8 +268,8 @@ export default function Modal({
               value={formData[name]}
               onChange={(e) => {
                 // Only allow numbers and limit to 5 digits for basic ZIP
-                const value = e.target.value.replace(/[^0-9]/g, '').slice(0, 5);
-                setFormData(prev => ({ ...prev, [name]: value }));
+                const value = e.target.value.replace(/[^0-9]/g, "").slice(0, 5);
+                setFormData((prev) => ({ ...prev, [name]: value }));
               }}
               maxLength="5"
               placeholder="5-digit ZIP code"
@@ -302,8 +324,8 @@ export default function Modal({
 
         {/* render upvotes */}
         <div className="upvotes">
-        <span>Upvotes: {upvoteCount}</span>
-        <Button name="Upvote" onClick={handleUpvote} />
+          <span>Upvotes: {upvoteCount}</span>
+          <Button name="Upvote" onClick={handleUpvote} />
         </div>
         {comments.length > 0 ? (
           comments.map((comment, index) => (
@@ -363,6 +385,7 @@ export default function Modal({
 
         {isEdit ? (
           <form className="edit-form">
+            {renderField("is_issue", "Issue/Event", "select")}
             {renderField("title", "Title")}
             {renderField("address", "Address")}
             {renderField("borough", "Borough")}
@@ -375,6 +398,7 @@ export default function Modal({
           </form>
         ) : (
           <>
+            {renderField("is_issue", "Issue/Event")}
             {renderField("title", "Title")}
             {renderField("address", "Address")}
             {renderField("borough", "Borough")}
