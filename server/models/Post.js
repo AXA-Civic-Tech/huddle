@@ -14,7 +14,6 @@ class Post {
     images,
     address,
     borough,
-    state,
     zipcode,
     lat_location,
     long_location,
@@ -31,7 +30,6 @@ class Post {
     this.images = images;
     this.address = address;
     this.borough = borough;
-    this.state = state;
     this.zipcode = zipcode;
     this.lat_location = lat_location;
     this.long_location = long_location;
@@ -49,7 +47,6 @@ class Post {
     images = null,
     address = null,
     borough = null,
-    state = null,
     zipcode = null,
     lat_location = null,
     long_location = null,
@@ -57,10 +54,10 @@ class Post {
     const query = `
       INSERT INTO event (
         title, description, date_created, user_id, is_issue,
-        email, phone, status, images, address, borough, state, zipcode,
+        email, phone, status, images, address, borough, zipcode,
         lat_location, long_location
       )
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       RETURNING *`;
 
     const result = await knex.raw(query, [
@@ -75,7 +72,6 @@ class Post {
       images,
       address,
       borough,
-      state,
       zipcode,
       lat_location,
       long_location,
@@ -83,6 +79,7 @@ class Post {
 
     return new Post(result.rows[0]);
   }
+
   static async list() {
     const result = await knex.raw(`SELECT * FROM event`);
     return result.rows.map((row) => new Post(row));
@@ -98,19 +95,21 @@ class Post {
   }
 
   static async update(id, updates) {
-    console.log('Post.update called with id:', id, 'and updates:', updates);
     try {
+      // Remove fields that don't exist in the database schema
+      const cleanedUpdates = { ...updates };
+      if ('state' in cleanedUpdates) {
+        delete cleanedUpdates.state;
+      }
+      
       const result = await knex("event")
         .where("id", id)
-        .update(updates)
+        .update(cleanedUpdates)
         .returning("*");
-      
-      console.log('Update result:', result);
       
       if (result && result.length > 0) {
         return new Post(result[0]);
       } else {
-        console.log('No rows returned from update, id might not exist');
         return null;
       }
     } catch (error) {
