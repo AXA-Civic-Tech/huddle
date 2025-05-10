@@ -2,10 +2,10 @@ import { useContext, useState, useEffect, useRef } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
 import { getUser } from "../adapters/user-adapter";
 import { updatePost } from "../adapters/post-adapter";
-import { upvoteEvent, getUpvoteCount } from "../adapters/upvote-adapter";
-import { createComment, getCommentsByEvent } from "../adapters/comment-adapter";
-import UserLink from "./UserLink";
-import Button from "./Button";
+import Button from "./child/Button";
+import EventForm from "./child/EventForm";
+import EventView from "./child/EventView";
+import CommentsSection from "./child/CommentsSection";
 
 /**
  * @params event, isOpen, onClose, viewing
@@ -25,48 +25,20 @@ export default function Modal({
 }) {
   const dialogRef = useRef();
   const { currentUser } = useContext(CurrentUserContext);
+  const [username, setUsername] = useState("Loading...");
 
   const isNew = !event?.id;
   const isEditableByUser =
     isNew || (currentUser && currentUser.id === event.user_id && !viewing);
-
   const [isEdit, setIsEdit] = useState(isNew);
-  const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState("");
-  const [upvoteCount, setUpvoteCount] = useState(0);
-  const [username, setUsername] = useState("Loading...");
 
-  // Form fields
-  const [formData, setFormData] = useState({
-    is_issue: event.is_issue || true,
-    title: event.title || "",
-    address: event.address || "",
-    borough: event.borough || "",
-    zipcode: event.zipcode || "",
-    status: event.status || "Open",
-    email: event.email || "",
-    phone: event.phone || "",
-    description: event.description || "",
-  });
-
-  // Reset form values when event changes
+  // Reset edit mode when event changes
   useEffect(() => {
-    setFormData({
-      is_issue: event.is_issue,
-      title: event.title || "",
-      address: event.address || "",
-      borough: event.borough || "",
-      zipcode: event.zipcode || "",
-      status: event.status || "Open",
-      email: event.email || "",
-      phone: event.phone || "",
-      description: event.description || "",
-    });
     setIsEdit(isNew);
   }, [event, isNew]);
 
+  // Fetch username of event creator
   useEffect(() => {
-    // Fetch username when component shows or event.user_id changes
     const fetchUsername = async () => {
       if (!event?.user_id) {
         setUsername("Unknown User");
@@ -87,7 +59,7 @@ export default function Modal({
     fetchUsername();
   }, [event?.user_id]);
 
-  // Automatically show or close modal
+  // Control dialog open/close
   useEffect(() => {
     const dialog = dialogRef.current;
     if (isOpen && dialog && !dialog.open) {
@@ -97,33 +69,7 @@ export default function Modal({
     }
   }, [isOpen]);
 
-  useEffect(() => {
-    if (!isEdit && event.id) {
-      getCommentsByEvent(event.id).then((data) => {
-        // flatten and filter as needed
-        const allComments = (data || [])
-          .flat() // flatten nested arrays
-          .filter((comment) => comment && typeof comment === "object"); // remove null values
-        setComments(allComments);
-      });
-    }
-  }, [isEdit, event.id]);
-
-  useEffect(() => {
-    getUpvoteCount(event.id).then((data) => {
-      setUpvoteCount(data[0].count);
-    });
-  }, [event.id]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSave = async () => {
+  const handleSave = async (formData) => {
     try {
       // Validate required fields
       const requiredFields = ["title", "borough", "zipcode", "description"];
@@ -186,255 +132,7 @@ export default function Modal({
   };
 
   const cancelEdit = () => {
-    // Reset form data to original values
-    setFormData({
-      is_issue: event.is_issue || true,
-      title: event.title || "",
-      address: event.address || "",
-      borough: event.borough || "",
-      zipcode: event.zipcode || "",
-      status: event.status || "Open",
-      email: event.email || "",
-      phone: event.phone || "",
-      description: event.description || "",
-    });
     setIsEdit(false);
-  };
-
-  const handlePostComment = async () => {
-    if (!newComment.trim()) return;
-
-    if (!currentUser?.id) {
-      alert("You must be logged in to post a comment");
-      return;
-    }
-
-    await createComment({
-      user_id: currentUser.id,
-      contents: newComment,
-      event_id: event.id,
-    });
-
-    setNewComment(""); // Clear input
-
-    // Refresh comments
-    const data = await getCommentsByEvent(event.id);
-
-    const flatComments = (data || [])
-      .flat()
-      .filter((comment) => comment && typeof comment === "object");
-
-    setComments(flatComments);
-  };
-
-  const handleUpvote = async () => {
-    if (!currentUser?.id) {
-      alert("You must be logged in to upvote.");
-      return;
-    }
-
-    await upvoteEvent(event.id);
-    const count = await getUpvoteCount(event.id);
-    // update the upvote count
-    // access the count from the response
-    setUpvoteCount(count[0].count);
-  };
-
-  // Reusable field rendering functions
-  const renderField = (name, label, type = "text") => {
-    if (isEdit) {
-      if (type === "textarea") {
-        return (
-          <div className="field" key={name}>
-            <label htmlFor={name}>
-              <strong>{label}:</strong>
-            </label>
-            <textarea
-              id={name}
-              name={name}
-              value={formData[name]}
-              onChange={handleChange}
-              rows="4"
-            />
-          </div>
-        );
-      } else if (type === "select") {
-        return (
-          <div className="field" key={name}>
-            <label htmlFor={name}>
-              <strong>{label}:</strong>
-            </label>
-            <select
-              id={name}
-              name={name}
-              value={formData[name]}
-              onChange={handleChange}
-            >
-              {name === "status" && (
-                <>
-                  <option value="Active">Active</option>
-                  <option value="Closed">Closed</option>
-                </>
-              )}
-              {name === "is_issue" && (
-                <>
-                  <option value={true}>Issue</option>
-                  <option value={false}>Event</option>
-                </>
-              )}
-            </select>
-          </div>
-        );
-      } else if (name === "zipcode") {
-        // Special handling for zipcode to prevent hyphens
-        return (
-          <div className="field" key={name}>
-            <label htmlFor={name}>
-              <strong>{label}:</strong>
-            </label>
-            <input
-              type="text"
-              id={name}
-              name={name}
-              value={formData[name]}
-              onChange={(e) => {
-                // Only allow numbers and limit to 5 digits for basic ZIP
-                const value = e.target.value.replace(/[^0-9]/g, "").slice(0, 5);
-                setFormData((prev) => ({ ...prev, [name]: value }));
-              }}
-              maxLength="5"
-              placeholder="5-digit ZIP code"
-            />
-          </div>
-        );
-      } else {
-        return (
-          <div className="field" key={name}>
-            <label htmlFor={name}>
-              <strong>{label}:</strong>
-            </label>
-            <input
-              type={type}
-              id={name}
-              name={name}
-              value={formData[name]}
-              onChange={handleChange}
-            />
-          </div>
-        );
-      }
-    } else {
-      if (name === "is_issue") {
-        return (
-          <div className="field" key={name}>
-            <strong>{label}:</strong>
-            <p>
-              {formData[name] === true || formData[name] === "true"
-                ? "Issue"
-                : "Event"}
-            </p>
-          </div>
-        );
-      } else {
-        return (
-          <div className="field" key={name}>
-            <strong>{label}:</strong>
-            <p>{formData[name]}</p>
-          </div>
-        );
-      }
-    }
-  };
-
-  const renderComments = () => {
-    if (isEdit) return null;
-
-    return (
-      <div className="comments">
-        <h3>Comments</h3>
-        <input
-          type="text"
-          placeholder="Add a comment..."
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              handlePostComment();
-            }
-          }}
-        />
-        <Button name="Post" onClick={handlePostComment} />
-
-        {/* render upvotes */}
-        <div className="upvotes">
-          <span>Upvotes: {upvoteCount}</span>
-          <Button name="Upvote" onClick={handleUpvote} />
-        </div>
-        {comments.length > 0 ? (
-          comments.map((comment, index) => (
-            <p key={index}>
-              <span onClick={() => onClose()}>
-                <UserLink
-                  userId={comment.user_id}
-                  username={comment.username || "User"}
-                >
-                  <strong>{comment.username || "User"}:</strong>
-                </UserLink>
-              </span>{" "}
-              {comment.contents}
-            </p>
-          ))
-        ) : (
-          <p>No comments yet!</p>
-        )}
-      </div>
-    );
-  };
-
-  const renderCreatedBy = () => {
-    if (isEdit && currentUser) {
-      return (
-        <p>
-          Created by:{" "}
-          <UserLink userId={currentUser.id} username={username}>
-            {username}
-          </UserLink>
-        </p>
-      );
-    } else if (!isEdit && event?.user_id) {
-      return (
-        <p>
-          Created by:{" "}
-          <UserLink userId={event.user_id} username={username || "User"}>
-            {username || "User"}
-          </UserLink>
-        </p>
-      );
-    }
-  };
-
-  const renderActions = () => {
-    if (isEdit) {
-      return (
-        <div className="modal-actions">
-          <Button name="Cancel" onClick={cancelEdit} />
-          <Button
-            name={isNew ? "Create Post" : "Save Changes"}
-            onClick={handleSave}
-          />
-        </div>
-      );
-    } else {
-      return (
-        <div className="modal-actions">
-          {isEditableByUser && !isNew && (
-            <Button name="Edit Post" onClick={toggleEditMode} />
-          )}
-          <Button name="Close" onClick={() => onClose()} />
-        </div>
-      );
-    }
   };
 
   return (
@@ -450,33 +148,25 @@ export default function Modal({
       )} */}
 
         {isEdit ? (
-          <form className="edit-form">
-            {renderCreatedBy()};
-            {renderField("is_issue", "Issue/Event", "select")}
-            {renderField("title", "Title")}
-            {renderField("address", "Address")}
-            {renderField("borough", "Borough")}
-            {renderField("zipcode", "Zip Code", "number")}
-            {renderField("status", "Status", "select")}
-            {renderField("email", "Email", "email")}
-            {renderField("phone", "Phone", "tel")}
-            {renderField("description", "Description", "textarea")}
-            {renderActions()}
-          </form>
+          <EventForm
+            event={event}
+            username={username}
+            currentUser={currentUser}
+            onSave={handleSave}
+            onCancel={cancelEdit}
+          />
         ) : (
           <>
-            {renderCreatedBy()}
-            {renderField("is_issue", "Issue/Event")}
-            {renderField("title", "Title")}
-            {renderField("address", "Address")}
-            {renderField("borough", "Borough")}
-            {renderField("zipcode", "Zip Code")}
-            {renderField("status", "Status")}
-            {renderField("email", "Email")}
-            {renderField("phone", "Phone")}
-            {renderField("description", "Description")}
-            {renderComments()}
-            {renderActions()}
+            <EventView event={event} username={username} />
+
+            {event.id && <CommentsSection eventId={event.id} />}
+
+            <div className="modal-actions">
+              {isEditableByUser && !isNew && (
+                <Button name="Edit Post" onClick={toggleEditMode} />
+              )}
+              <Button name="Close" onClick={() => onClose()} />
+            </div>
           </>
         )}
       </div>
