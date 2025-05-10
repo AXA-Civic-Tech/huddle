@@ -16,7 +16,7 @@ import Button from "./Button";
  * @returns {JSX.Element} Comments and upvotes section
  */
 
-export default function CommentsSection({ eventId }) {
+export default function CommentsSection({ eventId, onClose }) {
   const { currentUser } = useContext(CurrentUserContext);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
@@ -119,6 +119,7 @@ export default function CommentsSection({ eventId }) {
               <UserLink
                 userId={comment.user_id}
                 username={comment.username || "User"}
+                onNavigate={onClose}
               >
                 <strong>{comment.username || "User"}:</strong>
               </UserLink>{" "}

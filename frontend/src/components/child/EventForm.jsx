@@ -21,6 +21,7 @@ export default function EventForm({
   currentUser,
   onSave,
   onCancel,
+  onClose,
 }) {
   /**
    * Initialize form state with event data or defaults
@@ -97,8 +98,12 @@ export default function EventForm({
       // For new posts, show the current user as the creator
       return (
         <p>
-          Created by:{" "}
-          <UserLink userId={currentUser.id} username={username}>
+          <strong>Created by:</strong>{" "}
+          <UserLink
+            userId={currentUser.id}
+            username={username}
+            onNavigate={onClose}
+          >
             {username}
           </UserLink>
         </p>
@@ -107,7 +112,7 @@ export default function EventForm({
       //For existing post, show original creator
       return (
         <p>
-          Created by:{" "}
+          <strong>Created by:</strong>{" "}
           <UserLink userId={event.user_id} username={username}>
             {username}
           </UserLink>

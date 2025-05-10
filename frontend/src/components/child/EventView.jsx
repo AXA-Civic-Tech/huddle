@@ -10,7 +10,7 @@ import DisplayField from "./DisplayField";
  * @returns {JSX.Element} View component showing event details
  */
 
-export default function EventView({ event = {}, username }) {
+export default function EventView({ event = {}, username, onClose }) {
   /**
    * Render the "Created by" information if available
    * Links to the creator's profile using UserLink component
@@ -20,8 +20,12 @@ export default function EventView({ event = {}, username }) {
       //For existing post, show original creator
       return (
         <p>
-          Created by:{" "}
-          <UserLink userId={event.user_id} username={username}>
+          <strong>Created by:</strong>{" "}
+          <UserLink
+            userId={event.user_id}
+            username={username}
+            onNavigate={onClose}
+          >
             {username}
           </UserLink>
         </p>

@@ -173,10 +173,11 @@ export default function Modal({
             currentUser={currentUser}
             onSave={handleSave}
             onCancel={cancelEdit}
+            onClose={onClose}
           />
         ) : (
           <>
-            <EventView event={event} username={username} />
+            <EventView event={event} username={username} onClose={onClose} />
 
             {event.id && <CommentsSection eventId={event.id} />}
 
