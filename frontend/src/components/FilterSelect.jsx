@@ -36,9 +36,8 @@ export default function FilterSelect({
         <option value="all:">All Posts</option>
 
         <optgroup label="Status">
-          <option value="status:open">Open</option>
-          <option value="status:progress">In Progress</option>
-          <option value="status:closed">Closed</option>
+          <option value="status:Active">Active</option>
+          <option value="status:Closed">Closed</option>
         </optgroup>
 
         <optgroup label="Type">
