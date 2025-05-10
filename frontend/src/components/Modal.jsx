@@ -1,11 +1,11 @@
 import { useContext, useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
+import { getUser } from "../adapters/user-adapter";
 import { updatePost } from "../adapters/post-adapter";
+import { upvoteEvent, getUpvoteCount } from "../adapters/upvote-adapter";
 import { createComment, getCommentsByEvent } from "../adapters/comment-adapter";
 import UserLink from "./UserLink";
 import Button from "./Button";
-import { upvoteEvent, getUpvoteCount } from "../adapters/upvote-adapter";
 
 /**
  * @params event, isOpen, onClose, viewing
@@ -24,7 +24,6 @@ export default function Modal({
   viewing = false,
 }) {
   const dialogRef = useRef();
-  const navigate = useNavigate();
   const { currentUser } = useContext(CurrentUserContext);
 
   const isNew = !event?.id;
@@ -35,6 +34,7 @@ export default function Modal({
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [upvoteCount, setUpvoteCount] = useState(0);
+  const [username, setUsername] = useState("Loading...");
 
   // Form fields
   const [formData, setFormData] = useState({
@@ -43,7 +43,7 @@ export default function Modal({
     address: event.address || "",
     borough: event.borough || "",
     zipcode: event.zipcode || "",
-    status: event.status || "open",
+    status: event.status || "Open",
     email: event.email || "",
     phone: event.phone || "",
     description: event.description || "",
@@ -57,13 +57,35 @@ export default function Modal({
       address: event.address || "",
       borough: event.borough || "",
       zipcode: event.zipcode || "",
-      status: event.status || "open",
+      status: event.status || "Open",
       email: event.email || "",
       phone: event.phone || "",
       description: event.description || "",
     });
     setIsEdit(isNew);
   }, [event, isNew]);
+
+  useEffect(() => {
+    // Fetch username when component shows or event.user_id changes
+    const fetchUsername = async () => {
+      if (!event?.user_id) {
+        setUsername("Unknown User");
+        return;
+      }
+
+      const [userData, error] = await getUser(event.user_id);
+
+      if (error || !userData) {
+        console.error("Error fetching username:", error);
+        setUsername("Unknown User");
+        return;
+      }
+
+      setUsername(userData?.username);
+    };
+
+    fetchUsername();
+  }, [event?.user_id]);
 
   // Automatically show or close modal
   useEffect(() => {
@@ -104,13 +126,7 @@ export default function Modal({
   const handleSave = async () => {
     try {
       // Validate required fields
-      const requiredFields = [
-        "is_issue",
-        "title",
-        "borough",
-        "zipcode",
-        "description",
-      ];
+      const requiredFields = ["title", "borough", "zipcode", "description"];
       const missingFields = [];
 
       for (const field of requiredFields) {
@@ -172,11 +188,12 @@ export default function Modal({
   const cancelEdit = () => {
     // Reset form data to original values
     setFormData({
+      is_issue: event.is_issue || true,
       title: event.title || "",
       address: event.address || "",
       borough: event.borough || "",
       zipcode: event.zipcode || "",
-      status: event.status || "open",
+      status: event.status || "Open",
       email: event.email || "",
       phone: event.phone || "",
       description: event.description || "",
@@ -186,21 +203,36 @@ export default function Modal({
 
   const handlePostComment = async () => {
     if (!newComment.trim()) return;
+
+    if (!currentUser?.id) {
+      alert("You must be logged in to post a comment");
+      return;
+    }
+
     await createComment({
       user_id: currentUser.id,
       contents: newComment,
       event_id: event.id,
     });
+
     setNewComment(""); // Clear input
+
     // Refresh comments
     const data = await getCommentsByEvent(event.id);
+
     const flatComments = (data || [])
       .flat()
       .filter((comment) => comment && typeof comment === "object");
+
     setComments(flatComments);
   };
 
   const handleUpvote = async () => {
+    if (!currentUser?.id) {
+      alert("You must be logged in to upvote.");
+      return;
+    }
+
     await upvoteEvent(event.id);
     const count = await getUpvoteCount(event.id);
     // update the upvote count
@@ -240,9 +272,8 @@ export default function Modal({
             >
               {name === "status" && (
                 <>
-                  <option value="open">Open</option>
-                  <option value="progress">In Progress...</option>
-                  <option value="closed">Closed</option>
+                  <option value="Active">Active</option>
+                  <option value="Closed">Closed</option>
                 </>
               )}
               {name === "is_issue" && (
@@ -293,12 +324,25 @@ export default function Modal({
         );
       }
     } else {
-      return (
-        <div className="field" key={name}>
-          <strong>{label}:</strong>
-          <p>{formData[name]}</p>
-        </div>
-      );
+      if (name === "is_issue") {
+        return (
+          <div className="field" key={name}>
+            <strong>{label}:</strong>
+            <p>
+              {formData[name] === true || formData[name] === "true"
+                ? "Issue"
+                : "Event"}
+            </p>
+          </div>
+        );
+      } else {
+        return (
+          <div className="field" key={name}>
+            <strong>{label}:</strong>
+            <p>{formData[name]}</p>
+          </div>
+        );
+      }
     }
   };
 
@@ -348,6 +392,28 @@ export default function Modal({
     );
   };
 
+  const renderCreatedBy = () => {
+    if (isEdit && currentUser) {
+      return (
+        <p>
+          Created by:{" "}
+          <UserLink userId={currentUser.id} username={username}>
+            {username}
+          </UserLink>
+        </p>
+      );
+    } else if (!isEdit && event?.user_id) {
+      return (
+        <p>
+          Created by:{" "}
+          <UserLink userId={event.user_id} username={username || "User"}>
+            {username || "User"}
+          </UserLink>
+        </p>
+      );
+    }
+  };
+
   const renderActions = () => {
     if (isEdit) {
       return (
@@ -385,6 +451,7 @@ export default function Modal({
 
         {isEdit ? (
           <form className="edit-form">
+            {renderCreatedBy()};
             {renderField("is_issue", "Issue/Event", "select")}
             {renderField("title", "Title")}
             {renderField("address", "Address")}
@@ -398,6 +465,7 @@ export default function Modal({
           </form>
         ) : (
           <>
+            {renderCreatedBy()}
             {renderField("is_issue", "Issue/Event")}
             {renderField("title", "Title")}
             {renderField("address", "Address")}
