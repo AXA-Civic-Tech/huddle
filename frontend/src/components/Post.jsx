@@ -29,7 +29,7 @@ export default function Post({ event, onSelect }) {
     };
 
     fetchUsername();
-  }, [event.user_id]);
+  }, [event?.user_id]);
 
   const handleClick = () => {
     if (onSelect) onSelect(event);
@@ -45,8 +45,8 @@ export default function Post({ event, onSelect }) {
 
       <p>
         Created by:{" "}
-        <UserLink userId={event.user_id} username={username || "User"}>
-          {username || "User"}
+        <UserLink userId={event.user_id} username={username}>
+          {username}
         </UserLink>
       </p>
 
