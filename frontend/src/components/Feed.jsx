@@ -57,10 +57,8 @@ export default function Feed() {
     let newTitle = "Community Posts";
 
     if (filterType === "status") {
-      if (filterValue === "open") newTitle = "Open Issues & Events";
-      else if (filterValue === "progress")
-        newTitle = "In Progress Issues & Events";
-      else if (filterValue === "closed") newTitle = "Closed Issues & Events";
+      if (filterValue === "Active") newTitle = "Active Issues & Events";
+      else if (filterValue === "Closed") newTitle = "Closed Issues & Events";
     } else if (filterType === "type") {
       if (filterValue === "issue") newTitle = "Issues";
       else if (filterValue === "event") newTitle = "Events";
