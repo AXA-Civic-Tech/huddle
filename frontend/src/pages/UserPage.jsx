@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { getUser } from "../adapters/user-adapter";
 import UpdateUsernameForm from "../components/UpdateUsernameForm";
@@ -20,7 +20,6 @@ import Button from "../components/Button";
  */
 
 export default function UserPage() {
-  const navigate = useNavigate();
   const dialogRef = useRef();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const { id } = useParams();

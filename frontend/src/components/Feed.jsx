@@ -23,7 +23,7 @@ import FeedControls from "./FeedControls";
 export default function Feed() {
   const location = useLocation();
   const pathname = location.pathname;
-  const { id: urlUserId } = useParams();
+  const { id: urlUserId } = useParams(); // string
 
   const [posts, setPosts] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -137,6 +137,10 @@ export default function Feed() {
   const getFilteredAndSortedPosts = () => {
     // First apply filters
     let filtered = [...posts];
+
+    if (pathname === `/users/${urlUserId}`) {
+      filtered = filtered.filter((post) => post.user_id === Number(urlUserId));
+    }
 
     // Apply filters based on filterType and filterValue
     if (filterType === "status") {
