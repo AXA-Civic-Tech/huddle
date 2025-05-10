@@ -40,3 +40,23 @@ exports.updatePost = async (req, res) => {
     res.status(500).send({ message: 'Error updating post' });
   }
 };
+
+exports.deletePost = async (req,res) => {
+  try{
+    const id = parseInt(req.params.id, 10);
+    if (isNaN(id)) {
+      return res.status(400).send({message: 'Invalid post ID'});
+    }
+
+   const deletedCount = await Post.deletePost(id);
+
+   if (deletedCount === 0) {
+    return res.status(404).send({ message: 'Post not found' });
+   }
+
+    res.send({message: 'Post deleted successfully'});
+  } catch (error) {
+    console.error('Error deleting post:', error);
+    res.status(500).send({message: 'Error deleting post'});
+  }
+}
