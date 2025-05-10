@@ -5,7 +5,7 @@ import CurrentUserContext from "../contexts/current-user-context";
 import { getNeighborhoodFromZip } from "../utils/neighborhoods";
 import Post from "./Post";
 import Modal from "./Modal";
-import FeedControls from "./FeedControls";
+import FeedControls from "./child/FeedControls";
 
 /**
  * Reusable component in both HomePage and UserPage
@@ -139,7 +139,9 @@ export default function Feed() {
     let filtered = [...posts];
 
     if (pathname === `/users/${urlUserId}`) {
-      filtered = filtered.filter((post) => post.user_id === Number(urlUserId));
+      filtered = filtered.filter(
+        (post) => post.user_id === parseInt(urlUserId)
+      );
     }
 
     // Apply filters based on filterType and filterValue
