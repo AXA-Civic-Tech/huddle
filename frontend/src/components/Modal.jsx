@@ -8,13 +8,14 @@ import EventView from "./child/EventView";
 import CommentsSection from "./child/CommentsSection";
 
 /**
- * @params event, isOpen, onClose, viewing
- * Reusable Component in 3 different ways:
- * 1. Create a new post (modal)
- * 2. Render existing issues/events
- * 3. Editable post (modal)
- * After the Post card is clicked from the Feed, Modal will pop in front of the Map
- * @returns
+ * Main container component that orchestrates the display of event details.
+ * Manages dialog state, determines edit/view mode, and handles user permissions.
+ *
+ * @param {Object} event - The event/issue data object
+ * @param {boolean} isOpen - Controls whether the modal is displayed
+ * @param {Function} onClose - Callback for when modal is closed
+ * @param {boolean} viewing - Force view-only mode regardless of permissions
+ * @returns {JSX.Element} Modal dialog component
  */
 
 export default function Modal({
@@ -27,17 +28,24 @@ export default function Modal({
   const { currentUser } = useContext(CurrentUserContext);
   const [username, setUsername] = useState("Loading...");
 
+  // Determine initial component state based on event data
   const isNew = !event?.id;
   const isEditableByUser =
     isNew || (currentUser && currentUser.id === event.user_id && !viewing);
   const [isEdit, setIsEdit] = useState(isNew);
 
-  // Reset edit mode when event changes
+  /**
+   * Reset edit mode when event changes
+   * Ensures proper mode when switching between events
+   */
   useEffect(() => {
     setIsEdit(isNew);
   }, [event, isNew]);
 
-  // Fetch username of event creator
+  /**
+   * Fetch username of event creator
+   * Handles error cases and missing user data
+   */
   useEffect(() => {
     const fetchUsername = async () => {
       if (!event?.user_id) {
@@ -59,7 +67,10 @@ export default function Modal({
     fetchUsername();
   }, [event?.user_id]);
 
-  // Control dialog open/close
+  /**
+   * Control dialog open/close state
+   * Uses browser's native dialog API
+   */
   useEffect(() => {
     const dialog = dialogRef.current;
     if (isOpen && dialog && !dialog.open) {
@@ -69,6 +80,12 @@ export default function Modal({
     }
   }, [isOpen]);
 
+  /**
+   * Process form submission
+   * Validates, formats, and saves event data
+   *
+   * @param {Object} formData - Form field values to save
+   */
   const handleSave = async (formData) => {
     try {
       // Validate required fields
@@ -127,10 +144,12 @@ export default function Modal({
     }
   };
 
+  // Toggle between edit and view modes
   const toggleEditMode = () => {
     setIsEdit(!isEdit);
   };
 
+  // Cancel edit operation without saving changes
   const cancelEdit = () => {
     setIsEdit(false);
   };

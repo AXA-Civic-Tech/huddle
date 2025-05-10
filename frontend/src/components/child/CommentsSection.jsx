@@ -8,13 +8,24 @@ import {
 import UserLink from "../UserLink";
 import Button from "./Button";
 
+/**
+ * Component for displaying and managing comments and upvotes on an event.
+ * Handles loading comments, posting new comments, and upvoting functionality.
+ *
+ * @param {string|number} eventId - ID of the event to show comments for
+ * @returns {JSX.Element} Comments and upvotes section
+ */
+
 export default function CommentsSection({ eventId }) {
   const { currentUser } = useContext(CurrentUserContext);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [upvoteCount, setUpvoteCount] = useState(0);
 
-  // Load comments and upvote count when component mounts
+  /**
+   * Load comments and upvote count when component mounts
+   * or when eventId changes
+   */
   useEffect(() => {
     if (eventId) {
       loadComments();
@@ -22,6 +33,10 @@ export default function CommentsSection({ eventId }) {
     }
   }, [eventId]);
 
+  /**
+   * Fetch and process comments for the current event
+   * Handles nested arrays and filters out invalid comments
+   */
   const loadComments = async () => {
     const data = await getCommentsByEvent(eventId);
     const allComments = (data || [])
@@ -30,11 +45,16 @@ export default function CommentsSection({ eventId }) {
     setComments(allComments);
   };
 
+  // Fetch the current upvote count for the event
   const loadUpvoteCount = async () => {
     const data = await getUpvoteCount(eventId);
     setUpvoteCount(data[0].count);
   };
 
+  /**
+   * Handle posting a new comment
+   * Validates user authentication and comment content
+   */
   const handlePostComment = async () => {
     if (!newComment.trim()) return;
 
@@ -53,6 +73,10 @@ export default function CommentsSection({ eventId }) {
     loadComments(); // Refresh comments
   };
 
+  /**
+   * Handle upvoting an event
+   * Validates user authentication before processing
+   */
   const handleUpvote = async () => {
     if (!currentUser?.id) {
       alert("You must be logged in to upvote.");

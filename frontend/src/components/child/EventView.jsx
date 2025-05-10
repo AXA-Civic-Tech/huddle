@@ -1,7 +1,20 @@
 import UserLink from "../UserLink";
 import DisplayField from "./DisplayField";
 
+/**
+ * Read-only component for displaying event/issue details.
+ * Renders all event fields in a user-friendly format.
+ *
+ * @param {Object} event - The event/issue data object to display
+ * @param {string} username - Username of the event creator
+ * @returns {JSX.Element} View component showing event details
+ */
+
 export default function EventView({ event = {}, username }) {
+  /**
+   * Render the "Created by" information if available
+   * Links to the creator's profile using UserLink component
+   */
   const renderCreatedBy = () => {
     if (event?.user_id) {
       //For existing post, show original creator

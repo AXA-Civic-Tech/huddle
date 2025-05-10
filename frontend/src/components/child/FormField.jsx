@@ -1,3 +1,17 @@
+/**
+ * Reusable form input component that supports various input types.
+ * Handles text inputs, textareas, select dropdowns, and other HTML input types.
+ *
+ * @param {string} name - Field name/id attribute
+ * @param {string} label - Display label for the field
+ * @param {string} type - Input type (text, textarea, select, email, etc.)
+ * @param {any} value - Current field value
+ * @param {Function} onChange - Handler for value changes
+ * @param {Array} options - Options for select fields [{value, label}]
+ * @param {Object} props - Additional HTML input attributes
+ * @returns {JSX.Element} Formatted form field with label
+ */
+
 export default function FormField({
   name,
   label,
@@ -7,6 +21,10 @@ export default function FormField({
   options,
   ...props
 }) {
+  /**
+   * Render the appropriate input element based on field type
+   * Supports textarea, select, and standard input types
+   */
   const renderField = () => {
     if (type === "textarea") {
       return (
