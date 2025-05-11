@@ -144,6 +144,21 @@ export default function Feed() {
       );
     }
 
+    if (
+      filterType === "upvote" &&
+      currentUser &&
+      urlUserId &&
+      currentUser.id === parseInt(urlUserId) &&
+      pathname === `/users/${currentUser.id}`
+    ) {
+      filtered = filtered.filter(
+        (post) =>
+          post.upvotes &&
+          Array.isArray(post.upvotes) &&
+          post.upvotes.includes(currentUser.id)
+      );
+    }
+
     // Apply filters based on filterType and filterValue
     if (filterType === "status") {
       filtered = filtered.filter((post) => post.status === filterValue);
@@ -160,17 +175,6 @@ export default function Feed() {
     } else if (filterType === "neighborhood") {
       filtered = filtered.filter(
         (post) => getNeighborhoodFromZip(post.zipcode) === filterValue
-      );
-    } else if (
-      filterType === "upvote" &&
-      currentUser &&
-      pathname === `/users/${currentUser.id}`
-    ) {
-      filtered = filtered.filter(
-        (post) =>
-          post.upvotes &&
-          Array.isArray(post.upvotes) &&
-          post.upvotes.includes(currentUser.id)
       );
     }
 
@@ -214,7 +218,12 @@ export default function Feed() {
         sorted
           .filter(Boolean)
           .map((post) => (
-            <Post key={post.id} event={post} onSelect={openModal} />
+            <Post
+              key={post.id}
+              event={post}
+              onSelect={openModal}
+              onClose={closeModal}
+            />
           ))
       )}
 

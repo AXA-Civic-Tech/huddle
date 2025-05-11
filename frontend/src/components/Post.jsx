@@ -11,7 +11,7 @@ import UserLink from "./UserLink";
  * @returns
  */
 
-export default function Post({ event, onSelect }) {
+export default function Post({ event, onSelect, onClose }) {
   const [username, setUsername] = useState("Loading...");
 
   useEffect(() => {
@@ -45,7 +45,11 @@ export default function Post({ event, onSelect }) {
 
       <p>
         Created by:{" "}
-        <UserLink userId={event.user_id} username={username}>
+        <UserLink
+          userId={event.user_id}
+          username={username}
+          onNavigate={onClose}
+        >
           {username}
         </UserLink>
       </p>
