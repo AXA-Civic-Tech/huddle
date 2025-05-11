@@ -46,11 +46,11 @@ export default function FormField({
           {...props}
         >
           {options &&
-            options.map((option, index) => {
+            options.map((option, index) => (
               <option key={index} value={option.value}>
                 {option.label}
-              </option>;
-            })}
+              </option>
+            ))}
         </select>
       );
     } else {
