@@ -102,7 +102,7 @@ export default function EventForm({
           <UserLink
             userId={currentUser.id}
             username={username}
-            onNavigate={onClose}
+            onClose={onClose}
           >
             {username}
           </UserLink>

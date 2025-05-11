@@ -119,7 +119,7 @@ export default function CommentsSection({ eventId, onClose }) {
               <UserLink
                 userId={comment.user_id}
                 username={comment.username || "User"}
-                onNavigate={onClose}
+                onClose={onClose}
               >
                 <strong>{comment.username || "User"}:</strong>
               </UserLink>{" "}

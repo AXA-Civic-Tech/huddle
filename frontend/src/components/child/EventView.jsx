@@ -24,7 +24,7 @@ export default function EventView({ event = {}, username, onClose }) {
           <UserLink
             userId={event.user_id}
             username={username}
-            onNavigate={onClose}
+            onClose={onClose}
           >
             {username}
           </UserLink>

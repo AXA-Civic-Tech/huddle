@@ -45,11 +45,7 @@ export default function Post({ event, onSelect, onClose }) {
 
       <p>
         Created by:{" "}
-        <UserLink
-          userId={event.user_id}
-          username={username}
-          onNavigate={onClose}
-        >
+        <UserLink userId={event.user_id} username={username} onClose={onClose}>
           {username}
         </UserLink>
       </p>
