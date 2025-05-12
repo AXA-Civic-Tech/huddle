@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { useLocation, useNavigate, NavLink, useParams } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { logUserOut } from "../adapters/auth-adapter";
-import Button from "./child/Button";
+import Button from "./Button";
 
 /**
  * Root (HomePage): If user is NOT signed in, "Sign Up" & "Log In"

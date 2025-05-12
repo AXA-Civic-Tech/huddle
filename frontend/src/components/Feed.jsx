@@ -5,7 +5,7 @@ import CurrentUserContext from "../contexts/current-user-context";
 import { getNeighborhoodFromZip } from "../utils/neighborhoods";
 import Post from "./Post";
 import Modal from "./Modal";
-import FeedControls from "./child/FeedControls";
+import FeedControls from "./Feed_children/FeedControls";
 
 /**
  * Reusable component in both HomePage and UserPage
@@ -108,7 +108,7 @@ export default function Feed() {
   //     }
   //   }
 
-// Simplified logic here, all we need to do is fetch all posts again any time a post is updated/deleted
+  // Simplified logic here, all we need to do is fetch all posts again any time a post is updated/deleted
   const closeModal = async (updatedPost, deletedPostId) => {
     // Always re-fetch posts after an update or delete
     fetchPosts();
