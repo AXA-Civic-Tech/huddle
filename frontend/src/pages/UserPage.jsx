@@ -4,7 +4,7 @@ import CurrentUserContext from "../contexts/current-user-context";
 import { getUser } from "../adapters/user-adapter";
 import UpdateUsernameForm from "../components/UpdateUsernameForm";
 import Feed from "../components/Feed";
-import Button from "../components/child/Button";
+import Button from "../components/Button";
 
 /**
  * Current user can edit their username here

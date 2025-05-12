@@ -1,12 +1,16 @@
 import { useState, useEffect, useContext } from "react";
 import CurrentUserContext from "../../contexts/current-user-context";
-import { upvoteEvent, removeUpvote, getUpvoteCount } from "../../adapters/upvote-adapter";
+import {
+  upvoteEvent,
+  removeUpvote,
+  getUpvoteCount,
+} from "../../adapters/upvote-adapter";
 import {
   createComment,
   getCommentsByEvent,
 } from "../../adapters/comment-adapter";
 import UserLink from "../UserLink";
-import Button from "./Button";
+import Button from "../Button";
 
 /**
  * Component for displaying and managing comments and upvotes on an event.
@@ -48,13 +52,16 @@ export default function CommentsSection({ eventId, onClose }) {
   // Fetch the current upvotes (list) for the event
   const loadUpvotes = async () => {
     const data = await getUpvoteCount(eventId);
-    const filtered = (data || []).filter(u => u && typeof u === "object" && u.user_id);
+    const filtered = (data || []).filter(
+      (u) => u && typeof u === "object" && u.user_id
+    );
     setUpvotes(filtered);
     return filtered;
   };
 
   // Check if the current user has upvoted
-  const hasUpvoted = currentUser && upvotes.some(u => u.user_id === currentUser.id);
+  const hasUpvoted =
+    currentUser && upvotes.some((u) => u.user_id === currentUser.id);
   const upvoteCount = upvotes.length;
 
   /**
@@ -118,7 +125,10 @@ export default function CommentsSection({ eventId, onClose }) {
       {/* render upvotes */}
       <div className="upvotes">
         <span>Upvotes: {upvoteCount}</span>
-        <Button name={hasUpvoted ? "Downvote" : "Upvote"} onClick={handleUpvoteToggle} />
+        <Button
+          name={hasUpvoted ? "Downvote" : "Upvote"}
+          onClick={handleUpvoteToggle}
+        />
       </div>
 
       <div className="comments-list">
