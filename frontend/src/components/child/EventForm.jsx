@@ -28,7 +28,7 @@ export default function EventForm({
    * This tracks all editable fields for the event/issue
    */
   const [formData, setFormData] = useState({
-    is_issue: event.is_issue || true,
+    is_issue: event.is_issue !== undefined ? event.is_issue : true,
     title: event.title || "",
     address: event.address || "",
     borough: event.borough || "",
@@ -45,7 +45,7 @@ export default function EventForm({
    */
   useEffect(() => {
     setFormData({
-      is_issue: event.is_issue,
+      is_issue: event.is_issue !== undefined ? event.is_issue : true,
       title: event.title || "",
       address: event.address || "",
       borough: event.borough || "",
@@ -94,17 +94,17 @@ export default function EventForm({
    * - For new posts: Shows current user as future creator
    */
   const renderCreatedBy = () => {
-    if (currentUser) {
+    if (!event?.id && currentUser) {
       // For new posts, show the current user as the creator
       return (
         <p>
           <strong>Created by:</strong>{" "}
           <UserLink
             userId={currentUser.id}
-            username={username}
+            username={currentUser.username || username}
             onClose={onClose}
           >
-            {username}
+            {currentUser.username || username}
           </UserLink>
         </p>
       );
@@ -113,7 +113,11 @@ export default function EventForm({
       return (
         <p>
           <strong>Created by:</strong>{" "}
-          <UserLink userId={event.user_id} username={username}>
+          <UserLink
+            userId={event.user_id}
+            username={username}
+            onClose={onClose}
+          >
             {username}
           </UserLink>
         </p>
@@ -132,7 +136,7 @@ export default function EventForm({
         type="select"
         value={formData.is_issue}
         onChange={handleChange}
-        option={[
+        options={[
           { value: true, label: "Issue" },
           { value: false, label: "Event" },
         ]}
