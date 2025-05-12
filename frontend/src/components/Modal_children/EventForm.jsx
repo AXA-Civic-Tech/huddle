@@ -31,7 +31,7 @@ export default function EventForm({
     is_issue: event.is_issue !== undefined ? event.is_issue : true,
     title: event.title || "",
     address: event.address || "",
-    borough: event.borough || "",
+    borough: event.borough || "Manhattan",
     zipcode: event.zipcode || "",
     status: event.status || "Open",
     email: event.email || "",
@@ -48,7 +48,7 @@ export default function EventForm({
       is_issue: event.is_issue !== undefined ? event.is_issue : true,
       title: event.title || "",
       address: event.address || "",
-      borough: event.borough || "",
+      borough: event.borough || "Manhattan",
       zipcode: event.zipcode || "",
       status: event.status || "Open",
       email: event.email || "",
@@ -160,8 +160,16 @@ export default function EventForm({
       <FormField
         name="borough"
         label="Borough"
+        type="select"
         value={formData.borough}
         onChange={handleChange}
+        options={[
+          { value: "Manhattan", label: "Manhattan" },
+          { value: "Brooklyn", label: "Brooklyn" },
+          { value: "Queens", label: "Queens" },
+          { value: "The Bronx", label: "The Bronx" },
+          { value: "Staten Island", label: "Staten Island" },
+        ]}
         required
       />
 
