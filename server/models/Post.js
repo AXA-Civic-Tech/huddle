@@ -94,6 +94,10 @@ class Post {
     return knex("event").del();
   }
 
+  static async deletePost(id) {
+    return knex("event").where({id}).del(); //This filters by id to delete the specific row
+  }
+
   static async update(id, updates) {
     try {
       // Remove fields that don't exist in the database schema
