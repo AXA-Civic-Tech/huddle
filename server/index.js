@@ -37,6 +37,7 @@ app.post('/api/posts', checkAuthentication, postControllers.createPost);
 app.patch('/api/posts/:id', checkAuthentication, postControllers.updatePost);
 
 
+
 ///////////////////////////////
 // Auth Routes
 ///////////////////////////////
