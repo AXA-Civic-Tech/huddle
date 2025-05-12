@@ -57,11 +57,6 @@ export default function CommentsSection({ eventId, onClose }) {
   const hasUpvoted = currentUser && upvotes.some(u => u.user_id === currentUser.id);
   const upvoteCount = upvotes.length;
 
-  // Debug logs
-  console.log("currentUser:", currentUser);
-  console.log("upvotes:", upvotes);
-  console.log("hasUpvoted:", hasUpvoted);
-
   /**
    * Handle posting a new comment
    * Validates user authentication and comment content
@@ -98,8 +93,7 @@ export default function CommentsSection({ eventId, onClose }) {
     } else {
       await upvoteEvent(eventId);
     }
-    const newUpvotes = await loadUpvotes(); // Await and get the new upvotes
-    console.log("Upvotes after toggle:", newUpvotes);
+    await loadUpvotes();
   };
 
   return (
