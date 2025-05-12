@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import UserLink from "../UserLink";
 import FormField from "./FormField";
-import Button from "./Button";
+import Button from "../Button";
 
 /**
  * Component for editing or creating events/issues.

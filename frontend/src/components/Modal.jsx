@@ -3,9 +3,9 @@ import CurrentUserContext from "../contexts/current-user-context";
 import { getUser } from "../adapters/user-adapter";
 import { updatePost, deletePost } from "../adapters/post-adapter";
 import Button from "./Button";
-import EventForm from "./child/EventForm";
+import EventForm from "./Modal_children/EventForm";
 import EventView from "./Modal_children/EventView";
-import CommentsSection from "./child/CommentsSection";
+import CommentsSection from "./Modal_children/CommentsSection";
 
 /**
  * Main container component that orchestrates the display of event details.
