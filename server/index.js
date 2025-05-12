@@ -11,6 +11,7 @@ const handleCookieSessions = require('./middleware/handleCookieSessions');
 const checkAuthentication = require('./middleware/checkAuthentication');
 const logRoutes = require('./middleware/logRoutes');
 const logErrors = require('./middleware/logErrors');
+const geocodeEvent = require('./middleware/geocodeEvent');
 
 // controller imports
 const authControllers = require('./controllers/authControllers');
@@ -33,9 +34,10 @@ app.use(express.static(path.join(__dirname, '../frontend/dist'))); // Serve stat
 ///////////////////////////////
 
 app.get('/api/posts', postControllers.listPosts);
-app.post('/api/posts', checkAuthentication, postControllers.createPost);
+app.post('/api/posts', checkAuthentication, geocodeEvent, postControllers.createPost);
 app.patch('/api/posts/:id', checkAuthentication, postControllers.updatePost);
 app.delete('/api/posts/:id', checkAuthentication, postControllers.deletePost);
+
 
 
 ///////////////////////////////
