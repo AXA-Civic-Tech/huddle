@@ -5,7 +5,7 @@ import CurrentUserContext from "../contexts/current-user-context";
 import { getNeighborhoodFromZip } from "../utils/neighborhoods";
 import Post from "./Post";
 import Modal from "./Modal";
-import FeedControls from "./FeedControls";
+import FeedControls from "./child/FeedControls";
 
 /**
  * Reusable component in both HomePage and UserPage
@@ -23,7 +23,7 @@ import FeedControls from "./FeedControls";
 export default function Feed() {
   const location = useLocation();
   const pathname = location.pathname;
-  const { id: urlUserId } = useParams();
+  const { id: urlUserId } = useParams(); // string
 
   const [posts, setPosts] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -57,10 +57,8 @@ export default function Feed() {
     let newTitle = "Community Posts";
 
     if (filterType === "status") {
-      if (filterValue === "open") newTitle = "Open Issues & Events";
-      else if (filterValue === "progress")
-        newTitle = "In Progress Issues & Events";
-      else if (filterValue === "closed") newTitle = "Closed Issues & Events";
+      if (filterValue === "Active") newTitle = "Active Issues & Events";
+      else if (filterValue === "Closed") newTitle = "Closed Issues & Events";
     } else if (filterType === "type") {
       if (filterValue === "issue") newTitle = "Issues";
       else if (filterValue === "event") newTitle = "Events";
@@ -140,6 +138,27 @@ export default function Feed() {
     // First apply filters
     let filtered = [...posts];
 
+    if (pathname === `/users/${urlUserId}`) {
+      filtered = filtered.filter(
+        (post) => post.user_id === parseInt(urlUserId)
+      );
+    }
+
+    if (
+      filterType === "upvote" &&
+      currentUser &&
+      urlUserId &&
+      currentUser.id === parseInt(urlUserId) &&
+      pathname === `/users/${currentUser.id}`
+    ) {
+      filtered = filtered.filter(
+        (post) =>
+          post.upvotes &&
+          Array.isArray(post.upvotes) &&
+          post.upvotes.includes(currentUser.id)
+      );
+    }
+
     // Apply filters based on filterType and filterValue
     if (filterType === "status") {
       filtered = filtered.filter((post) => post.status === filterValue);
@@ -156,17 +175,6 @@ export default function Feed() {
     } else if (filterType === "neighborhood") {
       filtered = filtered.filter(
         (post) => getNeighborhoodFromZip(post.zipcode) === filterValue
-      );
-    } else if (
-      filterType === "upvote" &&
-      currentUser &&
-      pathname === `/users/${currentUser.id}`
-    ) {
-      filtered = filtered.filter(
-        (post) =>
-          post.upvotes &&
-          Array.isArray(post.upvotes) &&
-          post.upvotes.includes(currentUser.id)
       );
     }
 
@@ -210,7 +218,12 @@ export default function Feed() {
         sorted
           .filter(Boolean)
           .map((post) => (
-            <Post key={post.id} event={post} onSelect={openModal} />
+            <Post
+              key={post.id}
+              event={post}
+              onSelect={openModal}
+              onClose={closeModal}
+            />
           ))
       )}
 

@@ -91,7 +91,7 @@ exports.seed = async (knex) => {
       zipcode: "10001",
       email: "gardenclub@example.com",
       phone: "555-123-0001",
-      status: "active",
+      status: "Active", // Changed from "active"
       description: "Help us plant vegetables and beautify the garden!",
     },
     {
@@ -106,7 +106,7 @@ exports.seed = async (knex) => {
       zipcode: "11225",
       email: "reporter@example.com",
       phone: "555-234-1111",
-      status: "open",
+      status: "Active", // Changed from "open"
       description:
         "Streetlight has been out for over a week near 3rd and Main.",
     },
@@ -122,7 +122,7 @@ exports.seed = async (knex) => {
       zipcode: "11373",
       email: "bbqhost@example.com",
       phone: "555-987-6543",
-      status: "active",
+      status: "Active", // Changed from "active"
       description: "Bring your favorite dish and join us for a block party!",
     },
     {
@@ -137,7 +137,7 @@ exports.seed = async (knex) => {
       zipcode: "10304",
       email: "trashwatch@example.com",
       phone: "555-444-7777",
-      status: "reported",
+      status: "Active", // Changed from "reported"
       description: "Multiple bags of trash have been left on the sidewalk.",
     },
     {
@@ -152,7 +152,7 @@ exports.seed = async (knex) => {
       zipcode: "10453",
       email: "cleanup@example.com",
       phone: "555-202-3030",
-      status: "active",
+      status: "Active", // Changed from "active"
       description: "Join us as we clean up graffiti in the underpass.",
     },
     {
@@ -167,7 +167,7 @@ exports.seed = async (knex) => {
       zipcode: "10036",
       email: "potholereport@example.com",
       phone: "555-678-1122",
-      status: "open",
+      status: "Active", // Kept as "open" but standardized capitalization
       description: "Deep pothole damaging cars near 5th and Elm.",
     },
     {
@@ -182,7 +182,7 @@ exports.seed = async (knex) => {
       zipcode: "11225",
       email: "yogaclub@example.com",
       phone: "555-333-1212",
-      status: "active",
+      status: "Active", // Changed from "active"
       description: "Free yoga class in Prospect Park, all levels welcome!",
     },
     {
@@ -197,7 +197,7 @@ exports.seed = async (knex) => {
       zipcode: "10461",
       email: "hydrantwatch@example.com",
       phone: "555-222-0909",
-      status: "in_progress",
+      status: "Active", // Kept as "in_progress" but standardized format
       description: "Fire hydrant leaking water constantly near Lincoln Ave.",
     },
     {
@@ -212,7 +212,7 @@ exports.seed = async (knex) => {
       zipcode: "10014",
       email: "historytour@example.com",
       phone: "555-101-2020",
-      status: "active",
+      status: "Active", // Changed from "active"
       description: "Explore the neighborhood's hidden historical gems!",
     },
     {
@@ -227,7 +227,7 @@ exports.seed = async (knex) => {
       zipcode: "10016",
       email: "bulkwatch@example.com",
       phone: "555-565-8585",
-      status: "reported",
+      status: "Active", // Changed from "reported"
       description: "Furniture and mattresses still on curb after pickup day.",
     },
     {
@@ -242,7 +242,7 @@ exports.seed = async (knex) => {
       zipcode: "10012",
       email: "streetfood@example.com",
       phone: "555-987-5432",
-      status: "active",
+      status: "Active", // Changed from "active"
       description:
         "Join us for a delicious street food festival in the heart of the city!",
     },
@@ -258,7 +258,7 @@ exports.seed = async (knex) => {
       zipcode: "10004",
       email: "volunteer@example.com",
       phone: "555-987-3210",
-      status: "active",
+      status: "Active", // Changed from "active"
       description:
         "Help us collect items for homeless shelters across the city.",
     },

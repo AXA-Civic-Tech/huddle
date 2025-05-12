@@ -1,4 +1,7 @@
-import Button from "./Button";
+import { useEffect, useState } from "react";
+import { getUser } from "../adapters/user-adapter";
+import Button from "./child/Button";
+import UserLink from "./UserLink";
 
 /**
  * @params event, onSelect
@@ -8,7 +11,26 @@ import Button from "./Button";
  * @returns
  */
 
-export default function Post({ event, onSelect }) {
+export default function Post({ event, onSelect, onClose }) {
+  const [username, setUsername] = useState("Loading...");
+
+  useEffect(() => {
+    // Fetch username when component shows or event.user_id changes
+    const fetchUsername = async () => {
+      const [userData, error] = await getUser(event.user_id);
+
+      if (error || !userData) {
+        console.error("Error fetching username:", error);
+        setUsername("Unknown User");
+        return;
+      }
+
+      setUsername(userData.username);
+    };
+
+    fetchUsername();
+  }, [event?.user_id]);
+
   const handleClick = () => {
     if (onSelect) onSelect(event);
   };
@@ -19,11 +41,18 @@ export default function Post({ event, onSelect }) {
 
       <h2 className="title">{event.title}</h2>
 
-      {/* <p className="status">Status: {event.status}</p> */}
+      <p className="status">Status: {event.status}</p>
+
+      <p>
+        Created by:{" "}
+        <UserLink userId={event.user_id} username={username} onClose={onClose}>
+          {username}
+        </UserLink>
+      </p>
 
       <Button name="View More" onClick={handleClick} />
 
-      {/* <div className="comments">{event.comments[0]}</div> */}
+      {/* <div className="comments">{event.comments}</div> */}
     </div>
   );
 }
