@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getUser } from "../adapters/user-adapter";
-import Button from "./child/Button";
+import Button from "./Button";
 import UserLink from "./UserLink";
 
 /**

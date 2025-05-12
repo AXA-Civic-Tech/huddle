@@ -1,6 +1,6 @@
 import FilterSelect from "./FilterSelect";
 import SortSelect from "./SortSelect";
-import Button from "./Button";
+import Button from "../Button";
 
 export default function FeedControls({
   filterType,
