@@ -2,6 +2,7 @@ import {
   fetchHandler,
   getPatchOptions,
   getPostOptions,
+  deleteOptions
 } from "../utils/fetchingUtils";
 
 const baseUrl = "/api/posts";
@@ -45,8 +46,5 @@ export const updatePost = async (postData) => {
 };
 
 export const deletePost = async (id) => {
-  return fetchHandler(`${baseUrl}/${id}`, {
-    method: "DELETE",
-    credentials: "include",
-  });
+  return fetchHandler(`${baseUrl}/${id}`, deleteOptions);
 };

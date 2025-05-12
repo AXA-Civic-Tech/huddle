@@ -29,12 +29,13 @@ app.use(express.json()); // parse incoming request bodies as JSON
 app.use(express.static(path.join(__dirname, '../frontend/dist'))); // Serve static assets from the dist folder of the frontend
 
 ///////////////////////////////
-// All User Routes
+// Post Routes
 ///////////////////////////////
 
 app.get('/api/posts', postControllers.listPosts);
 app.post('/api/posts', checkAuthentication, postControllers.createPost);
 app.patch('/api/posts/:id', checkAuthentication, postControllers.updatePost);
+app.delete('/api/posts/:id', checkAuthentication, postControllers.deletePost);
 
 
 ///////////////////////////////
@@ -70,7 +71,7 @@ app.delete('/api/comments/:id', checkAuthentication, commentControllers.deleteCo
 
 app.post('/api/events/:eventId/upvote', checkAuthentication, upvoteControllers.upvoteEvent);
 app.delete('/api/events/:eventId/upvote', checkAuthentication, upvoteControllers.removeUpvote);
-app.get('/api/events/:eventId/upvotes', upvoteControllers.getUpvoteCount);
+app.get('/api/events/:eventId/upvotes', upvoteControllers.getUpvotesForEvent);
 
 ///////////////////////////////
 // Fallback Routes
