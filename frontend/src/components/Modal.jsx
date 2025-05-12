@@ -189,7 +189,8 @@ export default function Modal({
             </div>
           </>
         )}
-
+        
+        {/* Delete button only appears is user is viewing their own post - isEditable is true */}
         {isEditableByUser && !isNew && (
           <div className="modal-actions">
             <Button 

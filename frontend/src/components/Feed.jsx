@@ -82,32 +82,36 @@ export default function Feed() {
     setIsOpen(true);
   };
 
-  const closeModal = async (updatedPost) => {
-    // If we received updated data, update our post list
-    if (updatedPost) {
-      console.log("Received updated/new post:", updatedPost);
+  // const closeModal = async (updatedPost) => {
+  //   // If we received updated data, update our post list
+  //   if (updatedPost) {
+  //     console.log("Received updated/new post:", updatedPost);
 
-      // Handle both new posts and updated posts
-      if (updatedPost.id) {
-        setPosts((prevPosts) => {
-          // Check if this post already exists in our list
-          const postExists = prevPosts.some(
-            (post) => post.id === updatedPost.id
-          );
+  //     // Handle both new posts and updated posts
+  //     if (updatedPost.id) {
+  //       setPosts((prevPosts) => {
+  //         // Check if this post already exists in our list
+  //         const postExists = prevPosts.some(
+  //           (post) => post.id === updatedPost.id
+  //         );
 
-          if (postExists) {
-            // Update exisitng post
-            return prevPosts.map((post) =>
-              post.id === updatedPost.id ? updatedPost : post
-            );
-          } else {
-            // Add new post to the list
-            return [updatedPost, ...prevPosts];
-          }
-        });
-      }
-    }
+  //         if (postExists) {
+  //           // Update exisitng post
+  //           return prevPosts.map((post) =>
+  //             post.id === updatedPost.id ? updatedPost : post
+  //           );
+  //         } else {
+  //           // Add new post to the list
+  //           return [updatedPost, ...prevPosts];
+  //         }
+  //       });
+  //     }
+  //   }
 
+// Simplified logic here, all we need to do is fetch all posts again any time a post is updated/deleted
+  const closeModal = async (updatedPost, deletedPostId) => {
+    // Always re-fetch posts after an update or delete
+    fetchPosts();
     setSelectedPost(null);
     setIsOpen(false);
   };
