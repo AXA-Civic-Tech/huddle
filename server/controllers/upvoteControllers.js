@@ -44,12 +44,15 @@ exports.removeUpvote = async (req, res) => {
   }
 };
 
-exports.getUpvoteCount = async (req, res) => {
+exports.getUpvotesForEvent = async (req, res) => {
   try {
     const { eventId } = req.params;
     const allUpvotes = await Upvote.list();
-    const count = allUpvotes.filter(u => u.event_id == eventId).length;
-    res.json({ count });
+    console.log("allUpvotes:", allUpvotes);
+    console.log("eventId:", eventId);
+    const eventUpvotes = allUpvotes.filter(u => String(u.event_id) === String(eventId));
+    console.log("eventUpvotes:", eventUpvotes);
+    res.json(eventUpvotes); // Return the array of upvote objects
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

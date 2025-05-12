@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import CurrentUserContext from "../../contexts/current-user-context";
-import { upvoteEvent, getUpvoteCount } from "../../adapters/upvote-adapter";
+import { upvoteEvent, removeUpvote, getUpvoteCount } from "../../adapters/upvote-adapter";
 import {
   createComment,
   getCommentsByEvent,
@@ -20,7 +20,7 @@ export default function CommentsSection({ eventId, onClose }) {
   const { currentUser } = useContext(CurrentUserContext);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const [upvoteCount, setUpvoteCount] = useState(0);
+  const [upvotes, setUpvotes] = useState([]);
 
   /**
    * Load comments and upvote count when component mounts
@@ -29,7 +29,7 @@ export default function CommentsSection({ eventId, onClose }) {
   useEffect(() => {
     if (eventId) {
       loadComments();
-      loadUpvoteCount();
+      loadUpvotes();
     }
   }, [eventId]);
 
@@ -45,11 +45,22 @@ export default function CommentsSection({ eventId, onClose }) {
     setComments(allComments);
   };
 
-  // Fetch the current upvote count for the event
-  const loadUpvoteCount = async () => {
+  // Fetch the current upvotes (list) for the event
+  const loadUpvotes = async () => {
     const data = await getUpvoteCount(eventId);
-    setUpvoteCount(data[0].count);
+    const filtered = (data || []).filter(u => u && typeof u === "object" && u.user_id);
+    setUpvotes(filtered);
+    return filtered;
   };
+
+  // Check if the current user has upvoted
+  const hasUpvoted = currentUser && upvotes.some(u => u.user_id === currentUser.id);
+  const upvoteCount = upvotes.length;
+
+  // Debug logs
+  console.log("currentUser:", currentUser);
+  console.log("upvotes:", upvotes);
+  console.log("hasUpvoted:", hasUpvoted);
 
   /**
    * Handle posting a new comment
@@ -77,14 +88,18 @@ export default function CommentsSection({ eventId, onClose }) {
    * Handle upvoting an event
    * Validates user authentication before processing
    */
-  const handleUpvote = async () => {
+  const handleUpvoteToggle = async () => {
     if (!currentUser?.id) {
       alert("You must be logged in to upvote.");
       return;
     }
-
-    await upvoteEvent(eventId);
-    loadUpvoteCount(); // Refresh upvote count
+    if (hasUpvoted) {
+      await removeUpvote(eventId);
+    } else {
+      await upvoteEvent(eventId);
+    }
+    const newUpvotes = await loadUpvotes(); // Await and get the new upvotes
+    console.log("Upvotes after toggle:", newUpvotes);
   };
 
   return (
@@ -109,7 +124,7 @@ export default function CommentsSection({ eventId, onClose }) {
       {/* render upvotes */}
       <div className="upvotes">
         <span>Upvotes: {upvoteCount}</span>
-        <Button name="Upvote" onClick={handleUpvote} />
+        <Button name={hasUpvoted ? "Downvote" : "Upvote"} onClick={handleUpvoteToggle} />
       </div>
 
       <div className="comments-list">
