@@ -76,7 +76,7 @@ export default function EventForm({
   const handleZipcodeChange = (e) => {
     // Only allow numbers and limit to 5 digits for basic ZIP
     const value = e.target.value.replace(/[^0-9]/g, "").slice(0, 5);
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, zipcode: value }));
   };
 
   /**
