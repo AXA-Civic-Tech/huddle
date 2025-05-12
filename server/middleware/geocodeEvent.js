@@ -3,7 +3,9 @@ const axios = require("axios");
 
 const geocodeEvent = async (req, res, next) => {
   try {
+    //takes in location values from event
     const { address, borough, zipcode } = req.body;
+    //setup to send out to geocode api
     const fullAddress = `${address}, ${borough}, NY ${zipcode}`;
 
     const response = await axios.get("https://maps.googleapis.com/maps/api/geocode/json", {
@@ -13,6 +15,7 @@ const geocodeEvent = async (req, res, next) => {
       },
     });
 
+    //adds lat/lng values to body before sending out to backend
     const location = response.data.results[0]?.geometry?.location;
     if (location) {
       req.body.lat_location = location.lat;
