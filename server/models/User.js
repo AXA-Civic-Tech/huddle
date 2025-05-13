@@ -49,28 +49,19 @@ class User {
 
   // Same as above but uses the username to find the user
   static async findByUsername(username) {
-    console.log('findByUsername called with username:', username);
     try {
       // Using explicit table and column names
       const user = await knex('users')
         .select('*')
         .where('username', '=', username)
         .first();
-      
-        console.log('Connected to database:', knex.client.config.connection);
-
-      console.log('Knex query result:', user);
       if (!user) {
-        console.log('No user found with username:', username);
         // Let's also check what users exist
         const allUsers = await knex('users').select('username');
-        console.log('All existing usernames:', allUsers.map(u => u.username));
       }
       const dbName = await knex.raw('SELECT current_database()');
-      console.log('Connected to database:', dbName.rows[0].current_database);
       return user ? new User(user) : null;
     } catch (error) {
-      console.error('Error in findByUsername:', error);
       return null;
     }
   }

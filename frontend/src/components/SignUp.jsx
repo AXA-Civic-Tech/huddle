@@ -2,7 +2,10 @@ import { useContext, useState } from "react";
 import { useNavigate, Navigate, Link } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
 import CurrentUserContext from "../contexts/current-user-context";
-import { registerUser } from "../adapters/auth-adapter";
+import {
+  registerUser,
+  checkUsernameAvailability,
+} from "../adapters/auth-adapter";
 
 //The site key remains public as it's a PUBLIC KEY
 const SITE_KEY = "6Lf1FC8rAAAAAJ4egdXJ_RkeePpHowuY1ZFKb20S"; // from Google
@@ -20,6 +23,31 @@ export default function SignUpForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  // State for username availability checking
+  const [isCheckingUsername, setIsCheckingUsername] = useState(false); // Tracks if we're currently checking username
+  const [usernameAvailable, setUsernameAvailable] = useState(true); // Tracks if the username is available
+
+  /**
+   * Checks if a username is available by making an API call
+   * Updates the UI state based on the result
+   * @param {string} username - The username to check
+   */
+  const checkUsername = async (username) => {
+    if (!username) {
+      setUsernameAvailable(true);
+      return;
+    }
+    setIsCheckingUsername(true);
+    try {
+      const available = await checkUsernameAvailability(username);
+      setUsernameAvailable(available);
+    } catch (error) {
+      console.error("Error checking username:", error);
+      setUsernameAvailable(true); // Assume available on error to not block registration
+    }
+    setIsCheckingUsername(false);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorText("");
@@ -34,6 +62,11 @@ export default function SignUpForm() {
     if (!email.includes("@")) {
       return setErrorText("Please enter a valid email address");
     }
+    // Additional validation to prevent submission if username is taken
+    if (!usernameAvailable) {
+      return setErrorText("Username is already taken");
+    }
+
     if (!recaptchaToken) {
       return alert("Please complete the reCAPTCHA");
     }
@@ -58,7 +91,11 @@ export default function SignUpForm() {
     if (name === "firstName") setFirstName(value);
     if (name === "lastName") setLastName(value);
     if (name === "email") setEmail(value);
-    if (name === "username") setUsername(value);
+    if (name === "username") {
+      setUsername(value);
+      // Check username availability whenever the username field changes
+      checkUsername(value);
+    }
     if (name === "password") setPassword(value);
   };
 
@@ -115,6 +152,12 @@ export default function SignUpForm() {
           value={username}
           required
         />
+        {/* Show loading state while checking username */}
+        {isCheckingUsername && <span>Checking username availability...</span>}
+        {/* Show error message if username is taken */}
+        {!isCheckingUsername && !usernameAvailable && (
+          <span className="error">Username is already taken</span>
+        )}
 
         <label htmlFor="password">Password</label>
         <input
@@ -140,7 +183,13 @@ export default function SignUpForm() {
         {/* reCAPTCHA */}
         <ReCAPTCHA sitekey={SITE_KEY} onChange={handleCaptchaChange} />
 
-        <button type="submit">Sign Up Now!</button>
+        {/* Disable submit button if username is taken or while checking availability */}
+        <button
+          type="submit"
+          disabled={!usernameAvailable || isCheckingUsername}
+        >
+          Sign Up Now!
+        </button>
       </form>
       {!!errorText && <p className="error">{errorText}</p>}
     </>
