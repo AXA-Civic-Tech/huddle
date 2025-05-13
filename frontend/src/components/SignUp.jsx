@@ -19,6 +19,7 @@ export default function SignUpForm() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorText("");
@@ -33,7 +34,6 @@ export default function SignUpForm() {
     if (!email.includes("@")) {
       return setErrorText("Please enter a valid email address");
     }
-
     if (!recaptchaToken) {
       return alert("Please complete the reCAPTCHA");
     }
@@ -128,10 +128,14 @@ export default function SignUpForm() {
           minLength={6}
         />
 
-        {/* In reality, we'd want a LOT more validation on signup, so add more things if you have time
+        {/* In reality, we'd want a LOT more validation on signup, so add more things if you have time */}
         <label htmlFor="password-confirm">Password Confirm</label>
-        <input autoComplete="off" type="password" id="password-confirm" name="passwordConfirm" />
-      */}
+        <input
+          autoComplete="off"
+          type="password"
+          id="password-confirm"
+          name="passwordConfirm"
+        />
 
         {/* reCAPTCHA */}
         <ReCAPTCHA sitekey={SITE_KEY} onChange={handleCaptchaChange} />
