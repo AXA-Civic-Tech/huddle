@@ -41,3 +41,9 @@ export const logUserOut = async () => {
 export const checkForLoggedInUser = async () => {
   return await fetchHandler(`${baseUrl}/me`);
 };
+
+export const checkUsernameAvailability = async (username) => {
+  const response = await fetch(`${baseUrl}/check-username/${encodeURIComponent(username)}`);
+  const data = await response.json();
+  return data.available;
+};

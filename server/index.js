@@ -39,7 +39,6 @@ app.patch('/api/posts/:id', checkAuthentication, postControllers.updatePost);
 app.delete('/api/posts/:id', checkAuthentication, postControllers.deletePost);
 
 
-
 ///////////////////////////////
 // Auth Routes
 ///////////////////////////////
@@ -47,6 +46,7 @@ app.delete('/api/posts/:id', checkAuthentication, postControllers.deletePost);
 app.post('/api/auth/register', authControllers.registerUser);
 app.post('/api/auth/login', authControllers.loginUser);
 app.get('/api/auth/me', authControllers.showMe);
+app.get('/api/auth/check-username/:username', authControllers.checkUsernameAvailability);
 app.delete('/api/auth/logout', authControllers.logoutUser);
 
 ///////////////////////////////
