@@ -113,3 +113,9 @@ exports.logoutUser = (req, res) => {
   req.session = null; // "erase" the cookie
   res.status(204).send({ message: "User logged out." });
 };
+
+exports.checkUsernameAvailability = async (req, res) => {
+  const { username } = req.params;
+  const user = await User.findByUsername(username);
+  res.json({ available: !user });
+};
