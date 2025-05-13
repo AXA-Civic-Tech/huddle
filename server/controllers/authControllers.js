@@ -114,8 +114,13 @@ exports.logoutUser = (req, res) => {
   res.status(204).send({ message: "User logged out." });
 };
 
+/**
+ * Checks if a username is available for registration
+ * Returns a JSON response with an 'available' boolean property
+ */
 exports.checkUsernameAvailability = async (req, res) => {
   const { username } = req.params;
   const user = await User.findByUsername(username);
+  // If user exists, username is not available
   res.json({ available: !user });
 };

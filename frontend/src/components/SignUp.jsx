@@ -19,9 +19,16 @@ export default function SignUpForm() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isCheckingUsername, setIsCheckingUsername] = useState(false);
-  const [usernameAvailable, setUsernameAvailable] = useState(true);
+  
+  // State for username availability checking
+  const [isCheckingUsername, setIsCheckingUsername] = useState(false); // Tracks if we're currently checking username
+  const [usernameAvailable, setUsernameAvailable] = useState(true); // Tracks if the username is available
 
+  /**
+   * Checks if a username is available by making an API call
+   * Updates the UI state based on the result
+   * @param {string} username - The username to check
+   */
   const checkUsername = async (username) => {
     if (!username) {
       setUsernameAvailable(true);
@@ -52,6 +59,7 @@ export default function SignUpForm() {
     if (!email.includes("@")) {
       return setErrorText("Please enter a valid email address");
     }
+    // Additional validation to prevent submission if username is taken
     if (!usernameAvailable) {
       return setErrorText("Username is already taken");
     }
@@ -82,6 +90,7 @@ export default function SignUpForm() {
     if (name === "email") setEmail(value);
     if (name === "username") {
       setUsername(value);
+      // Check username availability whenever the username field changes
       checkUsername(value);
     }
     if (name === "password") setPassword(value);
@@ -140,7 +149,9 @@ export default function SignUpForm() {
           value={username}
           required
         />
+        {/* Show loading state while checking username */}
         {isCheckingUsername && <span>Checking username availability...</span>}
+        {/* Show error message if username is taken */}
         {!isCheckingUsername && !usernameAvailable && (
           <span className="error">Username is already taken</span>
         )}
@@ -165,6 +176,7 @@ export default function SignUpForm() {
         {/* reCAPTCHA */}
         <ReCAPTCHA sitekey={SITE_KEY} onChange={handleCaptchaChange} />
 
+        {/* Disable submit button if username is taken or while checking availability */}
         <button type="submit" disabled={!usernameAvailable || isCheckingUsername}>
           Sign Up Now!
         </button>
