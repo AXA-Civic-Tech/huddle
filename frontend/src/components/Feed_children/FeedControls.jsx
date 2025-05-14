@@ -28,7 +28,13 @@ export default function FeedControls({
 
       {currentUser && !isViewing && (
         // Only show this button when not vewing another user's profile
-        <Button name="Create New Post" onClick={onNewPost} />
+        // <Button name="Create New Post" onClick={onNewPost} />
+        <img
+          src="/add.png"
+          alt="Create New Post"
+          className="add-button"
+          onClick={onNewPost}
+        />
       )}
     </div>
   );

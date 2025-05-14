@@ -12,3 +12,14 @@
 .profile-username h1 {
   margin: 0;
 }
+
+.add-button {
+  background-color: transparent;
+  height: 2.5rem;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.add-button:hover {
+  background-color: lightgrey;
+}

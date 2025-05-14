@@ -25,3 +25,10 @@
 .feed-user {
   margin-top: 1rem;
 }
+
+.feed-controls {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 1rem;
+}
