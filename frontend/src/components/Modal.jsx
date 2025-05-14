@@ -47,7 +47,7 @@ export default function Modal({
    * Handles error cases and missing user data
    */
   useEffect(() => {
-    const fetchUsername = async () => {
+    const fetchUsername = async () => { 
       if (!event?.user_id) {
         setUsername("Unknown User");
         return;
@@ -159,7 +159,12 @@ export default function Modal({
       className="modal"
       key={event.id}
       ref={dialogRef}
-      onClick={(e) => e.target === e.currentTarget && onClose()}
+      onClick={(e) => {
+        if (e.target === e.currentTarget && !isWidgetOpen) {
+          onClose();
+        }
+      }}
+      
     >
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         {/* {event.image && (
@@ -174,6 +179,7 @@ export default function Modal({
             onSave={handleSave}
             onCancel={cancelEdit}
             onClose={onClose}
+            dialogRef={dialogRef}
           />
         ) : (
           <>
