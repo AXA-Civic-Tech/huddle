@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import UserLink from "../UserLink";
 import FormField from "./FormField";
 import Button from "../Button";
@@ -22,6 +22,7 @@ export default function EventForm({
   onSave,
   onCancel,
   onClose,
+  dialogRef,
 }) {
   /**
    * Initialize form state with event data or defaults
@@ -37,6 +38,7 @@ export default function EventForm({
     email: event.email || "",
     phone: event.phone || "",
     description: event.description || "",
+    image: event.image || "",
   });
 
   /**
@@ -54,8 +56,22 @@ export default function EventForm({
       email: event.email || "",
       phone: event.phone || "",
       description: event.description || "",
+      image: event.image || "",
     });
   }, [event]);
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://widget.cloudinary.com/v2.0/global/all.js";
+    script.async = true;
+    document.body.appendChild(script);
+  
+    return () => {
+      document.body.removeChild(script); // Cleanup on unmount
+    };
+  }, []);
+  
+  const [setIsWidgetOpen] = useState(false);
 
   /**
    * Change handler for form fields
@@ -88,6 +104,47 @@ export default function EventForm({
     onSave(formData);
   };
 
+  const modalRef = useRef(null);
+
+  const handleUploadWidget = () => {
+    const widget = window.cloudinary.createUploadWidget(
+      {
+        cloudName: "dwrpyq7tq",
+        uploadPreset: "huddle events images",
+      },
+      (error, result) => {
+        if (!error && result && result.event === "success") {
+          setFormData((prev) => ({
+            ...prev,
+            image: result.info.secure_url,
+          }));
+        }
+  
+        if (result.event === "close") {
+          // Reopen modal after widget is closed
+          if (dialogRef.current && !dialogRef.current.open) {
+            dialogRef.current.showModal();
+          }
+        }
+
+        if (result.event === "close") {
+          setIsWidgetOpen(false);
+          if (modalRef.current) {
+            modalRef.current.classList.remove("modal-hidden");
+          }
+        }
+      }
+    );
+  
+    // Close modal before opening widget
+    if (dialogRef.current && dialogRef.current.open) {
+      dialogRef.current.close();
+    }
+  
+    widget.open();
+  };
+  
+  
   /**
    * Render creator information based on whether this is a new post or an edit
    * - For existing posts: Shows original creator
@@ -127,104 +184,110 @@ export default function EventForm({
   };
 
   return (
-    <form className="edit-form" onSubmit={handleSubmit}>
-      {renderCreatedBy()}
+    <div ref={modalRef}>
+      <form className="edit-form" onSubmit={handleSubmit}>
+        {renderCreatedBy()}
 
-      <FormField
-        name="is_issue"
-        label="Issue/Event"
-        type="select"
-        value={formData.is_issue}
-        onChange={handleChange}
-        options={[
-          { value: true, label: "Issue" },
-          { value: false, label: "Event" },
-        ]}
-      />
+        <FormField
+          name="is_issue"
+          label="Issue/Event"
+          type="select"
+          value={formData.is_issue}
+          onChange={handleChange}
+          options={[
+            { value: true, label: "Issue" },
+            { value: false, label: "Event" },
+          ]}
+        />
 
-      <FormField
-        name="title"
-        label="Title"
-        value={formData.title}
-        onChange={handleChange}
-        required
-      />
+        <FormField
+          name="title"
+          label="Title"
+          value={formData.title}
+          onChange={handleChange}
+          required
+        />
 
-      <FormField
-        name="address"
-        label="Address"
-        value={formData.address}
-        onChange={handleChange}
-      />
+        <FormField
+          name="address"
+          label="Address"
+          value={formData.address}
+          onChange={handleChange}
+        />
 
-      <FormField
-        name="borough"
-        label="Borough"
-        type="select"
-        value={formData.borough}
-        onChange={handleChange}
-        options={[
-          { value: "Manhattan", label: "Manhattan" },
-          { value: "Brooklyn", label: "Brooklyn" },
-          { value: "Queens", label: "Queens" },
-          { value: "The Bronx", label: "The Bronx" },
-          { value: "Staten Island", label: "Staten Island" },
-        ]}
-        required
-      />
+        <FormField
+          name="borough"
+          label="Borough"
+          value={formData.borough}
+          onChange={handleChange}
+          required
+        />
 
-      <FormField
-        name="zipcode"
-        label="Zip Code"
-        value={formData.zipcode}
-        onChange={handleZipcodeChange}
-        maxLength="5"
-        placeholder="5-digit ZIP code"
-        required
-      />
+        <FormField
+          name="zipcode"
+          label="Zip Code"
+          value={formData.zipcode}
+          onChange={handleZipcodeChange}
+          maxLength="5"
+          placeholder="5-digit ZIP code"
+          required
+        />
 
-      <FormField
-        name="status"
-        label="Status"
-        type="select"
-        value={formData.status}
-        onChange={handleChange}
-        options={[
-          { value: "Active", label: "Active" },
-          { value: "Closed", label: "Closed" },
-        ]}
-      />
+        <FormField
+          name="status"
+          label="Status"
+          type="select"
+          value={formData.status}
+          onChange={handleChange}
+          options={[
+            { value: "Active", label: "Active" },
+            { value: "Closed", label: "Closed" },
+          ]}
+        />
 
-      <FormField
-        name="email"
-        label="Email"
-        type="email"
-        value={formData.email}
-        onChange={handleChange}
-      />
+        <FormField
+          name="email"
+          label="Email"
+          type="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
 
-      <FormField
-        name="phone"
-        label="Phone"
-        type="tel"
-        value={formData.phone}
-        onChange={handleChange}
-      />
+        <FormField
+          name="phone"
+          label="Phone"
+          type="tel"
+          value={formData.phone}
+          onChange={handleChange}
+        />
 
-      <FormField
-        name="description"
-        label="Description"
-        type="textarea"
-        value={formData.description}
-        onChange={handleChange}
-        rows="4"
-        required
-      />
+        <FormField
+          name="description"
+          label="Description"
+          type="textarea"
+          value={formData.description}
+          onChange={handleChange}
+          rows="4"
+          required
+        />
 
-      <div className="modal-actions">
-        <Button name="Cancel" onClick={onCancel} type="button" />
-        <Button name="Save Changes" type="submit" />
-      </div>
-    </form>
+        {formData.image && (
+          <div className="image-preview">
+            <img src={formData.image} alt="Uploaded preview" style={{ maxWidth: "100%" }} />
+          </div>
+        )}
+
+        <Button
+          name="Upload Image"
+          type="button"
+          onClick={handleUploadWidget}
+        />
+
+        <div className="modal-actions">
+          <Button name="Cancel" onClick={onCancel} type="button" />
+          <Button name="Save Changes" type="submit" />
+        </div>
+      </form>
+    </div>
   );
 }
