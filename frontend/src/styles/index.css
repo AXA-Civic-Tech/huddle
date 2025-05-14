@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap");
 @import "feed.css";
 @import "login.css";
 @import "modal.css";
@@ -43,34 +44,6 @@ input {
   margin-bottom: 1rem;
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  background: #000;
-}
-
-#logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-decoration: none;
-  color: #fff;
-}
-
-nav ul {
-  display: flex;
-  gap: 1rem;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-nav a {
-  display: block;
-  color: #fff;
-}
-
 form {
   padding: 1rem;
   border: 1px solid #ccc;
@@ -79,11 +52,4 @@ form {
 
 form > h2 {
   margin-bottom: 1rem;
-}
-
-/* automatically added by NavLink component */
-.active {
-  color: #eebc32;
-  font-weight: bold;
-  font-style: italic;
 }
