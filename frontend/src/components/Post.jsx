@@ -50,7 +50,7 @@ export default function Post({ event, onSelect, onClose }) {
         </UserLink>
       </p>
 
-      <Button name="View More" onClick={handleClick} />
+      {/* <Button name="View More" onClick={handleClick} /> */}
 
       {/* <div className="comments">{event.comments}</div> */}
     </div>

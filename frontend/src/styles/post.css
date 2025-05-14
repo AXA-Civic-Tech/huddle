@@ -1,0 +1,4 @@
+.post:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
