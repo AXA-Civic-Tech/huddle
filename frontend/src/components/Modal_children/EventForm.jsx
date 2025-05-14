@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import UserLink from "../UserLink";
-import FormField from "./FormField";
 import Button from "../Button";
+import FormField from "./FormField";
+import AddressForm from "./AddressForm";
+const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 /**
  * Component for editing or creating events/issues.
@@ -68,6 +70,61 @@ export default function EventForm({
       [name]: value,
     }));
   };
+
+  /**
+   * Handler for when a place is selected from Google Places
+   * Updates multiple form fields with place data
+   */
+  const handlePlaceSelected = (placeData) => {
+    setFormData((prev) => ({
+      ...prev,
+      address: placeData.formatted_address,
+      borough: placeData.components.borough || prev.borough,
+      zipcode: placeData.components.zipcode || prev.zipcode,
+      lat: placeData.lat,
+      lng: placeData.lng,
+    }));
+  };
+
+  // /**
+  //  * Handle address selection from Google Places Autocomplete
+  //  * Maps address components to form fields
+  //  */
+  // const handleAddressSelect = (address) => {
+  //   // Update form with address components
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     address: address.street_address || prev.address,
+  //     zipcode: address.postal_code || prev.zipcode,
+
+  //     // If the state is NY, attempt to set the borough based on city
+  //     // This is specific to NYC addresses
+  //     borough:
+  //       address.state === "NY"
+  //         ? mapCityToBorough(address.city) || prev.borough
+  //         : prev.borough,
+  //   }));
+  // };
+
+  /**
+   * Maps NYC area cities/neighborhoods to specific boroughs
+   * This is a helper function for handleAddressSelect
+   */
+  // const mapCityToBorough = (city) => {
+  //   if (!city) return null;
+
+  //   // Normalize city name for comparison
+  //   const cityName = city.toLowerCase();
+
+  //   // Simple mapping of some common city names to boroughs
+  //   if (cityName === "brooklyn") return "Brooklyn";
+  //   if (cityName === "new york" || cityName === "manhattan") return "Manhattan";
+  //   if (cityName === "queens") return "Queens";
+  //   if (cityName === "bronx" || cityName === "the bronx") return "The Bronx";
+  //   if (cityName === "staten island") return "Staten Island";
+
+  //   return null;
+  // };
 
   /**
    * Handler for zipcode field
@@ -150,7 +207,23 @@ export default function EventForm({
         required
       />
 
-      <FormField
+      <div className="field">
+        <label htmlFor="address">
+          <strong>Address:</strong>
+        </label>
+        <AddressForm
+          id="address"
+          name="address"
+          value={formData.address}
+          onChange={handleChange}
+          onPlaceSelected={handlePlaceSelected}
+          apiKey={apiKey}
+          placeholder="Start typing an address..."
+          required
+        />
+      </div>
+
+      {/* <FormField
         name="address"
         label="Address"
         value={formData.address}
@@ -181,7 +254,7 @@ export default function EventForm({
         maxLength="5"
         placeholder="5-digit ZIP code"
         required
-      />
+      /> */}
 
       <FormField
         name="status"
