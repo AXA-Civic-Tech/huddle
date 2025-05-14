@@ -25,6 +25,7 @@ export default function CommentsSection({ eventId, onClose }) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [upvotes, setUpvotes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   /**
    * Load comments and upvote count when component mounts
@@ -32,8 +33,10 @@ export default function CommentsSection({ eventId, onClose }) {
    */
   useEffect(() => {
     if (eventId) {
-      loadComments();
-      loadUpvotes();
+      setIsLoading(true);
+      Promise.all([loadComments(), loadUpvotes()]).finally(() =>
+        setIsLoading(false)
+      );
     }
   }, [eventId]);
 
@@ -42,21 +45,32 @@ export default function CommentsSection({ eventId, onClose }) {
    * Handles nested arrays and filters out invalid comments
    */
   const loadComments = async () => {
-    const data = await getCommentsByEvent(eventId);
-    const allComments = (data || [])
-      .flat() // flatten nested arrays
-      .filter((comment) => comment && typeof comment === "object"); // remove null values
-    setComments(allComments);
+    try {
+      const data = await getCommentsByEvent(eventId);
+      const allComments = (data || [])
+        .flat() // flatten nested arrays
+        .filter((comment) => comment && typeof comment === "object"); // remove null values
+      setComments(allComments);
+      return allComments;
+    } catch (error) {
+      console.error("Error loading comments:", error);
+      return [];
+    }
   };
 
   // Fetch the current upvotes (list) for the event
   const loadUpvotes = async () => {
-    const data = await getUpvoteCount(eventId);
-    const filtered = (data || []).filter(
-      (u) => u && typeof u === "object" && u.user_id
-    );
-    setUpvotes(filtered);
-    return filtered;
+    try {
+      const data = await getUpvoteCount(eventId);
+      const filtered = (data || []).filter(
+        (u) => u && typeof u === "object" && u.user_id
+      );
+      setUpvotes(filtered);
+      return filtered;
+    } catch (error) {
+      console.error("Error loading upvotes:", error);
+      return [];
+    }
   };
 
   // Check if the current user has upvoted
@@ -76,14 +90,21 @@ export default function CommentsSection({ eventId, onClose }) {
       return;
     }
 
-    await createComment({
-      user_id: currentUser.id,
-      contents: newComment,
-      event_id: eventId,
-    });
+    try {
+      setIsLoading(true);
+      await createComment({
+        user_id: currentUser.id,
+        contents: newComment,
+        event_id: eventId,
+      });
 
-    setNewComment(""); // Clear input
-    loadComments(); // Refresh comments
+      setNewComment(""); // Clear input
+      await loadComments(); // Refresh comments
+    } catch (error) {
+      console.error("Error posting comment:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   /**
@@ -95,17 +116,37 @@ export default function CommentsSection({ eventId, onClose }) {
       alert("You must be logged in to upvote.");
       return;
     }
-    if (hasUpvoted) {
-      await removeUpvote(eventId);
-    } else {
-      await upvoteEvent(eventId);
+
+    try {
+      setIsLoading(true);
+      if (hasUpvoted) {
+        await removeUpvote(eventId);
+      } else {
+        await upvoteEvent(eventId);
+      }
+      await loadUpvotes();
+    } catch (error) {
+      console.error("Error toggling upvote:", error);
+    } finally {
+      setIsLoading(false);
     }
-    await loadUpvotes();
   };
 
   return (
     <div className="comments">
-      <h3>Comments</h3>
+      <h3>Comments and Reactions</h3>
+
+      {/* Upvotes section */}
+      <div className="upvotes">
+        <span>Upvotes: {upvoteCount}</span>
+        <Button
+          name={hasUpvoted ? "Remove Upvote" : "Upvote"}
+          onClick={handleUpvoteToggle}
+          disabled={isLoading}
+        />
+      </div>
+
+      {/* Comment input */}
       <div className="comment-input">
         <input
           type="text"
@@ -118,21 +159,20 @@ export default function CommentsSection({ eventId, onClose }) {
               handlePostComment();
             }
           }}
+          disabled={isLoading}
         />
-        <Button name="Post" onClick={handlePostComment} />
-      </div>
-
-      {/* render upvotes */}
-      <div className="upvotes">
-        <span>Upvotes: {upvoteCount}</span>
         <Button
-          name={hasUpvoted ? "Downvote" : "Upvote"}
-          onClick={handleUpvoteToggle}
+          name="Post"
+          onClick={handlePostComment}
+          disabled={isLoading || !newComment.trim()}
         />
       </div>
 
+      {/* Comments list */}
       <div className="comments-list">
-        {comments.length > 0 ? (
+        {isLoading && comments.length === 0 ? (
+          <p className="loading-text">Loading comments...</p>
+        ) : comments.length > 0 ? (
           comments.map((comment, index) => (
             <div className="comment" key={index}>
               <UserLink
@@ -140,13 +180,15 @@ export default function CommentsSection({ eventId, onClose }) {
                 username={comment.username || "User"}
                 onClose={onClose}
               >
-                <strong>{comment.username || "User"}:</strong>
+                <strong>{comment.username || "User"}</strong>
               </UserLink>{" "}
-              {comment.contents}
+              <span className="comment-content">{comment.contents}</span>
             </div>
           ))
         ) : (
-          <p>No comments yet!</p>
+          <p className="no-comments">
+            No comments yet. Be the first to comment!
+          </p>
         )}
       </div>
     </div>

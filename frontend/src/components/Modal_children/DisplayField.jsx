@@ -8,10 +8,15 @@
  */
 
 export default function DisplayField({ label, value }) {
+  // Don't render anything if there's no value
+  if (!value || value.trim?.() === "") {
+    return null;
+  }
+
   return (
-    <div className="field">
+    <div className="field display-field">
       <strong>{label}:</strong>
-      <p>{value}</p>
+      <span className="field-value">{value}</span>
     </div>
   );
 }

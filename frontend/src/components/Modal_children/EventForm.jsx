@@ -23,6 +23,7 @@ export default function EventForm({
   onCancel,
   onClose,
   dialogRef,
+  setIsWidgetOpen,
 }) {
   /**
    * Initialize form state with event data or defaults
@@ -65,13 +66,11 @@ export default function EventForm({
     script.src = "https://widget.cloudinary.com/v2.0/global/all.js";
     script.async = true;
     document.body.appendChild(script);
-  
+
     return () => {
       document.body.removeChild(script); // Cleanup on unmount
     };
   }, []);
-  
-  const [setIsWidgetOpen] = useState(false);
 
   /**
    * Change handler for form fields
@@ -119,15 +118,12 @@ export default function EventForm({
             image: result.info.secure_url,
           }));
         }
-  
+
         if (result.event === "close") {
           // Reopen modal after widget is closed
           if (dialogRef.current && !dialogRef.current.open) {
             dialogRef.current.showModal();
           }
-        }
-
-        if (result.event === "close") {
           setIsWidgetOpen(false);
           if (modalRef.current) {
             modalRef.current.classList.remove("modal-hidden");
@@ -135,16 +131,16 @@ export default function EventForm({
         }
       }
     );
-  
+
     // Close modal before opening widget
     if (dialogRef.current && dialogRef.current.open) {
       dialogRef.current.close();
     }
-  
+
+    setIsWidgetOpen(true);
     widget.open();
   };
-  
-  
+
   /**
    * Render creator information based on whether this is a new post or an edit
    * - For existing posts: Shows original creator
@@ -271,17 +267,29 @@ export default function EventForm({
           required
         />
 
-        {formData.image && (
+        {formData.image ? (
           <div className="image-preview">
-            <img src={formData.image} alt="Uploaded preview" style={{ maxWidth: "100%" }} />
+            <img
+              src={formData.image}
+              alt="Uploaded preview"
+              style={{ maxWidth: "100%" }}
+            />
+            <Button
+              name="Change Image"
+              type="button"
+              onClick={handleUploadWidget}
+            />
+          </div>
+        ) : (
+          <div className="image-upload" onClick={handleUploadWidget}>
+            <div>
+              <p>
+                <strong>Upload Image</strong>
+              </p>
+              <p>Click here to upload an image for your event/issue</p>
+            </div>
           </div>
         )}
-
-        <Button
-          name="Upload Image"
-          type="button"
-          onClick={handleUploadWidget}
-        />
 
         <div className="modal-actions">
           <Button name="Cancel" onClick={onCancel} type="button" />

@@ -1,0 +1,162 @@
+/* Form styling to match event display */
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.edit-form p {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* Creator info styling */
+.edit-form p strong {
+  color: #555;
+}
+
+/* Field styling to match display fields */
+.field {
+  margin-bottom: 16px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+  font-size: 14px;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: #fafafa;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: #3498db;
+  background-color: #fff;
+  outline: none;
+}
+
+.field textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Image upload styled to match existing content */
+.image-upload {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #ccc;
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  background-color: #f9f9f9;
+  min-height: 150px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.image-upload:hover {
+  background-color: #f0f0f0;
+  border-color: #3498db;
+}
+
+.image-upload p {
+  margin: 5px 0;
+}
+
+.image-upload p strong {
+  color: #3498db;
+  font-size: 16px;
+}
+
+.image-preview {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.image-preview img {
+  max-width: 100%;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  object-fit: contain;
+}
+
+/* Buttons container */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+/* Button styling */
+button {
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+button[name="Save Changes"] {
+  background-color: #3498db;
+  color: white;
+}
+
+button[name="Save Changes"]:hover {
+  background-color: #2980b9;
+}
+
+button[name="Cancel"] {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+button[name="Cancel"]:hover {
+  background-color: #e0e0e0;
+}
+
+button[name="Change Image"] {
+  background-color: #3498db;
+  color: white;
+  margin-top: 5px;
+}
+
+button[name="Change Image"]:hover {
+  background-color: #2980b9;
+}
+
+/* Special styling for form layout to better match the event display */
+.form-header {
+  margin-bottom: 20px;
+}
+
+.form-header h2 {
+  font-size: 24px;
+  margin: 0 0 8px 0;
+  color: #333;
+}

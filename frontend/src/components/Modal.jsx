@@ -27,6 +27,7 @@ export default function Modal({
   const dialogRef = useRef();
   const { currentUser } = useContext(CurrentUserContext);
   const [username, setUsername] = useState("Loading...");
+  const [isWidgetOpen, setIsWidgetOpen] = useState(false);
 
   // Determine initial component state based on event data
   const isNew = !event?.id;
@@ -47,7 +48,7 @@ export default function Modal({
    * Handles error cases and missing user data
    */
   useEffect(() => {
-    const fetchUsername = async () => { 
+    const fetchUsername = async () => {
       if (!event?.user_id) {
         setUsername("Unknown User");
         return;
@@ -164,13 +165,8 @@ export default function Modal({
           onClose();
         }
       }}
-      
     >
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        {/* {event.image && (
-        <img src={event.image.src} alt={event.image.alt} className="image" />
-      )} */}
-
         {isEdit ? (
           <EventForm
             event={event}
@@ -180,39 +176,78 @@ export default function Modal({
             onCancel={cancelEdit}
             onClose={onClose}
             dialogRef={dialogRef}
+            setIsWidgetOpen={setIsWidgetOpen}
           />
         ) : (
           <>
-            <EventView event={event} username={username} onClose={onClose} />
+            <div className="modal-display">
+              <div
+                className={`event-images ${
+                  Array.isArray(event.images) && event.images.length > 1
+                    ? "event-image-grid"
+                    : ""
+                }`}
+              >
+                {event.image && (
+                  <img src={event.image} alt="Event" className="event-image" />
+                )}
+                {Array.isArray(event.images) &&
+                  event.images.map((img, index) => (
+                    <img
+                      key={index}
+                      src={img}
+                      alt={`Event ${index + 1}`}
+                      className="event-image"
+                    />
+                  ))}
+                {!event.image &&
+                  (!Array.isArray(event.images) ||
+                    event.images.length === 0) && (
+                    <div className="event-image">No image available</div>
+                  )}
+              </div>
 
-            {event.id && <CommentsSection eventId={event.id} />}
+              <div className="event-content">
+                <EventView
+                  event={event}
+                  username={username}
+                  onClose={onClose}
+                />
 
-            <div className="modal-actions">
-              {isEditableByUser && !isNew && (
-                <Button name="Edit Post" onClick={toggleEditMode} />
-              )}
-              <Button name="Close" onClick={() => onClose()} />
+                <div className="modal-actions">
+                  {isEditableByUser && !isNew && (
+                    <Button name="Edit Post" onClick={toggleEditMode} />
+                  )}
+                  <Button name="Close" onClick={() => onClose()} />
+                </div>
+
+                {/* Delete button only appears is user is viewing their own post - isEditable is true */}
+                {isEditableByUser && !isNew && (
+                  <div className="modal-actions">
+                    <Button
+                      name="Delete Post"
+                      onClick={async () => {
+                        if (
+                          window.confirm(
+                            "Are you sure you want to delete this post?"
+                          )
+                        ) {
+                          const [_, error] = await deletePost(event.id);
+                          if (!error) {
+                            onClose();
+                          }
+                        }
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
-          </>
-        )}
 
-        {/* Delete button only appears is user is viewing their own post - isEditable is true */}
-        {isEditableByUser && !isNew && (
-          <div className="modal-actions">
-            <Button
-              name="Delete Post"
-              onClick={async () => {
-                if (
-                  window.confirm("Are you sure you want to delete this post?")
-                ) {
-                  const [_, error] = await deletePost(event.id);
-                  if (!error) {
-                    onClose();
-                  }
-                }
-              }}
-            />
-          </div>
+            {event.id && (
+              <CommentsSection eventId={event.id} onClose={onClose} />
+            )}
+          </>
         )}
       </div>
     </dialog>
