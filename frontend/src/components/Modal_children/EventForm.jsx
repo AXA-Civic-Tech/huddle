@@ -71,7 +71,7 @@ export default function EventForm({
     };
   }, []);
   
-  const [isWidgetOpen, setIsWidgetOpen] = useState(false);
+  const [setIsWidgetOpen] = useState(false);
 
   /**
    * Change handler for form fields
@@ -104,7 +104,6 @@ export default function EventForm({
     onSave(formData);
   };
 
-  const widgetRef = useRef(null);
   const modalRef = useRef(null);
 
   const handleUploadWidget = () => {
