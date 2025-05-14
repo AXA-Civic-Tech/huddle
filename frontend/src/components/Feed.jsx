@@ -199,44 +199,46 @@ export default function Feed() {
   const sorted = getFilteredAndSortedPosts();
 
   return (
-    <div className="feed">
-      <h1>{title}</h1>
+    <div className={pathname === "/" ? "feed-home" : "feed-user"}>
+      <div className="feed-content">
+        <h1>{title}</h1>
 
-      <FeedControls
-        filterType={filterType}
-        filterValue={filterValue}
-        sort={sort}
-        onFilterChange={handleFilterChange}
-        onSortChange={handleSortChange}
-        onNewPost={handleNewPost}
-        currentUser={currentUser}
-        isViewing={isViewing}
-        pathname={pathname}
-      />
+        <FeedControls
+          filterType={filterType}
+          filterValue={filterValue}
+          sort={sort}
+          onFilterChange={handleFilterChange}
+          onSortChange={handleSortChange}
+          onNewPost={handleNewPost}
+          currentUser={currentUser}
+          isViewing={isViewing}
+          pathname={pathname}
+        />
 
-      {loading ? (
-        <p>Loading posts...</p>
-      ) : posts.length === 0 ? (
-        <p>No posts yet! Be the first to create one.</p>
-      ) : (
-        sorted
-          .filter(Boolean)
-          .map((post) => (
-            <Post
-              key={post.id}
-              event={post}
-              onSelect={openModal}
-              onClose={closeModal}
-            />
-          ))
-      )}
+        {loading ? (
+          <p>Loading posts...</p>
+        ) : posts.length === 0 ? (
+          <p>No posts yet! Be the first to create one.</p>
+        ) : (
+          sorted
+            .filter(Boolean)
+            .map((post) => (
+              <Post
+                key={post.id}
+                event={post}
+                onSelect={openModal}
+                onClose={closeModal}
+              />
+            ))
+        )}
 
-      <Modal
-        event={selectedPost || {}}
-        onClose={closeModal}
-        isOpen={isOpen}
-        viewing={isViewing}
-      />
+        <Modal
+          event={selectedPost || {}}
+          onClose={closeModal}
+          isOpen={isOpen}
+          viewing={isViewing}
+        />
+      </div>
     </div>
   );
 }

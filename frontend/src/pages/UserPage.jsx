@@ -103,9 +103,7 @@ export default function UserPage() {
         <h3>{userProfile.email}</h3>
       </div>
 
-      <div className="profile-feed">
-        <Feed />
-      </div>
+      <Feed />
     </>
   );
 }
