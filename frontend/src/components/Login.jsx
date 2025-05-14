@@ -1,10 +1,14 @@
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { logUserIn } from "../adapters/auth-adapter";
 import CurrentUserContext from "../contexts/current-user-context";
 
 export default function LoginForm() {
   const navigate = useNavigate();
+  const location = useLocation();
+  // Get the redirect path from location state, or default to home
+  const from = location.state?.from || "/";
+
   const [errorText, setErrorText] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +22,8 @@ export default function LoginForm() {
     if (error) return setErrorText(error.message);
 
     setCurrentUser(user);
-    navigate(`/`);
+    // Navigate to the original page the user was trying to access
+    navigate(from, { replace: true });
   };
 
   return (

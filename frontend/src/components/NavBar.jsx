@@ -41,41 +41,16 @@ export default function NavBar() {
           {/* When user IS logged in */}
           {currentUser && (
             <>
-              {/* On UserPage, show View Map and Log Out */}
-              {pathname.includes(`/users/`) && (
-                <>
-                  <li>
-                    {/* <Button name="View Map" to="/" /> */}
-                    <NavLink to="/">View Map</NavLink>
-                  </li>
-                  {isViewing && (
-                    <li>
-                      {/* <Button name='My Profile' to={`/users/${currentUser.id}`} /> */}
-                      <NavLink to={`/users/${currentUser.id}`}>
+              <li>
+                <Button name="My Profile" to={`/users/${currentUser.id}`} />
+                {/* <NavLink to={`/users/${currentUser.id}`}>
                         My Profile
-                      </NavLink>
-                    </li>
-                  )}
-                  <li>
-                    <Button name="Log Out" onClick={handleLogout} />
-                  </li>
-                </>
-              )}
+                      </NavLink> */}
+              </li>
 
-              {/* On HomePage, show My Profile and Log Out */}
-              {pathname === "/" && (
-                <>
-                  <li>
-                    {/* <Button name="My Profile" to={`/users/${currentUser.id}`} /> */}
-                    <NavLink to={`/users/${currentUser.id}`}>
-                      My Profile
-                    </NavLink>
-                  </li>
-                  <li>
-                    <Button name="Log Out" onClick={handleLogout} />
-                  </li>
-                </>
-              )}
+              <li>
+                <Button name="Log Out" onClick={handleLogout} />
+              </li>
             </>
           )}
 
