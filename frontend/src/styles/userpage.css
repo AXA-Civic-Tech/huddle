@@ -1,0 +1,25 @@
+.user-page-container {
+  margin: 1.5rem auto;
+  width: 70%;
+}
+
+.profile-username {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Space between username and Edit button */
+}
+
+.profile-username h1 {
+  margin: 0;
+}
+
+.add-button {
+  background-color: transparent;
+  height: 2.5rem;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.add-button:hover {
+  background-color: lightgrey;
+}

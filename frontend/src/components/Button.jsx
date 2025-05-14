@@ -12,6 +12,7 @@ import { NavLink } from "react-router-dom";
 
 export default function Button({
   name,
+  children,
   onClick,
   to,
   type = "button",
@@ -19,7 +20,7 @@ export default function Button({
 }) {
   const ButtonElement = () => (
     <button onClick={onClick} type={type} {...props}>
-      {name}
+      {name || children}
     </button>
   );
 

@@ -33,8 +33,8 @@ export default function NavBar() {
 
   return (
     <header>
-      <a id="logo" href="/">
-        Huddle
+      <a className="logo" href="/">
+        <img src="/huddle-icon.png" alt="logo" className="logo" /> Huddle
       </a>
       <nav>
         <ul>

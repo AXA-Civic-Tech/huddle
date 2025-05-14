@@ -29,6 +29,7 @@ export default function UserPage() {
   const [userProfile, setUserProfile] = useState(null);
   const [error, setError] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [postCount, setPostCount] = useState(0);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -58,6 +59,10 @@ export default function UserPage() {
     if (updatedUser) setCurrentUser(updatedUser);
   };
 
+  const handlePostCountChange = (count) => {
+    setPostCount(count);
+  };
+
   if (error)
     return (
       <p>Sorry, there was a problem loading user. Please try again later.</p>
@@ -71,30 +76,36 @@ export default function UserPage() {
     : userProfile.username;
 
   return (
-    <>
+    <div className="user-page-container">
       <div className="profile-header">
-        <h1>{profileUsername}</h1>
+        <div className="profile-username">
+          <h1>{profileUsername}</h1>
 
-        {isCurrentUserProfile && (
-          <>
-            <Button name="Edit" onClick={openModal} />
-            <dialog
-              className="update-username-form"
-              ref={dialogRef}
-              onClick={(e) => {
-                if (e.target == e.currentTarget) closeModal();
-              }}
-            >
-              <UpdateUsernameForm
-                currentUser={currentUser}
-                setCurrentUser={(user) => {
-                  setCurrentUser(user);
-                  closeModal(user);
+          {isCurrentUserProfile && (
+            <>
+              <Button name="Edit" onClick={openModal} className="edit" />
+              <dialog
+                className="update-username-form"
+                ref={dialogRef}
+                onClick={(e) => {
+                  if (e.target == e.currentTarget) closeModal();
                 }}
-              />
-            </dialog>
-          </>
-        )}
+              >
+                <UpdateUsernameForm
+                  currentUser={currentUser}
+                  setCurrentUser={(user) => {
+                    setCurrentUser(user);
+                    closeModal(user);
+                  }}
+                />
+              </dialog>
+            </>
+          )}
+        </div>
+
+        <p>
+          <strong>{postCount}</strong> posts
+        </p>
 
         <h3>
           {userProfile.first_name} {userProfile.last_name}
@@ -103,9 +114,7 @@ export default function UserPage() {
         <h3>{userProfile.email}</h3>
       </div>
 
-      <div className="profile-feed">
-        <Feed />
-      </div>
-    </>
+      <Feed onPostCountChange={handlePostCountChange} />
+    </div>
   );
 }

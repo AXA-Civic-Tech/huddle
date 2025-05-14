@@ -20,7 +20,7 @@ import FeedControls from "./Feed_children/FeedControls";
  * @returns
  */
 
-export default function Feed() {
+export default function Feed({ onPostCountChange }) {
   const location = useLocation();
   const pathname = location.pathname;
   const { id: urlUserId } = useParams(); // string
@@ -43,8 +43,16 @@ export default function Feed() {
   const fetchPosts = () => {
     setLoading(true);
     getAllPosts().then(([data, error]) => {
-      if (data) setPosts(data);
-      else console.error(error);
+      if (data) {
+        setPosts(data);
+        // If we're on a user profile page and the callback exists, send the post count
+        if (pathname.startsWith("/users/") && onPostCountChange) {
+          const userPosts = data.filter(
+            (post) => post.user_id === parseInt(urlUserId)
+          );
+          onPostCountChange(userPosts.length);
+        }
+      } else console.error(error);
       setLoading(false);
     });
   };
@@ -82,34 +90,8 @@ export default function Feed() {
     setIsOpen(true);
   };
 
-  // const closeModal = async (updatedPost) => {
-  //   // If we received updated data, update our post list
-  //   if (updatedPost) {
-  //     console.log("Received updated/new post:", updatedPost);
-
-  //     // Handle both new posts and updated posts
-  //     if (updatedPost.id) {
-  //       setPosts((prevPosts) => {
-  //         // Check if this post already exists in our list
-  //         const postExists = prevPosts.some(
-  //           (post) => post.id === updatedPost.id
-  //         );
-
-  //         if (postExists) {
-  //           // Update exisitng post
-  //           return prevPosts.map((post) =>
-  //             post.id === updatedPost.id ? updatedPost : post
-  //           );
-  //         } else {
-  //           // Add new post to the list
-  //           return [updatedPost, ...prevPosts];
-  //         }
-  //       });
-  //     }
-  //   }
-
   // Simplified logic here, all we need to do is fetch all posts again any time a post is updated/deleted
-  const closeModal = async (updatedPost, deletedPostId) => {
+  const closeModal = async () => {
     // Always re-fetch posts after an update or delete
     fetchPosts();
     setSelectedPost(null);
@@ -199,44 +181,46 @@ export default function Feed() {
   const sorted = getFilteredAndSortedPosts();
 
   return (
-    <div className="feed">
-      <h1>{title}</h1>
+    <div className={pathname === "/" ? "feed-home" : "feed-user"}>
+      <div className="feed-content">
+        <h1>{title}</h1>
 
-      <FeedControls
-        filterType={filterType}
-        filterValue={filterValue}
-        sort={sort}
-        onFilterChange={handleFilterChange}
-        onSortChange={handleSortChange}
-        onNewPost={handleNewPost}
-        currentUser={currentUser}
-        isViewing={isViewing}
-        pathname={pathname}
-      />
+        <FeedControls
+          filterType={filterType}
+          filterValue={filterValue}
+          sort={sort}
+          onFilterChange={handleFilterChange}
+          onSortChange={handleSortChange}
+          onNewPost={handleNewPost}
+          currentUser={currentUser}
+          isViewing={isViewing}
+          pathname={pathname}
+        />
 
-      {loading ? (
-        <p>Loading posts...</p>
-      ) : posts.length === 0 ? (
-        <p>No posts yet! Be the first to create one.</p>
-      ) : (
-        sorted
-          .filter(Boolean)
-          .map((post) => (
-            <Post
-              key={post.id}
-              event={post}
-              onSelect={openModal}
-              onClose={closeModal}
-            />
-          ))
-      )}
+        {loading ? (
+          <p>Loading posts...</p>
+        ) : posts.length === 0 ? (
+          <p>No posts yet! Be the first to create one.</p>
+        ) : (
+          sorted
+            .filter(Boolean)
+            .map((post) => (
+              <Post
+                key={post.id}
+                event={post}
+                onSelect={openModal}
+                onClose={closeModal}
+              />
+            ))
+        )}
 
-      <Modal
-        event={selectedPost || {}}
-        onClose={closeModal}
-        isOpen={isOpen}
-        viewing={isViewing}
-      />
+        <Modal
+          event={selectedPost || {}}
+          onClose={closeModal}
+          isOpen={isOpen}
+          viewing={isViewing}
+        />
+      </div>
     </div>
   );
 }
