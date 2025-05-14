@@ -1,6 +1,5 @@
-import { useState, useContext, useEffect } from "react";
-import { useNavigate, Navigate, useLocation } from "react-router-dom";
-import CurrentUserContext from "../contexts/current-user-context";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import LoginForm from "../components/Login";
 import SignUpForm from "../components/SignUp";
 
@@ -11,23 +10,14 @@ import SignUpForm from "../components/SignUp";
  */
 
 export default function LoginSignUpPage() {
-  const navigate = useNavigate();
-
   const location = useLocation();
   const pathname = location.pathname;
 
   const [activeForm, setActiveForm] = useState("signup");
-  const { currentUser } = useContext(CurrentUserContext);
 
   useEffect(() => {
     pathname === "/login" ? setActiveForm("login") : setActiveForm("signup");
   }, [pathname]);
-
-  // If user is logged in, redirect to their profile page.
-  if (currentUser) return <Navigate to={`/users/${currentUser.id}`} />;
-
-  // If user is on the root path and not logged in, redirect to the main page
-  if (pathname === "/") return <Navigate to="/" />;
 
   return (
     <>

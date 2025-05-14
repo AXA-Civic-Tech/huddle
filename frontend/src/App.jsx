@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import UserContext from "./contexts/current-user-context";
 import { checkForLoggedInUser } from "./adapters/auth-adapter";
 import HomePage from "./pages/HomePage";
@@ -10,13 +10,16 @@ import UsersPage from "./pages/Users";
 import NavBar from "./components/NavBar";
 
 export default function App() {
-  const { setCurrentUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const location = useLocation();
+
   useEffect(() => {
     const loadCurrentUser = async () => {
       // we aren't concerned about an error happening here
       const [data] = await checkForLoggedInUser();
       if (data) setCurrentUser(data);
     };
+
     loadCurrentUser();
   }, [setCurrentUser]);
 
@@ -34,7 +37,16 @@ export default function App() {
 
           {/* User profile pages */}
           <Route path="/users" element={<UsersPage />} />
-          <Route path="/users/:id" element={<UserPage />} />
+          <Route
+            path="/users/:id"
+            element={
+              currentUser ? (
+                <UserPage />
+              ) : (
+                <Navigate to="/login" state={{ from: location.pathname }} />
+              )
+            }
+          />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

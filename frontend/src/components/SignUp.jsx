@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useNavigate, Navigate, Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
 import CurrentUserContext from "../contexts/current-user-context";
 import {
@@ -14,6 +14,10 @@ const SITE_KEY = "6Lf1FC8rAAAAAJ4egdXJ_RkeePpHowuY1ZFKb20S"; // from Google
 // more validation and provide real time feedback to the user about usernames and passwords
 export default function SignUpForm() {
   const navigate = useNavigate();
+  const location = useLocation();
+  // Get the redirect path from location state, or default to home
+  const from = location.state?.from || "/";
+
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const [recaptchaToken, setRecaptchaToken] = useState("");
   const [errorText, setErrorText] = useState("");
@@ -83,7 +87,8 @@ export default function SignUpForm() {
     if (error) return setErrorText(error.message);
 
     setCurrentUser(user);
-    navigate(`/users/${user.id}`);
+    // Navigate to the original page the user was trying to access
+    navigate(from, { replace: true });
   };
 
   const handleChange = (event) => {

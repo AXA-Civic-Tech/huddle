@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 /**
  * Component for rendering links to user profiles.
@@ -12,9 +12,16 @@ import { Link } from "react-router-dom";
  */
 
 export default function UserLink({ userId, username, onClose, children }) {
+  const location = useLocation();
+
   return (
-    <Link to={`/users/${userId}`} onClick={(e) => onClose()}>
-      {children || username}
+    <Link
+      to={`/users/${userId}`}
+      onClick={(e) => onClose()}
+      state={{ from: location.pathname }}
+      className="user-link"
+    >
+      {children || username || "Unknown User"}
     </Link>
   );
 }
