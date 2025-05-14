@@ -1,8 +1,11 @@
 import { useContext, useState } from "react";
-import { useNavigate, Navigate, Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
 import CurrentUserContext from "../contexts/current-user-context";
-import { registerUser, checkUsernameAvailability } from "../adapters/auth-adapter";
+import {
+  registerUser,
+  checkUsernameAvailability,
+} from "../adapters/auth-adapter";
 
 //The site key remains public as it's a PUBLIC KEY
 const SITE_KEY = "6Lf1FC8rAAAAAJ4egdXJ_RkeePpHowuY1ZFKb20S"; // from Google
@@ -11,6 +14,10 @@ const SITE_KEY = "6Lf1FC8rAAAAAJ4egdXJ_RkeePpHowuY1ZFKb20S"; // from Google
 // more validation and provide real time feedback to the user about usernames and passwords
 export default function SignUpForm() {
   const navigate = useNavigate();
+  const location = useLocation();
+  // Get the redirect path from location state, or default to home
+  const from = location.state?.from || "/";
+
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const [recaptchaToken, setRecaptchaToken] = useState("");
   const [errorText, setErrorText] = useState("");
@@ -19,7 +26,7 @@ export default function SignUpForm() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  
+
   // State for username availability checking
   const [isCheckingUsername, setIsCheckingUsername] = useState(false); // Tracks if we're currently checking username
   const [usernameAvailable, setUsernameAvailable] = useState(true); // Tracks if the username is available
@@ -39,7 +46,7 @@ export default function SignUpForm() {
       const available = await checkUsernameAvailability(username);
       setUsernameAvailable(available);
     } catch (error) {
-      console.error('Error checking username:', error);
+      console.error("Error checking username:", error);
       setUsernameAvailable(true); // Assume available on error to not block registration
     }
     setIsCheckingUsername(false);
@@ -80,7 +87,8 @@ export default function SignUpForm() {
     if (error) return setErrorText(error.message);
 
     setCurrentUser(user);
-    navigate(`/users/${user.id}`);
+    // Navigate to the original page the user was trying to access
+    navigate(from, { replace: true });
   };
 
   const handleChange = (event) => {
@@ -168,16 +176,23 @@ export default function SignUpForm() {
           minLength={6}
         />
 
-        {/* In reality, we'd want a LOT more validation on signup, so add more things if you have time
+        {/* In reality, we'd want a LOT more validation on signup, so add more things if you have time */}
         <label htmlFor="password-confirm">Password Confirm</label>
-        <input autoComplete="off" type="password" id="password-confirm" name="passwordConfirm" />
-      */}
+        <input
+          autoComplete="off"
+          type="password"
+          id="password-confirm"
+          name="passwordConfirm"
+        />
 
         {/* reCAPTCHA */}
         <ReCAPTCHA sitekey={SITE_KEY} onChange={handleCaptchaChange} />
 
         {/* Disable submit button if username is taken or while checking availability */}
-        <button type="submit" disabled={!usernameAvailable || isCheckingUsername}>
+        <button
+          type="submit"
+          disabled={!usernameAvailable || isCheckingUsername}
+        >
           Sign Up Now!
         </button>
       </form>
