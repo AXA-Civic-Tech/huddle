@@ -21,3 +21,10 @@ export const removeUpvote = async (eventId) => {
     deleteOptions
   );
 }; 
+
+// Grab all upvotes by User
+
+export const getUpvotesByUser = async (userId) => {
+  return await fetchHandler(`/api/upvotes/users/${userId}`)
+ 
+}
