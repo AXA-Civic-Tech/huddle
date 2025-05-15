@@ -3,10 +3,10 @@
   top: 0;
   left: 0;
   width: 400px;
-  height: calc(100% - 4.2rem);
+  height: calc(100% - 0rem);
   z-index: 2; /* make sure it sits on top of the Map */
   padding: 1rem;
-  margin: 3.2rem 0rem 1rem 0.65rem;
+  margin: 4rem 0rem 1rem 0.65rem;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
@@ -39,12 +39,15 @@
 .scroller::-webkit-scrollbar-thumb {
   background: transparent;
 }
+
 .scroller::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .scroller:hover::-webkit-scrollbar-thumb {
   background: var(--scrollbar-color-thumb);
 }
+
 .scroller:hover::-webkit-scrollbar-track {
   background: var(--scrollbar-color-track);
 }

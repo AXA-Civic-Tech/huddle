@@ -159,6 +159,13 @@ export default function Modal({
       }}
     >
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <Button
+          name="✕"
+          className="close-icon"
+          onClick={() => onClose()}
+          aria-label="Close"
+        />
+
         {isEdit ? (
           <EventForm
             event={event}
@@ -231,28 +238,25 @@ export default function Modal({
                   {isEditableByUser && !isNew && (
                     <Button name="Edit Post" onClick={toggleEditMode} />
                   )}
-                  <Button name="Close" onClick={() => onClose()} />
                 </div>
 
                 {/* Delete button only appears is user is viewing their own post - isEditable is true */}
                 {isEditableByUser && !isNew && (
-                  <div className="modal-actions">
-                    <Button
-                      name="Delete Post"
-                      onClick={async () => {
-                        if (
-                          window.confirm(
-                            "Are you sure you want to delete this post?"
-                          )
-                        ) {
-                          const [_, error] = await deletePost(event.id);
-                          if (!error) {
-                            onClose();
-                          }
+                  <Button
+                    name="Delete Post"
+                    onClick={async () => {
+                      if (
+                        window.confirm(
+                          "Are you sure you want to delete this post?"
+                        )
+                      ) {
+                        const [_, error] = await deletePost(event.id);
+                        if (!error) {
+                          onClose();
                         }
-                      }}
-                    />
-                  </div>
+                      }
+                    }}
+                  />
                 )}
               </div>
             </div>
