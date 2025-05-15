@@ -23,6 +23,7 @@ export default function EventForm({
   onCancel,
   onClose,
   dialogRef,
+  setIsWidgetOpen,
 }) {
   /**
    * Initialize form state with event data or defaults
@@ -43,7 +44,6 @@ export default function EventForm({
       images: safeEvent.images || "",
     };
   });
-  
 
   /**
    * Reset form data when event prop changes
@@ -69,13 +69,11 @@ export default function EventForm({
     script.src = "https://widget.cloudinary.com/v2.0/global/all.js";
     script.async = true;
     document.body.appendChild(script);
-  
+
     return () => {
       document.body.removeChild(script); // Cleanup on unmount
     };
   }, []);
-  
-  const [setIsWidgetOpen] = useState(false);
 
   /**
    * Change handler for form fields
@@ -124,15 +122,12 @@ export default function EventForm({
             images: result.info.secure_url,
           }));
         }
-  
+
         if (result.event === "close") {
           // Reopen modal after widget is closed
           if (dialogRef.current && !dialogRef.current.open) {
             dialogRef.current.showModal();
           }
-        }
-
-        if (result.event === "close") {
           setIsWidgetOpen(false);
           if (modalRef.current) {
             modalRef.current.classList.remove("modal-hidden");
@@ -140,16 +135,16 @@ export default function EventForm({
         }
       }
     );
-  
+
     // Close modal before opening widget
     if (dialogRef.current && dialogRef.current.open) {
       dialogRef.current.close();
     }
-  
+
+    setIsWidgetOpen(true);
     widget.open();
   };
-  
-  
+
   /**
    * Render creator information based on whether this is a new post or an edit
    * - For existing posts: Shows original creator
@@ -223,8 +218,16 @@ export default function EventForm({
         <FormField
           name="borough"
           label="Borough"
+          type="select"
           value={formData.borough}
           onChange={handleChange}
+          options={[
+            { value: "Manhattan", label: "Manhattan" },
+            { value: "Brooklyn", label: "Brooklyn" },
+            { value: "Queens", label: "Queens" },
+            { value: "The Bronx", label: "The Bronx" },
+            { value: "Staten Island", label: "Staten Island" },
+          ]}
           required
         />
 
@@ -278,21 +281,46 @@ export default function EventForm({
 
         {formData.images && (
           <div className="image-preview">
-            <img src={formData.images} alt="Uploaded preview" style={{ maxWidth: "100%" }} />
+            <img
+              src={formData.image}
+              alt="Uploaded preview"
+              style={{ maxWidth: "100%" }}
+            />
           </div>
         )}
 
-        <Button
-          name="Upload Image"
-          type="button"
-          onClick={handleUploadWidget}
-        />
-
         <div className="modal-actions">
           <Button name="Cancel" onClick={onCancel} type="button" />
-          <Button name="Save Changes" type="submit" />
+          <Button name="Save" type="submit" />
         </div>
       </form>
+
+      {/* Comments Preview Section for new events */}
+      {!event?.id && (
+        <div className="comments-preview">
+          <h3>Comments and Reactions</h3>
+
+          <div className="upvotes-preview">
+            <span>Upvotes: 0</span>
+            <Button name="Upvote" disabled={true} />
+          </div>
+
+          <div className="comment-input-preview">
+            <input
+              type="text"
+              placeholder="Comments will be available after posting..."
+              disabled={true}
+            />
+            <Button name="Post" disabled={true} />
+          </div>
+
+          <div className="comments-list-preview">
+            <p className="no-comments-preview">
+              Comments will appear here after the event is created
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

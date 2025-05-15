@@ -1,4 +1,4 @@
-header {
+.navbar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -6,18 +6,27 @@ header {
   background: #000;
 }
 
-.logo {
-  /* Huddle text */
+.navbar-logo {
   font-size: 1.5rem;
   font-weight: bold;
   text-decoration: none;
   color: #fff;
-  /* Huddle Icon */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navbar-icon {
   height: 1.5rem;
   vertical-align: middle;
 }
 
-nav ul {
+.navbar-nav {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-links {
   display: flex;
   gap: 1rem;
   padding: 0;
@@ -25,13 +34,16 @@ nav ul {
   list-style: none;
 }
 
-nav a {
-  display: block;
-  color: #fff;
+.navbar-item {
+  list-style: none;
 }
 
-/* automatically added by NavLink component */
-.active {
+.navbar-link {
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar-link.active {
   color: #eebc32;
   font-weight: bold;
   font-style: italic;

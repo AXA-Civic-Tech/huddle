@@ -21,25 +21,52 @@ export default function LoginSignUpPage() {
 
   return (
     <>
-      <h1>Huddle</h1>
-      <p>One map. Infinite stories.</p>
+      <div className="login-signup-container">
+        {/* Left Side - Info Section */}
+        <div className="info-section">
+          <h1 className="app-title">Huddle</h1>
+          <h3 className="app-subtitle">One map. Infinite stories.</h3>
+          <p className="section-label">Mission Statement:</p>
+          <p className="mission-text">
+            Our mission is to create a web app where any New Yorker can, in
+            under 30 seconds, post or discover neighborhood issues and events.
+            By unifying 311-style reports and community activities on a
+            real-time, interactive map, we aim to turn isolated data points into
+            shared civic awareness and spark faster, collective responses across
+            neighborhoods.
+          </p>
 
-      <div>
-        {activeForm === "login" ? (
-          <>
-            <p>Don't have an account?</p>
-            <button onClick={() => setActiveForm("signup")}>Sign Up</button>
-          </>
-        ) : (
-          <>
-            <p>Have an account?</p>
-            <button onClick={() => setActiveForm("login")}>Log In</button>
-          </>
-        )}
-      </div>
+          <div className="switch-form-prompt">
+            {activeForm === "login" ? (
+              <>
+                <p>Don't have an account?</p>
+                <button
+                  className="switch-form-button"
+                  onClick={() => setActiveForm("signup")}
+                >
+                  Sign Up
+                </button>
+              </>
+            ) : (
+              <>
+                <p>Have an account?</p>
+                <button
+                  className="switch-form-button"
+                  onClick={() => setActiveForm("login")}
+                >
+                  Log In
+                </button>
+              </>
+            )}
+          </div>
+        </div>
 
-      <div className="form">
-        {activeForm === "login" ? <LoginForm /> : <SignUpForm />}
+        {/* Right Side - Form Section */}
+        <div className="form-section">
+          <div className="form-wrapper">
+            {activeForm === "login" ? <LoginForm /> : <SignUpForm />}
+          </div>
+        </div>
       </div>
     </>
   );

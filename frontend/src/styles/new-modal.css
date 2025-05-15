@@ -1,0 +1,216 @@
+/* new-modal.css - Combined styling for EventForm matching Modal.jsx styles */
+/* Form layout and styling */
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+/* Creator information */
+.edit-form p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 16px;
+}
+/* Field styling consistent with modal.css */
+.field {
+  margin-bottom: 16px;
+}
+.field label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #555;
+}
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.2s;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+.field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+/* Image upload styling */
+.image-upload {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #ccc;
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  background-color: #f9f9f9;
+  min-height: 150px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+.image-upload:hover {
+  background-color: #f0f0f0;
+  border-color: #aaa;
+}
+.image-upload p {
+  margin: 0;
+  color: #555;
+}
+.image-upload p strong {
+  font-size: 16px;
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+.image-preview {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+.image-preview img {
+  max-width: 100%;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  object-fit: contain;
+}
+/* Button styling */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  background-color: #3498db;
+  color: white;
+}
+button:hover {
+  background-color: #2980b9;
+}
+button[name="Cancel"],
+button[name="Close"] {
+  background-color: #f1f1f1;
+  color: #333;
+}
+button[name="Cancel"]:hover,
+button[name="Close"]:hover {
+  background-color: #e0e0e0;
+}
+button[name="Delete Post"] {
+  background-color: #e74c3c;
+}
+button[name="Delete Post"]:hover {
+  background-color: #c0392b;
+}
+button[name="Change Image"] {
+  background-color: #7f8c8d;
+}
+button[name="Change Image"]:hover {
+  background-color: #6c7a7d;
+}
+/* Comments Section Preview */
+.comments-preview {
+  margin-top: 24px;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  opacity: 0.7; /* Makes it look like a preview */
+}
+.comments-preview h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #333;
+}
+.comments-preview::after {
+  content: "(Comments will be available after posting)";
+  font-style: italic;
+  color: #888;
+  margin-top: 10px;
+  text-align: center;
+}
+.upvotes-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+  padding: 8px 0;
+}
+.upvotes-preview span {
+  font-weight: 500;
+}
+.comment-input-preview {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  opacity: 0.7;
+}
+.comment-input-preview input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #aaa;
+  background-color: #f9f9f9;
+}
+.comments-list-preview {
+  margin-top: 16px;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.no-comments-preview {
+  color: #999;
+  text-align: center;
+  font-style: italic;
+}
+/* Responsive styling */
+@media (max-width: 768px) {
+  .modal-actions {
+    flex-direction: column;
+  }
+  button {
+    width: 100%;
+  }
+  .comment-input-preview {
+    flex-direction: column;
+  }
+}
+/* For even smaller screens */
+@media (max-width: 480px) {
+  .field label {
+    font-size: 14px;
+  }
+  .field input,
+  .field select,
+  .field textarea {
+    font-size: 14px;
+    padding: 6px;
+  }
+}
