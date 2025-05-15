@@ -111,7 +111,7 @@ export default function SignUpForm() {
   return (
     <>
       <form onSubmit={handleSubmit} aria-labelledby="create-heading">
-        <h1>Sign Up</h1>
+        <h1>Be a Team Player</h1>
 
         <div className="name-inputs">
           <div className="first-name">

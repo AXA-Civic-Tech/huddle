@@ -28,9 +28,8 @@ export default function LoginForm() {
 
   return (
     <>
-      <h1>Login</h1>
       <form onSubmit={handleSubmit} aria-labelledby="login-heading">
-        <h2 id="login-heading">Log back in!</h2>
+        <h1>Huddle Up!</h1>
         <label htmlFor="username">Username</label>
         <input
           type="text"
