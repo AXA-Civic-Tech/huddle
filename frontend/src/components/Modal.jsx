@@ -152,7 +152,13 @@ export default function Modal({
 
   // Cancel edit operation without saving changes
   const cancelEdit = () => {
-    setIsEdit(false);
+    // For new posts, close the modal completely
+    if (isNew) {
+      onClose();
+    } else {
+      // For existing posts, return to view mode
+      setIsEdit(false);
+    }
   };
 
   return (
