@@ -19,7 +19,7 @@ export default function EventView({ event = {}, username, onClose }) {
     if (event?.user_id) {
       //For existing post, show original creator
       return (
-        <p>
+        <p className="created-by">
           <strong>Created by:</strong>{" "}
           <UserLink
             userId={event.user_id}
@@ -36,10 +36,12 @@ export default function EventView({ event = {}, username, onClose }) {
 
   return (
     <div className="event-view">
+      <h2 className="event-title">{event.title || "Untitled Event"}</h2>
+
       {renderCreatedBy()}
 
       <DisplayField
-        label="Issue/Event"
+        label="Type"
         value={
           event.is_issue === true || event.is_issue === "true"
             ? "Issue"
@@ -47,23 +49,35 @@ export default function EventView({ event = {}, username, onClose }) {
         }
       />
 
-      <DisplayField label="Title" value={event.title} />
-
-      <DisplayField label="Address" value={event.address} />
-
-      <DisplayField label="Borough" value={event.borough} />
-
-      <DisplayField label="Zip Code" value={event.zipcode} />
-
       <DisplayField label="Status" value={event.status} />
 
-      <DisplayField label="Email" value={event.email} />
+      <DisplayField
+        label="Address"
+        value={[event.address, event.borough, "NY", event.zipcode]}
+      />
 
-      <DisplayField label="Phone" value={event.phone} />
+      {event.email && <DisplayField label="Email" value={event.email} />}
+      {event.phone && <DisplayField label="Phone" value={event.phone} />}
 
-      <DisplayField label="Description" value={event.description} />
+      <div className="description-section">
+        <h3>Description</h3>
+        <p className="description-text">{event.description}</p>
+      </div>
 
-      <DisplayField label="Image" value={event.images ? <img src={event.images} alt="Event" style={{ maxWidth: "200px", height: "auto" }} /> : "No image available"} />
+      <DisplayField
+        label="Image"
+        value={
+          event.images ? (
+            <img
+              src={event.images}
+              alt="Event"
+              style={{ maxWidth: "200px", height: "auto" }}
+            />
+          ) : (
+            "No image available"
+          )
+        }
+      />
     </div>
   );
 }
