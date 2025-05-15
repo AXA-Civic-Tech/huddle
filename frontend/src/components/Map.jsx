@@ -23,6 +23,8 @@ const Map = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [eventData, setEventData] = useState([]);
   const [mapCenter, setMapCenter] = useState(center);
+  const [mapZoom, setMapZoom] = useState(12);
+  const [searchMarker, setSearchMarker] = useState(null);
 
   //fetches all post and filters out for locations to pin
   useEffect(() => {
@@ -61,8 +63,12 @@ const Map = () => {
   return (
     <div className="map">
       <LoadScript googleMapsApiKey={apiKey} libraries={['places']}>
-        <SearchBar onPlaceSelected={(location) => setMapCenter(location)} />
-        <GoogleMap mapContainerStyle={containerStyle} center={mapCenter} zoom={12}>
+        <SearchBar onPlaceSelected={(location) => {
+          setMapCenter(location);
+          setMapZoom(15);
+          setSearchMarker(location);
+        }} />
+        <GoogleMap mapContainerStyle={containerStyle} center={mapCenter} zoom={mapZoom}>
           {markers.map((marker) => (
             <Marker
               key={marker.id}
@@ -70,6 +76,12 @@ const Map = () => {
               onClick={() => handleMarkerClick(marker.id)}
             />
           ))}
+          {searchMarker && (
+            <Marker
+              position={{ lat: searchMarker.lat, lng: searchMarker.lng }}
+              icon={{ url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" }}
+            />
+          )}
         </GoogleMap>
       </LoadScript>
 
