@@ -73,7 +73,7 @@ app.delete("/api/comments/:id", checkAuthentication ,commentControllers.deleteCo
 app.post("/api/events/:eventId/upvote", checkAuthentication, upvoteControllers.upvoteEvent);
 app.delete("/api/events/:eventId/upvote", checkAuthentication, upvoteControllers.removeUpvote);
 app.get("/api/events/:eventId/upvotes", upvoteControllers.getUpvotesForEvent);
-app.get("/api/upvotes/users/:id"), upvoteControllers.getUpvotesByUser);
+app.get("/api/upvotes/users/:id", checkAuthentication, upvoteControllers.getUpvotesByUser);
 
 ///////////////////////////////
 // Fallback Routes
