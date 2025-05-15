@@ -51,16 +51,13 @@ export default function EventView({ event = {}, username, onClose }) {
 
       <DisplayField label="Status" value={event.status} />
 
-      <div className="location-details">
-        <DisplayField label="Address" value={event.address} />
-        <DisplayField label="Borough" value={event.borough} />
-        <DisplayField label="Zip Code" value={event.zipcode} />
-      </div>
+      <DisplayField
+        label="Address"
+        value={[event.address, event.borough, "NY", event.zipcode]}
+      />
 
-      <div className="contact-info">
-        {event.email && <DisplayField label="Email" value={event.email} />}
-        {event.phone && <DisplayField label="Phone" value={event.phone} />}
-      </div>
+      {event.email && <DisplayField label="Email" value={event.email} />}
+      {event.phone && <DisplayField label="Phone" value={event.phone} />}
 
       <div className="description-section">
         <h3>Description</h3>

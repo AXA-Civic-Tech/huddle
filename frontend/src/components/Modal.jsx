@@ -194,23 +194,30 @@ export default function Modal({
                     : ""
                 }`}
               >
-                {event.image && (
-                  <img src={event.image} alt="Event" className="event-image" />
-                )}
+                {/* Handle when images is an array with content */}
                 {Array.isArray(event.images) &&
+                  event.images.length > 0 &&
                   event.images.map((img, index) => (
                     <img
                       key={index}
                       src={img}
                       alt={`Event ${index + 1}`}
                       className="event-image"
+                      onError={(e) => {
+                        console.error("Image failed to load:", img);
+                        e.target.src =
+                          "https://via.placeholder.com/600x400?text=Image+Not+Available";
+                        e.target.alt = "Image not available";
+                      }}
                     />
                   ))}
-                {!event.image &&
-                  (!Array.isArray(event.images) ||
-                    event.images.length === 0) && (
-                    <div className="event-image">No image available</div>
-                  )}
+
+                {/* Handle when no images are available */}
+                {(!event.images ||
+                  !Array.isArray(event.images) ||
+                  event.images.length === 0) && (
+                  <div className="event-image">No image available</div>
+                )}
               </div>
 
               <div className="event-content">

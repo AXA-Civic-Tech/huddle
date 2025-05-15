@@ -15,8 +15,10 @@ export default function DisplayField({ label, value }) {
 
   return (
     <div className="field display-field">
-      <strong>{label}:</strong>
-      <span className="field-value">{value}</span>
+      <span className="field-value">
+        <strong>{label}:</strong>{" "}
+        {label === "Address" ? [...value].join(", ") : value}
+      </span>
     </div>
   );
 }

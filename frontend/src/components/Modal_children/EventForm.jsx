@@ -214,8 +214,16 @@ export default function EventForm({
         <FormField
           name="borough"
           label="Borough"
+          type="select"
           value={formData.borough}
           onChange={handleChange}
+          options={[
+            { value: "Manhattan", label: "Manhattan" },
+            { value: "Brooklyn", label: "Brooklyn" },
+            { value: "Queens", label: "Queens" },
+            { value: "The Bronx", label: "The Bronx" },
+            { value: "Staten Island", label: "Staten Island" },
+          ]}
           required
         />
 
