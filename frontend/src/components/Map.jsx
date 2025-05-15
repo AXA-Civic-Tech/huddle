@@ -59,7 +59,7 @@ const Map = () => {
 
   return (
     <div className="map">
-      <LoadScript googleMapsApiKey={apiKey}>
+      <LoadScript googleMapsApiKey={apiKey} libraries={['places']}>
         <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={12}>
           {markers.map((marker) => (
             <Marker
