@@ -279,13 +279,26 @@ export default function EventForm({
           required
         />
 
-        {formData.images && (
+        {formData.images ? (
           <div className="image-preview">
-            <img
-              src={formData.image}
-              alt="Uploaded preview"
-              style={{ maxWidth: "100%" }}
+            <img src={formData.images} alt="Uploaded preview" />
+            <Button
+              name="Change Image"
+              type="button"
+              onClick={handleUploadWidget}
             />
+          </div>
+        ) : (
+          <div className="image-upload" onClick={handleUploadWidget}>
+            <div>
+              <p>
+                <strong>Upload Image</strong>
+              </p>
+              <p>
+                Click here to upload an image for your{" "}
+                {formData.is_issue ? "issue" : "event"}
+              </p>
+            </div>
           </div>
         )}
 
@@ -298,7 +311,7 @@ export default function EventForm({
       {/* Comments Preview Section for new events */}
       {!event?.id && (
         <div className="comments-preview">
-          <h3>Comments and Reactions</h3>
+          <h3>Comments</h3>
 
           <div className="upvotes-preview">
             <span>Upvotes: 0</span>

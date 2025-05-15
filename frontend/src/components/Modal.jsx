@@ -197,6 +197,20 @@ export default function Modal({
                       }}
                     />
                   ))}
+                {event.images && (
+                  <img
+                    src={event.images}
+                    alt="Event"
+                    // style={{ maxWidth: "200px", height: "auto" }}
+                    className="event-image"
+                    onError={(e) => {
+                      console.error("Image failed to load:", img);
+                      e.target.src =
+                        "https://via.placeholder.com/600x400?text=Image+Not+Available";
+                      e.target.alt = "Image not available";
+                    }}
+                  />
+                )}
 
                 {/* Handle when no images are available */}
                 {(!event.images ||
