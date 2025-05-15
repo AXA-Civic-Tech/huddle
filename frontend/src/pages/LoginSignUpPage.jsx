@@ -35,36 +35,35 @@ export default function LoginSignUpPage() {
             shared civic awareness and spark faster, collective responses across
             neighborhoods.
           </p>
-
-          <div className="switch-form-prompt">
-            {activeForm === "login" ? (
-              <>
-                <p>Don't have an account?</p>
-                <button
-                  className="switch-form-button"
-                  onClick={() => setActiveForm("signup")}
-                >
-                  Sign Up
-                </button>
-              </>
-            ) : (
-              <>
-                <p>Have an account?</p>
-                <button
-                  className="switch-form-button"
-                  onClick={() => setActiveForm("login")}
-                >
-                  Log In
-                </button>
-              </>
-            )}
-          </div>
         </div>
 
         {/* Right Side - Form Section */}
         <div className="form-section">
           <div className="form-wrapper">
             {activeForm === "login" ? <LoginForm /> : <SignUpForm />}
+            <div className="switch-form-prompt">
+              {activeForm === "login" ? (
+                <>
+                  <p>Don't have an account?</p>
+                  <button
+                    className="switch-form-button"
+                    onClick={() => setActiveForm("signup")}
+                  >
+                    Sign Up
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p>Have an account?</p>
+                  <button
+                    className="switch-form-button"
+                    onClick={() => setActiveForm("login")}
+                  >
+                    Log In
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>

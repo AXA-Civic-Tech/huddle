@@ -308,6 +308,8 @@ button {
   transition: all 0.2s ease;
   background-color: #3498db;
   color: white;
+  margin: auto;
+  margin-top: 1rem;
 }
 button:hover {
   background-color: #2980b9;

@@ -110,31 +110,36 @@ export default function SignUpForm() {
 
   return (
     <>
-      <h1>Sign Up</h1>
       <form onSubmit={handleSubmit} aria-labelledby="create-heading">
-        <h2 id="create-heading">Create New User</h2>
+        <h1>Sign Up</h1>
 
-        <label htmlFor="firstName">First Name</label>
-        <input
-          autoComplete="off"
-          type="text"
-          id="firstName"
-          name="firstName"
-          onChange={handleChange}
-          value={firstName}
-          required
-        />
+        <div className="name-inputs">
+          <div className="first-name">
+            <label htmlFor="firstName">First Name</label>
+            <input
+              autoComplete="off"
+              type="text"
+              id="firstName"
+              name="firstName"
+              onChange={handleChange}
+              value={firstName}
+              required
+            />
+          </div>
 
-        <label htmlFor="lastName">Last Name</label>
-        <input
-          autoComplete="off"
-          type="text"
-          id="lastName"
-          name="lastName"
-          onChange={handleChange}
-          value={lastName}
-          required
-        />
+          <div className="last-name">
+            <label htmlFor="lastName">Last Name</label>
+            <input
+              autoComplete="off"
+              type="text"
+              id="lastName"
+              name="lastName"
+              onChange={handleChange}
+              value={lastName}
+              required
+            />
+          </div>
+        </div>
 
         <label htmlFor="email">Email</label>
         <input

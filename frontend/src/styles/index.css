@@ -49,16 +49,6 @@ input {
   margin-bottom: 1rem;
 }
 
-form {
-  padding: 1rem;
-  border: 1px solid #ccc;
-  width: 15rem;
-}
-
-form > h2 {
-  margin-bottom: 1rem;
-}
-
 .footer {
   text-align: center;
   padding: 1.5rem 1rem;
