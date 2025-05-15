@@ -20,7 +20,7 @@ export default function LoginForm() {
 
     // Add client-side validation to check if username and password are provided
     if (!username || !password) {
-      setErrorText("Please provide botha username and a password.");
+      setErrorText("Please provide both: A username and a password.");
       return;
     }
 
