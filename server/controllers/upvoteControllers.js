@@ -60,7 +60,7 @@ exports.getUpvotesForEvent = async (req, res) => {
 
 exports.getUpvotesByUser = async (req, res) => {
   try {
-    const userId = req.params
+    const { id: userId } = req.params;
     const allUpvotes = await Upvote.list();
     console.log("allUpvotes:", allUpvotes);
     console.log({userId})

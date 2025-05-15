@@ -22,9 +22,14 @@ export const removeUpvote = async (eventId) => {
   );
 }; 
 
-// Grab all upvotes by User
+// Grab all upvotes by user
 
 export const getUpvotesByUser = async (userId) => {
-  return await fetchHandler(`/api/upvotes/users/${userId}`)
- 
+  const [data, error] = await fetchHandler(`/api/upvotes/users/${userId}`);
+  // Return an empty array if there's an error, otherwise the data
+  if (error) {
+    console.error("Error fetching upvotes:", error);
+    return [];
+  }
+  return data;
 }
