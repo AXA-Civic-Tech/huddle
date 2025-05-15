@@ -32,23 +32,23 @@ export default function NavBar() {
     currentUser && urlUserId && currentUser.id !== parseInt(urlUserId);
 
   return (
-    <header>
-      <a className="logo" href="/">
-        <img src="/huddle-icon.png" alt="logo" className="logo" /> Huddle
+    <header className="navbar-header">
+      <a className="navbar-logo" href="/">
+        <img src="/huddle-icon.png" alt="logo" className="navbar-icon" /> Huddle
       </a>
-      <nav>
-        <ul>
+      <nav className="navbar-nav">
+        <ul className="navbar-links">
           {/* When user IS logged in */}
           {currentUser && (
             <>
-              <li>
+              <li className="navbar-item">
                 <Button name="My Profile" to={`/users/${currentUser.id}`} />
                 {/* <NavLink to={`/users/${currentUser.id}`}>
-                        My Profile
-                      </NavLink> */}
+                      My Profile
+                    </NavLink> */}
               </li>
 
-              <li>
+              <li className="navbar-item">
                 <Button name="Log Out" onClick={handleLogout} />
               </li>
             </>
@@ -57,13 +57,17 @@ export default function NavBar() {
           {/* When user is NOT logged in and on HomePage */}
           {!currentUser && pathname === "/" && (
             <>
-              <li>
+              <li className="navbar-item">
                 {/* <Button name="Sign Up" to="/signup" /> */}
-                <NavLink to="/signup">Sign Up</NavLink>
+                <NavLink to="/signup" className="navbar-link">
+                  Sign Up
+                </NavLink>
               </li>
-              <li>
+              <li className="navbar-item">
                 {/* <Button name="Log In" to="/login" /> */}
-                <NavLink to="/login">Log In</NavLink>
+                <NavLink to="/login" className="navbar-link">
+                  Log In
+                </NavLink>
               </li>
             </>
           )}
