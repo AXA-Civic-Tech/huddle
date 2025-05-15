@@ -62,6 +62,8 @@ export default function EventView({ event = {}, username, onClose }) {
       <DisplayField label="Phone" value={event.phone} />
 
       <DisplayField label="Description" value={event.description} />
+
+      <DisplayField label="Image" value={event.images ? <img src={event.images} alt="Event" style={{ maxWidth: "200px", height: "auto" }} /> : "No image available"} />
     </div>
   );
 }
