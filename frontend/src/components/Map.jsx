@@ -22,6 +22,7 @@ const Map = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [eventData, setEventData] = useState([]);
+  const [mapCenter, setMapCenter] = useState(center);
 
   //fetches all post and filters out for locations to pin
   useEffect(() => {
@@ -61,7 +62,7 @@ const Map = () => {
     <div className="map">
       <LoadScript googleMapsApiKey={apiKey} libraries={['places']}>
         <SearchBar onPlaceSelected={(location) => setMapCenter(location)} />
-        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={12}>
+        <GoogleMap mapContainerStyle={containerStyle} center={mapCenter} zoom={12}>
           {markers.map((marker) => (
             <Marker
               key={marker.id}
