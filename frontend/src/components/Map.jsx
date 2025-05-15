@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { getAllPosts } from "../adapters/post-adapter";
 import Modal from "./Modal";
-
+import SearchBar from "./SearchBar";
 //doing height with a % bugs map
 const containerStyle = {
   width: "100%",
@@ -59,6 +59,7 @@ const Map = () => {
 
   return (
     <div className="map">
+      <SearchBox onPlaceSelected={(location) => setMapCenter(location)} />
       <LoadScript googleMapsApiKey={apiKey} libraries={['places']}>
         <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={12}>
           {markers.map((marker) => (
