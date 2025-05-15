@@ -1,61 +1,48 @@
-/* Form styling to match event display */
+/* new-modal.css - Combined styling for EventForm matching Modal.jsx styles */
+/* Form layout and styling */
 .edit-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
   width: 100%;
 }
-
+/* Creator information */
 .edit-form p {
-  margin-top: 0;
-  margin-bottom: 16px;
   font-size: 14px;
   color: #666;
+  margin-bottom: 16px;
 }
-
-/* Creator info styling */
-.edit-form p strong {
-  color: #555;
-}
-
-/* Field styling to match display fields */
+/* Field styling consistent with modal.css */
 .field {
   margin-bottom: 16px;
 }
-
 .field label {
   display: block;
   margin-bottom: 5px;
+  font-weight: 500;
   color: #555;
-  font-size: 14px;
 }
-
 .field input,
 .field select,
 .field textarea {
   width: 100%;
-  padding: 10px;
+  padding: 8px;
   border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 15px;
-  background-color: #fafafa;
-  transition: border-color 0.2s, background-color 0.2s;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.2s;
 }
-
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
   border-color: #3498db;
-  background-color: #fff;
   outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
 }
-
 .field textarea {
-  min-height: 120px;
+  min-height: 100px;
   resize: vertical;
 }
-
-/* Image upload styled to match existing content */
+/* Image upload styling */
 .image-upload {
   display: flex;
   justify-content: center;
@@ -70,21 +57,20 @@
   text-align: center;
   transition: all 0.2s ease;
 }
-
 .image-upload:hover {
   background-color: #f0f0f0;
-  border-color: #3498db;
+  border-color: #aaa;
 }
-
 .image-upload p {
-  margin: 5px 0;
+  margin: 0;
+  color: #555;
 }
-
 .image-upload p strong {
-  color: #3498db;
   font-size: 16px;
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
 }
-
 .image-preview {
   margin-bottom: 16px;
   display: flex;
@@ -92,7 +78,6 @@
   gap: 10px;
   align-items: center;
 }
-
 .image-preview img {
   max-width: 100%;
   border-radius: 6px;
@@ -100,63 +85,132 @@
   max-height: 300px;
   object-fit: contain;
 }
-
-/* Buttons container */
+/* Button styling */
 .modal-actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
   margin-top: 20px;
-  padding-top: 15px;
-  border-top: 1px solid #eee;
 }
-
-/* Button styling */
 button {
-  padding: 10px 18px;
-  border-radius: 6px;
+  padding: 8px 16px;
+  border-radius: 4px;
   border: none;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
-}
-
-button[name="Save Changes"] {
+  transition: background-color 0.2s;
   background-color: #3498db;
   color: white;
 }
-
-button[name="Save Changes"]:hover {
+button:hover {
   background-color: #2980b9;
 }
-
-button[name="Cancel"] {
+button[name="Cancel"],
+button[name="Close"] {
   background-color: #f1f1f1;
   color: #333;
 }
-
-button[name="Cancel"]:hover {
+button[name="Cancel"]:hover,
+button[name="Close"]:hover {
   background-color: #e0e0e0;
 }
-
+button[name="Delete Post"] {
+  background-color: #e74c3c;
+}
+button[name="Delete Post"]:hover {
+  background-color: #c0392b;
+}
 button[name="Change Image"] {
-  background-color: #3498db;
-  color: white;
-  margin-top: 5px;
+  background-color: #7f8c8d;
 }
-
 button[name="Change Image"]:hover {
-  background-color: #2980b9;
+  background-color: #6c7a7d;
 }
-
-/* Special styling for form layout to better match the event display */
-.form-header {
-  margin-bottom: 20px;
+/* Comments Section Preview */
+.comments-preview {
+  margin-top: 24px;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  opacity: 0.7; /* Makes it look like a preview */
 }
-
-.form-header h2 {
-  font-size: 24px;
-  margin: 0 0 8px 0;
+.comments-preview h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
   color: #333;
+}
+.comments-preview::after {
+  content: "(Comments will be available after posting)";
+  font-style: italic;
+  color: #888;
+  margin-top: 10px;
+  text-align: center;
+}
+.upvotes-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+  padding: 8px 0;
+}
+.upvotes-preview span {
+  font-weight: 500;
+}
+.comment-input-preview {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  opacity: 0.7;
+}
+.comment-input-preview input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #aaa;
+  background-color: #f9f9f9;
+}
+.comments-list-preview {
+  margin-top: 16px;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.no-comments-preview {
+  color: #999;
+  text-align: center;
+  font-style: italic;
+}
+/* Responsive styling */
+@media (max-width: 768px) {
+  .modal-actions {
+    flex-direction: column;
+  }
+  button {
+    width: 100%;
+  }
+  .comment-input-preview {
+    flex-direction: column;
+  }
+}
+/* For even smaller screens */
+@media (max-width: 480px) {
+  .field label {
+    font-size: 14px;
+  }
+  .field input,
+  .field select,
+  .field textarea {
+    font-size: 14px;
+    padding: 6px;
+  }
 }

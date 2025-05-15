@@ -301,9 +301,36 @@ export default function EventForm({
 
         <div className="modal-actions">
           <Button name="Cancel" onClick={onCancel} type="button" />
-          <Button name="Save Changes" type="submit" />
+          <Button name="Save" type="submit" />
         </div>
       </form>
+
+      {/* Comments Preview Section for new events */}
+      {!event?.id && (
+        <div className="comments-preview">
+          <h3>Comments and Reactions</h3>
+
+          <div className="upvotes-preview">
+            <span>Upvotes: 0</span>
+            <Button name="Upvote" disabled={true} />
+          </div>
+
+          <div className="comment-input-preview">
+            <input
+              type="text"
+              placeholder="Comments will be available after posting..."
+              disabled={true}
+            />
+            <Button name="Post" disabled={true} />
+          </div>
+
+          <div className="comments-list-preview">
+            <p className="no-comments-preview">
+              Comments will appear here after the event is created
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
