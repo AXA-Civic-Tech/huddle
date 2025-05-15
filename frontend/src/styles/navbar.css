@@ -3,14 +3,22 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 1rem;
-  background: #000;
+
+  /* Glassmorphism background */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .navbar-logo {
   font-size: 1.5rem;
   font-weight: bold;
   text-decoration: none;
-  color: #fff;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -39,7 +47,6 @@
 }
 
 .navbar-link {
-  color: #fff;
   text-decoration: none;
 }
 
