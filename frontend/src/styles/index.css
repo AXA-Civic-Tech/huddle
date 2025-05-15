@@ -1,14 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap");
 @import "feed.css";
-@import "login.css";
 @import "modal.css";
 @import "new-modal.css";
 @import "navbar.css";
 @import "post.css";
-@import "signup.css";
 @import "mobile.css";
-@import "userpage.css";
 @import "homepage.css";
+@import "userpage.css";
+@import "login-signup.css";
 
 * {
   margin: 0;
