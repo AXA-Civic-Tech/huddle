@@ -3,7 +3,7 @@
 
 import React, { useRef, useEffect } from "react";
 
-const SearchBox = ({ onPlaceSelected }) => {
+const SearchBar = ({ onPlaceSelected }) => {
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -48,4 +48,4 @@ const SearchBox = ({ onPlaceSelected }) => {
   );
 };
 
-export default SearchBox;
+export default SearchBar;

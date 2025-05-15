@@ -59,8 +59,8 @@ const Map = () => {
 
   return (
     <div className="map">
-      <SearchBox onPlaceSelected={(location) => setMapCenter(location)} />
       <LoadScript googleMapsApiKey={apiKey} libraries={['places']}>
+        <SearchBar onPlaceSelected={(location) => setMapCenter(location)} />
         <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={12}>
           {markers.map((marker) => (
             <Marker
