@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect, useRef } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
 import { getUser } from "../adapters/user-adapter";
-import { updatePost, deletePost } from "../adapters/post-adapter";
+import {createPost, updatePost, deletePost } from "../adapters/post-adapter";
 import Button from "./Button";
 import EventForm from "./Modal_children/EventForm";
 import EventView from "./Modal_children/EventView";
@@ -88,63 +88,47 @@ export default function Modal({
    */
   const handleSave = async (formData) => {
     try {
-      // Validate required fields
       const requiredFields = ["title", "borough", "zipcode", "description"];
-      const missingFields = [];
-
-      for (const field of requiredFields) {
-        if (!formData[field] || formData[field].trim() === "") {
-          missingFields.push(field);
-        }
-      }
-
+      const missingFields = requiredFields.filter(
+        (field) => !formData[field] || formData[field].trim() === ""
+      );
+  
       if (missingFields.length > 0) {
         alert(
-          `Please fill in the following required fields: ${missingFields.join(
-            ", "
-          )}`
+          `Please fill in the following required fields: ${missingFields.join(", ")}`
         );
         return;
       }
-
-      // Prepare data for API
+  
       const postData = {
         ...formData,
+        zipcode: formData.zipcode.replace(/[^0-9]/g, "").slice(0, 5),
       };
-
-      // Clean the zipcode (ensure it's only digits)
-      if (postData.zipcode) {
-        postData.zipcode = postData.zipcode.replace(/[^0-9]/g, "").slice(0, 5);
-      }
-
-      // Only include ID if it exist (for updates)
+  
       if (event && event.id) {
         postData.id = event.id;
       }
-
-      // Only include user_id if creating a new post
+  
       if (isNew && currentUser && currentUser.id) {
         postData.user_id = currentUser.id;
       }
-
-      // Call the API
-      const [updatedPost, error] = await updatePost(postData);
-
+  
+      const [result, error] = isNew
+        ? await createPost(postData)
+        : await updatePost(postData);
+  
       if (error) {
         console.error("Error saving post:", error);
         return;
       }
-
-      // Exit edit mode
+  
       setIsEdit(false);
-      // Close modal and pass data back to parent
-      onClose(updatedPost);
+      onClose(result);
     } catch (err) {
       console.error("Error in save process:", err);
     }
   };
-
-  // Toggle between edit and view modes
+  
   const toggleEditMode = () => {
     setIsEdit(!isEdit);
   };
@@ -167,9 +151,6 @@ export default function Modal({
       
     >
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        {/* {event.image && (
-        <img src={event.image.src} alt={event.image.alt} className="image" />
-      )} */}
 
         {isEdit ? (
           <EventForm

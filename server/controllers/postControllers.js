@@ -12,29 +12,49 @@ exports.listPosts = async (req, res) => {
 
 exports.createPost = async (req, res) => {
   try {
-    const post = await Post.create(req.body);
+    console.log("Incoming req.body:", req.body);
+
+    const post = await Post.create({
+      ...req.body, // req.body already has images URL string and other fields
+    });
+
     res.status(201).send(post);
   } catch (error) {
-    console.error('Error creating post:', error);
-    res.status(500).send({ message: 'Error creating post' });
+    console.error("Error creating post:", error);
+    res.status(500).send({ message: "Error creating post" });
   }
 };
 
 exports.updatePost = async (req, res) => {
   try {
-    // Make sure id is a number
+     // Make sure id is a number
     const id = parseInt(req.params.id, 10);
     if (isNaN(id)) {
       return res.status(400).send({ message: 'Invalid post ID' });
     }
-    
-    const post = await Post.update(id, req.body);
-    
-    if (!post) {
+
+    // If a new image file is uploaded, set the images field
+    if (req.file && req.file.path) {
+      req.body.images = req.file.path; // Set the image URL (Cloudinary URL or local file path)
+    }
+
+    // If no image is uploaded, ensure the images field is left unchanged (don't overwrite existing image URL)
+    else if (!req.body.images) {
+      // Keep the original image if no new file is uploaded and the body doesn't have an image field
+      const existingPost = await Post.findById(id);
+      if (existingPost) {
+        req.body.images = existingPost.images; // Preserve the current image URL
+      }
+    }
+
+    // Update the post with new data
+    const updatedPost = await Post.update(id, req.body);
+
+    if (!updatedPost) {
       return res.status(404).send({ message: 'Post not found or could not be updated' });
     }
-    
-    res.send(post);
+
+    res.send(updatedPost); // Send the updated post
   } catch (error) {
     console.error('Error updating post:', error);
     res.status(500).send({ message: 'Error updating post' });

@@ -34,12 +34,7 @@ app.use(express.static(path.join(__dirname, "../frontend/dist"))); // Serve stat
 ///////////////////////////////
 
 app.get("/api/posts", postControllers.listPosts);
-app.post(
-  "/api/posts",
-  checkAuthentication,
-  geocodeEvent,
-  postControllers.createPost
-);
+app.post("/api/posts", checkAuthentication, geocodeEvent, postControllers.createPost);
 app.patch("/api/posts/:id", checkAuthentication, postControllers.updatePost);
 app.delete("/api/posts/:id", checkAuthentication, postControllers.deletePost);
 
@@ -50,10 +45,7 @@ app.delete("/api/posts/:id", checkAuthentication, postControllers.deletePost);
 app.post("/api/auth/register", authControllers.registerUser);
 app.post("/api/auth/login", authControllers.loginUser);
 app.get("/api/auth/me", authControllers.showMe);
-app.get(
-  "/api/auth/check-username/:username",
-  authControllers.checkUsernameAvailability
-);
+app.get("/api/auth/check-username/:username", authControllers.checkUsernameAvailability);
 app.delete("/api/auth/logout", authControllers.logoutUser);
 
 ///////////////////////////////
@@ -72,26 +64,14 @@ app.patch("/api/users/:id", checkAuthentication, userControllers.updateUser);
 
 app.post("/api/comments", commentControllers.createComment);
 app.get("/api/events/:eventId/comments", commentControllers.getCommentsByEvent);
-app.delete(
-  "/api/comments/:id",
-  checkAuthentication,
-  commentControllers.deleteComment
-);
+app.delete("/api/comments/:id", checkAuthentication ,commentControllers.deleteComment);
 
 ///////////////////////////////
 // Upvote Routes
 ///////////////////////////////
 
-app.post(
-  "/api/events/:eventId/upvote",
-  checkAuthentication,
-  upvoteControllers.upvoteEvent
-);
-app.delete(
-  "/api/events/:eventId/upvote",
-  checkAuthentication,
-  upvoteControllers.removeUpvote
-);
+app.post("/api/events/:eventId/upvote", checkAuthentication, upvoteControllers.upvoteEvent);
+app.delete("/api/events/:eventId/upvote", checkAuthentication, upvoteControllers.removeUpvote);
 app.get("/api/events/:eventId/upvotes", upvoteControllers.getUpvotesForEvent);
 
 ///////////////////////////////
