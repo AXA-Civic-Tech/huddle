@@ -29,17 +29,20 @@ export default function EventForm({
    * Initialize form state with event data or defaults
    * This tracks all editable fields for the event/issue
    */
-  const [formData, setFormData] = useState({
-    is_issue: event.is_issue !== undefined ? event.is_issue : true,
-    title: event.title || "",
-    address: event.address || "",
-    borough: event.borough || "Manhattan",
-    zipcode: event.zipcode || "",
-    status: event.status || "Open",
-    email: event.email || "",
-    phone: event.phone || "",
-    description: event.description || "",
-    image: event.image || "",
+  const [formData, setFormData] = useState(() => {
+    const safeEvent = event || {};
+    return {
+      is_issue: safeEvent.is_issue !== undefined ? safeEvent.is_issue : true,
+      title: safeEvent.title || "",
+      address: safeEvent.address || "",
+      borough: safeEvent.borough || "",
+      zipcode: safeEvent.zipcode || "",
+      status: safeEvent.status || "Open",
+      email: safeEvent.email || "",
+      phone: safeEvent.phone || "",
+      description: safeEvent.description || "",
+      images: safeEvent.images || "",
+    };
   });
 
   /**
@@ -51,13 +54,13 @@ export default function EventForm({
       is_issue: event.is_issue !== undefined ? event.is_issue : true,
       title: event.title || "",
       address: event.address || "",
-      borough: event.borough || "Manhattan",
+      borough: event.borough || "",
       zipcode: event.zipcode || "",
       status: event.status || "Open",
       email: event.email || "",
       phone: event.phone || "",
       description: event.description || "",
-      image: event.image || "",
+      images: event.images || "",
     });
   }, [event]);
 
@@ -100,6 +103,7 @@ export default function EventForm({
    */
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("Submitting formData:", formData);
     onSave(formData);
   };
 
@@ -115,7 +119,7 @@ export default function EventForm({
         if (!error && result && result.event === "success") {
           setFormData((prev) => ({
             ...prev,
-            image: result.info.secure_url,
+            images: result.info.secure_url,
           }));
         }
 
@@ -275,27 +279,13 @@ export default function EventForm({
           required
         />
 
-        {formData.image ? (
+        {formData.images && (
           <div className="image-preview">
             <img
               src={formData.image}
               alt="Uploaded preview"
               style={{ maxWidth: "100%" }}
             />
-            <Button
-              name="Change Image"
-              type="button"
-              onClick={handleUploadWidget}
-            />
-          </div>
-        ) : (
-          <div className="image-upload" onClick={handleUploadWidget}>
-            <div>
-              <p>
-                <strong>Upload Image</strong>
-              </p>
-              <p>Click here to upload an image for your event/issue</p>
-            </div>
           </div>
         )}
 

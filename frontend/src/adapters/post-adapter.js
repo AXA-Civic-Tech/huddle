@@ -2,16 +2,28 @@ import {
   fetchHandler,
   getPatchOptions,
   getPostOptions,
-  deleteOptions
+  deleteOptions,
 } from "../utils/fetchingUtils";
 
 const baseUrl = "/api/posts";
 
 export const createPost = async (postData) => {
-  console.log("Creating post with data:", JSON.stringify(postData, null, 2));
+  if (!postData) {
+    console.error("createPost: postData is undefined");
+    return [null, "No post data provided"];
+  }
+
+  const postBody = {
+    ...postData,
+    is_issue: String(postData.is_issue === "Issue" || postData.is_issue === true),
+  };
+
   try {
-    const result = await fetchHandler(baseUrl, getPostOptions(postData));
-    console.log("Create post response:", result);
+    const result = await fetchHandler("/api/posts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },  
+      body: JSON.stringify(postBody), 
+    });
     return result;
   } catch (error) {
     console.error("Create post error:", error);
@@ -27,22 +39,29 @@ export const getPost = async (id) => {
   return fetchHandler(`${baseUrl}/${id}`);
 };
 
-export const updatePost = async (postData) => {
-  // Validate postData
+export const updatePost = async (postId, postData) => {
   if (!postData) {
-    console.error("No data provided to updatePost");
-    return [null, new Error("No data provided to updatePost")];
+    console.error("updatePost: postData is undefined");
+    return [null, "No post data provided"];
   }
 
-  // For new posts (no ID), use POST
-  if (!postData.id) {
-    console.error("Creating new post with data:", postData);
-    return createPost(postData);
+  const postBody = {
+    ...postData,
+    is_issue: String(postData.is_issue === "Issue" || postData.is_issue === true),
+  };
+
+  try {
+    const result = await fetchHandler(`/api/posts/${postId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" }, // important for JSON
+      body: JSON.stringify(postBody),
+    });
+
+    return result;
+  } catch (error) {
+    console.error("Update post error:", error);
+    return [null, error];
   }
-  // For existing posts, use PATCH
-  const { id, ...updateData } = postData;
-  console.log(`Updating post ${id} with data:`, updateData);
-  return fetchHandler(`${baseUrl}/${id}`, getPatchOptions(updateData));
 };
 
 export const deletePost = async (id) => {
