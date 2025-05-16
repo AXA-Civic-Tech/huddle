@@ -39,35 +39,26 @@ export default function Feed({ onPostCountChange, filterType, filterValue, onFil
   const isViewing =
     currentUser && urlUserId && currentUser.id !== parseInt(urlUserId);
 
+  // Fetch posts and apply upvote filtering if needed
   const fetchPosts = async () => {
     setLoading(true);
 
     // 1. Fetch all posts
     const [data, error] = await getAllPosts();
 
-    // Debug logs
-    console.log('Debug upvote filtering:', {
-      filterType,
-      currentUser: currentUser?.id,
-      urlUserId,
-      isMatch: currentUser?.id === parseInt(urlUserId),
-      pathname
-    });
-
-    // 2. If filtering by upvotes, fetch upvotes and filter posts
+    // If filtering by upvotes (on user profile page), fetch upvotes and filter posts
     if (
       filterType === "upvote" &&
       currentUser &&
       urlUserId &&
       currentUser.id === parseInt(urlUserId)
     ) {
-      console.log('Fetching upvotes for user:', currentUser.id);
+      // Get all upvotes for the current user
       const upvotes = await getUpvotesByUser(currentUser.id);
-      console.log('Upvotes received:', upvotes);
+      // Extract event IDs that the user has upvoted
       const upvotedEventIds = upvotes.map(u => Number(u.event_id));
-      console.log('Upvoted event IDs:', upvotedEventIds);
+      // Filter posts to only those the user has upvoted
       const filteredPosts = data.filter(post => upvotedEventIds.includes(Number(post.id)));
-      console.log('Filtered posts:', filteredPosts);
       setPosts(filteredPosts);
     } else if (data) {
       setPosts(data);
