@@ -36,7 +36,7 @@ export const getAllPosts = async () => {
 };
 
 export const getPost = async (id) => {
-  return fetchHandler(`${baseUrl}/${id}`);
+  return await fetchHandler(`${baseUrl}/${id}`);
 };
 
 export const updatePost = async (postId, postData) => {
