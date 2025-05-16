@@ -175,9 +175,6 @@ export default function Feed({ onPostCountChange, filterType, filterValue, onFil
 
   const sorted = getFilteredAndSortedPosts();
 
-  // Add debug log for filterType and filterValue
-  console.log('Feed filterType:', filterType, 'filterValue:', filterValue);
-
   return (
     <div className={pathname === "/" ? "feed-home" : "feed-user"}>
       <div className="feed-content">

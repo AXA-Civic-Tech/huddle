@@ -106,9 +106,8 @@ form > h2 {
 }
 
 .feed-home,
-.feed-user,
-.feed-column {
-  margin-top: 150px;
+.feed-user {
+  margin-top: 80px;
 }
 
 .feed-content {

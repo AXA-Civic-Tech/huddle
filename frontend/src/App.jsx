@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation, Link } from "react-router-dom";
 import UserContext from "./contexts/current-user-context";
 import { checkForLoggedInUser } from "./adapters/auth-adapter";
@@ -12,20 +12,16 @@ import NavBar from "./components/NavBar";
 export default function App() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const location = useLocation();
-  const [loadingUser, setLoadingUser] = useState(true);
 
   useEffect(() => {
     const loadCurrentUser = async () => {
+      // we aren't concerned about an error happening here
       const [data] = await checkForLoggedInUser();
       if (data) setCurrentUser(data);
-      setLoadingUser(false);
     };
+
     loadCurrentUser();
   }, [setCurrentUser]);
-
-  if (loadingUser) {
-    return <div>Loading...</div>; // or a spinner
-  }
 
   return (
     <>
