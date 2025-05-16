@@ -63,11 +63,21 @@ const Map = () => {
   return (
     <div className="map">
       <LoadScript googleMapsApiKey={apiKey} libraries={['places']}>
-        <SearchBar onPlaceSelected={(location) => {
-          setMapCenter(location);
-          setMapZoom(15);
-          setSearchMarker(location);
-        }} />
+        <SearchBar 
+          onPlaceSelected={(location) => {
+            setMapCenter(location);
+            setMapZoom(15);
+            setSearchMarker(location);
+          }}
+          events={eventData}
+          onEventSelected={(event) => {
+            setMapCenter({ lat: parseFloat(event.lat_location), lng: parseFloat(event.long_location) });
+            setMapZoom(15);
+            setSearchMarker({ lat: parseFloat(event.lat_location), lng: parseFloat(event.long_location) });
+            setSelectedEvent(event);
+            setIsModalOpen(true);
+          }}
+        />
         <GoogleMap mapContainerStyle={containerStyle} center={mapCenter} zoom={mapZoom}>
           {markers.map((marker) => (
             <Marker
