@@ -21,7 +21,7 @@ import FeedControls from "./Feed_children/FeedControls";
  * @returns
  */
 
-export default function Feed({ onPostCountChange }) {
+export default function Feed({ onPostCountChange, filterType, filterValue, onFilterChange, onMapMove }) {
   const location = useLocation();
   const pathname = location.pathname;
   const { id: urlUserId } = useParams(); // string
@@ -34,8 +34,6 @@ export default function Feed({ onPostCountChange }) {
   const { currentUser } = useContext(CurrentUserContext);
 
   const [sort, setSort] = useState("recent");
-  const [filterType, setFilterType] = useState("all");
-  const [filterValue, setFilterValue] = useState("");
 
   // Check if current user is viewing another user's profile
   const isViewing =
@@ -104,6 +102,12 @@ export default function Feed({ onPostCountChange }) {
   const openModal = (event) => {
     setSelectedPost(event);
     setIsOpen(true);
+    if (onMapMove && event.lat_location && event.long_location) {
+      onMapMove(
+        { lat: parseFloat(event.lat_location), lng: parseFloat(event.long_location) },
+        17
+      );
+    }
   };
 
   // Simplified logic here, all we need to do is fetch all posts again any time a post is updated/deleted
@@ -121,19 +125,6 @@ export default function Feed({ onPostCountChange }) {
 
   const handleSortChange = (e) => {
     setSort(e.target.value);
-  };
-
-  const handleFilterChange = (e) => {
-    const value = e.target.value;
-
-    if (value.includes(":")) {
-      const [type, val] = value.split(":");
-      setFilterType(type);
-      setFilterValue(val);
-    } else {
-      setFilterType("all");
-      setFilterValue("");
-    }
   };
 
   const getFilteredAndSortedPosts = () => {
@@ -193,7 +184,7 @@ export default function Feed({ onPostCountChange }) {
           filterType={filterType}
           filterValue={filterValue}
           sort={sort}
-          onFilterChange={handleFilterChange}
+          onFilterChange={onFilterChange}
           onSortChange={handleSortChange}
           onNewPost={handleNewPost}
           currentUser={currentUser}

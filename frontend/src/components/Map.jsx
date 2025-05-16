@@ -17,13 +17,11 @@ const center = {
 
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
-const Map = () => {
+const Map = ({ mapCenter, mapZoom, onMapMove }) => {
   const [markers, setMarkers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [eventData, setEventData] = useState([]);
-  const [mapCenter, setMapCenter] = useState(center);
-  const [mapZoom, setMapZoom] = useState(12);
   const [searchMarker, setSearchMarker] = useState(null);
 
   //fetches all post and filters out for locations to pin
@@ -65,17 +63,17 @@ const Map = () => {
       <LoadScript googleMapsApiKey={apiKey} libraries={['places']}>
         <SearchBar 
           onPlaceSelected={(location) => {
-            setMapCenter(location);
-            setMapZoom(15);
             setSearchMarker(location);
+            if (onMapMove) onMapMove(location, 15);
           }}
           events={eventData}
           onEventSelected={(event) => {
-            setMapCenter({ lat: parseFloat(event.lat_location), lng: parseFloat(event.long_location) });
-            setMapZoom(15);
-            setSearchMarker({ lat: parseFloat(event.lat_location), lng: parseFloat(event.long_location) });
+            const loc = { lat: parseFloat(event.lat_location), lng: parseFloat(event.long_location) };
+            console.log("Event selected:", event, "Location:", loc);
+            setSearchMarker(loc);
             setSelectedEvent(event);
             setIsModalOpen(true);
+            if (!isNaN(loc.lat) && !isNaN(loc.lng) && onMapMove) onMapMove(loc, 15);
           }}
         />
         <GoogleMap mapContainerStyle={containerStyle} center={mapCenter} zoom={mapZoom}>
