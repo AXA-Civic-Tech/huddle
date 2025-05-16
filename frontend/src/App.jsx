@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation, Link } from "react-router-dom";
 import UserContext from "./contexts/current-user-context";
 import { checkForLoggedInUser } from "./adapters/auth-adapter";
@@ -8,10 +8,24 @@ import NotFoundPage from "./pages/NotFoundPage";
 import UserPage from "./pages/UserPage";
 import UsersPage from "./pages/Users";
 import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
 
 export default function App() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const location = useLocation();
+
+  // Auth overlay state lifted here
+  const [authOverlayOpen, setAuthOverlayOpen] = useState(false);
+  const [authMode, setAuthMode] = useState("signup"); // or "login"
+
+  const openAuthOverlay = (mode = "signup") => {
+    setAuthMode(mode);
+    setAuthOverlayOpen(true);
+  };
+
+  const closeAuthOverlay = () => {
+    setAuthOverlayOpen(false);
+  };
 
   useEffect(() => {
     const loadCurrentUser = async () => {
@@ -25,11 +39,20 @@ export default function App() {
 
   return (
     <>
-      <NavBar />
+      <NavBar openAuthOverlay={openAuthOverlay} />
       <main>
         <Routes>
           {/* Main page */}
-          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/"
+            element={
+              <HomePage
+                authOverlayOpen={authOverlayOpen}
+                authMode={authMode}
+                closeAuthOverlay={closeAuthOverlay}
+              />
+            }
+          />
 
           {/* Auth pages */}
           <Route path="/login" element={<LoginSignUpPage />} />
@@ -52,89 +75,7 @@ export default function App() {
         </Routes>
       </main>
 
-      <footer className="footer">
-        <p>
-          {`Copyright © ${new Date().getFullYear()} `}
-          <Link
-            to="https://github.com/AXA-Civic-Tech"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            AXA
-          </Link>
-        </p>
-
-        <p>All Rights Reserved</p>
-
-        <p className="contributors">
-          <span className="contributor">
-            <Link
-              to="https://github.com/autumnlydon"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Autumn Lydon
-            </Link>
-            <Link
-              to="https://www.linkedin.com/in/autumnlydon/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src="/linkedin-icon.png"
-                alt="Autumn's LinkedIn"
-                className="icon"
-              />
-            </Link>
-          </span>
-
-          <span className="dot"> • </span>
-
-          <span className="contributor">
-            <Link
-              to="https://github.com/Nakuziri"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Xavier Campos
-            </Link>
-            <Link
-              to="https://www.linkedin.com/in/xavier-campos-97b6b3268/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src="/linkedin-icon.png"
-                alt="Xavier's LinkedIn"
-                className="icon"
-              />
-            </Link>
-          </span>
-
-          <span className="dot"> • </span>
-
-          <span className="contributor">
-            <Link
-              to="https://github.com/AthenaC"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Athena Chang
-            </Link>
-            <Link
-              to="https://www.linkedin.com/in/athena-chang/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src="/linkedin-icon.png"
-                alt="Athena's LinkedIn"
-                className="icon"
-              />
-            </Link>
-          </span>
-        </p>
-      </footer>
+      <Footer />
     </>
   );
 }
