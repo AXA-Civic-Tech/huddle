@@ -1,5 +1,5 @@
-import { useContext, useEffect } from "react";
-import { Routes, Route, Navigate, useLocation, Link } from "react-router-dom";
+import { useState, useContext, useEffect, useCallback } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import UserContext from "./contexts/current-user-context";
 import { checkForLoggedInUser } from "./adapters/auth-adapter";
 import HomePage from "./pages/HomePage";
@@ -8,43 +8,114 @@ import NotFoundPage from "./pages/NotFoundPage";
 import UserPage from "./pages/UserPage";
 import UsersPage from "./pages/Users";
 import NavBar from "./components/NavBar";
+import RequireAuth from "./components/RequireAuth";
+import Footer from "./components/Footer";
+
+/**
+ * Main application component responsible for routing and global state management.
+ * Handles authentication state, protected routes, and application-wide user context.
+ * Manages authentication overlays and redirects for protected content.
+ *
+ * Key responsibilities:
+ * - Route configuration and rendering
+ * - User authentication state management
+ * - Conditional rendering of auth overlay
+ * - Persisting login state across refreshes
+ * - Managing redirects for protected routes
+ *
+ * @returns {JSX.Element} The complete application with routing and global UI elements
+ */
 
 export default function App() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const location = useLocation();
 
+  const [authOverlayOpen, setAuthOverlayOpen] = useState(false);
+  const [authMode, setAuthMode] = useState("login");
+  const [redirectAfterLogin, setRedirectAfterLogin] = useState("/");
+  const [loadingUser, setLoadingUser] = useState(true);
+
+  /**
+   * Opens the auth overlay with specified mode
+   * @param {string} mode - Authentication mode to display ('login' or 'signup')
+   */
+  const openAuthOverlay = useCallback((mode = "login") => {
+    setAuthMode(mode);
+    setAuthOverlayOpen(true);
+  }, []);
+
+  // Closes the authentication overlay
+  const closeAuthOverlay = useCallback(() => {
+    setAuthOverlayOpen(false);
+  }, []);
+
+  // Check for logged in user on initial load
   useEffect(() => {
     const loadCurrentUser = async () => {
-      // we aren't concerned about an error happening here
       const [data] = await checkForLoggedInUser();
       if (data) setCurrentUser(data);
+      setLoadingUser(false);
     };
 
     loadCurrentUser();
   }, [setCurrentUser]);
 
+  // Trigger auth overlay for protected routes when user isn't logged in
+  useEffect(() => {
+    if (
+      !loadingUser &&
+      !currentUser &&
+      location.pathname.startsWith("/users/")
+    ) {
+      setRedirectAfterLogin(location.pathname);
+      openAuthOverlay("login");
+    }
+  }, [
+    currentUser,
+    location.pathname,
+    openAuthOverlay,
+    setRedirectAfterLogin,
+    loadingUser,
+  ]);
+
+  // Close overlay after successful login
+  useEffect(() => {
+    if (currentUser && authOverlayOpen) {
+      closeAuthOverlay();
+    }
+  }, [currentUser, authOverlayOpen, closeAuthOverlay]);
+
+  if (loadingUser) return null;
+
   return (
     <>
-      <NavBar />
+      <NavBar
+        openAuthOverlay={openAuthOverlay}
+        closeAuthOverlay={closeAuthOverlay}
+      />
+
       <main>
         <Routes>
-          {/* Main page */}
-          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/"
+            element={
+              <HomePage
+                authOverlayOpen={authOverlayOpen}
+                authMode={authMode}
+                closeAuthOverlay={closeAuthOverlay}
+              />
+            }
+          />
 
-          {/* Auth pages */}
-          <Route path="/login" element={<LoginSignUpPage />} />
-          <Route path="/signup" element={<LoginSignUpPage />} />
-
-          {/* User profile pages */}
-          <Route path="/users" element={<UsersPage />} />
           <Route
             path="/users/:id"
             element={
-              currentUser ? (
+              <RequireAuth
+                openAuthOverlay={openAuthOverlay}
+                setRedirectAfterLogin={setRedirectAfterLogin}
+              >
                 <UserPage />
-              ) : (
-                <Navigate to="/login" state={{ from: location.pathname }} />
-              )
+              </RequireAuth>
             }
           />
 
@@ -52,89 +123,22 @@ export default function App() {
         </Routes>
       </main>
 
-      <footer className="footer">
-        <p>
-          {`Copyright © ${new Date().getFullYear()} `}
-          <Link
-            to="https://github.com/AXA-Civic-Tech"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            AXA
-          </Link>
-        </p>
+      {authOverlayOpen && (
+        <div
+          className="glassmorphic-overlay"
+          onClick={closeAuthOverlay}
+          aria-modal="true"
+          role="dialog"
+        >
+          <LoginSignUpPage
+            initialForm={authMode}
+            onClose={closeAuthOverlay}
+            redirectAfterLogin={redirectAfterLogin}
+          />
+        </div>
+      )}
 
-        <p>All Rights Reserved</p>
-
-        <p className="contributors">
-          <span className="contributor">
-            <Link
-              to="https://github.com/autumnlydon"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Autumn Lydon
-            </Link>
-            <Link
-              to="https://www.linkedin.com/in/autumnlydon/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src="/linkedin-icon.png"
-                alt="Autumn's LinkedIn"
-                className="icon"
-              />
-            </Link>
-          </span>
-
-          <span className="dot"> • </span>
-
-          <span className="contributor">
-            <Link
-              to="https://github.com/Nakuziri"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Xavier Campos
-            </Link>
-            <Link
-              to="https://www.linkedin.com/in/xavier-campos-97b6b3268/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src="/linkedin-icon.png"
-                alt="Xavier's LinkedIn"
-                className="icon"
-              />
-            </Link>
-          </span>
-
-          <span className="dot"> • </span>
-
-          <span className="contributor">
-            <Link
-              to="https://github.com/AthenaC"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Athena Chang
-            </Link>
-            <Link
-              to="https://www.linkedin.com/in/athena-chang/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src="/linkedin-icon.png"
-                alt="Athena's LinkedIn"
-                className="icon"
-              />
-            </Link>
-          </span>
-        </p>
-      </footer>
+      <Footer />
     </>
   );
 }

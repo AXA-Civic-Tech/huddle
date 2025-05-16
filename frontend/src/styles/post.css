@@ -1,4 +1,37 @@
-.post:hover {
-  background-color: lightgray;
+.post-card {
+  padding: 1.5rem;
+  margin: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
   cursor: pointer;
+}
+
+.post-card:hover {
+  transform: translateY(-5px);
+}
+
+.post-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.post-title {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.post-status,
+.post-creator {
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.no-image {
+  font-style: italic;
 }
