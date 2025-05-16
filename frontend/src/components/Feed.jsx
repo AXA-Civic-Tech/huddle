@@ -45,6 +45,15 @@ export default function Feed({ onPostCountChange, filterType, filterValue, onFil
     // 1. Fetch all posts
     const [data, error] = await getAllPosts();
 
+    // Debug logs
+    console.log('Debug upvote filtering:', {
+      filterType,
+      currentUser: currentUser?.id,
+      urlUserId,
+      isMatch: currentUser?.id === parseInt(urlUserId),
+      pathname
+    });
+
     // 2. If filtering by upvotes, fetch upvotes and filter posts
     if (
       filterType === "upvote" &&
@@ -52,9 +61,14 @@ export default function Feed({ onPostCountChange, filterType, filterValue, onFil
       urlUserId &&
       currentUser.id === parseInt(urlUserId)
     ) {
+      console.log('Fetching upvotes for user:', currentUser.id);
       const upvotes = await getUpvotesByUser(currentUser.id);
+      console.log('Upvotes received:', upvotes);
       const upvotedEventIds = upvotes.map(u => Number(u.event_id));
-      setPosts(data.filter(post => upvotedEventIds.includes(Number(post.id))));
+      console.log('Upvoted event IDs:', upvotedEventIds);
+      const filteredPosts = data.filter(post => upvotedEventIds.includes(Number(post.id)));
+      console.log('Filtered posts:', filteredPosts);
+      setPosts(filteredPosts);
     } else if (data) {
       setPosts(data);
       // If we're on a user profile page and the callback exists, send the post count
