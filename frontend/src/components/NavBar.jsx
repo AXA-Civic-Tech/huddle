@@ -11,7 +11,7 @@ import Button from "./Button";
  * @returns
  */
 
-export default function NavBar() {
+export default function NavBar({ openAuthOverlay }) {
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
@@ -26,10 +26,6 @@ export default function NavBar() {
     setCurrentUser(null);
     navigate("/");
   };
-
-  // Check if we're viewing another user's profile
-  const isViewing =
-    currentUser && urlUserId && currentUser.id !== parseInt(urlUserId);
 
   return (
     <header className="navbar-header">
@@ -55,19 +51,26 @@ export default function NavBar() {
           )}
 
           {/* When user is NOT logged in and on HomePage */}
-          {!currentUser && pathname === "/" && (
+          {!currentUser && location.pathname === "/" && (
             <>
               <li className="navbar-item">
-                {/* <Button name="Sign Up" to="/signup" /> */}
-                <NavLink to="/signup" className="navbar-link">
+                {/* Trigger modal open instead of navigating */}
+                <button
+                  className="navbar-link"
+                  onClick={() => openAuthOverlay("signup")}
+                  type="button"
+                >
                   Sign Up
-                </NavLink>
+                </button>
               </li>
               <li className="navbar-item">
-                {/* <Button name="Log In" to="/login" /> */}
-                <NavLink to="/login" className="navbar-link">
+                <button
+                  className="navbar-link"
+                  onClick={() => openAuthOverlay("login")}
+                  type="button"
+                >
                   Log In
-                </NavLink>
+                </button>
               </li>
             </>
           )}

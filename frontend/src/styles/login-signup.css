@@ -20,7 +20,6 @@ form > h1 {
 /* Left Side - Info Section */
 .info-section {
   width: 50%;
-  background-color: #f5f5f5;
   padding: 60px 40px;
   display: flex;
   flex-direction: column;
@@ -75,14 +74,6 @@ form > h1 {
   background-color: #374151;
 }
 
-.form-section {
-  width: 50%;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .form-wrapper {
   width: 100%;
   max-width: 400px;
@@ -90,7 +81,6 @@ form > h1 {
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
 }
 
 /* Style for first and last name side-by-side */

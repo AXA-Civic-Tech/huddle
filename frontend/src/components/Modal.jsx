@@ -153,6 +153,7 @@ export default function Modal({
       key={event.id}
       ref={dialogRef}
       onClick={(e) => {
+        e.stopPropagation();
         if (e.target === e.currentTarget && !isWidgetOpen) {
           onClose();
         }

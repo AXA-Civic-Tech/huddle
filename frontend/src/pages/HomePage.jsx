@@ -1,18 +1,41 @@
+import { useState, useEffect } from "react";
 import Feed from "../components/Feed";
 import Map from "../components/Map";
+import LoginSignUpPage from "./LoginSignUpPage";
 
-/**
- * HomePage should be shown on '/'
- * User can view Map and Feed and interact with them
- * Depending on the user is logged in or not, the buttons in the NavBar will determine that
- * @returns
- */
+export default function HomePage({
+  authOverlayOpen,
+  authMode,
+  closeAuthOverlay,
+}) {
+  // Close modal on Escape key press
+  useEffect(() => {
+    function onEscKey(event) {
+      if (event.key === "Escape" && authOverlayOpen) {
+        closeAuthOverlay();
+      }
+    }
+    window.addEventListener("keydown", onEscKey);
+    return () => window.removeEventListener("keydown", onEscKey);
+  }, [authOverlayOpen, closeAuthOverlay]);
 
-export default function HomePage() {
   return (
     <div className="homepage">
-      <Feed />
-      <Map />
+      <div className={`main-content ${authOverlayOpen ? "disabled-blur" : ""}`}>
+        <Feed />
+        <Map />
+      </div>
+
+      {authOverlayOpen && (
+        <div
+          className="glassmorphic-overlay"
+          onClick={closeAuthOverlay}
+          aria-modal="true"
+          role="dialog"
+        >
+          <LoginSignUpPage initialForm={authMode} onClose={closeAuthOverlay} />
+        </div>
+      )}
     </div>
   );
 }
