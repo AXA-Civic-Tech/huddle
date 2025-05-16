@@ -104,3 +104,12 @@ form > h2 {
 .footer a:hover {
   color: #004d99;
 }
+
+.feed-home,
+.feed-user {
+  margin-top: 80px;
+}
+
+.feed-content {
+  margin-top: 0;
+}

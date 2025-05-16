@@ -59,9 +59,9 @@ const Map = ({ mapCenter, mapZoom, onMapMove }) => {
   };
 
   return (
-    <div className="map">
+    <div className="map" style={{ position: 'relative' }}>
       <LoadScript googleMapsApiKey={apiKey} libraries={['places']}>
-        <SearchBar 
+        <SearchBar
           onPlaceSelected={(location) => {
             setSearchMarker(location);
             if (onMapMove) onMapMove(location, 15);
@@ -69,7 +69,6 @@ const Map = ({ mapCenter, mapZoom, onMapMove }) => {
           events={eventData}
           onEventSelected={(event) => {
             const loc = { lat: parseFloat(event.lat_location), lng: parseFloat(event.long_location) };
-            console.log("Event selected:", event, "Location:", loc);
             setSearchMarker(loc);
             setSelectedEvent(event);
             setIsModalOpen(true);
