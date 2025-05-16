@@ -6,13 +6,32 @@ import {
   registerUser,
   checkUsernameAvailability,
 } from "../adapters/auth-adapter";
+import Button from "./Button";
+
+/**
+ * SignUpForm component for user registration.
+ * Manages form state, real-time validation, reCAPTCHA verification, and API integration.
+ * Provides immediate feedback on username availability and input validation.
+ *
+ * Features:
+ * - Real-time username availability checking
+ * - Form validation for all required fields
+ * - reCAPTCHA integration for bot prevention
+ * - Error state handling and display
+ * - Context updates on successful registration
+ * - Support for redirect after successful registration
+ *
+ * @param {Object} props - Component props
+ * @param {Function} props.onClose - Handler called after registration process completes
+ * @returns {JSX.Element} Registration form with validation and submission handling
+ */
 
 //The site key remains public as it's a PUBLIC KEY
 const SITE_KEY = "6Lf1FC8rAAAAAJ4egdXJ_RkeePpHowuY1ZFKb20S"; // from Google
 
 // Controlling the sign up form is a good idea because we want to add (eventually)
 // more validation and provide real time feedback to the user about usernames and passwords
-export default function SignUpForm() {
+export default function SignUpForm({ onClose }) {
   const navigate = useNavigate();
   const location = useLocation();
   // Get the redirect path from location state, or default to home
@@ -34,14 +53,18 @@ export default function SignUpForm() {
   /**
    * Checks if a username is available by making an API call
    * Updates the UI state based on the result
+   *
    * @param {string} username - The username to check
+   * @returns {Promise<void>} - Resolves when availability check completes
    */
   const checkUsername = async (username) => {
     if (!username) {
       setUsernameAvailable(true);
       return;
     }
+
     setIsCheckingUsername(true);
+
     try {
       const available = await checkUsernameAvailability(username);
       setUsernameAvailable(available);
@@ -49,9 +72,17 @@ export default function SignUpForm() {
       console.error("Error checking username:", error);
       setUsernameAvailable(true); // Assume available on error to not block registration
     }
+
     setIsCheckingUsername(false);
   };
 
+  /**
+   * Form submission handler
+   * Validates all inputs, verifies reCAPTCHA, and attempts user registration
+   *
+   * @param {Event} event - Form submission event
+   * @returns {Promise<void>} - Resolves when registration process completes
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorText("");
@@ -87,10 +118,17 @@ export default function SignUpForm() {
     if (error) return setErrorText(error.message);
 
     setCurrentUser(user);
+    onClose();
     // Navigate to the original page the user was trying to access
     navigate(from, { replace: true });
   };
 
+  /**
+   * Input change handler for all form fields
+   * Updates corresponding state and triggers validation when needed
+   *
+   * @param {Event} event - Input change event
+   */
   const handleChange = (event) => {
     const { name, value } = event.target;
     if (name === "firstName") setFirstName(value);
@@ -104,6 +142,12 @@ export default function SignUpForm() {
     if (name === "password") setPassword(value);
   };
 
+  /**
+   * reCAPTCHA change handler
+   * Updates state with token when verification completes
+   *
+   * @param {string} token - The verification token from reCAPTCHA
+   */
   const handleCaptchaChange = (token) => {
     setRecaptchaToken(token);
   };
@@ -162,6 +206,7 @@ export default function SignUpForm() {
           value={username}
           required
         />
+
         {/* Show loading state while checking username */}
         {isCheckingUsername && <span>Checking username availability...</span>}
         {/* Show error message if username is taken */}
@@ -181,7 +226,7 @@ export default function SignUpForm() {
           minLength={6}
         />
 
-        {/* In reality, we'd want a LOT more validation on signup, so add more things if you have time */}
+        {/* Password validation on sign up */}
         <label htmlFor="password-confirm">Password Confirm</label>
         <input
           autoComplete="off"
@@ -194,13 +239,13 @@ export default function SignUpForm() {
         <ReCAPTCHA sitekey={SITE_KEY} onChange={handleCaptchaChange} />
 
         {/* Disable submit button if username is taken or while checking availability */}
-        <button
+        <Button
+          name="Sign Up Now!"
           type="submit"
           disabled={!usernameAvailable || isCheckingUsername}
-        >
-          Sign Up Now!
-        </button>
+        />
       </form>
+
       {!!errorText && <p className="error">{errorText}</p>}
     </>
   );
