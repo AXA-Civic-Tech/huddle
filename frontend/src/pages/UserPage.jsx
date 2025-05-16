@@ -31,6 +31,23 @@ export default function UserPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [postCount, setPostCount] = useState(0);
 
+  // Add filter state
+  const [filterType, setFilterType] = useState("all");
+  const [filterValue, setFilterValue] = useState("");
+
+  // Add filter change handler
+  const handleFilterChange = (e) => {
+    const value = e.target.value;
+    if (value.includes(":")) {
+      const [type, val] = value.split(":");
+      setFilterType(type);
+      setFilterValue(val);
+    } else {
+      setFilterType("all");
+      setFilterValue("");
+    }
+  };
+
   useEffect(() => {
     const loadUser = async () => {
       const [user, error] = await getUser(id);
@@ -114,7 +131,11 @@ export default function UserPage() {
         <h3>{userProfile.email}</h3>
       </div>
 
-      <Feed onPostCountChange={handlePostCountChange} />
+      <Feed onPostCountChange={handlePostCountChange}
+            filterType={filterType}
+            filterValue={filterValue}
+            onFilterChange={handleFilterChange}
+      />
     </div>
   );
 }

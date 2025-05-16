@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { getAllPosts } from "../adapters/post-adapter";
 import Modal from "./Modal";
-
+import SearchBar from "./SearchBar";
 //doing height with a % bugs map
 const containerStyle = {
   width: "100%",
@@ -17,11 +17,13 @@ const center = {
 
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
-const Map = () => {
+const Map = ({ mapCenter, mapZoom, onMapMove }) => {
   const [markers, setMarkers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [eventData, setEventData] = useState([]);
+  const [searchMarker, setSearchMarker] = useState(null);
+  const [isMapApiLoaded, setIsMapApiLoaded] = useState(false);
 
   //fetches all post and filters out for locations to pin
   useEffect(() => {
@@ -58,17 +60,54 @@ const Map = () => {
   };
 
   return (
-    <div className="map">
-      <LoadScript googleMapsApiKey={apiKey}>
-        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={12}>
-          {markers.map((marker) => (
-            <Marker
-              key={marker.id}
-              position={marker.position}
-              onClick={() => handleMarkerClick(marker.id)}
-            />
-          ))}
-        </GoogleMap>
+    <div className="map" style={{ position: 'relative' }}>
+      <LoadScript 
+        googleMapsApiKey={apiKey} 
+        libraries={['places']}
+        onLoad={() => setIsMapApiLoaded(true)}
+      >
+        <SearchBar
+          onPlaceSelected={(location) => {
+            setSearchMarker(location);
+            if (onMapMove) onMapMove(location, 15);
+          }}
+          events={eventData}
+          onEventSelected={(event) => {
+            const loc = { lat: parseFloat(event.lat_location), lng: parseFloat(event.long_location) };
+            setSearchMarker(loc);
+            setSelectedEvent(event);
+            setIsModalOpen(true);
+            if (!isNaN(loc.lat) && !isNaN(loc.lng) && onMapMove) onMapMove(loc, 15);
+          }}
+        />
+        {isMapApiLoaded && (
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={mapCenter}
+            zoom={mapZoom}
+            options={{
+              disableDefaultUI: true,
+              mapTypeControl: true,
+              mapTypeControlOptions: {
+                position: window.google.maps.ControlPosition.TOP_RIGHT,
+              },
+            }}
+          >
+            {markers.map((marker) => (
+              <Marker
+                key={marker.id}
+                position={marker.position}
+                onClick={() => handleMarkerClick(marker.id)}
+              />
+            ))}
+            {searchMarker && (
+              <Marker
+                position={{ lat: searchMarker.lat, lng: searchMarker.lng }}
+                icon={{ url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" }}
+              />
+            )}
+          </GoogleMap>
+        )}
       </LoadScript>
 
       {selectedEvent && (

@@ -8,6 +8,7 @@
 @import "homepage.css";
 @import "userpage.css";
 @import "login-signup.css";
+@import "searchbar.css";
 
 * {
   margin: 0;
@@ -94,6 +95,15 @@ input {
 
 .footer a:hover {
   color: #004d99;
+}
+
+.feed-home,
+.feed-user {
+  margin-top: 80px;
+}
+
+.feed-content {
+  margin-top: 0;
 }
 
 /* Dim and blur homepage when modal open */

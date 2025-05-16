@@ -21,7 +21,7 @@ import FeedControls from "./Feed_children/FeedControls";
  * @returns
  */
 
-export default function Feed({ onPostCountChange }) {
+export default function Feed({ onPostCountChange, filterType, filterValue, onFilterChange, onMapMove }) {
   const location = useLocation();
   const pathname = location.pathname;
   const { id: urlUserId } = useParams(); // string
@@ -34,29 +34,32 @@ export default function Feed({ onPostCountChange }) {
   const { currentUser } = useContext(CurrentUserContext);
 
   const [sort, setSort] = useState("recent");
-  const [filterType, setFilterType] = useState("all");
-  const [filterValue, setFilterValue] = useState("");
 
   // Check if current user is viewing another user's profile
   const isViewing =
     currentUser && urlUserId && currentUser.id !== parseInt(urlUserId);
 
+  // Fetch posts and apply upvote filtering if needed
   const fetchPosts = async () => {
     setLoading(true);
 
     // 1. Fetch all posts
     const [data, error] = await getAllPosts();
 
-    // 2. If filtering by upvotes, fetch upvotes and filter posts
+    // If filtering by upvotes (on user profile page), fetch upvotes and filter posts
     if (
       filterType === "upvote" &&
       currentUser &&
       urlUserId &&
       currentUser.id === parseInt(urlUserId)
     ) {
+      // Get all upvotes for the current user
       const upvotes = await getUpvotesByUser(currentUser.id);
+      // Extract event IDs that the user has upvoted
       const upvotedEventIds = upvotes.map(u => Number(u.event_id));
-      setPosts(data.filter(post => upvotedEventIds.includes(Number(post.id))));
+      // Filter posts to only those the user has upvoted
+      const filteredPosts = data.filter(post => upvotedEventIds.includes(Number(post.id)));
+      setPosts(filteredPosts);
     } else if (data) {
       setPosts(data);
       // If we're on a user profile page and the callback exists, send the post count
@@ -104,6 +107,12 @@ export default function Feed({ onPostCountChange }) {
   const openModal = (event) => {
     setSelectedPost(event);
     setIsOpen(true);
+    if (onMapMove && event.lat_location && event.long_location) {
+      onMapMove(
+        { lat: parseFloat(event.lat_location), lng: parseFloat(event.long_location) },
+        17
+      );
+    }
   };
 
   // Simplified logic here, all we need to do is fetch all posts again any time a post is updated/deleted
@@ -121,19 +130,6 @@ export default function Feed({ onPostCountChange }) {
 
   const handleSortChange = (e) => {
     setSort(e.target.value);
-  };
-
-  const handleFilterChange = (e) => {
-    const value = e.target.value;
-
-    if (value.includes(":")) {
-      const [type, val] = value.split(":");
-      setFilterType(type);
-      setFilterValue(val);
-    } else {
-      setFilterType("all");
-      setFilterValue("");
-    }
   };
 
   const getFilteredAndSortedPosts = () => {
@@ -193,7 +189,7 @@ export default function Feed({ onPostCountChange }) {
           filterType={filterType}
           filterValue={filterValue}
           sort={sort}
-          onFilterChange={handleFilterChange}
+          onFilterChange={onFilterChange}
           onSortChange={handleSortChange}
           onNewPost={handleNewPost}
           currentUser={currentUser}
