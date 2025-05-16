@@ -134,16 +134,21 @@ export default function CommentsSection({ eventId, onClose }) {
 
   return (
     <div className="comments">
-      <h3>Comments and Reactions</h3>
+      <div className="comments-header">
+        <h3>Comments</h3>
 
-      {/* Upvotes section */}
-      <div className="upvotes">
-        <span>Upvotes: {upvoteCount}</span>
-        <Button
-          name={hasUpvoted ? "Remove Upvote" : "Upvote"}
-          onClick={handleUpvoteToggle}
-          disabled={isLoading}
-        />
+        {/* Upvotes section */}
+        <div className="upvote-section">
+          <span className="upvote-count">{upvoteCount}</span>
+          <button
+            className={`upvote-button ${hasUpvoted ? "upvote-active" : ""}`}
+            onClick={handleUpvoteToggle}
+            disabled={isLoading}
+            aria-label={hasUpvoted ? "Remove upvote" : "Upvote"}
+          >
+            <span className="upvote-icon">♥</span>
+          </button>
+        </div>
       </div>
 
       {/* Comment input */}

@@ -36,23 +36,23 @@ export default function Post({ event, onSelect, onClose }) {
   };
 
   return (
-    <div className="post" onClick={handleClick}>
-      {/* <img src={event.image.src} alt={event.image.alt} /> */}
+    <div className="post-card" onClick={handleClick}>
+      {event.images ? (
+        <img src={event.images} alt="Event" className="post-image" />
+      ) : (
+        <p className="no-image">No image available</p>
+      )}
 
-      <h2 className="title">{event.title}</h2>
+      <h2 className="post-title">{event.title}</h2>
 
-      <p className="status">Status: {event.status}</p>
+      <p className="post-status">Status: {event.status}</p>
 
-      <p>
+      <p className="post-creator">
         Created by:{" "}
         <UserLink userId={event.user_id} username={username} onClose={onClose}>
           {username}
         </UserLink>
       </p>
-
-      {/* <Button name="View More" onClick={handleClick} /> */}
-
-      {/* <div className="comments">{event.comments}</div> */}
     </div>
   );
 }

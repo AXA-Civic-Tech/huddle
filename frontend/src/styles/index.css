@@ -14,12 +14,14 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scroll-behavior: smooth;
   font-family: "Cal Sans", sans-serif;
 }
 
 body {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   margin: 0;
+  background: transparent;
 }
 
 main {
@@ -45,16 +47,6 @@ label {
 }
 
 input {
-  margin-bottom: 1rem;
-}
-
-form {
-  padding: 1rem;
-  border: 1px solid #ccc;
-  width: 15rem;
-}
-
-form > h2 {
   margin-bottom: 1rem;
 }
 
@@ -112,4 +104,60 @@ form > h2 {
 
 .feed-content {
   margin-top: 0;
+}
+
+/* Dim and blur homepage when modal open */
+.disabled-blur {
+  filter: blur(4px);
+  pointer-events: none; /* disables interactions */
+  user-select: none;
+  opacity: 0.6;
+}
+
+/* Overlay fills screen, glassmorphic style */
+.glassmorphic-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal content container */
+.modal-content {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 2rem;
+  max-width: 900px;
+  width: 90%;
+  display: flex;
+  gap: 2rem;
+  color: #111;
+}
+
+/* Reuse glassmorphic style for info-section and form-wrapper */
+.login-signup-container .info-section,
+.login-signup-container .form-wrapper {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  padding: 1rem;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* You can add responsive and layout styling as needed */
+.login-signup-container {
+  display: flex;
+  gap: 2rem;
 }

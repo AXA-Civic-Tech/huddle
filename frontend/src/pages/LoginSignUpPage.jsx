@@ -1,71 +1,79 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import LoginForm from "../components/Login";
 import SignUpForm from "../components/SignUp";
+import Button from "../components/Button";
 
 /**
- * If "Sign Up" button was clicked on "/", "Sign Up" form will show and able to switch to "Log In"
- * If "Log In" button was clicked on "/", "Log In" form will show and able to switch to "Sign Up"
- * @returns
+ * LoginSignUpPage component displaying authentication forms with app information.
+ * Serves as the primary entry point for user authentication, toggling between login
+ * and signup forms while displaying the app's mission statement.
+ *
+ * @param {Object} props - Component props
+ * @param {string} props.initialForm - Which form to display initially ('login' or 'signup')
+ * @param {Function} props.onClose - Handler called when auth process completes or is cancelled
+ * @param {string} props.redirectAfterLogin - Path to redirect to after successful login
+ * @returns {JSX.Element} Authentication page with togglable login/signup forms
  */
 
-export default function LoginSignUpPage() {
-  const location = useLocation();
-  const pathname = location.pathname;
+export default function LoginSignUpPage({
+  initialForm = "signup",
+  onClose,
+  redirectAfterLogin,
+}) {
+  const [activeForm, setActiveForm] = useState(initialForm);
 
-  const [activeForm, setActiveForm] = useState("signup");
-
+  // Update active form when initialForm changes (in case of mode switch)
   useEffect(() => {
-    pathname === "/login" ? setActiveForm("login") : setActiveForm("signup");
-  }, [pathname]);
+    setActiveForm(initialForm);
+  }, [initialForm]);
+
+  const isLogin = activeForm === "login";
+  const promptText = isLogin ? "Don't have an account?" : "Have an account?";
+  const buttonText = isLogin ? "Sign Up" : "Log In";
+  const nextForm = isLogin ? "signup" : "login";
 
   return (
     <>
-      <div className="login-signup-container">
-        {/* Left Side - Info Section */}
-        <div className="info-section">
-          <h1 className="app-title">Huddle</h1>
-          <h3 className="app-subtitle">One map. Infinite stories.</h3>
-          <p className="section-label">Mission Statement:</p>
-          <p className="mission-text">
-            Our mission is to create a web app where any New Yorker can, in
-            under 30 seconds, post or discover neighborhood issues and events.
-            By unifying 311-style reports and community activities on a
-            real-time, interactive map, we aim to turn isolated data points into
-            shared civic awareness and spark faster, collective responses across
-            neighborhoods.
-          </p>
+      <div className="info-section">
+        <h1 className="app-title">Huddle</h1>
 
-          <div className="switch-form-prompt">
-            {activeForm === "login" ? (
-              <>
-                <p>Don't have an account?</p>
-                <button
-                  className="switch-form-button"
-                  onClick={() => setActiveForm("signup")}
-                >
-                  Sign Up
-                </button>
-              </>
-            ) : (
-              <>
-                <p>Have an account?</p>
-                <button
-                  className="switch-form-button"
-                  onClick={() => setActiveForm("login")}
-                >
-                  Log In
-                </button>
-              </>
-            )}
-          </div>
-        </div>
+        <h3 className="app-subtitle">One map. Infinite stories.</h3>
 
-        {/* Right Side - Form Section */}
-        <div className="form-section">
-          <div className="form-wrapper">
-            {activeForm === "login" ? <LoginForm /> : <SignUpForm />}
-          </div>
+        <p className="section-label">
+          <strong>Mission Statement:</strong>
+        </p>
+
+        <p className="mission-text">
+          We are ending loneliness in New York City by bridging the visibility
+          gap between neighbors. Our platform surfaces hyper-local events and
+          issues in real time—so you can spot what is happening on your block,
+          RSVP, and jump into the conversation. The goal: timely information
+          that sparks connection, resilience, and a stronger sense of community
+          for every New Yorker.
+        </p>
+      </div>
+
+      <div
+        className="form-wrapper glassmorphic"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {isLogin ? (
+          <LoginForm
+            onClose={onClose}
+            redirectAfterLogin={redirectAfterLogin}
+          />
+        ) : (
+          <SignUpForm onClose={onClose} />
+        )}
+
+        <div className="switch-form-prompt">
+          <p>{promptText}</p>
+
+          <Button
+            name={buttonText}
+            onClick={() => setActiveForm(nextForm)}
+            className="switch-form-button"
+          />
         </div>
       </div>
     </>

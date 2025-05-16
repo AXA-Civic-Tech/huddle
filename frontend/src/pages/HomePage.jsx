@@ -1,16 +1,21 @@
+import { useEffect } from "react";
 import Feed from "../components/Feed";
 import Map from "../components/Map";
 import { useState } from "react";
 import { neighborhoodCenters, boroughCenters } from "../utils/neighborhoodCenters";
 
 /**
- * HomePage should be shown on '/'
- * User can view Map and Feed and interact with them
- * Depending on the user is logged in or not, the buttons in the NavBar will determine that
- * @returns
+ * HomePage component rendering the application's main landing page.
+ * Displays a feed of events/issues alongside an interactive map.
+ * Conditionally renders authentication overlays when needed.
+ *
+ * @param {Object} props - Component props
+ * @param {boolean} props.authOverlayOpen - Controls visibility of authentication overlay
+ * @param {Function} props.closeAuthOverlay - Handler to close the authentication overlay
+ * @returns {JSX.Element} HomePage component with Feed, Map, and conditional auth overlay
  */
 
-export default function HomePage() {
+export default function HomePage({ authOverlayOpen, closeAuthOverlay }) {
   const [filterType, setFilterType] = useState("all");
   const [filterValue, setFilterValue] = useState("");
   const [mapCenter, setMapCenter] = useState({ lat: 40.65798, lng: -74.005439 });
@@ -32,7 +37,6 @@ export default function HomePage() {
     } else {
       setFilterType("all");
       setFilterValue("");
-      // Optionally reset map center/zoom here
     }
   };
 
@@ -42,9 +46,18 @@ export default function HomePage() {
   };
 
   return (
-    <div className="homepage">
-      <Feed filterType={filterType} filterValue={filterValue} onFilterChange={handleFilterChange} onMapMove={handleMapMove} />
-      <Map mapCenter={mapCenter} mapZoom={mapZoom} onMapMove={handleMapMove} />
+    <div className={`homepage ${authOverlayOpen ? 'disabled-blur' : ''}`}>
+      <Feed 
+        filterType={filterType} 
+        filterValue={filterValue} 
+        onFilterChange={handleFilterChange} 
+        onMapMove={handleMapMove} 
+      />
+      <Map 
+        mapCenter={mapCenter} 
+        mapZoom={mapZoom} 
+        onMapMove={handleMapMove} 
+      />
     </div>
   );
 }

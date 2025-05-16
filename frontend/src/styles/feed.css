@@ -3,18 +3,23 @@
   top: 0;
   left: 0;
   width: 400px;
-  height: calc(100% - 4.2rem);
-  background-color: white;
+  height: calc(100% - 0rem);
   z-index: 2; /* make sure it sits on top of the Map */
   padding: 1rem;
-  /* margin: top right bottom left */
-  margin: 3.2rem 0rem 1rem 0.65rem;
+  margin: 4rem 0rem 1rem 0.65rem;
   border-radius: 30px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-  /* Scroll bar */
-  overflow-y: hidden;
   display: flex;
   flex-direction: column;
+  overflow-y: hidden;
+
+  /* Original box shadow, slightly enhanced for depth */
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.25);
+
+  /* Glassmorphism additions */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .feed-content {
@@ -29,4 +34,24 @@
 .feed-controls {
   display: flex;
   justify-content: space-evenly;
+}
+
+.scroller::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.scroller::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroller:hover::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-color-thumb);
+}
+
+.scroller:hover::-webkit-scrollbar-track {
+  background: var(--scrollbar-color-track);
+}
+
+.scroller:hover {
+  --fix: ; /* This custom property invalidates styles on hover, thereby enforcing a style recomputation. This is needed to work around a bug in Safari. */
 }
