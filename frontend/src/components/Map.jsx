@@ -76,7 +76,22 @@ const Map = ({ mapCenter, mapZoom, onMapMove }) => {
             if (!isNaN(loc.lat) && !isNaN(loc.lng) && onMapMove) onMapMove(loc, 15);
           }}
         />
-        <GoogleMap mapContainerStyle={containerStyle} center={mapCenter} zoom={mapZoom}>
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={mapCenter}
+          zoom={mapZoom}
+          options={
+            window.google && window.google.maps
+              ? {
+                  disableDefaultUI: true,
+                  mapTypeControl: true,
+                  mapTypeControlOptions: {
+                    position: window.google.maps.ControlPosition.TOP_RIGHT,
+                  },
+                }
+              : {}
+          }
+        >
           {markers.map((marker) => (
             <Marker
               key={marker.id}
