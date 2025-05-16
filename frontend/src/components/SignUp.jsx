@@ -196,6 +196,8 @@ export default function SignUpForm() {
           Sign Up Now!
         </button>
       </form>
+
+      {/* If there is an error, show it */}
       {!!errorText && <p className="error">{errorText}</p>}
     </>
   );

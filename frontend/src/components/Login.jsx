@@ -18,6 +18,12 @@ export default function LoginForm() {
     event.preventDefault();
     setErrorText("");
 
+    // Add client-side validation to check if username and password are provided
+    if (!username || !password) {
+      setErrorText("Please provide both: A username and a password.");
+      return;
+    }
+
     const [user, error] = await logUserIn({ username, password });
     if (error) return setErrorText(error.message);
 
@@ -53,6 +59,7 @@ export default function LoginForm() {
 
         <button>Log in!</button>
       </form>
+      {/* If there is an error, display it */}
       {!!errorText && <p>{errorText}</p>}
     </>
   );
