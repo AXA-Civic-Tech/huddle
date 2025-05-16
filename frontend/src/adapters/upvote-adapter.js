@@ -21,3 +21,15 @@ export const removeUpvote = async (eventId) => {
     deleteOptions
   );
 }; 
+
+// Grab all upvotes by user
+
+export const getUpvotesByUser = async (userId) => {
+  const [data, error] = await fetchHandler(`/api/upvotes/users/${userId}`);
+  // Return an empty array if there's an error, otherwise the data
+  if (error) {
+    console.error("Error fetching upvotes:", error);
+    return [];
+  }
+  return data;
+}
