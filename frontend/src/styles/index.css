@@ -12,13 +12,13 @@
 @import "components/modal.css";
 @import "components/navbar.css";
 @import "components/post.css";
+@import "components/searchbar.css";
 /* Pages */
 @import "pages/homepage.css";
 @import "pages/login-signup.css";
 @import "pages/userpage.css";
 /* Responsive */
 @import "responsive.css";
-@import "searchbar.css";
 
 * {
   margin: 0;
