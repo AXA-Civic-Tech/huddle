@@ -68,16 +68,13 @@ export default function HomePage({
 
   return (
     <div className="homepage">
-      <div className={`main-content ${authOverlayOpen ? "disabled-blur" : ""}`}>
-        <Feed openAuthOverlay={openAuthOverlay} />
-        <Map />
-      </div>
       <div className={`homepage ${authOverlayOpen ? "disabled-blur" : ""}`}>
         <Feed
           filterType={filterType}
           filterValue={filterValue}
           onFilterChange={handleFilterChange}
           onMapMove={handleMapMove}
+          openAuthOverlay={openAuthOverlay}
         />
         <Map
           mapCenter={mapCenter}
