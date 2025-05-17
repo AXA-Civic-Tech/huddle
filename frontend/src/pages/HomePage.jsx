@@ -13,7 +13,11 @@ import Map from "../components/Map";
  * @returns {JSX.Element} HomePage component with Feed, Map, and conditional auth overlay
  */
 
-export default function HomePage({ authOverlayOpen, closeAuthOverlay }) {
+export default function HomePage({
+  authOverlayOpen,
+  closeAuthOverlay,
+  openAuthOverlay,
+}) {
   // Close modal on Escape key press
   useEffect(() => {
     const onEscKey = (event) => {
@@ -28,7 +32,7 @@ export default function HomePage({ authOverlayOpen, closeAuthOverlay }) {
   return (
     <div className="homepage">
       <div className={`main-content ${authOverlayOpen ? "disabled-blur" : ""}`}>
-        <Feed />
+        <Feed openAuthOverlay={openAuthOverlay} />
         <Map />
       </div>
     </div>

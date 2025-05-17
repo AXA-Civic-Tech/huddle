@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect, useCallback } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import UserContext from "./contexts/current-user-context";
 import { checkForLoggedInUser } from "./adapters/auth-adapter";
 import HomePage from "./pages/HomePage";
@@ -29,6 +29,8 @@ import Footer from "./components/Footer";
 export default function App() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const location = useLocation();
+  const pathname = location.pathname;
+  const navigate = useNavigate();
 
   const [authOverlayOpen, setAuthOverlayOpen] = useState(false);
   const [authMode, setAuthMode] = useState("login");
@@ -39,10 +41,14 @@ export default function App() {
    * Opens the auth overlay with specified mode
    * @param {string} mode - Authentication mode to display ('login' or 'signup')
    */
-  const openAuthOverlay = useCallback((mode = "login") => {
-    setAuthMode(mode);
-    setAuthOverlayOpen(true);
-  }, []);
+  const openAuthOverlay = useCallback(
+    (mode = "login", redirectPath = pathname) => {
+      setAuthMode(mode);
+      setRedirectAfterLogin(redirectPath);
+      setAuthOverlayOpen(true);
+    },
+    [pathname]
+  );
 
   // Closes the authentication overlay
   const closeAuthOverlay = useCallback(() => {
@@ -60,30 +66,20 @@ export default function App() {
     loadCurrentUser();
   }, [setCurrentUser]);
 
-  // Trigger auth overlay for protected routes when user isn't logged in
-  useEffect(() => {
-    if (
-      !loadingUser &&
-      !currentUser &&
-      location.pathname.startsWith("/users/")
-    ) {
-      setRedirectAfterLogin(location.pathname);
-      openAuthOverlay("login");
-    }
-  }, [
-    currentUser,
-    location.pathname,
-    openAuthOverlay,
-    setRedirectAfterLogin,
-    loadingUser,
-  ]);
-
-  // Close overlay after successful login
+  // Redirect to stored path after login, close overlay after successful login
   useEffect(() => {
     if (currentUser && authOverlayOpen) {
-      closeAuthOverlay();
+      setAuthOverlayOpen(false);
+      navigate(redirectAfterLogin, { replace: true });
     }
-  }, [currentUser, authOverlayOpen, closeAuthOverlay]);
+  }, [currentUser, authOverlayOpen, navigate, redirectAfterLogin]);
+
+  // Trigger auth overlay for protected routes when user isn't logged in
+  useEffect(() => {
+    if (!loadingUser && !currentUser && pathname.startsWith("/users/")) {
+      openAuthOverlay("login", pathname);
+    }
+  }, [currentUser, pathname, openAuthOverlay, loadingUser]);
 
   if (loadingUser) return null;
 
@@ -103,6 +99,7 @@ export default function App() {
                 authOverlayOpen={authOverlayOpen}
                 authMode={authMode}
                 closeAuthOverlay={closeAuthOverlay}
+                openAuthOverlay={openAuthOverlay}
               />
             }
           />

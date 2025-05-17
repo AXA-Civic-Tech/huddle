@@ -23,6 +23,7 @@ export default function Modal({
   isOpen,
   onClose,
   viewing = false,
+  openAuthOverlay,
 }) {
   const dialogRef = useRef();
   const { currentUser } = useContext(CurrentUserContext);
@@ -257,7 +258,11 @@ export default function Modal({
             </div>
 
             {event.id && (
-              <CommentsSection eventId={event.id} onClose={onClose} />
+              <CommentsSection
+                eventId={event.id}
+                onClose={onClose}
+                openAuthOverlay={openAuthOverlay}
+              />
             )}
           </>
         )}

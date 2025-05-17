@@ -21,7 +21,7 @@ import FeedControls from "./Feed_children/FeedControls";
  * @returns
  */
 
-export default function Feed({ onPostCountChange }) {
+export default function Feed({ onPostCountChange, openAuthOverlay }) {
   const location = useLocation();
   const pathname = location.pathname;
   const { id: urlUserId } = useParams(); // string
@@ -55,8 +55,10 @@ export default function Feed({ onPostCountChange }) {
       currentUser.id === parseInt(urlUserId)
     ) {
       const upvotes = await getUpvotesByUser(currentUser.id);
-      const upvotedEventIds = upvotes.map(u => Number(u.event_id));
-      setPosts(data.filter(post => upvotedEventIds.includes(Number(post.id))));
+      const upvotedEventIds = upvotes.map((u) => Number(u.event_id));
+      setPosts(
+        data.filter((post) => upvotedEventIds.includes(Number(post.id)))
+      );
     } else if (data) {
       setPosts(data);
       // If we're on a user profile page and the callback exists, send the post count
@@ -223,6 +225,7 @@ export default function Feed({ onPostCountChange }) {
           onClose={closeModal}
           isOpen={isOpen}
           viewing={isViewing}
+          openAuthOverlay={openAuthOverlay}
         />
       </div>
     </div>
