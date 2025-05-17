@@ -7,6 +7,7 @@ import { getNeighborhoodFromZip } from "../utils/neighborhoods";
 import Post from "./Post";
 import Modal from "./Modal";
 import FeedControls from "./Feed_children/FeedControls";
+import EventSearchBar from "./EventSearchBar";
 
 /**
  * Reusable component in both HomePage and UserPage
@@ -34,6 +35,7 @@ export default function Feed({ onPostCountChange, filterType, filterValue, onFil
   const { currentUser } = useContext(CurrentUserContext);
 
   const [sort, setSort] = useState("recent");
+  const [eventSearchQuery, setEventSearchQuery] = useState("");
 
   // Check if current user is viewing another user's profile
   const isViewing =
@@ -164,6 +166,13 @@ export default function Feed({ onPostCountChange, filterType, filterValue, onFil
       );
     }
 
+    // Apply event search query filter (case-insensitive)
+    if (eventSearchQuery.trim() !== "") {
+      filtered = filtered.filter(post =>
+        post.title && post.title.toLowerCase().includes(eventSearchQuery.toLowerCase())
+      );
+    }
+
     // Then sort the filtered posts
     if (sort === "recent") {
       return filtered.sort(
@@ -184,6 +193,12 @@ export default function Feed({ onPostCountChange, filterType, filterValue, onFil
     <div className={pathname === "/" ? "feed-home" : "feed-user"}>
       <div className="feed-content">
         <h1>{title}</h1>
+
+        <EventSearchBar
+          value={eventSearchQuery}
+          onChange={e => setEventSearchQuery(e.target.value)}
+          placeholder="Search community posts..."
+        />
 
         <FeedControls
           filterType={filterType}
