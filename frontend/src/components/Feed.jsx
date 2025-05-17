@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { getAllPosts } from "../adapters/post-adapter";
+import { getUpvotesByUser } from "../adapters/upvote-adapter";
 import CurrentUserContext from "../contexts/current-user-context";
 import { getNeighborhoodFromZip } from "../utils/neighborhoods";
 import Post from "./Post";
@@ -40,26 +41,41 @@ export default function Feed({ onPostCountChange }) {
   const isViewing =
     currentUser && urlUserId && currentUser.id !== parseInt(urlUserId);
 
-  const fetchPosts = () => {
+  const fetchPosts = async () => {
     setLoading(true);
-    getAllPosts().then(([data, error]) => {
-      if (data) {
-        setPosts(data);
-        // If we're on a user profile page and the callback exists, send the post count
-        if (pathname.startsWith("/users/") && onPostCountChange) {
-          const userPosts = data.filter(
-            (post) => post.user_id === parseInt(urlUserId)
-          );
-          onPostCountChange(userPosts.length);
-        }
-      } else console.error(error);
-      setLoading(false);
-    });
+
+    // 1. Fetch all posts
+    const [data, error] = await getAllPosts();
+
+    // 2. If filtering by upvotes, fetch upvotes and filter posts
+    if (
+      filterType === "upvote" &&
+      currentUser &&
+      urlUserId &&
+      currentUser.id === parseInt(urlUserId)
+    ) {
+      const upvotes = await getUpvotesByUser(currentUser.id);
+      const upvotedEventIds = upvotes.map(u => Number(u.event_id));
+      setPosts(data.filter(post => upvotedEventIds.includes(Number(post.id))));
+    } else if (data) {
+      setPosts(data);
+      // If we're on a user profile page and the callback exists, send the post count
+      if (pathname.startsWith("/users/") && onPostCountChange) {
+        const userPosts = data.filter(
+          (post) => post.user_id === parseInt(urlUserId)
+        );
+        onPostCountChange(userPosts.length);
+      }
+    } else {
+      console.error(error);
+    }
+
+    setLoading(false);
   };
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [filterType, filterValue]);
 
   useEffect(() => {
     let newTitle = "Community Posts";
@@ -124,24 +140,12 @@ export default function Feed({ onPostCountChange }) {
     // First apply filters
     let filtered = [...posts];
 
-    if (pathname === `/users/${urlUserId}`) {
-      filtered = filtered.filter(
-        (post) => post.user_id === parseInt(urlUserId)
-      );
-    }
-
     if (
-      filterType === "upvote" &&
-      currentUser &&
-      urlUserId &&
-      currentUser.id === parseInt(urlUserId) &&
-      pathname === `/users/${currentUser.id}`
+      pathname === `/users/${urlUserId}` &&
+      (filterType === "all" || !filterType)
     ) {
       filtered = filtered.filter(
-        (post) =>
-          post.upvotes &&
-          Array.isArray(post.upvotes) &&
-          post.upvotes.includes(currentUser.id)
+        (post) => post.user_id === parseInt(urlUserId)
       );
     }
 

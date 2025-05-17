@@ -43,6 +43,12 @@ export default function LoginForm({ onClose, redirectAfterLogin = "/" }) {
     event.preventDefault();
     setErrorText("");
 
+    // Add client-side validation to check if username and password are provided
+    if (!username || !password) {
+      setErrorText("Please provide both: A username and a password.");
+      return;
+    }
+
     const [user, error] = await logUserIn({ username, password });
     if (error) return setErrorText("Incorrect username or password.");
 
