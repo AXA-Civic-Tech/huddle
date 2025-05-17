@@ -54,7 +54,7 @@ export default function LoginSignUpPage({
       </div>
 
       <div
-        className="form-wrapper glassmorphic"
+        className="auth-form-wrapper glassmorphic"
         onClick={(e) => e.stopPropagation()}
       >
         {isLogin ? (
@@ -66,7 +66,7 @@ export default function LoginSignUpPage({
           <SignUpForm onClose={onClose} />
         )}
 
-        <div className="switch-form-prompt">
+        <div className="auth-switch">
           <p>{promptText}</p>
 
           <Button

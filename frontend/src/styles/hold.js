@@ -1,3 +1,156 @@
+// index.css:
+/*
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-family: "Cal Sans", sans-serif;
+}
+
+body {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  margin: 0;
+  background: transparent;
+}
+
+main {
+  /* padding: 1rem; */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: start;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  padding-inline: 0.25rem;
+  cursor: pointer;
+}
+
+input,
+label {
+  display: block;
+}
+
+input {
+  margin-bottom: 1rem;
+}
+
+.footer {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  background-color: #f9f9f9;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.footer p {
+  margin: 0.5rem 0;
+}
+
+.contributors {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.contributor {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+
+.dot {
+  margin: 0 0.5rem;
+  color: #888;
+}
+
+.footer a {
+  color: #0077cc;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer a:hover {
+  color: #004d99;
+}
+
+/* Dim and blur homepage when modal open */
+.disabled-blur {
+  filter: blur(4px);
+  pointer-events: none; /* disables interactions */
+  user-select: none;
+  opacity: 0.6;
+}
+
+/* Overlay fills screen, glassmorphic style */
+.glassmorphic-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Modal content container */
+.modal-content {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 2rem;
+  max-width: 900px;
+  width: 90%;
+  display: flex;
+  gap: 2rem;
+  color: #111;
+}
+
+/* Reuse glassmorphic style for info-section and form-wrapper */
+.login-signup-container .info-section,
+.login-signup-container .form-wrapper {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  padding: 1rem;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* You can add responsive and layout styling as needed */
+.login-signup-container {
+  display: flex;
+  gap: 2rem;
+}
+
+*/
+
+
+
+
+
+modal.css:
 /* Modal styling */
 .modal {
   border: none;
@@ -20,6 +173,16 @@
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15); */
+}
+
+.modal-bg {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999; /* even higher than 998 just to be safe */
 }
 
 .modal::backdrop {
@@ -379,4 +542,109 @@ button[name="Delete Post"]:hover {
   .modal-content {
     padding: 15px;
   }
+}
+
+
+
+
+
+login-signup.css:
+form {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+}
+
+form > h1 {
+  margin-bottom: 0.75rem;
+}
+
+/* Container holding both sections */
+.login-signup-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  font-family: Arial, sans-serif;
+}
+
+/* Left Side - Info Section */
+.info-section {
+  width: 50%;
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #333;
+}
+
+.app-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #1e3a8a;
+  margin-bottom: 0.5rem;
+}
+
+.app-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  color: #475569;
+}
+
+.section-label {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.mission-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #374151;
+  margin-bottom: 2rem;
+  max-width: 500px;
+}
+
+/* Right Side - Form Section */
+.switch-form-prompt {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.switch-form-button {
+  margin-top: 0.5rem;
+  background-color: #1e3a8a;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.switch-form-button:hover {
+  background-color: #374151;
+}
+
+.form-wrapper {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for first and last name side-by-side */
+.name-inputs {
+  display: flex;
+  justify-content: space-between;
+}
+
+.name-inputs input {
+  flex: 1;
+}
+
+.first-name input,
+.last-name input {
+  width: 8.5rem;
 }

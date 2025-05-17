@@ -1,0 +1,93 @@
+/*
+Authentication Overlay
+Styles for the authentication overlay and modal
+*/
+
+/* Full-screen overlay */
+.auth-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Auth modal container */
+.auth-modal {
+  padding: 2rem;
+  max-width: 900px;
+  width: 90%;
+  display: flex;
+  gap: 2rem;
+  color: #111;
+}
+
+/* Info section (left side) */
+.info-section {
+  flex: 1;
+  padding: 2rem;
+}
+
+.app-title {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+.app-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #555;
+}
+
+.section-label {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.mission-text {
+  line-height: 1.6;
+  color: #444;
+}
+
+/* Form section (right side) */
+.form-wrapper {
+  flex: 1;
+  padding: 2rem;
+}
+
+.switch-form-prompt {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.switch-form-button {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.switch-form-button:hover {
+  background-color: #e0e0e0;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .auth-modal {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+  .info-section,
+  .form-wrapper {
+    padding: 1.5rem;
+  }
+}

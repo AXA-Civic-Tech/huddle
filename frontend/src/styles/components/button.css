@@ -1,0 +1,59 @@
+/*
+Button Component
+Styles for different button types
+*/
+
+/* Base button */
+.btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #3498db;
+  color: white;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn:hover {
+  background-color: #2980b9;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Button variants */
+.btn--secondary {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.btn--secondary:hover {
+  background-color: #e0e0e0;
+}
+
+.btn--danger {
+  background-color: #e74c3c;
+}
+
+.btn--danger:hover {
+  background-color: #c0392b;
+}
+
+.btn--small {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.btn--large {
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+/* Full width button */
+.btn--block {
+  display: block;
+  width: 100%;
+}

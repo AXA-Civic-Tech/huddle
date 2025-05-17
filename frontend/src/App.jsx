@@ -127,11 +127,13 @@ export default function App() {
           aria-modal="true"
           role="dialog"
         >
-          <LoginSignUpPage
-            initialForm={authMode}
-            onClose={closeAuthOverlay}
-            redirectAfterLogin={redirectAfterLogin}
-          />
+          <div className="login-signup-container">
+            <LoginSignUpPage
+              initialForm={authMode}
+              onClose={closeAuthOverlay}
+              redirectAfterLogin={redirectAfterLogin}
+            />
+          </div>
         </div>
       )}
 

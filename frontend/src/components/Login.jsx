@@ -60,33 +60,41 @@ export default function LoginForm({ onClose, redirectAfterLogin = "/" }) {
 
   return (
     <>
-      <form onSubmit={handleSubmit} aria-labelledby="login-heading">
-        <h1>Huddle Up!</h1>
+      <form
+        className="auth-form"
+        onSubmit={handleSubmit}
+        aria-labelledby="login-heading"
+      >
+        <h1 className="auth-form__title">Huddle Up!</h1>
 
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          autoComplete="username"
-          id="username"
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+        <div className="field">
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            autoComplete="username"
+            id="username"
+            name="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
 
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          autoComplete="current-password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="field">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            autoComplete="current-password"
+            id="password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
 
         <Button name="Log In!" type="submit" />
       </form>
 
-      {!!errorText && <p>{errorText}</p>}
+      {!!errorText && <p className="error">{errorText}</p>}
     </>
   );
 }

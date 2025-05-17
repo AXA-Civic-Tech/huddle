@@ -154,11 +154,15 @@ export default function SignUpForm({ onClose }) {
 
   return (
     <>
-      <form onSubmit={handleSubmit} aria-labelledby="create-heading">
-        <h1>Be a Team Player</h1>
+      <form
+        className="auth-form"
+        onSubmit={handleSubmit}
+        aria-labelledby="create-heading"
+      >
+        <h1 className="auth-form__title">Be a Team Player</h1>
 
-        <div className="name-inputs">
-          <div className="first-name">
+        <div className="field-group name-inputs">
+          <div className="field first-name">
             <label htmlFor="firstName">First Name</label>
             <input
               autoComplete="off"
@@ -171,7 +175,7 @@ export default function SignUpForm({ onClose }) {
             />
           </div>
 
-          <div className="last-name">
+          <div className="field last-name">
             <label htmlFor="lastName">Last Name</label>
             <input
               autoComplete="off"
@@ -185,58 +189,74 @@ export default function SignUpForm({ onClose }) {
           </div>
         </div>
 
-        <label htmlFor="email">Email</label>
-        <input
-          autoComplete="off"
-          type="email"
-          id="email"
-          name="email"
-          onChange={handleChange}
-          value={email}
-          required
-        />
+        <div className="field">
+          <label htmlFor="email">Email</label>
+          <input
+            autoComplete="off"
+            type="email"
+            id="email"
+            name="email"
+            onChange={handleChange}
+            value={email}
+            required
+          />
+        </div>
 
-        <label htmlFor="username">Username</label>
-        <input
-          autoComplete="off"
-          type="text"
-          id="username"
-          name="username"
-          onChange={handleChange}
-          value={username}
-          required
-        />
+        <div className="field">
+          <label htmlFor="username">Username</label>
+          <input
+            autoComplete="off"
+            type="text"
+            id="username"
+            name="username"
+            onChange={handleChange}
+            value={username}
+            required
+          />
 
-        {/* Show loading state while checking username */}
-        {isCheckingUsername && <span>Checking username availability...</span>}
-        {/* Show error message if username is taken */}
-        {!isCheckingUsername && !usernameAvailable && (
-          <span className="error">Username is already taken</span>
-        )}
+          {/* Show loading state while checking username */}
+          {isCheckingUsername && (
+            <span className="field-status">
+              Checking username availability...
+            </span>
+          )}
+          {/* Show error message if username is taken */}
+          {!isCheckingUsername && !usernameAvailable && (
+            <span className="field-status error">
+              Username is already taken
+            </span>
+          )}
+        </div>
 
-        <label htmlFor="password">Password</label>
-        <input
-          autoComplete="off"
-          type="password"
-          id="password"
-          name="password"
-          onChange={handleChange}
-          value={password}
-          required
-          minLength={6}
-        />
+        <div className="field">
+          <label htmlFor="password">Password</label>
+          <input
+            autoComplete="off"
+            type="password"
+            id="password"
+            name="password"
+            onChange={handleChange}
+            value={password}
+            required
+            minLength={6}
+          />
+        </div>
 
         {/* Password validation on sign up */}
-        <label htmlFor="password-confirm">Password Confirm</label>
-        <input
-          autoComplete="off"
-          type="password"
-          id="password-confirm"
-          name="passwordConfirm"
-        />
+        <div className="field">
+          <label htmlFor="password-confirm">Password Confirm</label>
+          <input
+            autoComplete="off"
+            type="password"
+            id="password-confirm"
+            name="passwordConfirm"
+          />
+        </div>
 
         {/* reCAPTCHA */}
-        <ReCAPTCHA sitekey={SITE_KEY} onChange={handleCaptchaChange} />
+        <div className="recaptcha-container">
+          <ReCAPTCHA sitekey={SITE_KEY} onChange={handleCaptchaChange} />
+        </div>
 
         {/* Disable submit button if username is taken or while checking availability */}
         <Button

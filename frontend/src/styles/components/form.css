@@ -1,0 +1,72 @@
+/*
+Form Component
+Styles for form elements
+*/
+
+/* Form container */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* Form group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+/* Form labels */
+.form-label {
+  font-size: 14px;
+  margin-bottom: 0.5rem;
+  color: #444;
+  font-weight: 500;
+}
+
+/* Form inputs */
+.form-input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: #fafafa;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Text areas */
+.form-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Form validation */
+.form-error {
+  color: #e74c3c;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.form-input--error {
+  border-color: #e74c3c;
+}
+
+.form-input--error:focus {
+  box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+}
+
+/* Form actions */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 1.5rem;
+}

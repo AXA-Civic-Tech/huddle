@@ -1,0 +1,125 @@
+/*
+Login/Signup Page
+Specific styles for the login/signup page
+*/
+
+.login-signup-container {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+}
+
+/* Auth form container */
+.auth-form {
+  width: 100%;
+}
+
+.auth-form__title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #222;
+}
+
+/* Form fields */
+.field {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.field input,
+.field select,
+.field textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: #fafafa;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.field-status {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #666;
+}
+
+.field-status.error {
+  color: #e74c3c;
+}
+
+/* Field groups */
+.field-group {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.field-group .field {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+/* Name inputs specific */
+.name-inputs {
+  display: flex;
+  gap: 12px;
+}
+
+.name-inputs .field {
+  flex: 1;
+}
+
+/* Auth form wrapper */
+.auth-form-wrapper {
+  flex: 1;
+  padding: 2rem;
+}
+
+/* Error messages */
+.error {
+  color: #e74c3c;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+/* reCAPTCHA container */
+.recaptcha-container {
+  margin: 16px 0;
+}
+
+/* Form switch section */
+.auth-switch {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .login-signup-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .field-group,
+  .name-inputs {
+    flex-direction: column;
+    gap: 16px;
+  }
+}

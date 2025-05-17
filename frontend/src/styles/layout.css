@@ -1,0 +1,20 @@
+/*
+Layout styles
+Core layout elements and containers
+*/
+
+/* Main content area */
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: start;
+}
+
+/* For dimming/disabling the background when modal is open */
+.disabled-blur {
+  filter: blur(4px);
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.6;
+}
