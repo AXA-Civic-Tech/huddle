@@ -208,16 +208,31 @@ export default function Feed({ onPostCountChange, openAuthOverlay }) {
         ) : posts.length === 0 ? (
           <p>No posts yet! Be the first to create one.</p>
         ) : (
-          sorted
-            .filter(Boolean)
-            .map((post) => (
-              <Post
-                key={post.id}
-                event={post}
-                onSelect={openModal}
-                onClose={closeModal}
-              />
-            ))
+          pathname.startsWith("/users/") ? (
+            <div className="userpage-posts-grid">
+              {sorted
+                .filter(Boolean)
+                .map((post) => (
+                  <Post
+                    key={post.id}
+                    event={post}
+                    onSelect={openModal}
+                    onClose={closeModal}
+                  />
+                ))}
+            </div>
+          ) : (
+            sorted
+              .filter(Boolean)
+              .map((post) => (
+                <Post
+                  key={post.id}
+                  event={post}
+                  onSelect={openModal}
+                  onClose={closeModal}
+                />
+              ))
+          )
         )}
 
         <Modal
