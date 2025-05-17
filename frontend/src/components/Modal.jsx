@@ -189,8 +189,7 @@ export default function Modal({
                 }`}
               >
                 {/* Handle when images is an array with content */}
-                {Array.isArray(event.images) &&
-                  event.images.length > 0 &&
+                {Array.isArray(event.images) && event.images.length > 0 ? (
                   event.images.map((img, index) => (
                     <img
                       key={index}
@@ -200,30 +199,25 @@ export default function Modal({
                       onError={(e) => {
                         console.error("Image failed to load:", img);
                         e.target.src =
-                          "https://via.placeholder.com/600x400?text=Image+Not+Available";
+                          "https://placehold.co/600x400?text=Image+Not+Available";
                         e.target.alt = "Image not available";
                       }}
                     />
-                  ))}
-                {event.images && (
+                  ))
+                ) : typeof event.images === "string" &&
+                  event.images.trim() !== "" ? (
                   <img
                     src={event.images}
                     alt="Event"
-                    // style={{ maxWidth: "200px", height: "auto" }}
                     className="event-image"
                     onError={(e) => {
-                      console.error("Image failed to load:", img);
+                      console.error("Image failed to load:", event.images);
                       e.target.src =
-                        "https://via.placeholder.com/600x400?text=Image+Not+Available";
+                        "https://placehold.co/600x400?text=Image+Not+Available";
                       e.target.alt = "Image not available";
                     }}
                   />
-                )}
-
-                {/* Handle when no images are available */}
-                {(!event.images ||
-                  !Array.isArray(event.images) ||
-                  event.images.length === 0) && (
+                ) : (
                   <div className="event-image">No image available</div>
                 )}
               </div>
