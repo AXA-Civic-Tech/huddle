@@ -1,13 +1,9 @@
-// implement a search bar that will hover over the map
-// try and implement functionality that will allow a user to search for our custom markers
-
 import React, { useRef, useEffect, useState } from "react";
 
-const SearchBar = ({ onPlaceSelected, events = [], onEventSelected }) => {
+// Google Places-only search bar for the map
+const SearchBar = ({ onPlaceSelected }) => {
   const inputRef = useRef(null);
   const [inputValue, setInputValue] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [filteredEvents, setFilteredEvents] = useState([]);
 
   useEffect(() => {
     if (!window.google || !inputRef.current) return;
@@ -25,35 +21,12 @@ const SearchBar = ({ onPlaceSelected, events = [], onEventSelected }) => {
           name: place.name,
         };
         onPlaceSelected(location);
-        setShowDropdown(false);
       }
     });
   }, [onPlaceSelected]);
 
-  useEffect(() => {
-    if (inputValue.trim() === "") {
-      setFilteredEvents([]);
-      setShowDropdown(false);
-      return;
-    }
-    const filtered = events.filter(event =>
-      event.title && event.title.toLowerCase().includes(inputValue.toLowerCase())
-    );
-    setFilteredEvents(filtered);
-    setShowDropdown(filtered.length > 0);
-  }, [inputValue, events]);
-
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
-    setShowDropdown(true);
-  };
-
-  const handleEventClick = (event) => {
-    setInputValue(event.title);
-    setShowDropdown(false);
-    if (onEventSelected) {
-      onEventSelected(event);
-    }
   };
 
   return (
@@ -63,25 +36,10 @@ const SearchBar = ({ onPlaceSelected, events = [], onEventSelected }) => {
         type="text"
         value={inputValue}
         onChange={handleInputChange}
-        placeholder="Search places or events..."
+        placeholder="Search for a place..."
         className="searchbar-input"
-        onFocus={() => { if (filteredEvents.length > 0) setShowDropdown(true); }}
         autoComplete="off"
       />
-      {showDropdown && filteredEvents.length > 0 && (
-        <div className="searchbar-dropdown">
-          {filteredEvents.map(event => (
-            <div
-              key={event.id}
-              onClick={() => handleEventClick(event)}
-              className="searchbar-dropdown-item"
-              onMouseDown={e => e.preventDefault()}
-            >
-              {event.title}
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 };
