@@ -75,6 +75,7 @@ export default function HomePage({
           onFilterChange={handleFilterChange}
           onMapMove={handleMapMove}
           openAuthOverlay={openAuthOverlay}
+          authOverlayOpen={authOverlayOpen}
         />
         <Map
           mapCenter={mapCenter}

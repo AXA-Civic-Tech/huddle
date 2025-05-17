@@ -24,7 +24,11 @@ export default function Modal({
   onClose,
   viewing = false,
   openAuthOverlay,
+  authOverlayOpen,
 }) {
+  console.log("Modal rendered, authOverlayOpen:", authOverlayOpen);
+  if (authOverlayOpen) return null;
+
   const dialogRef = useRef();
   const { currentUser } = useContext(CurrentUserContext);
   const [username, setUsername] = useState("Loading...");
