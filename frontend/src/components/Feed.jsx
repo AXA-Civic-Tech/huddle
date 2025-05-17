@@ -29,6 +29,7 @@ export default function Feed({
   onFilterChange,
   onMapMove,
   openAuthOverlay,
+  authOverlayOpen,
 }) {
   const location = useLocation();
   const pathname = location.pathname;
@@ -258,6 +259,7 @@ export default function Feed({
           isOpen={isOpen}
           viewing={isViewing}
           openAuthOverlay={openAuthOverlay}
+          authOverlayOpen={authOverlayOpen}
         />
       </div>
     </div>
