@@ -185,6 +185,29 @@ export default function EventForm({
 
   return (
     <div ref={modalRef}>
+      {formData.images ? (
+        <div className="event-image">
+          <img src={formData.images} alt="Uploaded preview" />
+          <Button
+            name="Change Image"
+            type="button"
+            onClick={handleUploadWidget}
+          />
+        </div>
+      ) : (
+        <div className="image-upload" onClick={handleUploadWidget}>
+          <div>
+            <p>
+              <strong>Upload Image</strong>
+            </p>
+            <p>
+              Click here to upload an image for your{" "}
+              {formData.is_issue ? "issue" : "event"}
+            </p>
+          </div>
+        </div>
+      )}
+
       <form className="edit-form" onSubmit={handleSubmit}>
         {renderCreatedBy()}
 
@@ -278,29 +301,6 @@ export default function EventForm({
           rows="4"
           required
         />
-
-        {formData.images ? (
-          <div className="image-preview">
-            <img src={formData.images} alt="Uploaded preview" />
-            <Button
-              name="Change Image"
-              type="button"
-              onClick={handleUploadWidget}
-            />
-          </div>
-        ) : (
-          <div className="image-upload" onClick={handleUploadWidget}>
-            <div>
-              <p>
-                <strong>Upload Image</strong>
-              </p>
-              <p>
-                Click here to upload an image for your{" "}
-                {formData.is_issue ? "issue" : "event"}
-              </p>
-            </div>
-          </div>
-        )}
 
         <div className="modal-actions">
           <Button name="Cancel" onClick={onCancel} type="button" />
