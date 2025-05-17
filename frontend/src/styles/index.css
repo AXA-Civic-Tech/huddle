@@ -18,6 +18,16 @@
 @import "pages/userpage.css";
 /* Responsive */
 @import "responsive.css";
+@import "feed.css";
+@import "modal.css";
+@import "new-modal.css";
+@import "navbar.css";
+@import "post.css";
+@import "mobile.css";
+@import "homepage.css";
+@import "userpage.css";
+@import "login-signup.css";
+@import "searchbar.css";
 
 * {
   margin: 0;
