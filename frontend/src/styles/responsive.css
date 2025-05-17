@@ -1,0 +1,55 @@
+/*
+Responsive styles
+Media queries for responsive design
+*/
+
+/* Tablets and small laptops */
+@media (max-width: 992px) {
+  /* Add tablet-specific adjustments */
+}
+/* Large phones and small tablets */
+@media (max-width: 768px) {
+  /* Layout adjustments */
+}
+.login-signup-container {
+  flex-direction: column;
+}
+/* Form adjustments */
+.field {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.field label {
+  width: 100%;
+  margin-bottom: 8px;
+}
+/* Button groups */
+.form-actions,
+.modal__actions {
+  flex-direction: column;
+}
+.form-actions button,
+.modal__actions button {
+  width: 100%;
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+  /* Modal sizing */
+  .modal,
+  .auth-modal {
+    width: 95%;
+  }
+  /* Padding adjustments */
+  .modal__content,
+  .auth-modal {
+    padding: 16px;
+  }
+  /* Typography adjustments */
+  .app-title {
+    font-size: 2rem;
+  }
+  .app-subtitle {
+    font-size: 1rem;
+  }
+}
