@@ -1,13 +1,23 @@
+/* Google Font Import */
 @import url("https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap");
-@import "feed.css";
-@import "modal.css";
-@import "new-modal.css";
-@import "navbar.css";
-@import "post.css";
-@import "mobile.css";
-@import "homepage.css";
-@import "userpage.css";
-@import "login-signup.css";
+/* Base styles */
+@import "layout.css";
+@import "utils.css";
+/* Components */
+@import "components/auth-overlay.css";
+@import "components/button.css";
+@import "components/feed.css";
+@import "components/footer.css";
+@import "components/form.css";
+@import "components/modal.css";
+@import "components/navbar.css";
+@import "components/post.css";
+/* Pages */
+@import "pages/homepage.css";
+@import "pages/login-signup.css";
+@import "pages/userpage.css";
+/* Responsive */
+@import "responsive.css";
 
 * {
   margin: 0;
