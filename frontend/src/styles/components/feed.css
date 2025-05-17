@@ -36,6 +36,25 @@
   justify-content: space-evenly;
 }
 
+.filter-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: 1rem;
+}
+
+.add-button {
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  margin-left: 1rem;
+  transition: transform 0.2s;
+}
+
+.add-button:hover {
+  transform: scale(1.1);
+}
+
 .scroller::-webkit-scrollbar-thumb {
   background: transparent;
 }
