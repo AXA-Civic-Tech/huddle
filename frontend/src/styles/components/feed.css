@@ -31,7 +31,8 @@
   margin-top: 1rem;
 }
 
-.feed-controls {
+.feed-controls,
+.edit-dropdown {
   display: flex;
   justify-content: space-evenly;
 }

@@ -1,4 +1,4 @@
-/* Modal styling */
+/* Modal Base Styling */
 .modal {
   border: none;
   border-radius: 12px;
@@ -8,7 +8,6 @@
   max-width: 900px;
   max-height: 90vh;
   background-color: white;
-  /* Center the modal */
   position: fixed;
   top: 50%;
   left: 50%;
@@ -21,15 +20,6 @@
   background-color: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(3px);
 }
-
-/* .modal-content {
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
-  overflow-y: auto;
-  max-height: 90vh;
-  position: relative;
-} */
 
 .close-icon {
   position: absolute;
@@ -54,7 +44,7 @@
   color: #333;
 }
 
-/* Layout for event display with image on left */
+/* Modal Content Container Layout */
 .modal-content {
   display: flex;
   flex-direction: row;
@@ -63,7 +53,7 @@
   overflow: hidden;
 }
 
-/* Images container */
+/* Images Styling */
 .event-images {
   flex: 0 0 40%;
   display: flex;
@@ -78,6 +68,7 @@
   text-align: center;
   color: #888;
   overflow: hidden;
+  position: relative;
 }
 
 .event-image {
@@ -94,7 +85,48 @@
   gap: 10px;
 }
 
-/* Content container */
+.change-image-btn {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 14px;
+  z-index: 10;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.change-image-btn:hover {
+  opacity: 1;
+}
+
+.image-upload {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  cursor: pointer;
+  background-color: #f9f9f9;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.image-upload:hover {
+  background-color: #f0f0f0;
+  border-color: #aaa;
+}
+
+/* Content Container */
 .event-content {
   flex: 1;
   overflow-y: auto;
@@ -120,60 +152,7 @@
   margin-bottom: 16px;
 }
 
-/* Field styling */
-.field {
-  margin-bottom: 16px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.field label {
-  width: 100px;
-  margin-right: 12px;
-  flex-shrink: 0;
-}
-
-.field input,
-.field select,
-.field textarea {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 15px;
-  background-color: #fafafa;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.field input:focus,
-.field select:focus,
-.field textarea:focus {
-  outline: none;
-  border-color: #3498db;
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-}
-
-.field textarea {
-  min-height: 120px;
-  resize: vertical;
-}
-
-.display-field {
-  display: flex;
-  margin-bottom: 10px;
-}
-
-.display-field strong {
-  color: #555;
-  font-size: 14px;
-  margin-right: 8px;
-}
-
-.field-value {
-  font-size: 15px;
-}
-
+/* Description Section */
 .description-section {
   margin-top: 16px;
 }
@@ -196,44 +175,7 @@
   padding: 10px 0;
 }
 
-/* Image upload button for new posts */
-.image-upload {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 2px dashed #ccc;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 16px;
-  cursor: pointer;
-  background-color: #f9f9f9;
-  min-height: 150px;
-  text-align: center;
-  transition: all 0.2s ease;
-}
-
-.image-upload:hover {
-  background-color: #f0f0f0;
-  border-color: #aaa;
-}
-
-.image-preview {
-  margin-bottom: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-}
-
-.image-preview img {
-  max-width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  max-height: 300px;
-  object-fit: contain;
-}
-
-/* Comments section */
+/* Comments Section */
 .comments {
   margin-top: 16px;
   border-top: 1px solid #eee;
@@ -255,14 +197,29 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
 }
 
 .comments-header h3 {
   margin-bottom: 0;
 }
 
-/* Upvote button */
+.comment-input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.comment-input input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: #fafafa;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Upvote Section */
 .upvote-section {
   display: flex;
   align-items: center;
@@ -293,8 +250,12 @@
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-/* Responsive design */
+/* Responsive Styles */
 @media (max-width: 768px) {
+  .modal-content {
+    flex-direction: column;
+  }
+
   .modal-display {
     flex-direction: column;
   }
@@ -303,6 +264,10 @@
     flex: none;
     width: 100%;
     max-height: 250px;
+  }
+
+  .event-content {
+    width: 100%;
   }
 
   .modal-actions {
@@ -314,11 +279,10 @@
   }
 
   .comment-input {
-    flex-direction: column;
+    flex-direction: flex;
   }
 }
 
-/* For even smaller screens */
 @media (max-width: 480px) {
   .modal {
     width: 95%;

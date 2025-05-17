@@ -1,23 +1,32 @@
+.edit-form {
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+/* Field Styling */
 .field {
-  margin-bottom: 1.25rem;
+  /* margin-bottom: 16px; */
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
 }
 
 .field label {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #333;
+  width: 100px;
+  margin-right: 12px;
+  flex-shrink: 0;
 }
 
 .field input,
 .field select,
 .field textarea {
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-  background: #fff;
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: #fafafa;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -25,11 +34,26 @@
 .field select:focus,
 .field textarea:focus {
   outline: none;
-  border-color: #eebc32;
-  box-shadow: 0 0 0 2px rgba(238, 188, 50, 0.15);
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
 .field textarea {
-  min-height: 100px;
+  min-height: 120px;
   resize: vertical;
+}
+
+.display-field {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.display-field strong {
+  color: #555;
+  font-size: 14px;
+  margin-right: 8px;
+}
+
+.field-value {
+  font-size: 15px;
 }

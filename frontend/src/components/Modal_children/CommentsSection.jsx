@@ -150,7 +150,7 @@ export default function CommentsSection({ eventId, onClose, openAuthOverlay }) {
             disabled={isLoading}
             aria-label={hasUpvoted ? "Remove upvote" : "Upvote"}
           >
-            <span className="upvote-icon">♥</span>
+            <span className="upvote-icon">{hasUpvoted ? "❤️" : "🖤"}</span>
           </Button>
         </div>
       </div>
