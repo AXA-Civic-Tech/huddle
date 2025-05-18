@@ -50,18 +50,24 @@ export default function ImageContainer({
           onError={handleImageError}
         />
 
-        {imageArray.length > 1 && (
-          <>
-            <button className="carousel-button prev" onClick={handlePrevious}>
-              ❮
-            </button>
-            <button className="carousel-button next" onClick={handleNext}>
-              ❯
-            </button>
-          </>
-        )}
+        {/* Always show arrow buttons, but disable themif only one image */}
+        <button
+          className={`carousel-button prev${imageArray.length === 1 ? ' disabled' : ''}`}
+          onClick={handlePrevious}
+          disabled={imageArray.length === 1}
+        >
+          ❮
+        </button>
+        <button
+          className={`carousel-button next${imageArray.length === 1 ? ' disabled' : ''}`}
+          onClick={handleNext}
+          disabled={imageArray.length === 1}
+        >
+          ❯
+        </button>
       </div>
 
+      {/* Only show dots if more than one image */}
       {imageArray.length > 1 && (
         <div className="carousel-dots">
           {imageArray.map((_, index) => (
