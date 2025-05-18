@@ -46,11 +46,9 @@
 
 /* Modal Content Container Layout */
 .modal-content {
-  /* display: flex;
-  flex-direction: row;
   gap: 24px;
   flex: 1;
-  overflow: hidden; */
+  overflow: hidden;
   display: flex;
   gap: 2rem;
   width: 100%;
