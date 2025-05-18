@@ -188,11 +188,9 @@
 
 /* Comments Section */
 .comments {
-  margin-top: 16px;
-  border-top: 1px solid #eee;
-  padding-top: 12px;
-  display: flex;
-  flex-direction: column;
+  border-top: 1px solid #ddd;
+  padding-top: 1rem;
+  margin-top: 1rem;
 }
 
 .comments h3 {
@@ -208,6 +206,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1rem;
 }
 
 .comments-header h3 {
@@ -216,18 +215,16 @@
 
 .comment-input {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  gap: 0.5rem;
+  margin: 1rem 0;
 }
 
 .comment-input input {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 15px;
-  background-color: #fafafa;
   transition: border-color 0.2s, box-shadow 0.2s;
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
 /* Upvote Section */
