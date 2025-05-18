@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import UserLink from "../UserLink";
 import FormField from "./FormField";
 import Button from "../Button";
+import AddressAutocomplete from "../AddressAutocomplete";
 
 /**
  * Component for editing or creating events/issues.
@@ -255,38 +256,17 @@ export default function EventForm({
               required
             />
 
-            <FormField
-              name="address"
-              label="Address"
+            <AddressAutocomplete
               value={formData.address}
-              onChange={handleChange}
+              onAddressSelect={({ address, borough, zipcode }) => {
+                setFormData(prev => ({
+                  ...prev,
+                  address: address || prev.address,
+                  borough: borough || prev.borough,
+                  zipcode: zipcode || prev.zipcode,
+                }));
+              }}
             />
-
-            {/* <FormField
-              name="borough"
-              label="Borough"
-              type="select"
-              value={formData.borough}
-              onChange={handleChange}
-              options={[
-                { value: "Manhattan", label: "Manhattan" },
-                { value: "Brooklyn", label: "Brooklyn" },
-                { value: "Queens", label: "Queens" },
-                { value: "The Bronx", label: "The Bronx" },
-                { value: "Staten Island", label: "Staten Island" },
-              ]}
-              required
-            />
-
-            <FormField
-              name="zipcode"
-              label="Zip Code"
-              value={formData.zipcode}
-              onChange={handleZipcodeChange}
-              maxLength="5"
-              placeholder="5-digit ZIP code"
-              required
-            /> */}
 
             <FormField
               name="email"
