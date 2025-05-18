@@ -263,7 +263,7 @@ export default function EventForm({
               onChange={handleChange}
             />
 
-            {/* <FormField
+            <FormField
               name="borough"
               label="Borough"
               type="select"
@@ -287,7 +287,7 @@ export default function EventForm({
               maxLength="5"
               placeholder="5-digit ZIP code"
               required
-            /> */}
+            />
 
             <FormField
               name="email"
