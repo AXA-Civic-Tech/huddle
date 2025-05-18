@@ -195,11 +195,13 @@ export default function Modal({
           {/* Contains Image and Content */}
           <div className="modal-content">
             {/* Image Container */}
-            <ImageContainer
-              images={event.images}
-              altText={event.title || "Event"}
-              fallbackImage="https://placehold.co/600x400?text=Image+Not+Available"
-            />
+            <div className="event-images">
+              <ImageContainer
+                images={event.images}
+                altText={event.title || "Event"}
+                fallbackImage="https://placehold.co/600x400?text=Image+Not+Available"
+              />
+            </div>
 
             {/* Content Container */}
             <div className="event-content">
