@@ -94,7 +94,7 @@ export default function Modal({
    */
   const handleSave = async (formData) => {
     try {
-      const requiredFields = ["title", "borough", "zipcode", "description"];
+      const requiredFields = ["title", "address", "description"];
       const missingFields = requiredFields.filter(
         (field) => !formData[field] || formData[field].trim() === ""
       );

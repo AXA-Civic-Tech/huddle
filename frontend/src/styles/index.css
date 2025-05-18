@@ -48,9 +48,9 @@ label {
   display: block;
 }
 
-/* input {
+input {
   margin-bottom: 1rem;
-} */
+}
 
 /* Overlay fills screen, glassmorphic style */
 .glassmorphic-overlay {
