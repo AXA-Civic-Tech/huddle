@@ -104,7 +104,6 @@ export default function EventForm({
    */
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Submitting formData:", formData);
     onSave(formData);
   };
 
@@ -197,12 +196,14 @@ export default function EventForm({
                 altText={formData.title || "Event"}
                 fallbackImage="https://placehold.co/600x400?text=Image+Not+Available"
               />
-              <Button
-                name="Change Image"
-                type="button"
-                onClick={handleUploadWidget}
-                className="change-image-btn"
-              />
+              <div className="change-image-btn-wrapper">
+                <Button
+                  name="Change Image"
+                  type="button"
+                  onClick={handleUploadWidget}
+                  className="change-image-btn"
+                />
+              </div>
             </>
           ) : (
             <div className="image-upload" onClick={handleUploadWidget}>

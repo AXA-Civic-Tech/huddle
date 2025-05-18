@@ -27,7 +27,6 @@ export default function Modal({
   openAuthOverlay,
   authOverlayOpen,
 }) {
-  console.log("Modal rendered, authOverlayOpen:", authOverlayOpen);
   if (authOverlayOpen) return null;
 
   const dialogRef = useRef();

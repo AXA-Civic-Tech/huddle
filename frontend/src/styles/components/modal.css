@@ -60,21 +60,36 @@
 }
 
 .change-image-btn {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 5px 10px;
-  font-size: 14px;
+  position: static;
+  bottom: unset;
+  left: unset;
+  transform: none;
+  border: 2px solid #0077cc;
+  border-radius: 6px;
+  padding: 16px 32px;
+  font-size: 1.25rem;
+  font-weight: 600;
   z-index: 10;
-  opacity: 0.8;
-  transition: opacity 0.2s;
+  opacity: 0.92;
+  transition: opacity 0.2s, background 0.2s, color 0.2s;
+  margin-top: 1rem;
+  display: inline-block;
+  background: #0077cc;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
 }
 
 .change-image-btn:hover {
   opacity: 1;
+  background: #004d99;
+  color: #fff;
+}
+
+.change-image-btn-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
 }
 
 /* Content Container */

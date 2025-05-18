@@ -12,8 +12,6 @@ exports.listPosts = async (req, res) => {
 
 exports.createPost = async (req, res) => {
   try {
-    console.log("Incoming req.body:", req.body);
-
     const post = await Post.create({
       ...req.body, // req.body already has images URL string and other fields
     });

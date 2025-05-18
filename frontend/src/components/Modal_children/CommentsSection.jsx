@@ -83,12 +83,9 @@ export default function CommentsSection({ eventId, onClose, openAuthOverlay }) {
    * Validates user authentication and comment content
    */
   const handlePostComment = async () => {
-    console.log("handlePostComment called", currentUser);
     if (!newComment.trim()) return;
 
     if (!currentUser?.id) {
-      console.log("openAuthOverlay should be called");
-      // alert("You must be logged in to post a comment");
       openAuthOverlay("login", window.location.pathname);
       return;
     }
