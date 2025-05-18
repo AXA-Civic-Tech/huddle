@@ -71,3 +71,15 @@
 .field-value {
   font-size: 15px;
 }
+
+.api-key-error {
+  color: #b00020;
+  background: #fff0f0;
+  border: 1px solid #b00020;
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  font-size: 1.1rem;
+  text-align: center;
+  font-weight: 600;
+}
