@@ -1,0 +1,22 @@
+/* Overlay fills screen, glassmorphic style */
+.glassmorphic-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20000 !important;
+}
+
+/* Dim and blur homepage when modal open */
+.disabled-blur {
+  filter: blur(4px);
+  pointer-events: none; /* disables interactions */
+  user-select: none;
+  opacity: 0.6;
+}
