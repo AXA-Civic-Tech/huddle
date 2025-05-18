@@ -46,11 +46,14 @@
 
 /* Modal Content Container Layout */
 .modal-content {
-  display: flex;
+  /* display: flex;
   flex-direction: row;
   gap: 24px;
   flex: 1;
-  overflow: hidden;
+  overflow: hidden; */
+  display: flex;
+  gap: 2rem;
+  width: 100%;
 }
 
 /* Images Styling */
@@ -129,6 +132,8 @@
 /* Content Container */
 .event-content {
   flex: 1;
+  min-width: 0; /* Prevent flex item from overflowing */
+  width: 100%;
   overflow-y: auto;
   padding-right: 10px;
   position: relative;
@@ -173,6 +178,14 @@
 .contact-info {
   margin: 12px 0;
   padding: 10px 0;
+}
+
+/* Modal actions */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  width: 100%;
 }
 
 /* Comments Section */

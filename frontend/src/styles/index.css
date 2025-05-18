@@ -26,6 +26,7 @@
   box-sizing: border-box;
   scroll-behavior: smooth;
   font-family: "Cal Sans", sans-serif;
+  /* border: 1px solid red; */
 }
 
 body {
