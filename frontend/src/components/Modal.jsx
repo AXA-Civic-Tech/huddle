@@ -6,6 +6,7 @@ import Button from "./Button";
 import EventForm from "./Modal_children/EventForm";
 import EventView from "./Modal_children/EventView";
 import CommentsSection from "./Modal_children/CommentsSection";
+import ImageContainer from "./Modal_children/ImageContainer";
 
 /**
  * Main container component that orchestrates the display of event details.
@@ -195,46 +196,11 @@ export default function Modal({
           {/* Contains Image and Content */}
           <div className="modal-content">
             {/* Image Container */}
-            <div
-              className={`event-images ${
-                Array.isArray(event.images) && event.images.length > 1
-                  ? "event-image-grid"
-                  : ""
-              }`}
-            >
-              {/* Handle when images is an array with content */}
-              {Array.isArray(event.images) && event.images.length > 0 ? (
-                event.images.map((img, index) => (
-                  <img
-                    key={index}
-                    src={img}
-                    alt={`Event ${index + 1}`}
-                    className="event-image"
-                    onError={(e) => {
-                      console.error("Image failed to load:", img);
-                      e.target.src =
-                        "https://placehold.co/600x400?text=Image+Not+Available";
-                      e.target.alt = "Image not available";
-                    }}
-                  />
-                ))
-              ) : typeof event.images === "string" &&
-                event.images.trim() !== "" ? (
-                <img
-                  src={event.images}
-                  alt="Event"
-                  className="event-image"
-                  onError={(e) => {
-                    console.error("Image failed to load:", event.images);
-                    e.target.src =
-                      "https://placehold.co/600x400?text=Image+Not+Available";
-                    e.target.alt = "Image not available";
-                  }}
-                />
-              ) : (
-                <div className="event-image">No image available</div>
-              )}
-            </div>
+            <ImageContainer
+              images={event.images}
+              altText={event.title || "Event"}
+              fallbackImage="https://placehold.co/600x400?text=Image+Not+Available"
+            />
 
             {/* Content Container */}
             <div className="event-content">

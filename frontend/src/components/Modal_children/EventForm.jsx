@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import UserLink from "../UserLink";
 import FormField from "./FormField";
 import Button from "../Button";
+import ImageContainer from "./ImageContainer";
 
 /**
  * Component for editing or creating events/issues.
@@ -190,11 +191,19 @@ export default function EventForm({
         {/* Image Container - left side */}
         <div className="event-images">
           {formData.images ? (
-            <img
-              src={formData.images}
-              alt="Uploaded preview"
-              className="event-image"
-            />
+            <>
+              <ImageContainer
+                images={formData.images}
+                altText={formData.title || "Event"}
+                fallbackImage="https://placehold.co/600x400?text=Image+Not+Available"
+              />
+              <Button
+                name="Change Image"
+                type="button"
+                onClick={handleUploadWidget}
+                className="change-image-btn"
+              />
+            </>
           ) : (
             <div className="image-upload" onClick={handleUploadWidget}>
               <p>
@@ -205,14 +214,6 @@ export default function EventForm({
                 {formData.is_issue ? "issue" : "event"}
               </p>
             </div>
-          )}
-          {formData.images && (
-            <Button
-              name="Change Image"
-              type="button"
-              onClick={handleUploadWidget}
-              className="change-image-btn"
-            />
           )}
         </div>
 

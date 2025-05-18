@@ -6,14 +6,15 @@
 /* Components */
 @import "components/auth-overlay.css";
 @import "components/button.css";
-@import "components/upvote-comments.css";
 @import "components/feed.css";
 @import "components/footer.css";
 @import "components/form.css";
+@import "components/image-container.css";
 @import "components/modal.css";
 @import "components/navbar.css";
 @import "components/post.css";
 @import "components/searchbar.css";
+@import "components/upvote-comments.css";
 /* Pages */
 @import "pages/homepage.css";
 @import "pages/login-signup.css";
