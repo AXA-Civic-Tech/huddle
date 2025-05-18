@@ -26,12 +26,12 @@ import Button from "./Button";
  * @returns {JSX.Element} Registration form with validation and submission handling
  */
 
-//The site key remains public as it's a PUBLIC KEY
-const SITE_KEY = "6Lf1FC8rAAAAAJ4egdXJ_RkeePpHowuY1ZFKb20S"; // from Google
-
-// Controlling the sign up form is a good idea because we want to add (eventually)
-// more validation and provide real time feedback to the user about usernames and passwords
 export default function SignUpForm({ onClose }) {
+  const SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+  if (!SITE_KEY) {
+    return <div style={{ color: 'red' }}>Error: Missing reCAPTCHA site key. Please set VITE_RECAPTCHA_SITE_KEY in your .env file.</div>;
+  }
+
   const navigate = useNavigate();
   const location = useLocation();
   // Get the redirect path from location state, or default to home

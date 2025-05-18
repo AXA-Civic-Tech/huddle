@@ -17,13 +17,17 @@ exports.registerUser = async (req, res) => {
   }
 
   try {
+    const secret = process.env.RECAPTCHA_SECRET_KEY;
+    if (!secret) {
+      return res.status(500).json({ message: "Missing reCAPTCHA secret key. Please set RECAPTCHA_SECRET_KEY in your environment." });
+    }
     // Verify the reCAPTCHA token with Google's API
     const recaptchaRes = await axios.post(
       `https://www.google.com/recaptcha/api/siteverify`,
       null,
       {
         params: {
-          secret: process.env.RECAPTCHA_SECRET_KEY,
+          secret,
           response: recaptchaToken,
         },
       }
