@@ -55,6 +55,15 @@ form > h1 {
 }
 
 /* Right Side - Form Section */
+.form-wrapper {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 .switch-form-prompt {
   text-align: center;
   margin-top: 2rem;
@@ -72,15 +81,6 @@ form > h1 {
 
 .switch-form-button:hover {
   background-color: #374151;
-}
-
-.form-wrapper {
-  width: 100%;
-  max-width: 400px;
-  padding: 40px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Style for first and last name side-by-side */

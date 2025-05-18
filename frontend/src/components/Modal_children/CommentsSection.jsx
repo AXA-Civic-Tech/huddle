@@ -20,7 +20,7 @@ import Button from "../Button";
  * @returns {JSX.Element} Comments and upvotes section
  */
 
-export default function CommentsSection({ eventId, onClose }) {
+export default function CommentsSection({ eventId, onClose, openAuthOverlay }) {
   const { currentUser } = useContext(CurrentUserContext);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
@@ -83,10 +83,13 @@ export default function CommentsSection({ eventId, onClose }) {
    * Validates user authentication and comment content
    */
   const handlePostComment = async () => {
+    console.log("handlePostComment called", currentUser);
     if (!newComment.trim()) return;
 
     if (!currentUser?.id) {
-      alert("You must be logged in to post a comment");
+      console.log("openAuthOverlay should be called");
+      // alert("You must be logged in to post a comment");
+      openAuthOverlay("login", window.location.pathname);
       return;
     }
 
@@ -113,7 +116,8 @@ export default function CommentsSection({ eventId, onClose }) {
    */
   const handleUpvoteToggle = async () => {
     if (!currentUser?.id) {
-      alert("You must be logged in to upvote.");
+      // alert("You must be logged in to upvote.");
+      openAuthOverlay("login", window.location.pathname);
       return;
     }
 
@@ -140,14 +144,14 @@ export default function CommentsSection({ eventId, onClose }) {
         {/* Upvotes section */}
         <div className="upvote-section">
           <span className="upvote-count">{upvoteCount}</span>
-          <button
+          <Button
             className={`upvote-button ${hasUpvoted ? "upvote-active" : ""}`}
             onClick={handleUpvoteToggle}
             disabled={isLoading}
             aria-label={hasUpvoted ? "Remove upvote" : "Upvote"}
           >
-            <span className="upvote-icon">♥</span>
-          </button>
+            <span className="upvote-icon">{hasUpvoted ? "❤️" : "🖤"}</span>
+          </Button>
         </div>
       </div>
 

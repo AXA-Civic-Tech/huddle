@@ -23,7 +23,12 @@ export default function Modal({
   isOpen,
   onClose,
   viewing = false,
+  openAuthOverlay,
+  authOverlayOpen,
 }) {
+  console.log("Modal rendered, authOverlayOpen:", authOverlayOpen);
+  if (authOverlayOpen) return null;
+
   const dialogRef = useRef();
   const { currentUser } = useContext(CurrentUserContext);
   const [username, setUsername] = useState("Loading...");
@@ -89,7 +94,7 @@ export default function Modal({
    */
   const handleSave = async (formData) => {
     try {
-      const requiredFields = ["title", "borough", "zipcode", "description"];
+      const requiredFields = ["title", "address", "description"];
       const missingFields = requiredFields.filter(
         (field) => !formData[field] || formData[field].trim() === ""
       );
@@ -132,6 +137,13 @@ export default function Modal({
     }
   };
 
+  const handleDelete = async () => {
+    if (window.confirm("Are you sure you want to delete this post?")) {
+      const [_, error] = await deletePost(event.id);
+      if (!error) onClose();
+    }
+  };
+
   const toggleEditMode = () => {
     setIsEdit(!isEdit);
   };
@@ -159,115 +171,97 @@ export default function Modal({
         }
       }}
     >
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <Button
-          name="✕"
-          className="close-icon"
-          onClick={() => onClose()}
-          aria-label="Close"
-        />
+      <Button
+        name="✕"
+        className="close-icon"
+        onClick={() => onClose()}
+        aria-label="Close"
+      />
 
-        {isEdit ? (
-          <EventForm
-            event={event}
-            username={username}
-            currentUser={currentUser}
-            onSave={handleSave}
-            onCancel={cancelEdit}
-            onClose={onClose}
-            dialogRef={dialogRef}
-            setIsWidgetOpen={setIsWidgetOpen}
-          />
-        ) : (
-          <>
-            <div className="modal-display">
-              <div
-                className={`event-images ${
-                  Array.isArray(event.images) && event.images.length > 1
-                    ? "event-image-grid"
-                    : ""
-                }`}
-              >
-                {/* Handle when images is an array with content */}
-                {Array.isArray(event.images) &&
-                  event.images.length > 0 &&
-                  event.images.map((img, index) => (
-                    <img
-                      key={index}
-                      src={img}
-                      alt={`Event ${index + 1}`}
-                      className="event-image"
-                      onError={(e) => {
-                        console.error("Image failed to load:", img);
-                        e.target.src =
-                          "https://via.placeholder.com/600x400?text=Image+Not+Available";
-                        e.target.alt = "Image not available";
-                      }}
-                    />
-                  ))}
-                {event.images && (
+      {/* Either display EventForm or EventView */}
+      {isEdit ? (
+        <EventForm
+          event={event}
+          username={username}
+          currentUser={currentUser}
+          onSave={handleSave}
+          onCancel={cancelEdit}
+          onClose={onClose}
+          dialogRef={dialogRef}
+          setIsWidgetOpen={setIsWidgetOpen}
+        />
+      ) : (
+        <>
+          {/* Contains Image and Content */}
+          <div className="modal-content">
+            {/* Image Container */}
+            <div
+              className={`event-images ${
+                Array.isArray(event.images) && event.images.length > 1
+                  ? "event-image-grid"
+                  : ""
+              }`}
+            >
+              {/* Handle when images is an array with content */}
+              {Array.isArray(event.images) && event.images.length > 0 ? (
+                event.images.map((img, index) => (
                   <img
-                    src={event.images}
-                    alt="Event"
-                    // style={{ maxWidth: "200px", height: "auto" }}
+                    key={index}
+                    src={img}
+                    alt={`Event ${index + 1}`}
                     className="event-image"
                     onError={(e) => {
                       console.error("Image failed to load:", img);
                       e.target.src =
-                        "https://via.placeholder.com/600x400?text=Image+Not+Available";
+                        "https://placehold.co/600x400?text=Image+Not+Available";
                       e.target.alt = "Image not available";
                     }}
                   />
-                )}
-
-                {/* Handle when no images are available */}
-                {(!event.images ||
-                  !Array.isArray(event.images) ||
-                  event.images.length === 0) && (
-                  <div className="event-image">No image available</div>
-                )}
-              </div>
-
-              <div className="event-content">
-                <EventView
-                  event={event}
-                  username={username}
-                  onClose={onClose}
+                ))
+              ) : typeof event.images === "string" &&
+                event.images.trim() !== "" ? (
+                <img
+                  src={event.images}
+                  alt="Event"
+                  className="event-image"
+                  onError={(e) => {
+                    console.error("Image failed to load:", event.images);
+                    e.target.src =
+                      "https://placehold.co/600x400?text=Image+Not+Available";
+                    e.target.alt = "Image not available";
+                  }}
                 />
+              ) : (
+                <div className="event-image">No image available</div>
+              )}
+            </div>
 
-                <div className="modal-actions">
-                  {isEditableByUser && !isNew && (
-                    <Button name="Edit Post" onClick={toggleEditMode} />
-                  )}
-                </div>
+            {/* Content Container */}
+            <div className="event-content">
+              <EventView event={event} username={username} onClose={onClose} />
 
-                {/* Delete button only appears is user is viewing their own post - isEditable is true */}
+              {/* Edit & Delete button only appears is user is viewing their own post - isEditable is true */}
+              <div className="modal-actions">
                 {isEditableByUser && !isNew && (
-                  <Button
-                    name="Delete Post"
-                    onClick={async () => {
-                      if (
-                        window.confirm(
-                          "Are you sure you want to delete this post?"
-                        )
-                      ) {
-                        const [_, error] = await deletePost(event.id);
-                        if (!error) {
-                          onClose();
-                        }
-                      }
-                    }}
-                  />
+                  <>
+                    <Button name="Edit Post" onClick={toggleEditMode} />
+                    <Button name="Delete Post" onClick={handleDelete} />
+                  </>
                 )}
               </div>
             </div>
+          </div>
 
-            {event.id && (
-              <CommentsSection eventId={event.id} onClose={onClose} />
-            )}
-          </>
-        )}
-      </div>
+          {/* Comments Section */}
+          {event.id && (
+            <CommentsSection
+              eventId={event.id}
+              onClose={onClose}
+              openAuthOverlay={openAuthOverlay}
+            />
+          )}
+        </>
+      )}
     </dialog>
   );
 }

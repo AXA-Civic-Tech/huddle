@@ -1,14 +1,24 @@
+/* Google Font Import */
 @import url("https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap");
-@import "feed.css";
-@import "modal.css";
-@import "new-modal.css";
-@import "navbar.css";
-@import "post.css";
-@import "mobile.css";
-@import "homepage.css";
-@import "userpage.css";
-@import "login-signup.css";
-@import "searchbar.css";
+/* Base styles */
+@import "layout.css";
+@import "utils.css";
+/* Components */
+@import "components/auth-overlay.css";
+@import "components/button.css";
+@import "components/feed.css";
+@import "components/footer.css";
+@import "components/form.css";
+@import "components/modal.css";
+@import "components/navbar.css";
+@import "components/post.css";
+@import "components/searchbar.css";
+/* Pages */
+@import "pages/homepage.css";
+@import "pages/login-signup.css";
+@import "pages/userpage.css";
+/* Responsive */
+@import "responsive.css";
 
 * {
   margin: 0;
@@ -16,20 +26,13 @@
   box-sizing: border-box;
   scroll-behavior: smooth;
   font-family: "Cal Sans", sans-serif;
+  /* border: 1px solid red; */
 }
 
 body {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Cal Sans", system-ui, Avenir, Helvetica, Arial, sans-serif;
   margin: 0;
   background: transparent;
-}
-
-main {
-  /* padding: 1rem; */
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: start;
 }
 
 ul {
@@ -50,70 +53,6 @@ input {
   margin-bottom: 1rem;
 }
 
-.footer {
-  text-align: center;
-  padding: 1.5rem 1rem;
-  background-color: #f9f9f9;
-  color: #333;
-  font-size: 0.9rem;
-}
-
-.footer p {
-  margin: 0.5rem 0;
-}
-
-.contributors {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.contributor {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.icon {
-  width: 16px;
-  height: 16px;
-  vertical-align: middle;
-}
-
-.dot {
-  margin: 0 0.5rem;
-  color: #888;
-}
-
-.footer a {
-  color: #0077cc;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.footer a:hover {
-  color: #004d99;
-}
-
-.feed-home,
-.feed-user {
-  margin-top: 80px;
-}
-
-.feed-content {
-  margin-top: 0;
-}
-
-/* Dim and blur homepage when modal open */
-.disabled-blur {
-  filter: blur(4px);
-  pointer-events: none; /* disables interactions */
-  user-select: none;
-  opacity: 0.6;
-}
-
 /* Overlay fills screen, glassmorphic style */
 .glassmorphic-overlay {
   position: fixed;
@@ -126,23 +65,7 @@ input {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-}
-
-/* Modal content container */
-.modal-content {
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 15px;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  padding: 2rem;
-  max-width: 900px;
-  width: 90%;
-  display: flex;
-  gap: 2rem;
-  color: #111;
+  z-index: 20000 !important;
 }
 
 /* Reuse glassmorphic style for info-section and form-wrapper */
@@ -160,4 +83,8 @@ input {
 .login-signup-container {
   display: flex;
   gap: 2rem;
+}
+
+dialog[open] {
+  z-index: 10000 !important;
 }

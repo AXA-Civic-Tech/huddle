@@ -6,7 +6,7 @@
   height: calc(100% - 0rem);
   z-index: 2; /* make sure it sits on top of the Map */
   padding: 1rem;
-  margin: 4rem 0rem 1rem 0.65rem;
+  margin: 6rem 0rem 1rem 1.5rem;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
@@ -34,6 +34,22 @@
 .feed-controls {
   display: flex;
   justify-content: space-evenly;
+}
+
+.filter-section {
+  display: block;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: 1rem;
+}
+
+.add-button {
+  margin-left: 1rem;
+  transition: all 0.2s ease;
+}
+
+.add-button:hover {
+  transform: scale(1.1);
 }
 
 .scroller::-webkit-scrollbar-thumb {

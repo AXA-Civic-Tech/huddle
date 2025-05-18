@@ -64,7 +64,7 @@ export default function EventView({ event = {}, username, onClose }) {
         <p className="description-text">{event.description}</p>
       </div>
 
-      <DisplayField
+      {/* <DisplayField
         label="Image"
         value={
           event.images ? (
@@ -77,7 +77,7 @@ export default function EventView({ event = {}, username, onClose }) {
             "No image available"
           )
         }
-      />
+      /> */}
     </div>
   );
 }

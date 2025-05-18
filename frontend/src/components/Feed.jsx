@@ -22,7 +22,15 @@ import EventSearchBar from "./EventSearchBar";
  * @returns
  */
 
-export default function Feed({ onPostCountChange, filterType, filterValue, onFilterChange, onMapMove }) {
+export default function Feed({
+  onPostCountChange,
+  filterType,
+  filterValue,
+  onFilterChange,
+  onMapMove,
+  openAuthOverlay,
+  authOverlayOpen,
+}) {
   const location = useLocation();
   const pathname = location.pathname;
   const { id: urlUserId } = useParams(); // string
@@ -58,9 +66,11 @@ export default function Feed({ onPostCountChange, filterType, filterValue, onFil
       // Get all upvotes for the current user
       const upvotes = await getUpvotesByUser(currentUser.id);
       // Extract event IDs that the user has upvoted
-      const upvotedEventIds = upvotes.map(u => Number(u.event_id));
+      const upvotedEventIds = upvotes.map((u) => Number(u.event_id));
       // Filter posts to only those the user has upvoted
-      const filteredPosts = data.filter(post => upvotedEventIds.includes(Number(post.id)));
+      const filteredPosts = data.filter((post) =>
+        upvotedEventIds.includes(Number(post.id))
+      );
       setPosts(filteredPosts);
     } else if (data) {
       setPosts(data);
@@ -111,7 +121,10 @@ export default function Feed({ onPostCountChange, filterType, filterValue, onFil
     setIsOpen(true);
     if (onMapMove && event.lat_location && event.long_location) {
       onMapMove(
-        { lat: parseFloat(event.lat_location), lng: parseFloat(event.long_location) },
+        {
+          lat: parseFloat(event.lat_location),
+          lng: parseFloat(event.long_location),
+        },
         17
       );
     }
@@ -216,6 +229,17 @@ export default function Feed({ onPostCountChange, filterType, filterValue, onFil
           <p>Loading posts...</p>
         ) : posts.length === 0 ? (
           <p>No posts yet! Be the first to create one.</p>
+        ) : pathname.startsWith("/users/") ? (
+          <div className="userpage-posts-grid">
+            {sorted.filter(Boolean).map((post) => (
+              <Post
+                key={post.id}
+                event={post}
+                onSelect={openModal}
+                onClose={closeModal}
+              />
+            ))}
+          </div>
         ) : (
           sorted
             .filter(Boolean)
@@ -234,6 +258,8 @@ export default function Feed({ onPostCountChange, filterType, filterValue, onFil
           onClose={closeModal}
           isOpen={isOpen}
           viewing={isViewing}
+          openAuthOverlay={openAuthOverlay}
+          authOverlayOpen={authOverlayOpen}
         />
       </div>
     </div>

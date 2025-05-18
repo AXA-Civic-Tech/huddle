@@ -2,7 +2,10 @@ import { useEffect } from "react";
 import Feed from "../components/Feed";
 import Map from "../components/Map";
 import { useState } from "react";
-import { neighborhoodCenters, boroughCenters } from "../utils/neighborhoodCenters";
+import {
+  neighborhoodCenters,
+  boroughCenters,
+} from "../utils/neighborhoodCenters";
 
 /**
  * HomePage component rendering the application's main landing page.
@@ -15,11 +18,29 @@ import { neighborhoodCenters, boroughCenters } from "../utils/neighborhoodCenter
  * @returns {JSX.Element} HomePage component with Feed, Map, and conditional auth overlay
  */
 
-export default function HomePage({ authOverlayOpen, closeAuthOverlay }) {
+export default function HomePage({
+  authOverlayOpen,
+  closeAuthOverlay,
+  openAuthOverlay,
+}) {
   const [filterType, setFilterType] = useState("all");
   const [filterValue, setFilterValue] = useState("");
-  const [mapCenter, setMapCenter] = useState({ lat: 40.65798, lng: -74.005439 });
+  const [mapCenter, setMapCenter] = useState({
+    lat: 40.65798,
+    lng: -74.005439,
+  });
   const [mapZoom, setMapZoom] = useState(12);
+
+  // Close modal on Escape key press
+  useEffect(() => {
+    const onEscKey = (event) => {
+      if (event.key === "Escape" && authOverlayOpen) {
+        closeAuthOverlay();
+      }
+    };
+    window.addEventListener("keydown", onEscKey);
+    return () => window.removeEventListener("keydown", onEscKey);
+  }, [authOverlayOpen, closeAuthOverlay]);
 
   const handleFilterChange = (e) => {
     const value = e.target.value;
@@ -46,18 +67,22 @@ export default function HomePage({ authOverlayOpen, closeAuthOverlay }) {
   };
 
   return (
-    <div className={`homepage ${authOverlayOpen ? 'disabled-blur' : ''}`}>
-      <Feed 
-        filterType={filterType} 
-        filterValue={filterValue} 
-        onFilterChange={handleFilterChange} 
-        onMapMove={handleMapMove} 
-      />
-      <Map 
-        mapCenter={mapCenter} 
-        mapZoom={mapZoom} 
-        onMapMove={handleMapMove} 
-      />
+    <div className="homepage">
+      <div className={`homepage ${authOverlayOpen ? "disabled-blur" : ""}`}>
+        <Feed
+          filterType={filterType}
+          filterValue={filterValue}
+          onFilterChange={handleFilterChange}
+          onMapMove={handleMapMove}
+          openAuthOverlay={openAuthOverlay}
+          authOverlayOpen={authOverlayOpen}
+        />
+        <Map
+          mapCenter={mapCenter}
+          mapZoom={mapZoom}
+          onMapMove={handleMapMove}
+        />
+      </div>
     </div>
   );
 }
