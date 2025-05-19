@@ -13,10 +13,17 @@ export const createPost = async (postData) => {
     return [null, "No post data provided"];
   }
 
-  const postBody = {
-    ...postData,
-    is_issue: String(postData.is_issue === "Issue" || postData.is_issue === true),
-  };
+  //spreads body and checks for issue value and image to be array regardless of size
+const postBody = {
+  ...postData,
+  is_issue: String(postData.is_issue === "Issue" || postData.is_issue === true),
+  images: Array.isArray(postData.images)
+    ? postData.images
+    : postData.images
+    ? [postData.images]
+    : [],
+};
+
 
   try {
     const result = await fetchHandler("/api/posts", {

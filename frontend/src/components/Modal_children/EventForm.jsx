@@ -30,40 +30,46 @@ export default function EventForm({
    * Initialize form state with event data or defaults
    * This tracks all editable fields for the event/issue
    */
-  const [formData, setFormData] = useState(() => {
-    const safeEvent = event || {};
-    return {
-      is_issue: safeEvent.is_issue !== undefined ? safeEvent.is_issue : true,
-      title: safeEvent.title || "",
-      address: safeEvent.address || "",
-      borough: safeEvent.borough || "",
-      zipcode: safeEvent.zipcode || "",
-      status: safeEvent.status || "Open",
-      email: safeEvent.email || "",
-      phone: safeEvent.phone || "",
-      description: safeEvent.description || "",
-      images: safeEvent.images || "",
-    };
-  });
+const [formData, setFormData] = useState(() => {
+  const safeEvent = event || {};
+  return {
+    is_issue: safeEvent.is_issue !== undefined ? safeEvent.is_issue : true,
+    title: safeEvent.title || "",
+    address: safeEvent.address || "",
+    borough: safeEvent.borough || "",
+    zipcode: safeEvent.zipcode || "",
+    status: safeEvent.status || "Open",
+    email: safeEvent.email || "",
+    phone: safeEvent.phone || "",
+    description: safeEvent.description || "",
+    images: Array.isArray(safeEvent.images) ? safeEvent.images : [],  
+  };
+});
 
   /**
    * Reset form data when event prop changes
    * Ensures form reflects the current event being edited
    */
-  useEffect(() => {
-    setFormData({
-      is_issue: event.is_issue !== undefined ? event.is_issue : true,
-      title: event.title || "",
-      address: event.address || "",
-      borough: event.borough || "",
-      zipcode: event.zipcode || "",
-      status: event.status || "Open",
-      email: event.email || "",
-      phone: event.phone || "",
-      description: event.description || "",
-      images: event.images || "",
-    });
-  }, [event]);
+useEffect(() => {
+  if (!event) return;
+
+  setFormData({
+    is_issue: event.is_issue !== undefined ? event.is_issue : true,
+    title: event.title || "",
+    address: event.address || "",
+    borough: event.borough || "",
+    zipcode: event.zipcode || "",
+    status: event.status || "Open",
+    email: event.email || "",
+    phone: event.phone || "",
+    description: event.description || "",
+    images: Array.isArray(event.images)
+      ? event.images
+      : event.images
+        ? [event.images]
+        : [],
+  });
+}, [event]);
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -122,41 +128,46 @@ export default function EventForm({
 
   const modalRef = useRef(null);
 
-  const handleUploadWidget = () => {
-    const widget = window.cloudinary.createUploadWidget(
-      {
-        cloudName: "dwrpyq7tq",
-        uploadPreset: "huddle events images",
-      },
-      (error, result) => {
-        if (!error && result && result.event === "success") {
-          setFormData((prev) => ({
-            ...prev,
-            images: result.info.secure_url,
-          }));
-        }
+const handleUploadWidget = () => {
+  const widget = window.cloudinary.createUploadWidget(
+    {
+      cloudName: "dwrpyq7tq",
+      uploadPreset: "huddle events images",
+    },
+    (error, result) => {
+      if (!error && result && result.event === "success") {
+        const uploadedUrl = result.info.secure_url; // ✅ define uploadedUrl here
 
-        if (result.event === "close") {
-          // Reopen modal after widget is closed
-          if (dialogRef.current && !dialogRef.current.open) {
-            dialogRef.current.showModal();
-          }
-          setIsWidgetOpen(false);
-          if (modalRef.current) {
-            modalRef.current.classList.remove("modal-hidden");
-          }
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          images: [
+            ...(Array.isArray(prevFormData.images) ? prevFormData.images : []),
+            uploadedUrl,
+          ],
+        }));
+      }
+
+      if (result.event === "close") {
+        // Reopen modal after widget is closed
+        if (dialogRef.current && !dialogRef.current.open) {
+          dialogRef.current.showModal();
+        }
+        setIsWidgetOpen(false);
+        if (modalRef.current) {
+          modalRef.current.classList.remove("modal-hidden");
         }
       }
-    );
-
-    // Close modal before opening widget
-    if (dialogRef.current && dialogRef.current.open) {
-      dialogRef.current.close();
     }
+  );
 
-    setIsWidgetOpen(true);
-    widget.open();
-  };
+  // Close modal before opening widget
+  if (dialogRef.current && dialogRef.current.open) {
+    dialogRef.current.close();
+  }
+
+  setIsWidgetOpen(true);
+  widget.open();
+};
 
   /**
    * Render creator information based on whether this is a new post or an edit
@@ -179,7 +190,7 @@ export default function EventForm({
         </p>
       );
     } else if (event?.id && event?.user_id) {
-      //For existing post, show original creator
+      //For existing post, show original creator  
       return (
         <p className="created-by">
           <strong>Created by:</strong>{" "}
@@ -197,57 +208,60 @@ export default function EventForm({
   };
 
   return (
-    <>
-      {/* Apply the same horizontal structure as in Modal.jsx */}
-      <div className="modal-content" ref={modalRef}>
-        {/* Image Container - left side */}
-        <div className="event-images">
-          {formData.images ? (
-            <>
-              <ImageContainer
-                images={formData.images}
-                altText={formData.title || "Event"}
-                fallbackImage="https://placehold.co/600x400?text=Image+Not+Available"
+   <>
+  {/* Apply the same horizontal structure as in Modal.jsx */}
+  <div className="modal-content" ref={modalRef}>
+    {/* Image Container - left side */}
+    <div className="event-images">
+      {formData.images && formData.images.length > 0 ? (
+        <>
+          <div className="image-preview-list">
+            {formData.images.map((imgUrl, index) => (
+              <img
+                key={index}
+                src={imgUrl}
+                alt={`Uploaded preview ${index + 1}`}
+                className="event-image"
               />
-              <div className="change-image-btn-wrapper">
-                <Button
-                  name="Change Image"
-                  type="button"
-                  onClick={handleUploadWidget}
-                  className="change-image-btn"
-                />
-              </div>
-            </>
-          ) : (
-            <div className="image-upload" onClick={handleUploadWidget}>
-              <p>
-                <strong>Upload Image</strong>
-              </p>
-              <p>
-                Click here to upload an image for your{" "}
-                {formData.is_issue ? "issue" : "event"}
-              </p>
-            </div>
-          )}
+            ))}
+          </div>
+          <Button
+            name="Change Image"
+            type="button"
+            onClick={handleUploadWidget}
+            className="change-image-btn"
+          />
+        </>
+      ) : (
+        <div className="image-upload" onClick={handleUploadWidget}>
+          <p>
+            <strong>Upload Image</strong>
+          </p>
+          <p>
+            Click here to upload an image for your{" "}
+            {formData.is_issue ? "issue" : "event"}
+          </p>
         </div>
+      )}
+    </div>
 
-        {/* Content Container - right side */}
-        <div className="event-content">
-          <form className="edit-form" onSubmit={handleSubmit}>
-            {renderCreatedBy()}
+    {/* Content Container - right side */}
+    <div className="event-content">
+      <form className="edit-form" onSubmit={handleSubmit}>
+        {renderCreatedBy()}
 
-            <div className="edit-dropdown">
-              <FormField
-                name="is_issue"
-                label="Issue/Event"
-                type="select"
-                value={formData.is_issue}
-                onChange={handleChange}
-                options={[
-                  { value: true, label: "Issue" },
-                  { value: false, label: "Event" },
-                ]}
-              />
+        <div className="edit-dropdown">
+          <FormField
+            name="is_issue"
+            label="Issue/Event"
+            type="select"
+            value={formData.is_issue}
+            onChange={handleChange}
+            options={[
+              { value: true, label: "Issue" },
+              { value: false, label: "Event" },
+            ]}
+          />
 
               <FormField
                 name="status"
