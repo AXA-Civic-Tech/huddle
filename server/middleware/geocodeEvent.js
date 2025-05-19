@@ -2,6 +2,10 @@
 const axios = require("axios");
 
 const geocodeEvent = async (req, res, next) => {
+  const apiKey = process.env.GOOGLE_GEOCODING_API_KEY;
+  if (!apiKey) {
+    return res.status(500).json({ error: "Missing Google Geocoding API key. Please set GOOGLE_GEOCODING_API_KEY in your environment." });
+  }
   try {
     //takes in location values from event
     const { address, borough, zipcode } = req.body;
@@ -11,7 +15,7 @@ const geocodeEvent = async (req, res, next) => {
     const response = await axios.get("https://maps.googleapis.com/maps/api/geocode/json", {
       params: {
         address: fullAddress,
-        key: process.env.GOOGLE_GEOCODING_API_KEY,
+        key: apiKey,
       },
     });
 
