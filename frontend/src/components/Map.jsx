@@ -15,8 +15,6 @@ const center = {
   lng: -74.005439,
 };
 
-const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-
 const Map = ({ mapCenter, mapZoom, onMapMove }) => {
   const [markers, setMarkers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,6 +22,12 @@ const Map = ({ mapCenter, mapZoom, onMapMove }) => {
   const [eventData, setEventData] = useState([]);
   const [searchMarker, setSearchMarker] = useState(null);
   const [isMapApiLoaded, setIsMapApiLoaded] = useState(false);
+
+  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+
+  if (!apiKey) {
+    return <div style={{ color: 'red', padding: '2rem' }}>Error: Missing Google Maps API key. Please set VITE_GOOGLE_MAPS_API_KEY in your .env file.</div>;
+  }
 
   //fetches all post and filters out for locations to pin
   useEffect(() => {
