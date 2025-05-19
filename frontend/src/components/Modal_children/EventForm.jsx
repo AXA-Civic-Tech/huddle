@@ -29,40 +29,46 @@ export default function EventForm({
    * Initialize form state with event data or defaults
    * This tracks all editable fields for the event/issue
    */
-  const [formData, setFormData] = useState(() => {
-    const safeEvent = event || {};
-    return {
-      is_issue: safeEvent.is_issue !== undefined ? safeEvent.is_issue : true,
-      title: safeEvent.title || "",
-      address: safeEvent.address || "",
-      borough: safeEvent.borough || "",
-      zipcode: safeEvent.zipcode || "",
-      status: safeEvent.status || "Open",
-      email: safeEvent.email || "",
-      phone: safeEvent.phone || "",
-      description: safeEvent.description || "",
-      images: safeEvent.images || "",
-    };
-  });
+const [formData, setFormData] = useState(() => {
+  const safeEvent = event || {};
+  return {
+    is_issue: safeEvent.is_issue !== undefined ? safeEvent.is_issue : true,
+    title: safeEvent.title || "",
+    address: safeEvent.address || "",
+    borough: safeEvent.borough || "",
+    zipcode: safeEvent.zipcode || "",
+    status: safeEvent.status || "Open",
+    email: safeEvent.email || "",
+    phone: safeEvent.phone || "",
+    description: safeEvent.description || "",
+    images: Array.isArray(safeEvent.images) ? safeEvent.images : [],  
+  };
+});
 
   /**
    * Reset form data when event prop changes
    * Ensures form reflects the current event being edited
    */
-  useEffect(() => {
-    setFormData({
-      is_issue: event.is_issue !== undefined ? event.is_issue : true,
-      title: event.title || "",
-      address: event.address || "",
-      borough: event.borough || "",
-      zipcode: event.zipcode || "",
-      status: event.status || "Open",
-      email: event.email || "",
-      phone: event.phone || "",
-      description: event.description || "",
-      images: event.images || "",
-    });
-  }, [event]);
+useEffect(() => {
+  if (!event) return;
+
+  setFormData({
+    is_issue: event.is_issue !== undefined ? event.is_issue : true,
+    title: event.title || "",
+    address: event.address || "",
+    borough: event.borough || "",
+    zipcode: event.zipcode || "",
+    status: event.status || "Open",
+    email: event.email || "",
+    phone: event.phone || "",
+    description: event.description || "",
+    images: Array.isArray(event.images)
+      ? event.images
+      : event.images
+        ? [event.images]
+        : [],
+  });
+}, [event]);
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -109,41 +115,46 @@ export default function EventForm({
 
   const modalRef = useRef(null);
 
-  const handleUploadWidget = () => {
-    const widget = window.cloudinary.createUploadWidget(
-      {
-        cloudName: "dwrpyq7tq",
-        uploadPreset: "huddle events images",
-      },
-      (error, result) => {
-        if (!error && result && result.event === "success") {
-          setFormData((prev) => ({
-            ...prev,
-            images: result.info.secure_url,
-          }));
-        }
+const handleUploadWidget = () => {
+  const widget = window.cloudinary.createUploadWidget(
+    {
+      cloudName: "dwrpyq7tq",
+      uploadPreset: "huddle events images",
+    },
+    (error, result) => {
+      if (!error && result && result.event === "success") {
+        const uploadedUrl = result.info.secure_url; // ✅ define uploadedUrl here
 
-        if (result.event === "close") {
-          // Reopen modal after widget is closed
-          if (dialogRef.current && !dialogRef.current.open) {
-            dialogRef.current.showModal();
-          }
-          setIsWidgetOpen(false);
-          if (modalRef.current) {
-            modalRef.current.classList.remove("modal-hidden");
-          }
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          images: [
+            ...(Array.isArray(prevFormData.images) ? prevFormData.images : []),
+            uploadedUrl,
+          ],
+        }));
+      }
+
+      if (result.event === "close") {
+        // Reopen modal after widget is closed
+        if (dialogRef.current && !dialogRef.current.open) {
+          dialogRef.current.showModal();
+        }
+        setIsWidgetOpen(false);
+        if (modalRef.current) {
+          modalRef.current.classList.remove("modal-hidden");
         }
       }
-    );
-
-    // Close modal before opening widget
-    if (dialogRef.current && dialogRef.current.open) {
-      dialogRef.current.close();
     }
+  );
 
-    setIsWidgetOpen(true);
-    widget.open();
-  };
+  // Close modal before opening widget
+  if (dialogRef.current && dialogRef.current.open) {
+    dialogRef.current.close();
+  }
+
+  setIsWidgetOpen(true);
+  widget.open();
+};
 
   /**
    * Render creator information based on whether this is a new post or an edit
@@ -184,173 +195,178 @@ export default function EventForm({
   };
 
   return (
-    <>
-      {/* Apply the same horizontal structure as in Modal.jsx */}
-      <div className="modal-content" ref={modalRef}>
-        {/* Image Container - left side */}
-        <div className="event-images">
-          {formData.images ? (
-            <img
-              src={formData.images}
-              alt="Uploaded preview"
-              className="event-image"
-            />
-          ) : (
-            <div className="image-upload" onClick={handleUploadWidget}>
-              <p>
-                <strong>Upload Image</strong>
-              </p>
-              <p>
-                Click here to upload an image for your{" "}
-                {formData.is_issue ? "issue" : "event"}
-              </p>
-            </div>
-          )}
-          {formData.images && (
-            <Button
-              name="Change Image"
-              type="button"
-              onClick={handleUploadWidget}
-              className="change-image-btn"
-            />
-          )}
-        </div>
-
-        {/* Content Container - right side */}
-        <div className="event-content">
-          <form className="edit-form" onSubmit={handleSubmit}>
-            {renderCreatedBy()}
-
-            <div className="edit-dropdown">
-              <FormField
-                name="is_issue"
-                label="Issue/Event"
-                type="select"
-                value={formData.is_issue}
-                onChange={handleChange}
-                options={[
-                  { value: true, label: "Issue" },
-                  { value: false, label: "Event" },
-                ]}
+   <>
+  {/* Apply the same horizontal structure as in Modal.jsx */}
+  <div className="modal-content" ref={modalRef}>
+    {/* Image Container - left side */}
+    <div className="event-images">
+      {formData.images && formData.images.length > 0 ? (
+        <>
+          <div className="image-preview-list">
+            {formData.images.map((imgUrl, index) => (
+              <img
+                key={index}
+                src={imgUrl}
+                alt={`Uploaded preview ${index + 1}`}
+                className="event-image"
               />
-
-              <FormField
-                name="status"
-                label="Status"
-                type="select"
-                value={formData.status}
-                onChange={handleChange}
-                options={[
-                  { value: "Active", label: "Active" },
-                  { value: "Closed", label: "Closed" },
-                ]}
-              />
-            </div>
-
-            <FormField
-              name="title"
-              label="Title"
-              value={formData.title}
-              onChange={handleChange}
-              required
-            />
-
-            <FormField
-              name="address"
-              label="Address"
-              value={formData.address}
-              onChange={handleChange}
-            />
-
-            <FormField
-              name="borough"
-              label="Borough"
-              type="select"
-              value={formData.borough}
-              onChange={handleChange}
-              options={[
-                { value: "Manhattan", label: "Manhattan" },
-                { value: "Brooklyn", label: "Brooklyn" },
-                { value: "Queens", label: "Queens" },
-                { value: "The Bronx", label: "The Bronx" },
-                { value: "Staten Island", label: "Staten Island" },
-              ]}
-              required
-            />
-
-            <FormField
-              name="zipcode"
-              label="Zip Code"
-              value={formData.zipcode}
-              onChange={handleZipcodeChange}
-              maxLength="5"
-              placeholder="5-digit ZIP code"
-              required
-            />
-
-            <FormField
-              name="email"
-              label="Email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-
-            <FormField
-              name="phone"
-              label="Phone"
-              type="tel"
-              value={formData.phone}
-              onChange={handleChange}
-            />
-
-            <FormField
-              name="description"
-              label="Description"
-              type="textarea"
-              value={formData.description}
-              onChange={handleChange}
-              rows="4"
-              required
-            />
-
-            <div className="modal-actions">
-              <Button name="Cancel" onClick={onCancel} type="button" />
-              <Button name="Save" type="submit" />
-            </div>
-          </form>
-        </div>
-      </div>
-
-      {/* Comments Preview Section for new events */}
-      <div className="comments">
-        <div className="comments-header">
-          <h3>Comments</h3>
-
-          {/* Upvotes section */}
-          <div className="upvote-section">
-            <span className="upvote-count">0</span>
-            <Button className="upvote-button" disabled={true}>
-              <span className="upvote-icon">🖤</span>
-            </Button>
+            ))}
           </div>
+          <Button
+            name="Change Image"
+            type="button"
+            onClick={handleUploadWidget}
+            className="change-image-btn"
+          />
+        </>
+      ) : (
+        <div className="image-upload" onClick={handleUploadWidget}>
+          <p>
+            <strong>Upload Image</strong>
+          </p>
+          <p>
+            Click here to upload an image for your{" "}
+            {formData.is_issue ? "issue" : "event"}
+          </p>
+        </div>
+      )}
+    </div>
+
+    {/* Content Container - right side */}
+    <div className="event-content">
+      <form className="edit-form" onSubmit={handleSubmit}>
+        {renderCreatedBy()}
+
+        <div className="edit-dropdown">
+          <FormField
+            name="is_issue"
+            label="Issue/Event"
+            type="select"
+            value={formData.is_issue}
+            onChange={handleChange}
+            options={[
+              { value: true, label: "Issue" },
+              { value: false, label: "Event" },
+            ]}
+          />
+
+          <FormField
+            name="status"
+            label="Status"
+            type="select"
+            value={formData.status}
+            onChange={handleChange}
+            options={[
+              { value: "Active", label: "Active" },
+              { value: "Closed", label: "Closed" },
+            ]}
+          />
         </div>
 
-        {/* Comment input */}
-        <div className="comment-input">
-          <input type="text" placeholder="Preview comment..." disabled={true} />
-          <Button name="Post" disabled={true} />
-        </div>
+        <FormField
+          name="title"
+          label="Title"
+          value={formData.title}
+          onChange={handleChange}
+          required
+        />
 
-        {/* Comments list */}
-        {!event?.id && (
-          <div className="comments-list">
-            <p className="loading-text">
-              Comments will appear here after the event is created
-            </p>
-          </div>
-        )}
+        <FormField
+          name="address"
+          label="Address"
+          value={formData.address}
+          onChange={handleChange}
+        />
+
+        <FormField
+          name="borough"
+          label="Borough"
+          type="select"
+          value={formData.borough}
+          onChange={handleChange}
+          options={[
+            { value: "Manhattan", label: "Manhattan" },
+            { value: "Brooklyn", label: "Brooklyn" },
+            { value: "Queens", label: "Queens" },
+            { value: "The Bronx", label: "The Bronx" },
+            { value: "Staten Island", label: "Staten Island" },
+          ]}
+          required
+        />
+
+        <FormField
+          name="zipcode"
+          label="Zip Code"
+          value={formData.zipcode}
+          onChange={handleZipcodeChange}
+          maxLength="5"
+          placeholder="5-digit ZIP code"
+          required
+        />
+
+        <FormField
+          name="email"
+          label="Email"
+          type="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+
+        <FormField
+          name="phone"
+          label="Phone"
+          type="tel"
+          value={formData.phone}
+          onChange={handleChange}
+        />
+
+        <FormField
+          name="description"
+          label="Description"
+          type="textarea"
+          value={formData.description}
+          onChange={handleChange}
+          rows="4"
+          required
+        />
+
+        <div className="modal-actions">
+          <Button name="Cancel" onClick={onCancel} type="button" />
+          <Button name="Save" type="submit" />
+        </div>
+      </form>
+    </div>
+  </div>
+
+  {/* Comments Preview Section for new events */}
+  <div className="comments">
+    <div className="comments-header">
+      <h3>Comments</h3>
+
+      {/* Upvotes section */}
+      <div className="upvote-section">
+        <span className="upvote-count">0</span>
+        <Button className="upvote-button" disabled={true}>
+          <span className="upvote-icon">🖤</span>
+        </Button>
       </div>
-    </>
+    </div>
+
+    {/* Comment input */}
+    <div className="comment-input">
+      <input type="text" placeholder="Preview comment..." disabled={true} />
+      <Button name="Post" disabled={true} />
+    </div>
+
+    {/* Comments list */}
+    {!event?.id && (
+      <div className="comments-list">
+        <p className="loading-text">
+          Comments will appear here after the event is created
+        </p>
+      </div>
+    )}
+  </div>
+</>
   );
 }
