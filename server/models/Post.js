@@ -51,6 +51,13 @@ class Post {
     lat_location = null,
     long_location = null,
   }) {
+    // Allows images to always be held within an array for backend approval
+    const finalImages = Array.isArray(images)
+      ? images
+      : images
+      ? [images]
+      : [];
+
     const query = `
       INSERT INTO event (
         title, description, date_created, user_id, is_issue,
@@ -69,7 +76,7 @@ class Post {
       email,
       phone,
       status,
-      images,
+      finalImages, // Always an array here
       address,
       borough,
       zipcode,
