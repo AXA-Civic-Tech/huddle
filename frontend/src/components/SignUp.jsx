@@ -27,15 +27,7 @@ import Button from "./Button";
  */
 
 export default function SignUpForm({ onClose }) {
-  const SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
-  if (!SITE_KEY) {
-    return (
-      <div className="api-key-error">
-        Error: Missing reCAPTCHA site key. Please set VITE_RECAPTCHA_SITE_KEY in
-        your .env file.
-      </div>
-    );
-  }
+  const SITE_KEY = "6Lf1FC8rAAAAAJ4egdXJ_RkeePpHowuY1ZFKb20S"; 
 
   const navigate = useNavigate();
   const location = useLocation();
