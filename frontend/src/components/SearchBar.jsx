@@ -11,7 +11,7 @@ const SearchBar = ({ onPlaceSelected }) => {
     const autocomplete = new window.google.maps.places.Autocomplete(
       inputRef.current,
       {
-        fields: ["geometry", "name"],
+        fields: ["geometry", "name", "formatted_address"],
       }
     );
 
@@ -24,7 +24,7 @@ const SearchBar = ({ onPlaceSelected }) => {
           name: place.name,
         };
         onPlaceSelected(location);
-        setInputValue(place.name);
+        setInputValue(place.formatted_address);
       }
     });
   }, [onPlaceSelected]);
@@ -42,7 +42,7 @@ const SearchBar = ({ onPlaceSelected }) => {
         onChange={handleInputChange}
         placeholder="Search for a place..."
         className="searchbar-input"
-        autoComplete="off"
+        autoComplete="on"
       />
     </div>
   );
