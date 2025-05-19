@@ -179,18 +179,20 @@ export default function CommentsSection({ eventId, onClose, openAuthOverlay }) {
         {isLoading && comments.length === 0 ? (
           <p className="loading-text">Loading comments...</p>
         ) : comments.length > 0 ? (
-          comments.map((comment, index) => (
-            <div className="comment" key={index}>
-              <UserLink
-                userId={comment.user_id}
-                username={comment.username || "User"}
-                onClose={onClose}
-              >
-                <strong>{comment.username || "User"}</strong>
-              </UserLink>{" "}
-              <span className="comment-content">{comment.contents}</span>
-            </div>
-          ))
+          [...comments]
+            .sort((a, b) => new Date(b.time) - new Date(a.time))
+            .map((comment, index) => (
+              <div className="comment" key={index}>
+                <UserLink
+                  userId={comment.user_id}
+                  username={comment.username || "User"}
+                  onClose={onClose}
+                >
+                  <strong>{comment.username || "User"}</strong>
+                </UserLink>{" "}
+                <span className="comment-content">{comment.contents}</span>
+              </div>
+            ))
         ) : (
           <p className="no-comments">
             No comments yet. Be the first to comment!
