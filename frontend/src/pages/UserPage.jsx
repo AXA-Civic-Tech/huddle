@@ -95,12 +95,18 @@ export default function UserPage() {
   return (
     <div className="user-page-container">
       <div className="profile-header">
-        <div className="profile-username">
-          <h1>{profileUsername}</h1>
-
+        <div className="profile-info">
+          <div className="profile-username-row">
+            <h1>{profileUsername}</h1>
+          </div>
+          <div className="profile-details-row">
+            <span className="profile-realname">{userProfile.first_name} {userProfile.last_name}</span>
+            <span className="profile-bio">{userProfile.email}</span>
+            <span className="profile-posts-count">{postCount} Posts</span>
+          </div>
           {isCurrentUserProfile && (
             <>
-              <Button name="Edit" onClick={openModal} className="edit" />
+              <Button name="Edit Profile" onClick={openModal} className="edit profile-edit-btn" />
               <dialog
                 className="update-username-form"
                 ref={dialogRef}
@@ -119,18 +125,7 @@ export default function UserPage() {
             </>
           )}
         </div>
-
-        <p>
-          <strong>{postCount}</strong> posts
-        </p>
-
-        <h3>
-          {userProfile.first_name} {userProfile.last_name}
-        </h3>
-
-        <h3>{userProfile.email}</h3>
       </div>
-
       <Feed onPostCountChange={handlePostCountChange}
             filterType={filterType}
             filterValue={filterValue}

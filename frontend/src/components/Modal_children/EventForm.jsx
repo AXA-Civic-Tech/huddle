@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import UserLink from "../UserLink";
 import FormField from "./FormField";
 import Button from "../Button";
+import ImageContainer from "./ImageContainer";
 
 /**
  * Component for editing or creating events/issues.
@@ -81,10 +82,23 @@ export default function EventForm({
    */
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // if (name === "address" && typeof value === "object") {
+    //   // Update multiple fields when address is selected
+    //   setFormData((prev) => ({
+    //     ...prev,
+    //     address: value.formatted_address,
+    //     lat_location: value.lat,
+    //     long_location: value.lng,
+    //     borough: value.borough,
+    //     zipcode: value.zipcode,
+    //   }));
+    // } else {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
+    // }
   };
 
   /**
@@ -103,7 +117,6 @@ export default function EventForm({
    */
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Submitting formData:", formData);
     onSave(formData);
   };
 
@@ -190,11 +203,21 @@ export default function EventForm({
         {/* Image Container - left side */}
         <div className="event-images">
           {formData.images ? (
-            <img
-              src={formData.images}
-              alt="Uploaded preview"
-              className="event-image"
-            />
+            <>
+              <ImageContainer
+                images={formData.images}
+                altText={formData.title || "Event"}
+                fallbackImage="https://placehold.co/600x400?text=Image+Not+Available"
+              />
+              <div className="change-image-btn-wrapper">
+                <Button
+                  name="Change Image"
+                  type="button"
+                  onClick={handleUploadWidget}
+                  className="change-image-btn"
+                />
+              </div>
+            </>
           ) : (
             <div className="image-upload" onClick={handleUploadWidget}>
               <p>
@@ -205,14 +228,6 @@ export default function EventForm({
                 {formData.is_issue ? "issue" : "event"}
               </p>
             </div>
-          )}
-          {formData.images && (
-            <Button
-              name="Change Image"
-              type="button"
-              onClick={handleUploadWidget}
-              className="change-image-btn"
-            />
           )}
         </div>
 
@@ -241,6 +256,7 @@ export default function EventForm({
                 value={formData.status}
                 onChange={handleChange}
                 options={[
+                  { value: "", label: "Select a status..." },
                   { value: "Active", label: "Active" },
                   { value: "Closed", label: "Closed" },
                 ]}
@@ -252,6 +268,7 @@ export default function EventForm({
               label="Title"
               value={formData.title}
               onChange={handleChange}
+              placeholder="Title"
               required
             />
 
@@ -260,33 +277,38 @@ export default function EventForm({
               label="Address"
               value={formData.address}
               onChange={handleChange}
-            />
-
-            {/* <FormField
-              name="borough"
-              label="Borough"
-              type="select"
-              value={formData.borough}
-              onChange={handleChange}
-              options={[
-                { value: "Manhattan", label: "Manhattan" },
-                { value: "Brooklyn", label: "Brooklyn" },
-                { value: "Queens", label: "Queens" },
-                { value: "The Bronx", label: "The Bronx" },
-                { value: "Staten Island", label: "Staten Island" },
-              ]}
+              placeholder="Address"
               required
             />
 
-            <FormField
-              name="zipcode"
-              label="Zip Code"
-              value={formData.zipcode}
-              onChange={handleZipcodeChange}
-              maxLength="5"
-              placeholder="5-digit ZIP code"
-              required
-            /> */}
+            <div className="edit-dropdown">
+              <FormField
+                name="borough"
+                label="Borough"
+                type="select"
+                value={formData.borough}
+                onChange={handleChange}
+                options={[
+                  { value: "", label: "Select a borough..." },
+                  { value: "Manhattan", label: "Manhattan" },
+                  { value: "Brooklyn", label: "Brooklyn" },
+                  { value: "Queens", label: "Queens" },
+                  { value: "The Bronx", label: "The Bronx" },
+                  { value: "Staten Island", label: "Staten Island" },
+                ]}
+                required
+              />
+
+              <FormField
+                name="zipcode"
+                label="Zip Code"
+                value={formData.zipcode}
+                onChange={handleZipcodeChange}
+                maxLength="5"
+                placeholder="5-digit ZIP code"
+                required
+              />
+            </div>
 
             <FormField
               name="email"
@@ -294,6 +316,7 @@ export default function EventForm({
               type="email"
               value={formData.email}
               onChange={handleChange}
+              placeholder="Email (Optional)"
             />
 
             <FormField
@@ -302,6 +325,7 @@ export default function EventForm({
               type="tel"
               value={formData.phone}
               onChange={handleChange}
+              placeholder="Phone (Optional)"
             />
 
             <FormField
@@ -311,6 +335,7 @@ export default function EventForm({
               value={formData.description}
               onChange={handleChange}
               rows="4"
+              placeholder="Description"
               required
             />
 
@@ -320,36 +345,6 @@ export default function EventForm({
             </div>
           </form>
         </div>
-      </div>
-
-      {/* Comments Preview Section for new events */}
-      <div className="comments">
-        <div className="comments-header">
-          <h3>Comments</h3>
-
-          {/* Upvotes section */}
-          <div className="upvote-section">
-            <span className="upvote-count">0</span>
-            <Button className="upvote-button" disabled={true}>
-              <span className="upvote-icon">🖤</span>
-            </Button>
-          </div>
-        </div>
-
-        {/* Comment input */}
-        <div className="comment-input">
-          <input type="text" placeholder="Preview comment..." disabled={true} />
-          <Button name="Post" disabled={true} />
-        </div>
-
-        {/* Comments list */}
-        {!event?.id && (
-          <div className="comments-list">
-            <p className="loading-text">
-              Comments will appear here after the event is created
-            </p>
-          </div>
-        )}
       </div>
     </>
   );

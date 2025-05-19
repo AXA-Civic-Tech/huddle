@@ -84,9 +84,6 @@ exports.seed = async (knex) => {
       user_id: 1,
       date_created: "2025-04-15T14:30:00Z",
       is_issue: false,
-      images: [
-        "https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?w=600&h=400&fit=crop",
-      ],
       title: "Community Garden Meetup",
       lat_location: 40.7128,
       long_location: -74.006,
@@ -103,9 +100,6 @@ exports.seed = async (knex) => {
       user_id: 2,
       date_created: "2025-05-01T09:15:00Z",
       is_issue: true,
-      images: [
-        "https://images.unsplash.com/photo-1544733422-251e532ca221?w=600&h=400&fit=crop",
-      ],
       title: "Broken Streetlight on Eastern Parkway",
       lat_location: 40.6782,
       long_location: -73.9442,
@@ -123,9 +117,6 @@ exports.seed = async (knex) => {
       user_id: 3,
       date_created: "2025-05-10T16:45:00Z",
       is_issue: false,
-      images: [
-        "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&h=400&fit=crop",
-      ],
       title: "Neighborhood BBQ",
       lat_location: 40.7282,
       long_location: -73.7949,
@@ -142,9 +133,6 @@ exports.seed = async (knex) => {
       user_id: 4,
       date_created: "2025-04-28T11:20:00Z",
       is_issue: true,
-      images: [
-        "https://images.unsplash.com/photo-1605600659876-5b2cf235bd3d?w=600&h=400&fit=crop",
-      ],
       title: "Trash Overflowing on Victory Boulevard",
       lat_location: 40.5795,
       long_location: -74.1502,
@@ -162,9 +150,6 @@ exports.seed = async (knex) => {
       user_id: 5,
       date_created: "2025-05-02T13:00:00Z",
       is_issue: false,
-      images: [
-        "https://images.unsplash.com/photo-1583119022894-919a68a3d0e3?w=600&h=400&fit=crop",
-      ],
       title: "Graffiti Removal Day",
       lat_location: 40.8448,
       long_location: -73.8648,
@@ -182,9 +167,6 @@ exports.seed = async (knex) => {
       user_id: 6,
       date_created: "2025-05-08T08:30:00Z",
       is_issue: true,
-      images: [
-        "https://images.unsplash.com/photo-1597421744523-4951d8e65a3a?w=600&h=400&fit=crop",
-      ],
       title: "Pothole on 5th Ave",
       lat_location: 40.758,
       long_location: -73.9855,
@@ -201,9 +183,6 @@ exports.seed = async (knex) => {
       user_id: 7,
       date_created: "2025-05-12T07:00:00Z",
       is_issue: false,
-      images: [
-        "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=600&h=400&fit=crop",
-      ],
       title: "Park Yoga Session",
       lat_location: 40.67,
       long_location: -73.97,
@@ -220,9 +199,6 @@ exports.seed = async (knex) => {
       user_id: 8,
       date_created: "2025-04-25T15:15:00Z",
       is_issue: true,
-      images: [
-        "https://images.unsplash.com/photo-1530099486328-e021101a494a?w=600&h=400&fit=crop",
-      ],
       title: "Leaking Hydrant",
       lat_location: 40.817,
       long_location: -73.956,
@@ -240,9 +216,6 @@ exports.seed = async (knex) => {
       user_id: 9,
       date_created: "2025-05-13T10:00:00Z",
       is_issue: false,
-      images: [
-        "https://images.unsplash.com/photo-1568213816046-0ee1c42bd559?w=600&h=400&fit=crop",
-      ],
       title: "Local History Walking Tour",
       lat_location: 40.7359,
       long_location: -74.0036,
@@ -259,9 +232,6 @@ exports.seed = async (knex) => {
       user_id: 10,
       date_created: "2025-05-06T12:45:00Z",
       is_issue: true,
-      images: [
-        "https://images.unsplash.com/photo-1563477710521-5a8a3587767b?w=600&h=400&fit=crop",
-      ],
       title: "Uncollected Bulk Trash",
       lat_location: 40.748,
       long_location: -73.9692,
@@ -278,9 +248,6 @@ exports.seed = async (knex) => {
       user_id: 1,
       date_created: "2025-05-15T11:30:00Z",
       is_issue: false,
-      images: [
-        "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&h=400&fit=crop",
-      ],
       title: "Street Food Festival",
       lat_location: 40.7295,
       long_location: -73.9965,
@@ -298,9 +265,6 @@ exports.seed = async (knex) => {
       user_id: 2,
       date_created: "2025-05-09T09:00:00Z",
       is_issue: false,
-      images: [
-        "https://images.unsplash.com/photo-1599059813005-11265ba4b4ce?w=600&h=400&fit=crop",
-      ],
       title: "Homeless Shelter Volunteer Drive",
       lat_location: 40.7115,
       long_location: -74.0125,

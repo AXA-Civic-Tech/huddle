@@ -10,11 +10,3 @@ main {
   gap: 1rem;
   align-items: start;
 }
-
-/* Dim and blur homepage when modal open */
-.disabled-blur {
-  filter: blur(4px);
-  pointer-events: none; /* disables interactions */
-  user-select: none;
-  opacity: 0.6;
-}
