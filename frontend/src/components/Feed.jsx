@@ -30,6 +30,7 @@ export default function Feed({
   onMapMove,
   openAuthOverlay,
   authOverlayOpen,
+  onPostUpdate,
 }) {
   const location = useLocation();
   const pathname = location.pathname;
@@ -134,6 +135,7 @@ export default function Feed({
   const closeModal = async () => {
     // Always re-fetch posts after an update or delete
     fetchPosts();
+    if (onPostUpdate) onPostUpdate(); // Call onPostUpdate when posts are updated
     setSelectedPost(null);
     setIsOpen(false);
   };
