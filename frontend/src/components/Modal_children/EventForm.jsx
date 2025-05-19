@@ -243,6 +243,7 @@ export default function EventForm({
                 value={formData.status}
                 onChange={handleChange}
                 options={[
+                  { value: "", label: "Select a status..." },
                   { value: "Active", label: "Active" },
                   { value: "Closed", label: "Closed" },
                 ]}
@@ -254,6 +255,7 @@ export default function EventForm({
               label="Title"
               value={formData.title}
               onChange={handleChange}
+              placeholder="Title"
               required
             />
 
@@ -262,33 +264,38 @@ export default function EventForm({
               label="Address"
               value={formData.address}
               onChange={handleChange}
-            />
-
-            <FormField
-              name="borough"
-              label="Borough"
-              type="select"
-              value={formData.borough}
-              onChange={handleChange}
-              options={[
-                { value: "Manhattan", label: "Manhattan" },
-                { value: "Brooklyn", label: "Brooklyn" },
-                { value: "Queens", label: "Queens" },
-                { value: "The Bronx", label: "The Bronx" },
-                { value: "Staten Island", label: "Staten Island" },
-              ]}
+              placeholder="Address"
               required
             />
 
-            <FormField
-              name="zipcode"
-              label="Zip Code"
-              value={formData.zipcode}
-              onChange={handleZipcodeChange}
-              maxLength="5"
-              placeholder="5-digit ZIP code"
-              required
-            />
+            <div className="edit-dropdown">
+              <FormField
+                name="borough"
+                label="Borough"
+                type="select"
+                value={formData.borough}
+                onChange={handleChange}
+                options={[
+                  { value: "", label: "Select a borough..." },
+                  { value: "Manhattan", label: "Manhattan" },
+                  { value: "Brooklyn", label: "Brooklyn" },
+                  { value: "Queens", label: "Queens" },
+                  { value: "The Bronx", label: "The Bronx" },
+                  { value: "Staten Island", label: "Staten Island" },
+                ]}
+                required
+              />
+
+              <FormField
+                name="zipcode"
+                label="Zip Code"
+                value={formData.zipcode}
+                onChange={handleZipcodeChange}
+                maxLength="5"
+                placeholder="5-digit ZIP code"
+                required
+              />
+            </div>
 
             <FormField
               name="email"
@@ -296,6 +303,7 @@ export default function EventForm({
               type="email"
               value={formData.email}
               onChange={handleChange}
+              placeholder="Email (Optional)"
             />
 
             <FormField
@@ -304,6 +312,7 @@ export default function EventForm({
               type="tel"
               value={formData.phone}
               onChange={handleChange}
+              placeholder="Phone (Optional)"
             />
 
             <FormField
@@ -313,6 +322,7 @@ export default function EventForm({
               value={formData.description}
               onChange={handleChange}
               rows="4"
+              placeholder="Description"
               required
             />
 

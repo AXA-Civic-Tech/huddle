@@ -69,9 +69,9 @@ export default function FormField({
   return (
     <div className="field display-field">
       <span className="field-value">
-        <label htmlFor={name}>
+        {/* <label htmlFor={name}>
           <strong>{label}:</strong>
-        </label>{" "}
+        </label>{" "} */}
         {renderField()}
       </span>
     </div>

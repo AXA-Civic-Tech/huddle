@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 
 // Google Places-only search bar for the map
 const SearchBar = ({ onPlaceSelected }) => {
@@ -8,9 +8,12 @@ const SearchBar = ({ onPlaceSelected }) => {
   useEffect(() => {
     if (!window.google || !inputRef.current) return;
 
-    const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
-      fields: ["geometry", "name"],
-    });
+    const autocomplete = new window.google.maps.places.Autocomplete(
+      inputRef.current,
+      {
+        fields: ["geometry", "name"],
+      }
+    );
 
     autocomplete.addListener("place_changed", () => {
       const place = autocomplete.getPlace();
@@ -21,6 +24,7 @@ const SearchBar = ({ onPlaceSelected }) => {
           name: place.name,
         };
         onPlaceSelected(location);
+        setInputValue(place.name);
       }
     });
   }, [onPlaceSelected]);

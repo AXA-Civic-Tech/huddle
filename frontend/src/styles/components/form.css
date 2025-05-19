@@ -17,6 +17,10 @@
   grid-column: 1 / -1; /* Span all columns if grid is present */
 }
 
+.edit-form input {
+  margin-bottom: 0;
+}
+
 /* Field Styling */
 .field {
   display: flex;
