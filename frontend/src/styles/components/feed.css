@@ -25,6 +25,10 @@
 .feed-content {
   flex: 1 1 auto;
   overflow-y: auto;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
 .feed-user {
@@ -33,25 +37,17 @@
 
 .feed-controls {
   display: flex;
-  justify-content: space-evenly;
-  width: 100%;
-  margin: 1rem 0;
-}
-
-.filter-section {
-  display: block;
+  justify-content: center;
   align-items: center;
-  gap: 0.5rem;
-  margin-right: 1rem;
+  gap: 1.2rem;
+  width: 100%;
+  margin: 1rem 0 0.5rem 0;
+  padding: 0;
+  max-width: 100%;
 }
 
-.add-button {
-  margin-left: 1rem;
-  transition: all 0.2s ease;
-}
-
-.add-button:hover {
-  transform: scale(1.1);
+.filter-section, .add-button {
+  margin-right: 0.5rem;
 }
 
 .scroller::-webkit-scrollbar-thumb {
@@ -72,4 +68,10 @@
 
 .scroller:hover {
   --fix: ; /* This custom property invalidates styles on hover, thereby enforcing a style recomputation. This is needed to work around a bug in Safari. */
+}
+
+.event-searchbar-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 16px 0 24px 0;
 }
