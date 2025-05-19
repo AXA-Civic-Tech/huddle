@@ -43,4 +43,5 @@
 
 .footer a:hover {
   color: #004d99;
+  text-decoration: underline;
 }

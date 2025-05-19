@@ -29,7 +29,12 @@ import Button from "./Button";
 export default function SignUpForm({ onClose }) {
   const SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
   if (!SITE_KEY) {
-    return <div className="api-key-error">Error: Missing reCAPTCHA site key. Please set VITE_RECAPTCHA_SITE_KEY in your .env file.</div>;
+    return (
+      <div className="api-key-error">
+        Error: Missing reCAPTCHA site key. Please set VITE_RECAPTCHA_SITE_KEY in
+        your .env file.
+      </div>
+    );
   }
 
   const navigate = useNavigate();
@@ -242,7 +247,7 @@ export default function SignUpForm({ onClose }) {
         <Button
           name="Sign Up Now!"
           type="submit"
-          disabled={!usernameAvailable || isCheckingUsername}
+          disabled={!usernameAvailable || isCheckingUsername || !recaptchaToken}
         />
       </form>
 
