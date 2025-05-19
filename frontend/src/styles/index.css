@@ -9,16 +9,23 @@
 @import "components/feed.css";
 @import "components/footer.css";
 @import "components/form.css";
+@import "components/image-container.css";
 @import "components/modal.css";
 @import "components/navbar.css";
 @import "components/post.css";
 @import "components/searchbar.css";
+@import "components/upvote-comments.css";
 /* Pages */
 @import "pages/homepage.css";
 @import "pages/login-signup.css";
 @import "pages/userpage.css";
 /* Responsive */
 @import "responsive.css";
+
+/* Force light mode */
+:root {
+  color-scheme: light;
+}
 
 * {
   margin: 0;
@@ -40,7 +47,7 @@ ul {
 }
 
 button {
-  padding-inline: 0.25rem;
+  /* padding-inline: 0.25rem; */
   cursor: pointer;
 }
 
@@ -51,38 +58,6 @@ label {
 
 input {
   margin-bottom: 1rem;
-}
-
-/* Overlay fills screen, glassmorphic style */
-.glassmorphic-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 20000 !important;
-}
-
-/* Reuse glassmorphic style for info-section and form-wrapper */
-.login-signup-container .info-section,
-.login-signup-container .form-wrapper {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
-  padding: 1rem;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-
-/* You can add responsive and layout styling as needed */
-.login-signup-container {
-  display: flex;
-  gap: 2rem;
 }
 
 dialog[open] {

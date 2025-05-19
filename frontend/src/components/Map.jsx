@@ -15,7 +15,7 @@ const center = {
   lng: -74.005439,
 };
 
-const Map = ({ mapCenter, mapZoom, onMapMove }) => {
+const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
   const [markers, setMarkers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -26,7 +26,7 @@ const Map = ({ mapCenter, mapZoom, onMapMove }) => {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
   if (!apiKey) {
-    return <div style={{ color: 'red', padding: '2rem' }}>Error: Missing Google Maps API key. Please set VITE_GOOGLE_MAPS_API_KEY in your .env file.</div>;
+    return <div className="api-key-error">Error: Missing Google Maps API key. Please set VITE_GOOGLE_MAPS_API_KEY in your .env file.</div>;
   }
 
   //fetches all post and filters out for locations to pin
@@ -47,7 +47,7 @@ const Map = ({ mapCenter, mapZoom, onMapMove }) => {
         setMarkers(eventMarkers);
       }
     });
-  }, []);
+  }, [refreshTrigger]);
 
   const handleMarkerClick = (markerId) => {
     // Find the full event data for this marker

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import UserLink from "../UserLink";
 import FormField from "./FormField";
 import Button from "../Button";
+import ImageContainer from "./ImageContainer";
 
 /**
  * Component for editing or creating events/issues.
@@ -87,10 +88,23 @@ useEffect(() => {
    */
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // if (name === "address" && typeof value === "object") {
+    //   // Update multiple fields when address is selected
+    //   setFormData((prev) => ({
+    //     ...prev,
+    //     address: value.formatted_address,
+    //     lat_location: value.lat,
+    //     long_location: value.lng,
+    //     borough: value.borough,
+    //     zipcode: value.zipcode,
+    //   }));
+    // } else {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
+    // }
   };
 
   /**
@@ -109,7 +123,6 @@ useEffect(() => {
    */
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Submitting formData:", formData);
     onSave(formData);
   };
 
@@ -250,123 +263,103 @@ const handleUploadWidget = () => {
             ]}
           />
 
-          <FormField
-            name="status"
-            label="Status"
-            type="select"
-            value={formData.status}
-            onChange={handleChange}
-            options={[
-              { value: "Active", label: "Active" },
-              { value: "Closed", label: "Closed" },
-            ]}
-          />
+              <FormField
+                name="status"
+                label="Status"
+                type="select"
+                value={formData.status}
+                onChange={handleChange}
+                options={[
+                  { value: "", label: "Select a status..." },
+                  { value: "Active", label: "Active" },
+                  { value: "Closed", label: "Closed" },
+                ]}
+              />
+            </div>
+
+            <FormField
+              name="title"
+              label="Title"
+              value={formData.title}
+              onChange={handleChange}
+              placeholder="Title"
+              required
+            />
+
+            <FormField
+              name="address"
+              label="Address"
+              value={formData.address}
+              onChange={handleChange}
+              placeholder="Address"
+              required
+            />
+
+            <div className="edit-dropdown">
+              <FormField
+                name="borough"
+                label="Borough"
+                type="select"
+                value={formData.borough}
+                onChange={handleChange}
+                options={[
+                  { value: "", label: "Select a borough..." },
+                  { value: "Manhattan", label: "Manhattan" },
+                  { value: "Brooklyn", label: "Brooklyn" },
+                  { value: "Queens", label: "Queens" },
+                  { value: "The Bronx", label: "The Bronx" },
+                  { value: "Staten Island", label: "Staten Island" },
+                ]}
+                required
+              />
+
+              <FormField
+                name="zipcode"
+                label="Zip Code"
+                value={formData.zipcode}
+                onChange={handleZipcodeChange}
+                maxLength="5"
+                placeholder="5-digit ZIP code"
+                required
+              />
+            </div>
+
+            <FormField
+              name="email"
+              label="Email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email (Optional)"
+            />
+
+            <FormField
+              name="phone"
+              label="Phone"
+              type="tel"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Phone (Optional)"
+            />
+
+            <FormField
+              name="description"
+              label="Description"
+              type="textarea"
+              value={formData.description}
+              onChange={handleChange}
+              rows="4"
+              placeholder="Description"
+              required
+            />
+
+            <div className="modal-actions">
+              <Button name="Cancel" onClick={onCancel} type="button" />
+              <Button name="Save" type="submit" />
+            </div>
+          </form>
         </div>
-
-        <FormField
-          name="title"
-          label="Title"
-          value={formData.title}
-          onChange={handleChange}
-          required
-        />
-
-        <FormField
-          name="address"
-          label="Address"
-          value={formData.address}
-          onChange={handleChange}
-        />
-
-        <FormField
-          name="borough"
-          label="Borough"
-          type="select"
-          value={formData.borough}
-          onChange={handleChange}
-          options={[
-            { value: "Manhattan", label: "Manhattan" },
-            { value: "Brooklyn", label: "Brooklyn" },
-            { value: "Queens", label: "Queens" },
-            { value: "The Bronx", label: "The Bronx" },
-            { value: "Staten Island", label: "Staten Island" },
-          ]}
-          required
-        />
-
-        <FormField
-          name="zipcode"
-          label="Zip Code"
-          value={formData.zipcode}
-          onChange={handleZipcodeChange}
-          maxLength="5"
-          placeholder="5-digit ZIP code"
-          required
-        />
-
-        <FormField
-          name="email"
-          label="Email"
-          type="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-
-        <FormField
-          name="phone"
-          label="Phone"
-          type="tel"
-          value={formData.phone}
-          onChange={handleChange}
-        />
-
-        <FormField
-          name="description"
-          label="Description"
-          type="textarea"
-          value={formData.description}
-          onChange={handleChange}
-          rows="4"
-          required
-        />
-
-        <div className="modal-actions">
-          <Button name="Cancel" onClick={onCancel} type="button" />
-          <Button name="Save" type="submit" />
-        </div>
-      </form>
-    </div>
-  </div>
-
-  {/* Comments Preview Section for new events */}
-  <div className="comments">
-    <div className="comments-header">
-      <h3>Comments</h3>
-
-      {/* Upvotes section */}
-      <div className="upvote-section">
-        <span className="upvote-count">0</span>
-        <Button className="upvote-button" disabled={true}>
-          <span className="upvote-icon">🖤</span>
-        </Button>
       </div>
-    </div>
-
-    {/* Comment input */}
-    <div className="comment-input">
-      <input type="text" placeholder="Preview comment..." disabled={true} />
-      <Button name="Post" disabled={true} />
-    </div>
-
-    {/* Comments list */}
-    {!event?.id && (
-      <div className="comments-list">
-        <p className="loading-text">
-          Comments will appear here after the event is created
-        </p>
-      </div>
-    )}
-  </div>
-</>
+    </>
   );
 }

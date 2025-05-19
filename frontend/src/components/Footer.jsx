@@ -23,8 +23,21 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
           >
+            <img
+              src="/github-icon.png"
+              alt="Autumn's GitHub"
+              className="icon"
+            />
+          </Link>
+
+          <Link
+            to="https://autie.dev/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Autumn Lydon
           </Link>
+
           <Link
             to="https://www.linkedin.com/in/autumnlydon/"
             target="_blank"
@@ -46,8 +59,13 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Xavier Campos
+            <img
+              src="/github-icon.png"
+              alt="Xavier's GitHub"
+              className="icon"
+            />
           </Link>
+          Xavier Campos
           <Link
             to="https://www.linkedin.com/in/xavier-campos-97b6b3268/"
             target="_blank"
@@ -69,8 +87,21 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
           >
+            <img
+              src="/github-icon.png"
+              alt="Athena's GitHub"
+              className="icon"
+            />
+          </Link>
+
+          <Link
+            to="https://athenac.github.io/portfolio/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Athena Chang
           </Link>
+
           <Link
             to="https://www.linkedin.com/in/athena-chang/"
             target="_blank"

@@ -38,7 +38,11 @@ export default function Post({ event, onSelect, onClose }) {
   return (
     <div className="post-card" onClick={handleClick}>
       {event.images ? (
-        <img src={event.images} alt="Event" className="post-image" />
+        <img 
+          src={Array.isArray(event.images) ? event.images[0] : event.images} 
+          alt="Event" 
+          className="post-image" 
+        />
       ) : (
         <p className="no-image">No image available</p>
       )}

@@ -1,6 +1,6 @@
 .post-card {
   padding: 1.5rem;
-  margin: 1rem;
+  margin: 0.5rem;
   background: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(10px);
   border-radius: 16px;
@@ -41,6 +41,16 @@
   text-align: center;
 }
 
+.post-creator a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.post-creator a:hover {
+  text-decoration: underline;
+  transition: #0056b3 0.2s;
+}
+
 .no-image {
   font-style: italic;
   width: 100%;
@@ -57,6 +67,20 @@
 .userpage-posts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2rem;
+  gap: 1.2rem;
   justify-items: center;
+}
+
+@media (min-width: 900px) {
+  .userpage-posts-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2vw;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+  }
+  .userpage-posts-grid:has(.post-card:nth-child(2):last-child) {
+    max-width: 750px;
+  }
 }

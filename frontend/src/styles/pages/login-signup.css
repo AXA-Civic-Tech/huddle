@@ -9,9 +9,21 @@ form > h1 {
   margin-bottom: 0.75rem;
 }
 
+/* Reuse glassmorphic style for info-section and form-wrapper */
+.login-signup-container .info-section,
+.login-signup-container .form-wrapper {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  padding: 1rem;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
 /* Container holding both sections */
 .login-signup-container {
   display: flex;
+  gap: 2rem;
   height: 100vh;
   width: 100vw;
   font-family: Arial, sans-serif;

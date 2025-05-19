@@ -48,10 +48,7 @@ exports.getUpvotesForEvent = async (req, res) => {
   try {
     const { eventId } = req.params;
     const allUpvotes = await Upvote.list();
-    console.log("allUpvotes:", allUpvotes);
-    console.log("eventId:", eventId);
     const eventUpvotes = allUpvotes.filter(u => String(u.event_id) === String(eventId));
-    console.log("eventUpvotes:", eventUpvotes);
     res.json(eventUpvotes); // Return the array of upvote objects
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -62,10 +59,7 @@ exports.getUpvotesByUser = async (req, res) => {
   try {
     const { id: userId } = req.params;
     const allUpvotes = await Upvote.list();
-    console.log("allUpvotes:", allUpvotes);
-    console.log({userId})
     const userUpvotes = allUpvotes.filter(u => String(u.user_id) === String(userId));
-    console.log({userUpvotes});
     res.json(userUpvotes); // Return the array of upvote objects
   } catch (err) {
     res.status(500).json({ error: err.message });

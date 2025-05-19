@@ -1,3 +1,6 @@
+import { useRef } from "react";
+import SearchBar from "../SearchBar";
+
 /**
  * Reusable form input component that supports various input types.
  * Handles text inputs, textareas, select dropdowns, and other HTML input types.
@@ -21,6 +24,28 @@ export default function FormField({
   options,
   ...props
 }) {
+  // const inputRef = useRef(null);
+  // const isAddress = name === "address" || label === "Address";
+
+  // const handlePlaceSelected = (addressDetails) => {
+  //   // Extract all needed address components from SearchBar
+  //   const formattedAddress = {
+  //     address: addressDetails.formatted_address,
+  //     borough: addressDetails.borough,
+  //     zipcode: addressDetails.zipcode,
+  //     lat_location: addressDetails.lat,
+  //     long_location: addressDetails.lng,
+  //   };
+
+  //   // Pass back all address details through onChange
+  //   onChange({
+  //     target: {
+  //       name,
+  //       value: formattedAddress,
+  //     },
+  //   });
+  // };
+
   /**
    * Render the appropriate input element based on field type
    * Supports textarea, select, and standard input types
@@ -53,6 +78,14 @@ export default function FormField({
             ))}
         </select>
       );
+      // } else if (isAddress) {
+      //   return (
+      //     <SearchBar
+      //       onPlaceSelected={handlePlaceSelected}
+      //       placeholder="Search for an address..."
+      //       {...props}
+      //     />
+      //   );
     } else {
       return (
         <input
@@ -69,9 +102,9 @@ export default function FormField({
   return (
     <div className="field display-field">
       <span className="field-value">
-        <label htmlFor={name}>
+        {/* <label htmlFor={name}>
           <strong>{label}:</strong>
-        </label>{" "}
+        </label>{" "} */}
         {renderField()}
       </span>
     </div>
