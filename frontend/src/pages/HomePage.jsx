@@ -23,13 +23,11 @@ export default function HomePage({
   closeAuthOverlay,
   openAuthOverlay,
 }) {
-  const [filterType, setFilterType] = useState("all");
-  const [filterValue, setFilterValue] = useState("");
-  const [mapCenter, setMapCenter] = useState({
-    lat: 40.65798,
-    lng: -74.005439,
-  });
+  const [mapCenter, setMapCenter] = useState(boroughCenters["Brooklyn"]);
   const [mapZoom, setMapZoom] = useState(12);
+  const [filterType, setFilterType] = useState("all");
+  const [filterValue, setFilterValue] = useState(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   // Close modal on Escape key press
   useEffect(() => {
@@ -42,28 +40,29 @@ export default function HomePage({
     return () => window.removeEventListener("keydown", onEscKey);
   }, [authOverlayOpen, closeAuthOverlay]);
 
-  const handleFilterChange = (e) => {
-    const value = e.target.value;
-    if (value.includes(":")) {
-      const [type, val] = value.split(":");
-      setFilterType(type);
-      setFilterValue(val);
-      if (type === "borough" && boroughCenters[val]) {
-        setMapCenter(boroughCenters[val]);
-        setMapZoom(12);
-      } else if (type === "neighborhood" && neighborhoodCenters[val]) {
-        setMapCenter(neighborhoodCenters[val]);
-        setMapZoom(15);
-      }
-    } else {
-      setFilterType("all");
-      setFilterValue("");
+  const handleMapMove = (center, zoom) => {
+    setMapCenter(center);
+    if (zoom) setMapZoom(zoom);
+  };
+
+  const handleFilterChange = (type, value) => {
+    setFilterType(type);
+    setFilterValue(value);
+
+    // If borough is selected, center map on that borough
+    if (type === "borough" && value && boroughCenters[value]) {
+      setMapCenter(boroughCenters[value]);
+      setMapZoom(12);
+    }
+    // If neighborhood is selected, center map on that neighborhood
+    else if (type === "neighborhood" && value && neighborhoodCenters[value]) {
+      setMapCenter(neighborhoodCenters[value]);
+      setMapZoom(14);
     }
   };
 
-  const handleMapMove = (location, zoom = 17) => {
-    setMapCenter(location);
-    setMapZoom(zoom);
+  const handlePostUpdate = () => {
+    setRefreshTrigger(prev => prev + 1);
   };
 
   return (
@@ -76,11 +75,13 @@ export default function HomePage({
           onMapMove={handleMapMove}
           openAuthOverlay={openAuthOverlay}
           authOverlayOpen={authOverlayOpen}
+          onPostUpdate={handlePostUpdate}
         />
         <Map
           mapCenter={mapCenter}
           mapZoom={mapZoom}
           onMapMove={handleMapMove}
+          refreshTrigger={refreshTrigger}
         />
       </div>
     </div>

@@ -22,6 +22,11 @@
 /* Responsive */
 @import "responsive.css";
 
+/* Force light mode */
+:root {
+  color-scheme: light;
+}
+
 * {
   margin: 0;
   padding: 0;

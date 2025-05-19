@@ -39,7 +39,7 @@ exports.updatePost = async (req, res) => {
     // If no image is uploaded, ensure the images field is left unchanged (don't overwrite existing image URL)
     else if (!req.body.images) {
       // Keep the original image if no new file is uploaded and the body doesn't have an image field
-      const existingPost = await Post.findById(id);
+      const existingPost = await Post.find(id);
       if (existingPost) {
         req.body.images = existingPost.images; // Preserve the current image URL
       }

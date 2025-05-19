@@ -346,36 +346,6 @@ export default function EventForm({
           </form>
         </div>
       </div>
-
-      {/* Comments Preview Section for new events */}
-      <div className="comments">
-        <div className="comments-header">
-          <h3>Comments</h3>
-
-          {/* Upvotes section */}
-          <div className="upvote-section">
-            <span className="upvote-count">0</span>
-            <Button className="upvote-button" disabled={true}>
-              <span className="upvote-icon">🖤</span>
-            </Button>
-          </div>
-        </div>
-
-        {/* Comment input */}
-        <div className="comment-input">
-          <input type="text" placeholder="Preview comment..." disabled={true} />
-          <Button name="Post" disabled={true} />
-        </div>
-
-        {/* Comments list */}
-        {!event?.id && (
-          <div className="comments-list">
-            <p className="comment">
-              Comments will appear here after the event is created
-            </p>
-          </div>
-        )}
-      </div>
     </>
   );
 }
