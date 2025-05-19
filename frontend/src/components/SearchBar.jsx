@@ -1,7 +1,9 @@
 import { useRef, useEffect, useState } from "react";
 
-// Google Places-only search bar for the map
-const SearchBar = ({ onPlaceSelected }) => {
+const SearchBar = ({
+  onPlaceSelected,
+  placeholder = "Search for a place...",
+}) => {
   const inputRef = useRef(null);
   const [inputValue, setInputValue] = useState("");
 
@@ -11,19 +13,37 @@ const SearchBar = ({ onPlaceSelected }) => {
     const autocomplete = new window.google.maps.places.Autocomplete(
       inputRef.current,
       {
-        fields: ["geometry", "name", "formatted_address"],
+        fields: ["geometry", "name", "formatted_address", "address_components"],
+        componentRestrictions: { country: "us" },
       }
     );
 
     autocomplete.addListener("place_changed", () => {
       const place = autocomplete.getPlace();
       if (place.geometry) {
-        const location = {
+        let addressDetails = {
+          formatted_address: place.formatted_address,
           lat: place.geometry.location.lat(),
           lng: place.geometry.location.lng(),
           name: place.name,
+          borough: "",
+          zipcode: "",
         };
-        onPlaceSelected(location);
+
+        // Extract borough and zipcode
+        if (place.address_components) {
+          place.address_components.forEach((component) => {
+            const type = component.types[0];
+            if (type === "sublocality_level_1") {
+              addressDetails.borough = component.long_name;
+            }
+            if (type === "postal_code") {
+              addressDetails.zipcode = component.long_name;
+            }
+          });
+        }
+
+        onPlaceSelected(addressDetails);
         setInputValue(place.formatted_address);
       }
     });
@@ -40,7 +60,7 @@ const SearchBar = ({ onPlaceSelected }) => {
         type="text"
         value={inputValue}
         onChange={handleInputChange}
-        placeholder="Search for a place..."
+        placeholder={placeholder}
         className="searchbar-input"
         autoComplete="on"
       />

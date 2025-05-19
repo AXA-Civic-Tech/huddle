@@ -82,10 +82,23 @@ export default function EventForm({
    */
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // if (name === "address" && typeof value === "object") {
+    //   // Update multiple fields when address is selected
+    //   setFormData((prev) => ({
+    //     ...prev,
+    //     address: value.formatted_address,
+    //     lat_location: value.lat,
+    //     long_location: value.lng,
+    //     borough: value.borough,
+    //     zipcode: value.zipcode,
+    //   }));
+    // } else {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
+    // }
   };
 
   /**
@@ -357,7 +370,7 @@ export default function EventForm({
         {/* Comments list */}
         {!event?.id && (
           <div className="comments-list">
-            <p className="loading-text">
+            <p className="comment">
               Comments will appear here after the event is created
             </p>
           </div>
