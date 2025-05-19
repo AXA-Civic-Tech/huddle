@@ -99,4 +99,19 @@
   max-height: 200px;
   overflow-y: auto;
   padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc #f8f9fa;
+}
+
+.comments-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.comments-list::-webkit-scrollbar-track {
+  background: #f8f9fa;
+}
+
+.comments-list::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
 }
