@@ -123,7 +123,7 @@ export default function Modal({
 
       const [result, error] = isNew
         ? await createPost(postData)
-        : await updatePost(postData);
+        : await updatePost(postData.id, postData);
 
       if (error) {
         console.error("Error saving post:", error);
