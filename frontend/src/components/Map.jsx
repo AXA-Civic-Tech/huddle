@@ -50,7 +50,7 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
 
     // Group events by lat/lng string
     const coordMap = {};
-    events.forEach(event => {
+    events.forEach((event) => {
       if (event.lat_location && event.long_location) {
         const key = `${event.lat_location},${event.long_location}`;
         if (!coordMap[key]) coordMap[key] = [];
@@ -195,7 +195,9 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
       {useEffect(() => {
         if (mapInstance && window.google) {
           // Remove any previous legend controls
-          mapInstance.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].clear();
+          mapInstance.controls[
+            window.google.maps.ControlPosition.RIGHT_BOTTOM
+          ].clear();
           // Create a DOM node for the legend
           const legendDiv = document.createElement("div");
           legendDiv.className = "map-legend";
@@ -204,7 +206,9 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
             <div class='legend-row'><img src='/issue-marker.png' alt='Issue' style='width:28px;height:28px;vertical-align:middle;margin-right:4px;'/> <span>Issue</span></div>
             <div class='legend-row'><img src='/closed-marker.png' alt='Closed' style='width:28px;height:28px;vertical-align:middle;margin-right:4px;'/> <span>Closed</span></div>
           `;
-          mapInstance.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].push(legendDiv);
+          mapInstance.controls[
+            window.google.maps.ControlPosition.RIGHT_BOTTOM
+          ].push(legendDiv);
         }
       }, [mapInstance])}
     </div>
