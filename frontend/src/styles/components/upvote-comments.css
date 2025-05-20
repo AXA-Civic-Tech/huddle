@@ -83,20 +83,6 @@
   box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
-.comment-input button {
-  height: 48px;
-  min-width: 120px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  padding: 0 2rem;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  box-sizing: border-box;
-}
-
 .comment {
   padding: 1rem;
   margin-bottom: 1rem;
@@ -120,6 +106,13 @@
 .comment a:hover {
   text-decoration: underline;
   transition: #0056b3 0.2s;
+}
+
+.no-comment {
+  font-size: 1.2rem;
+  color: #6c757d;
+  text-align: center;
+  margin-top: 1rem;
 }
 
 .comments-list {

@@ -48,8 +48,11 @@ export default function UpdateUsernameForm({ currentUser, setCurrentUser }) {
 
   return (
     <form onSubmit={handleSubmit} aria-labelledby="update-heading">
-      <h2 id="update-heading">Update User {currentUser.username} </h2>
-      <label htmlFor="username">New Username</label>
+      <h2 id="update-heading">Update Username</h2>
+      <h3 className="update-username">{currentUser.username}</h3>
+      <label htmlFor="username" id="new-username">
+        New Username
+      </label>
       <input type="text" id="username" name="username" />
       <input type="hidden" name="id" value={currentUser.id} />
 
@@ -57,7 +60,7 @@ export default function UpdateUsernameForm({ currentUser, setCurrentUser }) {
 
       {/* Display error message if present */}
       {errMsg && (
-        <div className="error-message" role="alert">
+        <div className="error" role="alert">
           {errMsg}
         </div>
       )}

@@ -50,16 +50,20 @@ export default function ImageContainer({
           onError={handleImageError}
         />
 
-        {/* Always show arrow buttons, but disable themif only one image */}
+        {/* Always show arrow buttons, but disable them if only one image */}
         <button
-          className={`carousel-button prev${imageArray.length === 1 ? ' disabled' : ''}`}
+          className={`carousel-button prev${
+            imageArray.length === 1 ? " disabled" : ""
+          }`}
           onClick={handlePrevious}
           disabled={imageArray.length === 1}
         >
           ❮
         </button>
         <button
-          className={`carousel-button next${imageArray.length === 1 ? ' disabled' : ''}`}
+          className={`carousel-button next${
+            imageArray.length === 1 ? " disabled" : ""
+          }`}
           onClick={handleNext}
           disabled={imageArray.length === 1}
         >
