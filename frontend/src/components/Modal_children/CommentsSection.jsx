@@ -147,7 +147,13 @@ export default function CommentsSection({ eventId, onClose, openAuthOverlay }) {
             disabled={isLoading}
             aria-label={hasUpvoted ? "Remove upvote" : "Upvote"}
           >
-            <span className="upvote-icon">{hasUpvoted ? "❤️" : "🖤"}</span>
+            <span className="upvote-icon">
+              <img
+                src={hasUpvoted ? "/huddle-icon.png" : "/huddle-grayscale.png"}
+                alt={hasUpvoted ? "Upvoted" : "Not upvoted"}
+                style={{ width: 24, height: 24 }}
+              />
+            </span>
           </Button>
         </div>
       </div>
