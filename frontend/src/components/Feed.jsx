@@ -238,27 +238,31 @@ export default function Feed({
         ) : posts.length === 0 ? (
           <p>No posts yet! Be the first to create one.</p>
         ) : pathname.startsWith("/users/") ? (
-          <div className="userpage-posts-grid">
-            {sorted.filter(Boolean).map((post) => (
-              <Post
-                key={post.id}
-                event={post}
-                onSelect={openModal}
-                onClose={closeModal}
-              />
-            ))}
+          <div className="posts-scroll-container">
+            <div className="userpage-posts-grid">
+              {sorted.filter(Boolean).map((post) => (
+                <Post
+                  key={post.id}
+                  event={post}
+                  onSelect={openModal}
+                  onClose={closeModal}
+                />
+              ))}
+            </div>
           </div>
         ) : (
-          sorted
-            .filter(Boolean)
-            .map((post) => (
-              <Post
-                key={post.id}
-                event={post}
-                onSelect={openModal}
-                onClose={closeModal}
-              />
-            ))
+          <div className="posts-scroll-container">
+            {sorted
+              .filter(Boolean)
+              .map((post) => (
+                <Post
+                  key={post.id}
+                  event={post}
+                  onSelect={openModal}
+                  onClose={closeModal}
+                />
+              ))}
+          </div>
         )}
 
         <Modal
