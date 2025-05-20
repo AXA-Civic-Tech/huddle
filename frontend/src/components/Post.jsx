@@ -45,9 +45,10 @@ export default function Post({ event, onSelect, onClose }) {
           src={imageUrl}
           alt="Event"
           className="post-image"
-          onError={e => {
+          onError={(e) => {
             e.target.onerror = null;
-            e.target.src = "https://placehold.co/600x400?text=Image+Not+Available";
+            e.target.src =
+              "https://placehold.co/600x400?text=Image+Not+Available";
           }}
         />
       ) : (
@@ -60,7 +61,9 @@ export default function Post({ event, onSelect, onClose }) {
 
       <h2 className="post-title">{event.title}</h2>
 
-      <p className="post-status">Status: {event.status}</p>
+      <p className="post-status">
+        Status: {event.status ? "Active" : "Closed"}
+      </p>
 
       <p className="post-creator">
         Created by:{" "}
