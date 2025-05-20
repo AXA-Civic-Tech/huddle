@@ -28,6 +28,9 @@
   margin-left: auto;
   margin-right: auto;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .feed-user {
@@ -110,10 +113,8 @@
 .posts-scroll-container {
   flex: 1 1 auto;
   overflow-y: auto;
-  max-height: 60vh;
-  min-height: 100px;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  min-height: 0;
+  height: auto;
   padding-right: 4px;
   scrollbar-width: thin;
   scrollbar-color: #ccc #f8f9fa;
