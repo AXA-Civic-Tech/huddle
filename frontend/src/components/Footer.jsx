@@ -26,7 +26,7 @@ export default function Footer() {
             <img
               src="/github-icon.png"
               alt="Autumn's GitHub"
-              className="icon"
+              className="footer-icon"
             />
           </Link>
 
@@ -46,7 +46,7 @@ export default function Footer() {
             <img
               src="/linkedin-icon.png"
               alt="Autumn's LinkedIn"
-              className="icon"
+              className="footer-icon"
             />
           </Link>
         </span>
@@ -62,7 +62,7 @@ export default function Footer() {
             <img
               src="/github-icon.png"
               alt="Xavier's GitHub"
-              className="icon"
+              className="footer-icon"
             />
           </Link>
           Xavier Campos
@@ -74,7 +74,7 @@ export default function Footer() {
             <img
               src="/linkedin-icon.png"
               alt="Xavier's LinkedIn"
-              className="icon"
+              className="footer-icon"
             />
           </Link>
         </span>
@@ -90,7 +90,7 @@ export default function Footer() {
             <img
               src="/github-icon.png"
               alt="Athena's GitHub"
-              className="icon"
+              className="footer-icon"
             />
           </Link>
 
@@ -110,7 +110,7 @@ export default function Footer() {
             <img
               src="/linkedin-icon.png"
               alt="Athena's LinkedIn"
-              className="icon"
+              className="footer-icon"
             />
           </Link>
         </span>

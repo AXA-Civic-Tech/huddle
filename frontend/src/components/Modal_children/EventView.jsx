@@ -68,7 +68,6 @@ export default function EventView({ event = {}, username, onClose }) {
         <h3>Description:</h3>
         <p className="description-text">{event.description}</p>
       </div>
-
     </div>
   );
 }

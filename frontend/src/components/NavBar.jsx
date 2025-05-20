@@ -14,7 +14,7 @@ import Button from "./Button";
  * Navigation states:
  * - Root (HomePage) with unauthenticated user: "Sign Up" & "Log In"
  * - Root (HomePage) with authenticated user: "My Profile" & "Log Out"
- * - UserPage with authenticated user: "View Map" & "Log Out"
+ * - UserPage with authenticated user: "My Profile" & "Log Out"
  *
  * @param {Object} props - Component props
  * @param {Function} props.openAuthOverlay - Handler to open the authentication overlay

@@ -1,7 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Feed from "../components/Feed";
 import Map from "../components/Map";
-import { useState } from "react";
 import {
   neighborhoodCenters,
   boroughCenters,
@@ -69,7 +68,7 @@ export default function HomePage({
   };
 
   const handlePostUpdate = () => {
-    setRefreshTrigger(prev => prev + 1);
+    setRefreshTrigger((prev) => prev + 1);
   };
 
   return (
