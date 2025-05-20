@@ -140,6 +140,7 @@ export default function CommentsSection({ eventId, onClose, openAuthOverlay }) {
 
         {/* Upvotes section */}
         <div className="upvote-section">
+          <span className="upvote-label">Upvotes:</span>
           <span className="upvote-count">{upvoteCount}</span>
           <Button
             className={`upvote-button ${hasUpvoted ? "upvote-active" : ""}`}
