@@ -62,12 +62,23 @@ cd server && npm start
 
 ## Technologies Used
 
-- Node
-- Express
-- Postgresql
-- React
-- Knex
-- etc...
+**Frontend:**
+- React.js
+- JavaScript
+- CSS
+- HTML
+
+**Backend:**
+- Node.js
+- Express.js
+- Knex.js
+- PostgreSQL
+- BCrypt HASH
+
+**API:**
+- Google Maps API
+- reCAPTCHA
+- Cloudinary
 
 ## Project Proposal
 
