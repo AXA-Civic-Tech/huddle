@@ -45,19 +45,26 @@ export default function HomePage({
     if (zoom) setMapZoom(zoom);
   };
 
-  const handleFilterChange = (type, value) => {
-    setFilterType(type);
-    setFilterValue(value);
+  const handleFilterChange = (e) => {
+    const value = e.target.value;
+    if (value.includes(":")) {
+      const [type, val] = value.split(":");
+      setFilterType(type);
+      setFilterValue(val);
 
-    // If borough is selected, center map on that borough
-    if (type === "borough" && value && boroughCenters[value]) {
-      setMapCenter(boroughCenters[value]);
-      setMapZoom(12);
-    }
-    // If neighborhood is selected, center map on that neighborhood
-    else if (type === "neighborhood" && value && neighborhoodCenters[value]) {
-      setMapCenter(neighborhoodCenters[value]);
-      setMapZoom(14);
+      // If borough is selected, center map on that borough
+      if (type === "borough" && val && boroughCenters[val]) {
+        setMapCenter(boroughCenters[val]);
+        setMapZoom(12);
+      }
+      // If neighborhood is selected, center map on that neighborhood
+      else if (type === "neighborhood" && val && neighborhoodCenters[val]) {
+        setMapCenter(neighborhoodCenters[val]);
+        setMapZoom(14);
+      }
+    } else {
+      setFilterType("all");
+      setFilterValue("");
     }
   };
 
