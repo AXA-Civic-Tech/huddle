@@ -31,7 +31,7 @@ export default function FeedControls({
         // Only show this button when not vewing another user's profile
         <SquarePlus
           alt="Create New Post"
-          className="add-button"
+          className="add-icon"
           onClick={onNewPost}
         />
       )}

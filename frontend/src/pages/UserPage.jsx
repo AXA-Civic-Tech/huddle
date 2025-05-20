@@ -97,27 +97,33 @@ export default function UserPage() {
       <div className="profile-header">
         <div className="profile-info">
           <div className="profile-username-row">
-            <h1>{profileUsername}</h1>
-            {isCurrentUserProfile && (
-              <>
-                <UserRoundPen className="icon" onClick={openModal} />
-                <dialog
-                  className="update-username-form"
-                  ref={dialogRef}
-                  onClick={(e) => {
-                    if (e.target == e.currentTarget) closeModal();
-                  }}
-                >
-                  <UpdateUsernameForm
-                    currentUser={currentUser}
-                    setCurrentUser={(user) => {
-                      setCurrentUser(user);
-                      closeModal(user);
-                    }}
+            <h1>
+              {profileUsername}{" "}
+              {isCurrentUserProfile && (
+                <>
+                  <UserRoundPen
+                    // size={24}
+                    className="edit-profile-icon"
+                    onClick={openModal}
                   />
-                </dialog>
-              </>
-            )}
+                  <dialog
+                    className="update-username-form"
+                    ref={dialogRef}
+                    onClick={(e) => {
+                      if (e.target == e.currentTarget) closeModal();
+                    }}
+                  >
+                    <UpdateUsernameForm
+                      currentUser={currentUser}
+                      setCurrentUser={(user) => {
+                        setCurrentUser(user);
+                        closeModal(user);
+                      }}
+                    />
+                  </dialog>
+                </>
+              )}
+            </h1>
           </div>
 
           <div className="profile-details-row">

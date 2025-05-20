@@ -13,13 +13,6 @@
   margin: 0;
 }
 
-.add-button {
-  background-color: transparent;
-  height: 2.5rem;
-  cursor: pointer;
-  border-radius: 10px;
-}
-
 .profile-header {
   display: flex;
   flex-direction: column;
@@ -153,7 +146,7 @@
   border-radius: 12px;
   background: #f7faff;
   border: 1.5px solid #e3f0ff;
-  box-shadow: 0 1px 4px rgba(30,58,138,0.04);
+  box-shadow: 0 1px 4px rgba(30, 58, 138, 0.04);
 }
 
 .profile-stat {

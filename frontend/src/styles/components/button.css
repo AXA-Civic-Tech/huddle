@@ -27,3 +27,33 @@ button:disabled {
   color: #666;
   cursor: not-allowed;
 }
+
+.add-icon {
+  width: 2rem;
+}
+
+.edit-profile-icon {
+  width: 1.5rem;
+  margin-left: 0.5rem;
+}
+
+.edit-icon,
+.delete-icon,
+.add-icon,
+.edit-profile-icon {
+  height: auto;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #6c757d;
+}
+
+.edit-icon:hover,
+.add-icon:hover,
+.edit-profile-icon:hover {
+  color: #3498db;
+  transform: scale(1.1);
+}
+
+.delete-icon:hover {
+  color: rgb(255, 0, 0);
+}

@@ -212,8 +212,8 @@ export default function Modal({
               <div className="modal-actions">
                 {isEditableByUser && !isNew && (
                   <>
-                    <SquarePen className="icon" onClick={toggleEditMode} />
-                    <Trash2 className="icon" onClick={handleDelete} />
+                    <SquarePen className="edit-icon" onClick={toggleEditMode} />
+                    <Trash2 className="delete-icon" onClick={handleDelete} />
                   </>
                 )}
               </div>
