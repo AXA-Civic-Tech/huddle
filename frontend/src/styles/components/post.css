@@ -32,6 +32,10 @@
   font-size: 1.4rem;
   margin-bottom: 0.5rem;
   text-align: center;
+  word-break: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
 .post-status,

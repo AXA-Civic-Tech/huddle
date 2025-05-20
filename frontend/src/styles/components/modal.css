@@ -79,13 +79,15 @@
 .description-section h3 {
   font-size: 16px;
   margin-bottom: 8px;
-  color: #444;
+  color: #004D99
 }
 
 .description-text {
   line-height: 1.6;
   white-space: pre-wrap;
   color: #333;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .location-details,
@@ -143,4 +145,8 @@
   .modal-content {
     padding: 15px;
   }
+}
+.field-label {
+  font-weight: 600;
+  color: #004D99 !important;
 }

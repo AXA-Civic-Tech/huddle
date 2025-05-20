@@ -16,7 +16,7 @@ export default function DisplayField({ label, value }) {
   return (
     <div className="field display-field">
       <span className="field-value">
-        <strong>{label}:</strong>{" "}
+        <strong className="field-label">{label}:</strong>{" "}
         {label === "Address" ? [...value].join(", ") : value}
       </span>
     </div>

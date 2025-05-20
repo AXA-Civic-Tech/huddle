@@ -267,10 +267,17 @@ export default function EventForm({
               name="title"
               label="Title"
               value={formData.title}
-              onChange={handleChange}
+              onChange={e => {
+                if (e.target.value.length <= 50) handleChange(e);
+              }}
               placeholder="Title*"
               required
+              maxLength={50}
             />
+
+            <p style={{ fontSize: '0.95em', color: formData.title.length === 50 ? 'red' : '#666', marginTop: '-8px', marginBottom: '8px' }}>
+              {formData.title.length}/50 characters
+            </p>
 
             <FormField
               name="address"
@@ -330,14 +337,22 @@ export default function EventForm({
 
             <FormField
               name="description"
-              label="Description"
+              label="Description:"
               type="textarea"
               value={formData.description}
-              onChange={handleChange}
+              onChange={e => {
+                if (e.target.value.length <= 250) handleChange(e);
+              }}
               rows="4"
               placeholder="Description*"
               required
+              maxLength={250}
+              style={{ overflowWrap: 'break-word', wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}
             />
+
+            <p style={{ fontSize: '0.95em', color: formData.description.length === 250 ? 'red' : '#666', marginTop: '-8px', marginBottom: '8px' }}>
+              {formData.description.length}/250 characters
+            </p>
 
             <div className="modal-actions">
               <Button name="Cancel" onClick={onCancel} type="button" />
