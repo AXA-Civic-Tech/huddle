@@ -102,7 +102,7 @@ export default function UserPage() {
           <div className="profile-details-row">
             <span className="profile-realname">{userProfile.first_name} {userProfile.last_name}</span>
             <span className="profile-bio">{userProfile.email}</span>
-            <span className="profile-posts-count">{postCount} Posts</span>
+            <span className="profile-posts-count">{postCount} Post{postCount === 1 ? '' : 's'}</span>
           </div>
           {isCurrentUserProfile && (
             <>

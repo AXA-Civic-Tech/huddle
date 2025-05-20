@@ -49,7 +49,12 @@ export default function EventView({ event = {}, username, onClose }) {
         }
       />
 
-      <DisplayField label="Status" value={event.status} />
+      <DisplayField
+        label="Status"
+        value={
+          event.status === true || event.status === "true" ? "Active" : "Closed"
+        }
+      />
 
       <DisplayField
         label="Address"
