@@ -44,10 +44,20 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
     const markers = events
       .filter((event) => event.lat_location && event.long_location)
       .map((event) => {
+        let iconUrl = "/event-marker.png";
+        if (event.status === false) {
+          iconUrl = "/closed-marker.png";
+        } else if (event.is_issue === true) {
+          iconUrl = "/issue-marker.png";
+        }
         const marker = new window.google.maps.Marker({
           position: {
             lat: parseFloat(event.lat_location),
             lng: parseFloat(event.long_location),
+          },
+          icon: {
+            url: iconUrl,
+            scaledSize: new window.google.maps.Size(48, 48),
           },
         });
 
