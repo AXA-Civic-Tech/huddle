@@ -108,6 +108,13 @@
   transition: #0056b3 0.2s;
 }
 
+.no-comment {
+  font-size: 1.2rem;
+  color: #6c757d;
+  text-align: center;
+  margin-top: 1rem;
+}
+
 .comments-list {
   max-height: 200px;
   overflow-y: auto;
