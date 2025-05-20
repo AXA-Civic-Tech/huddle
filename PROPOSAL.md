@@ -83,5 +83,5 @@ Looking to the future, there are several ways to expand, iterate, and scale our 
 ![HUDDLE Wireframe](https://github.com/user-attachments/assets/cc3f59c3-b2a9-469e-b76b-0c8ee8fc9768)
 
 * **ERD:** [Database Diagram](https://dbdiagram.io/d/6809185b1ca52373f513e1ad)  
-![AXA - Huddle DB Diagram](https://github.com/user-attachments/assets/25fbb4c4-f08c-4403-98d1-c3e11eb788c9)
+![AXA - Huddle DB Diagram](https://github.com/user-attachments/assets/6a1aeda2-10c0-432b-bf7a-75b458b264c1)
 
