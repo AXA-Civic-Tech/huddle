@@ -30,7 +30,7 @@ Every New Yorker can glance at a map and instantly understand what is happenin
 
 ## 🏙️  Mission Statement 
 <!-- content goes below -->
-Our mission is to create a web app where any New Yorker can, in under 30 seconds, post or discover neighborhood issues and events. By unifying 311-style reports and community activities on a real-time, interactive map, we aim to turn isolated data points into shared civic awareness and spark faster, collective responses across neighborhoods.
+We’re ending loneliness in New York City by bridging the visibility gap between neighbors. Our platform surfaces hyper-local events and issues in real time—so you can spot what’s happening on your block and jump into the conversation. The goal: timely information that sparks connection, resilience, and a stronger sense of community for every New Yorker.
 <!-- content goes above -->
 
 ## 🫂 Who do we serve?
