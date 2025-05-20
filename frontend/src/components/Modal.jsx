@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect, useRef } from "react";
+import { SquarePen, Trash2 } from "lucide-react";
 import CurrentUserContext from "../contexts/current-user-context";
 import { getUser } from "../adapters/user-adapter";
 import { createPost, updatePost, deletePost } from "../adapters/post-adapter";
@@ -211,8 +212,8 @@ export default function Modal({
               <div className="modal-actions">
                 {isEditableByUser && !isNew && (
                   <>
-                    <Button name="Edit Post" onClick={toggleEditMode} />
-                    <Button name="Delete Post" onClick={handleDelete} />
+                    <SquarePen className="icon" onClick={toggleEditMode} />
+                    <Trash2 className="icon" onClick={handleDelete} />
                   </>
                 )}
               </div>
