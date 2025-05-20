@@ -39,15 +39,47 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1.2rem;
+  gap: 0.7rem;
   width: 100%;
   margin: 1rem 0 0.5rem 0;
   padding: 0;
   max-width: 100%;
 }
 
+.filter-section select,
+.sort-section select {
+  border-radius: 8px;
+  padding: 0.12rem 0.38rem 0.12rem 0.22rem;
+  border: 1px solid #ddd;
+  background-color: white;
+  font-size: 0.91rem;
+  min-width: 58px;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.3rem center;
+  background-size: 1em;
+}
+
+.filter-section select:hover,
+.sort-section select:hover {
+  border-color: #999;
+}
+
+.filter-section select:focus,
+.sort-section select:focus {
+  outline: none;
+  border-color: #666;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
 .filter-section, .add-button {
   margin-right: 0.5rem;
+}
+
+.sort-section select {
+  padding-right: 1.5rem;
 }
 
 .scroller::-webkit-scrollbar-thumb {
