@@ -105,6 +105,7 @@ export default function UserPage() {
                     className="edit-profile-icon"
                     onClick={openModal}
                   />
+
                   <dialog
                     className="update-username-form"
                     ref={dialogRef}

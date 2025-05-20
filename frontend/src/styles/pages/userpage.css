@@ -118,14 +118,6 @@
   font-style: italic;
 }
 
-.profile-edit-btn {
-  margin-top: 1rem;
-  margin-bottom: 0.2rem;
-  font-size: 1rem;
-  padding: 0.45rem 1.5rem;
-  border-radius: 8px;
-}
-
 @media (max-width: 600px) {
   .profile-meta-row {
     flex-direction: column;

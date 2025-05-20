@@ -1,7 +1,6 @@
 import { SquarePlus } from "lucide-react";
 import FilterSelect from "./FilterSelect";
 import SortSelect from "./SortSelect";
-import Button from "../Button";
 
 export default function FeedControls({
   filterType,

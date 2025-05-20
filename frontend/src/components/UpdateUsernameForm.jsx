@@ -57,7 +57,7 @@ export default function UpdateUsernameForm({ currentUser, setCurrentUser }) {
 
       {/* Display error message if present */}
       {errMsg && (
-        <div className="error-message" role="alert">
+        <div className="error" role="alert">
           {errMsg}
         </div>
       )}

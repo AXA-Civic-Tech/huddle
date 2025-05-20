@@ -63,3 +63,7 @@ input {
 dialog[open] {
   z-index: 10000 !important;
 }
+
+.error {
+  color: red;
+}

@@ -89,22 +89,10 @@ export default function EventForm({
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // if (name === "address" && typeof value === "object") {
-    //   // Update multiple fields when address is selected
-    //   setFormData((prev) => ({
-    //     ...prev,
-    //     address: value.formatted_address,
-    //     lat_location: value.lat,
-    //     long_location: value.lng,
-    //     borough: value.borough,
-    //     zipcode: value.zipcode,
-    //   }));
-    // } else {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-    // }
   };
 
   /**
@@ -136,7 +124,7 @@ export default function EventForm({
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
-          const uploadedUrl = result.info.secure_url; // ✅ define uploadedUrl here
+          const uploadedUrl = result.info.secure_url;
 
           setFormData((prevFormData) => ({
             ...prevFormData,
@@ -211,7 +199,6 @@ export default function EventForm({
 
   return (
     <>
-      {/* Apply the same horizontal structure as in Modal.jsx */}
       <div className="modal-content" ref={modalRef}>
         {/* Image Container - left side */}
         <div className="event-images">

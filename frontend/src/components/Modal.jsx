@@ -1,9 +1,8 @@
 import { useContext, useState, useEffect, useRef } from "react";
-import { SquarePen, Trash2 } from "lucide-react";
+import { SquarePen, Trash2, X } from "lucide-react";
 import CurrentUserContext from "../contexts/current-user-context";
 import { getUser } from "../adapters/user-adapter";
 import { createPost, updatePost, deletePost } from "../adapters/post-adapter";
-import Button from "./Button";
 import EventForm from "./Modal_children/EventForm";
 import EventView from "./Modal_children/EventView";
 import CommentsSection from "./Modal_children/CommentsSection";
@@ -172,12 +171,7 @@ export default function Modal({
         }
       }}
     >
-      <Button
-        name="✕"
-        className="close-icon"
-        onClick={() => onClose()}
-        aria-label="Close"
-      />
+      <X className="close-icon" onClick={() => onClose()} />
 
       {/* Either display EventForm or EventView */}
       {isEdit ? (

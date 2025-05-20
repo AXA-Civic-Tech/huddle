@@ -1,5 +1,3 @@
-import React from "react";
-
 const EventSearchBar = ({ value, onChange, placeholder }) => {
   return (
     <div className="event-searchbar-container">
@@ -15,4 +13,4 @@ const EventSearchBar = ({ value, onChange, placeholder }) => {
   );
 };
 
-export default EventSearchBar; 
+export default EventSearchBar;
