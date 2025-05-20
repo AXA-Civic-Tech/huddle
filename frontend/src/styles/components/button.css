@@ -41,6 +41,10 @@ button:disabled {
 
 .add-icon {
   width: 2rem;
+  height: auto;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #0077cc;
 }
 
 .edit-profile-icon {
@@ -50,7 +54,6 @@ button:disabled {
 
 .edit-icon,
 .delete-icon,
-.add-icon,
 .close-icon,
 .edit-profile-icon {
   height: auto;
