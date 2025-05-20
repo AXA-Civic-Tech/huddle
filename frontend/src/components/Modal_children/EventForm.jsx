@@ -282,10 +282,17 @@ export default function EventForm({
               name="title"
               label="Title"
               value={formData.title}
-              onChange={handleChange}
+              onChange={e => {
+                if (e.target.value.length <= 50) handleChange(e);
+              }}
               placeholder="Title*"
               required
+              maxLength={50}
             />
+
+            <p style={{ fontSize: '0.95em', color: formData.title.length === 50 ? 'red' : '#666', marginTop: '-8px', marginBottom: '8px' }}>
+              {formData.title.length}/50 characters
+            </p>
 
             <FormField
               name="address"
