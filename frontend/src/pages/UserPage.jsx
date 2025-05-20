@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState, useRef } from "react";
+import { UserRoundPen } from "lucide-react";
 import { useParams } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { getUser } from "../adapters/user-adapter";
 import UpdateUsernameForm from "../components/UpdateUsernameForm";
 import Feed from "../components/Feed";
-import Button from "../components/Button";
 
 /**
  * Current user can edit their username here
@@ -98,38 +98,44 @@ export default function UserPage() {
         <div className="profile-info">
           <div className="profile-username-row">
             <h1>{profileUsername}</h1>
-          </div>
-          <div className="profile-details-row">
-            <span className="profile-realname">{userProfile.first_name} {userProfile.last_name}</span>
-            <span className="profile-bio">{userProfile.email}</span>
-            <span className="profile-posts-count">{postCount} Post{postCount === 1 ? '' : 's'}</span>
-          </div>
-          {isCurrentUserProfile && (
-            <>
-              <Button name="Edit Profile" onClick={openModal} className="edit profile-edit-btn" />
-              <dialog
-                className="update-username-form"
-                ref={dialogRef}
-                onClick={(e) => {
-                  if (e.target == e.currentTarget) closeModal();
-                }}
-              >
-                <UpdateUsernameForm
-                  currentUser={currentUser}
-                  setCurrentUser={(user) => {
-                    setCurrentUser(user);
-                    closeModal(user);
+            {isCurrentUserProfile && (
+              <>
+                <UserRoundPen className="icon" onClick={openModal} />
+                <dialog
+                  className="update-username-form"
+                  ref={dialogRef}
+                  onClick={(e) => {
+                    if (e.target == e.currentTarget) closeModal();
                   }}
-                />
-              </dialog>
-            </>
-          )}
+                >
+                  <UpdateUsernameForm
+                    currentUser={currentUser}
+                    setCurrentUser={(user) => {
+                      setCurrentUser(user);
+                      closeModal(user);
+                    }}
+                  />
+                </dialog>
+              </>
+            )}
+          </div>
+
+          <div className="profile-details-row">
+            <span className="profile-realname">
+              {userProfile.first_name} {userProfile.last_name}
+            </span>
+            <span className="profile-bio">{userProfile.email}</span>
+            <span className="profile-posts-count">
+              {postCount} Post{postCount === 1 ? "" : "s"}
+            </span>
+          </div>
         </div>
       </div>
-      <Feed onPostCountChange={handlePostCountChange}
-            filterType={filterType}
-            filterValue={filterValue}
-            onFilterChange={handleFilterChange}
+      <Feed
+        onPostCountChange={handlePostCountChange}
+        filterType={filterType}
+        filterValue={filterValue}
+        onFilterChange={handleFilterChange}
       />
     </div>
   );
