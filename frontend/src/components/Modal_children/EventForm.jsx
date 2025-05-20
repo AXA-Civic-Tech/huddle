@@ -352,7 +352,7 @@ export default function EventForm({
 
             <FormField
               name="description"
-              label="Description"
+              label="Description:"
               type="textarea"
               value={formData.description}
               onChange={e => {
