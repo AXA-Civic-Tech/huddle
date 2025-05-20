@@ -217,16 +217,14 @@ export default function EventForm({
         <div className="event-images">
           {formData.images && formData.images.length > 0 ? (
             <>
-              <div className="image-preview-list">
-                {formData.images.map((imgUrl, index) => (
-                  <img
-                    key={index}
-                    src={imgUrl}
-                    alt={`Uploaded preview ${index + 1}`}
-                    className="event-image"
-                  />
-                ))}
+              <div className="event-images">
+                <ImageContainer
+                  images={formData.images}
+                  altText={formData.title || "Event"}
+                  fallbackImage="https://placehold.co/600x400?text=Image+Not+Available"
+                />
               </div>
+
               <Button
                 name="Change Image"
                 type="button"

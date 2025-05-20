@@ -102,7 +102,6 @@ export default function UserPage() {
               {isCurrentUserProfile && (
                 <>
                   <UserRoundPen
-                    // size={24}
                     className="edit-profile-icon"
                     onClick={openModal}
                   />
