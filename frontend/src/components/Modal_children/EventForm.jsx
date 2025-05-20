@@ -355,11 +355,19 @@ export default function EventForm({
               label="Description"
               type="textarea"
               value={formData.description}
-              onChange={handleChange}
+              onChange={e => {
+                if (e.target.value.length <= 250) handleChange(e);
+              }}
               rows="4"
               placeholder="Description*"
               required
+              maxLength={250}
+              style={{ overflowWrap: 'break-word', wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}
             />
+
+            <p style={{ fontSize: '0.95em', color: formData.description.length === 250 ? 'red' : '#666', marginTop: '-8px', marginBottom: '8px' }}>
+              {formData.description.length}/250 characters
+            </p>
 
             <div className="modal-actions">
               <Button name="Cancel" onClick={onCancel} type="button" />
