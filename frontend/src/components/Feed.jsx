@@ -164,7 +164,11 @@ export default function Feed({
 
     // Apply filters based on filterType and filterValue
     if (filterType === "status") {
-      filtered = filtered.filter((post) => post.status === filterValue);
+      if (filterValue === "Active") {
+        filtered = filtered.filter((post) => post.status === true);
+      } else if (filterValue === "Closed") {
+        filtered = filtered.filter((post) => post.status === false);
+      }
     } else if (filterType === "type") {
       if (filterValue === "issue") {
         filtered = filtered.filter((post) => post.is_issue);
@@ -183,8 +187,10 @@ export default function Feed({
 
     // Apply event search query filter (case-insensitive)
     if (eventSearchQuery.trim() !== "") {
-      filtered = filtered.filter(post =>
-        post.title && post.title.toLowerCase().includes(eventSearchQuery.toLowerCase())
+      filtered = filtered.filter(
+        (post) =>
+          post.title &&
+          post.title.toLowerCase().includes(eventSearchQuery.toLowerCase())
       );
     }
 
@@ -211,7 +217,7 @@ export default function Feed({
 
         <EventSearchBar
           value={eventSearchQuery}
-          onChange={e => setEventSearchQuery(e.target.value)}
+          onChange={(e) => setEventSearchQuery(e.target.value)}
           placeholder="Search community posts..."
         />
 

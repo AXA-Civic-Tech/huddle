@@ -34,11 +34,11 @@ export default function EventForm({
     const safeEvent = event || {};
     return {
       is_issue: safeEvent.is_issue !== undefined ? safeEvent.is_issue : true,
+      status: safeEvent.status !== undefined ? safeEvent.status : true,
       title: safeEvent.title || "",
       address: safeEvent.address || "",
       borough: safeEvent.borough || "",
       zipcode: safeEvent.zipcode || "",
-      status: safeEvent.status !== undefined ? safeEvent.status : true,
       email: safeEvent.email || "",
       phone: safeEvent.phone || "",
       description: safeEvent.description || "",
@@ -59,7 +59,7 @@ export default function EventForm({
       address: event.address || "",
       borough: event.borough || "",
       zipcode: event.zipcode || "",
-      status: event.status !== undefined ? safeEvent.status : true,
+      status: event.status !== undefined ? event.status : true,
       email: event.email || "",
       phone: event.phone || "",
       description: event.description || "",

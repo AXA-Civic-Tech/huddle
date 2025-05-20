@@ -2,7 +2,7 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-  //chained table migrations to add constraint logic
+//chained table migrations to add constraint logic
 exports.up = async function (knex) {
   await knex.schema.createTable("users", function (table) {
     table.increments("id").primary();
@@ -23,7 +23,7 @@ exports.up = async function (knex) {
       .onDelete("CASCADE");
     table.timestamp("date_created").defaultTo(knex.fn.now());
     table.boolean("is_issue").notNullable();
-    table.specificType('images', 'TEXT[]'); // define array column (no check here)
+    table.specificType("images", "TEXT[]"); // define array column (no check here)
     table.string("title").notNullable();
     table.decimal("lat_location", 10, 7).nullable();
     table.decimal("long_location", 10, 7).nullable();
@@ -32,11 +32,11 @@ exports.up = async function (knex) {
     table.string("zipcode").notNullable();
     table.string("email").nullable();
     table.string("phone").nullable();
-    table.string("status").notNullable();
+    table.boolean("status").notNullable();
     table.string("description").notNullable();
   });
 
-  // Add the constraint after the column creation so that only 5 images can be added  
+  // Add the constraint after the column creation so that only 5 images can be added
   await knex.raw(`
     ALTER TABLE event
     ADD CONSTRAINT images_max_5 CHECK (array_length(images, 1) <= 5);

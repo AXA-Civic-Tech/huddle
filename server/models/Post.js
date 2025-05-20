@@ -43,7 +43,7 @@ class Post {
     is_issue = false,
     email = null,
     phone = null,
-    status = "active",
+    status = true,
     images = null,
     address = null,
     borough = null,
@@ -52,11 +52,7 @@ class Post {
     long_location = null,
   }) {
     // Allows images to always be held within an array for backend approval
-    const finalImages = Array.isArray(images)
-      ? images
-      : images
-      ? [images]
-      : [];
+    const finalImages = Array.isArray(images) ? images : images ? [images] : [];
 
     const query = `
       INSERT INTO event (
@@ -102,29 +98,29 @@ class Post {
   }
 
   static async deletePost(id) {
-    return knex("event").where({id}).del(); //This filters by id to delete the specific row
+    return knex("event").where({ id }).del(); //This filters by id to delete the specific row
   }
 
   static async update(id, updates) {
     try {
       // Remove fields that don't exist in the database schema
       const cleanedUpdates = { ...updates };
-      if ('state' in cleanedUpdates) {
+      if ("state" in cleanedUpdates) {
         delete cleanedUpdates.state;
       }
-      
+
       const result = await knex("event")
         .where("id", id)
         .update(cleanedUpdates)
         .returning("*");
-      
+
       if (result && result.length > 0) {
         return new Post(result[0]);
       } else {
         return null;
       }
     } catch (error) {
-      console.error('Error in Post.update:', error);
+      console.error("Error in Post.update:", error);
       throw error;
     }
   }
