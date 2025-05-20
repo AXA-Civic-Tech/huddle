@@ -69,6 +69,12 @@
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 1.2rem;
   justify-items: center;
+  justify-content: center;
+}
+
+.userpage-posts-grid:has(.post-card:only-child) {
+  display: flex;
+  justify-content: center;
 }
 
 @media (min-width: 900px) {
