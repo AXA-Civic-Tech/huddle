@@ -92,7 +92,7 @@ exports.seed = async (knex) => {
       zipcode: "10011",
       email: "gardenclub@example.com",
       phone: "555-123-0001",
-      status: "Active",
+      status: true,
       description: "Help us plant vegetables and beautify the garden!",
     },
     {
@@ -108,7 +108,7 @@ exports.seed = async (knex) => {
       zipcode: "11225",
       email: "reporter@example.com",
       phone: "555-234-1111",
-      status: "Active",
+      status: true,
       description:
         "Streetlight has been out for over a week near Bedford Ave intersection.",
     },
@@ -125,7 +125,7 @@ exports.seed = async (knex) => {
       zipcode: "11373",
       email: "bbqhost@example.com",
       phone: "555-987-6543",
-      status: "Active",
+      status: true,
       description: "Bring your favorite dish and join us for a block party!",
     },
     {
@@ -141,7 +141,7 @@ exports.seed = async (knex) => {
       zipcode: "10301",
       email: "trashwatch@example.com",
       phone: "555-444-7777",
-      status: "Active",
+      status: true,
       description:
         "Multiple bags of trash have been left on the sidewalk for days.",
     },
@@ -158,7 +158,7 @@ exports.seed = async (knex) => {
       zipcode: "10456",
       email: "cleanup@example.com",
       phone: "555-202-3030",
-      status: "Active",
+      status: true,
       description:
         "Join us as we clean up graffiti in the 167th Street underpass.",
     },
@@ -175,7 +175,7 @@ exports.seed = async (knex) => {
       zipcode: "10036",
       email: "potholereport@example.com",
       phone: "555-678-1122",
-      status: "Active",
+      status: true,
       description: "Deep pothole damaging cars near 46th Street intersection.",
     },
     {
@@ -191,7 +191,7 @@ exports.seed = async (knex) => {
       zipcode: "11215",
       email: "yogaclub@example.com",
       phone: "555-333-1212",
-      status: "Active",
+      status: true,
       description: "Free yoga class in Prospect Park, all levels welcome!",
     },
     {
@@ -207,7 +207,7 @@ exports.seed = async (knex) => {
       zipcode: "10461",
       email: "hydrantwatch@example.com",
       phone: "555-222-0909",
-      status: "Active",
+      status: true,
       description:
         "Fire hydrant leaking water constantly near Castle Hill Avenue.",
     },
@@ -224,7 +224,7 @@ exports.seed = async (knex) => {
       zipcode: "10011",
       email: "historytour@example.com",
       phone: "555-101-2020",
-      status: "Active",
+      status: true,
       description: "Explore the Meatpacking District's hidden historical gems!",
     },
     {
@@ -240,7 +240,7 @@ exports.seed = async (knex) => {
       zipcode: "10016",
       email: "bulkwatch@example.com",
       phone: "555-565-8585",
-      status: "Active",
+      status: true,
       description: "Furniture and mattresses still on curb after pickup day.",
     },
     {
@@ -256,7 +256,7 @@ exports.seed = async (knex) => {
       zipcode: "10012",
       email: "streetfood@example.com",
       phone: "555-987-5432",
-      status: "Active",
+      status: true,
       description:
         "Join us for a delicious street food festival in the heart of the city!",
     },
@@ -273,7 +273,7 @@ exports.seed = async (knex) => {
       zipcode: "10004",
       email: "volunteer@example.com",
       phone: "555-987-3210",
-      status: "Active",
+      status: true,
       description:
         "Help us collect items for homeless shelters across the city.",
     },
