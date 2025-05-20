@@ -41,10 +41,23 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
       clustererRef.current.clearMarkers();
     }
 
-    const markers = events
-      .filter((event) => event.lat_location && event.long_location)
-      .map((event) => {
-        let iconUrl = "/event-marker.png";
+    // Group events by lat/lng string
+    const coordMap = {};
+    events.forEach(event => {
+      if (event.lat_location && event.long_location) {
+        const key = `${event.lat_location},${event.long_location}`;
+        if (!coordMap[key]) coordMap[key] = [];
+        coordMap[key].push(event);
+      }
+    });
+
+    const markers = [];
+    const OFFSET_RADIUS = 0.00008; // ~8 meters, tweak as needed
+    Object.entries(coordMap).forEach(([key, group]) => {
+      if (group.length === 1) {
+        // Only one event at this location
+        const event = group[0];
+        let iconUrl = "/event-marker2.png";
         if (event.status === false) {
           iconUrl = "/closed-marker.png";
         } else if (event.is_issue === true) {
@@ -57,17 +70,44 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
           },
           icon: {
             url: iconUrl,
-            scaledSize: new window.google.maps.Size(48, 48),
+            scaledSize: new window.google.maps.Size(36, 36),
           },
         });
-
         marker.addListener("click", () => {
           setSelectedEvent(event);
           setIsModalOpen(true);
         });
-
-        return marker;
-      });
+        markers.push(marker);
+      } else {
+        // Multiple events at the same location, offset in a circle
+        group.forEach((event, i) => {
+          const angle = (2 * Math.PI * i) / group.length;
+          const latOffset = Math.cos(angle) * OFFSET_RADIUS;
+          const lngOffset = Math.sin(angle) * OFFSET_RADIUS;
+          let iconUrl = "/event-marker2.png";
+          if (event.status === false) {
+            iconUrl = "/closed-marker.png";
+          } else if (event.is_issue === true) {
+            iconUrl = "/issue-marker.png";
+          }
+          const marker = new window.google.maps.Marker({
+            position: {
+              lat: parseFloat(event.lat_location) + latOffset,
+              lng: parseFloat(event.long_location) + lngOffset,
+            },
+            icon: {
+              url: iconUrl,
+              scaledSize: new window.google.maps.Size(36, 36),
+            },
+          });
+          marker.addListener("click", () => {
+            setSelectedEvent(event);
+            setIsModalOpen(true);
+          });
+          markers.push(marker);
+        });
+      }
+    });
 
     clustererRef.current = new MarkerClusterer({ markers, map });
   };
