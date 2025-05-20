@@ -4,6 +4,7 @@ import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import { getAllPosts } from "../adapters/post-adapter";
 import Modal from "./Modal";
 import SearchBar from "./SearchBar";
+import MapLegend from "./MapLegend";
 
 //doing height with a % bugs map
 const containerStyle = {
@@ -177,7 +178,7 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
           </>
         )}
       </LoadScript>
-
+      <MapLegend />
       {selectedEvent && (
         <Modal
           event={selectedEvent}

@@ -1,0 +1,28 @@
+.map-legend {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #0002;
+  padding: 14px 20px;
+  z-index: 1001;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid #e0e0e0;
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legend-row img {
+  width: 28px;
+  height: 28px;
+  vertical-align: middle;
+  margin-right: 4px;
+} 
