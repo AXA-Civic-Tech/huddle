@@ -4,6 +4,7 @@ import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import { getAllPosts } from "../adapters/post-adapter";
 import Modal from "./Modal";
 import SearchBar from "./SearchBar";
+import MapLegend from "./MapLegend";
 
 //doing height with a % bugs map
 const containerStyle = {
@@ -25,6 +26,7 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
   const [isMapApiLoaded, setIsMapApiLoaded] = useState(false);
   const mapRef = useRef(null);
   const clustererRef = useRef(null);
+  const [mapInstance, setMapInstance] = useState(null);
 
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -41,23 +43,73 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
       clustererRef.current.clearMarkers();
     }
 
-    const markers = events
-      .filter((event) => event.lat_location && event.long_location)
-      .map((event) => {
+    // Group events by lat/lng string
+    const coordMap = {};
+    events.forEach(event => {
+      if (event.lat_location && event.long_location) {
+        const key = `${event.lat_location},${event.long_location}`;
+        if (!coordMap[key]) coordMap[key] = [];
+        coordMap[key].push(event);
+      }
+    });
+
+    const markers = [];
+    const OFFSET_RADIUS = 0.00008; // ~8 meters, tweak as needed
+    Object.entries(coordMap).forEach(([key, group]) => {
+      if (group.length === 1) {
+        // Only one event at this location
+        const event = group[0];
+        let iconUrl = "/event-marker2.png";
+        if (event.status === false) {
+          iconUrl = "/closed-marker.png";
+        } else if (event.is_issue === true) {
+          iconUrl = "/issue-marker.png";
+        }
         const marker = new window.google.maps.Marker({
           position: {
             lat: parseFloat(event.lat_location),
             lng: parseFloat(event.long_location),
           },
+          icon: {
+            url: iconUrl,
+            scaledSize: new window.google.maps.Size(36, 36),
+          },
         });
-
         marker.addListener("click", () => {
           setSelectedEvent(event);
           setIsModalOpen(true);
         });
-
-        return marker;
-      });
+        markers.push(marker);
+      } else {
+        // Multiple events at the same location, offset in a circle
+        group.forEach((event, i) => {
+          const angle = (2 * Math.PI * i) / group.length;
+          const latOffset = Math.cos(angle) * OFFSET_RADIUS;
+          const lngOffset = Math.sin(angle) * OFFSET_RADIUS;
+          let iconUrl = "/event-marker2.png";
+          if (event.status === false) {
+            iconUrl = "/closed-marker.png";
+          } else if (event.is_issue === true) {
+            iconUrl = "/issue-marker.png";
+          }
+          const marker = new window.google.maps.Marker({
+            position: {
+              lat: parseFloat(event.lat_location) + latOffset,
+              lng: parseFloat(event.long_location) + lngOffset,
+            },
+            icon: {
+              url: iconUrl,
+              scaledSize: new window.google.maps.Size(36, 36),
+            },
+          });
+          marker.addListener("click", () => {
+            setSelectedEvent(event);
+            setIsModalOpen(true);
+          });
+          markers.push(marker);
+        });
+      }
+    });
 
     clustererRef.current = new MarkerClusterer({ markers, map });
   };
@@ -99,6 +151,7 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
               zoom={mapZoom || 12}
               onLoad={(map) => {
                 mapRef.current = map;
+                setMapInstance(map);
                 if (eventData.length) {
                   loadMarkers(map, eventData);
                 }
@@ -127,7 +180,6 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
           </>
         )}
       </LoadScript>
-
       {selectedEvent && (
         <Modal
           event={selectedEvent}
@@ -136,6 +188,21 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
           viewing={true}
         />
       )}
+      {useEffect(() => {
+        if (mapInstance && window.google) {
+          // Remove any previous legend controls
+          mapInstance.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].clear();
+          // Create a DOM node for the legend
+          const legendDiv = document.createElement("div");
+          legendDiv.className = "map-legend";
+          legendDiv.innerHTML = `
+            <div class='legend-row'><img src='/event-marker2.png' alt='Event' style='width:28px;height:28px;vertical-align:middle;margin-right:4px;'/> <span>Event</span></div>
+            <div class='legend-row'><img src='/issue-marker.png' alt='Issue' style='width:28px;height:28px;vertical-align:middle;margin-right:4px;'/> <span>Issue</span></div>
+            <div class='legend-row'><img src='/closed-marker.png' alt='Closed' style='width:28px;height:28px;vertical-align:middle;margin-right:4px;'/> <span>Closed</span></div>
+          `;
+          mapInstance.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].push(legendDiv);
+        }
+      }, [mapInstance])}
     </div>
   );
 };

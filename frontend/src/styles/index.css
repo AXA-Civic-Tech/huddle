@@ -15,6 +15,7 @@
 @import "components/post.css";
 @import "components/searchbar.css";
 @import "components/upvote-comments.css";
+@import "components/map-legend.css";
 /* Pages */
 @import "pages/homepage.css";
 @import "pages/login-signup.css";
