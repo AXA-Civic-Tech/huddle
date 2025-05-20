@@ -6,13 +6,13 @@ import Modal from "./Modal";
 import SearchBar from "./SearchBar";
 import MapLegend from "./MapLegend";
 
-//doing height with a % bugs map
+// Doing height with a % bugs map
 const containerStyle = {
   width: "100%",
   height: "1000px",
 };
 
-//center where map loads
+// Center where map loads
 const center = {
   lat: 40.65798,
   lng: -74.005439,
@@ -31,10 +31,15 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
   if (!apiKey) {
-    return <div className="api-key-error">Error: Missing Google Maps API key. Please set VITE_GOOGLE_MAPS_API_KEY in your .env file.</div>;
+    return (
+      <div className="api-key-error">
+        Error: Missing Google Maps API key. Please set VITE_GOOGLE_MAPS_API_KEY
+        in your .env file.
+      </div>
+    );
   }
 
-  //fetches all post and filters out for locations to pin with clusters and markers
+  // Fetches all post and filters out for locations to pin with clusters and markers
   const loadMarkers = (map, events) => {
     if (!window.google || !map) return;
 
@@ -164,7 +169,7 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
                 },
               }}
             >
-              {searchMarker && (
+              {searchMarker &&
                 new window.google.maps.Marker({
                   position: {
                     lat: searchMarker.lat,
@@ -174,8 +179,7 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
                   icon: {
                     url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
                   },
-                })
-              )}
+                })}
             </GoogleMap>
           </>
         )}

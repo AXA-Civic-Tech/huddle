@@ -1,6 +1,6 @@
+import { SquarePlus } from "lucide-react";
 import FilterSelect from "./FilterSelect";
 import SortSelect from "./SortSelect";
-import Button from "../Button";
 
 export default function FeedControls({
   filterType,
@@ -28,11 +28,9 @@ export default function FeedControls({
 
       {currentUser && !isViewing && (
         // Only show this button when not vewing another user's profile
-        // <Button name="Create New Post" onClick={onNewPost} />
-        <img
-          src="/add.png"
+        <SquarePlus
           alt="Create New Post"
-          className="add-button"
+          className="add-icon"
           onClick={onNewPost}
         />
       )}

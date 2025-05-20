@@ -89,22 +89,10 @@ export default function EventForm({
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // if (name === "address" && typeof value === "object") {
-    //   // Update multiple fields when address is selected
-    //   setFormData((prev) => ({
-    //     ...prev,
-    //     address: value.formatted_address,
-    //     lat_location: value.lat,
-    //     long_location: value.lng,
-    //     borough: value.borough,
-    //     zipcode: value.zipcode,
-    //   }));
-    // } else {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-    // }
   };
 
   /**
@@ -136,7 +124,7 @@ export default function EventForm({
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
-          const uploadedUrl = result.info.secure_url; // ✅ define uploadedUrl here
+          const uploadedUrl = result.info.secure_url;
 
           setFormData((prevFormData) => ({
             ...prevFormData,
@@ -211,22 +199,19 @@ export default function EventForm({
 
   return (
     <>
-      {/* Apply the same horizontal structure as in Modal.jsx */}
       <div className="modal-content" ref={modalRef}>
         {/* Image Container - left side */}
         <div className="event-images">
           {formData.images && formData.images.length > 0 ? (
             <>
-              <div className="image-preview-list">
-                {formData.images.map((imgUrl, index) => (
-                  <img
-                    key={index}
-                    src={imgUrl}
-                    alt={`Uploaded preview ${index + 1}`}
-                    className="event-image"
-                  />
-                ))}
+              <div className="event-images">
+                <ImageContainer
+                  images={formData.images}
+                  altText={formData.title || "Event"}
+                  fallbackImage="https://placehold.co/600x400?text=Image+Not+Available"
+                />
               </div>
+
               <Button
                 name="Change Image"
                 type="button"

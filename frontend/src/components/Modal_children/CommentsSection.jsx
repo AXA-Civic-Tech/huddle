@@ -201,7 +201,7 @@ export default function CommentsSection({ eventId, onClose, openAuthOverlay }) {
               </div>
             ))
         ) : (
-          <p className="no-comments">
+          <p className="no-comment">
             No comments yet. Be the first to comment!
           </p>
         )}
