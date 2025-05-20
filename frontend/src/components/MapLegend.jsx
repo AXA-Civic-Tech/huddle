@@ -2,7 +2,7 @@ import React from "react";
 
 export default function MapLegend() {
   return (
-    <div className="map-legend">
+    <div>
       <div className="legend-row">
         <img src="/event-marker2.png" alt="Event" />
         <span>Event</span>

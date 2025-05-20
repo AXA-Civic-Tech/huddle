@@ -26,6 +26,7 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
   const [isMapApiLoaded, setIsMapApiLoaded] = useState(false);
   const mapRef = useRef(null);
   const clustererRef = useRef(null);
+  const [mapInstance, setMapInstance] = useState(null);
 
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -150,6 +151,7 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
               zoom={mapZoom || 12}
               onLoad={(map) => {
                 mapRef.current = map;
+                setMapInstance(map);
                 if (eventData.length) {
                   loadMarkers(map, eventData);
                 }
@@ -178,7 +180,6 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
           </>
         )}
       </LoadScript>
-      <MapLegend />
       {selectedEvent && (
         <Modal
           event={selectedEvent}
@@ -187,6 +188,21 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
           viewing={true}
         />
       )}
+      {useEffect(() => {
+        if (mapInstance && window.google) {
+          // Remove any previous legend controls
+          mapInstance.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].clear();
+          // Create a DOM node for the legend
+          const legendDiv = document.createElement("div");
+          legendDiv.className = "map-legend";
+          legendDiv.innerHTML = `
+            <div class='legend-row'><img src='/event-marker2.png' alt='Event' style='width:28px;height:28px;vertical-align:middle;margin-right:4px;'/> <span>Event</span></div>
+            <div class='legend-row'><img src='/issue-marker.png' alt='Issue' style='width:28px;height:28px;vertical-align:middle;margin-right:4px;'/> <span>Issue</span></div>
+            <div class='legend-row'><img src='/closed-marker.png' alt='Closed' style='width:28px;height:28px;vertical-align:middle;margin-right:4px;'/> <span>Closed</span></div>
+          `;
+          mapInstance.controls[window.google.maps.ControlPosition.RIGHT_BOTTOM].push(legendDiv);
+        }
+      }, [mapInstance])}
     </div>
   );
 };

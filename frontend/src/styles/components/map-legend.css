@@ -1,7 +1,4 @@
 .map-legend {
-  position: absolute;
-  bottom: 24px;
-  right: 24px;
   background: white;
   border-radius: 10px;
   box-shadow: 0 2px 8px #0002;
@@ -12,6 +9,7 @@
   flex-direction: column;
   gap: 10px;
   border: 1px solid #e0e0e0;
+  margin-right: 40px;
 }
 
 .legend-row {
