@@ -14,17 +14,17 @@ Media queries for responsive design
 /* Large screens (1200px and up) */
 @media screen and (min-width: 1200px) {
   .feed-home {
-    width: var(--feed-width);
-    margin-top: var(--feed-top-margin);
+    /* Remove width and margin overrides to preserve current look */
   }
+  /* Remove .post-card width/margin overrides */
 }
 
 /* Medium screens (992px to 1199px) */
 @media screen and (max-width: 1199px) {
   .feed-home {
-    width: 400px;
-    margin-top: var(--feed-top-margin);
+    /* Remove width and margin overrides to preserve current look */
   }
+  /* Remove .post-card width/margin overrides */
 }
 
 /* Small screens (768px to 991px) */
@@ -251,40 +251,16 @@ Media queries for responsive design
 /* --- New breakpoint for screens below 1214px --- */
 @media screen and (max-width: 1214px) {
   .feed-home {
-    width: 380px;
-    margin-top: var(--feed-top-margin);
+    /* Remove width and margin overrides to preserve current look */
   }
   .event-searchbar-container {
-    max-width: 380px;
-    margin-left: auto;
-    margin-right: auto;
+    /* Remove max-width and margin overrides to preserve current look */
   }
   .map {
     left: 0;
   }
   .post-card {
-    width: 100%;
-    height: auto;
-    padding: 1rem;
-    margin: 0.75rem auto;
-  }
-  .post-title {
-    font-size: 1.1rem;
-  }
-  .post-status,
-  .post-creator {
-    font-size: 0.95rem;
-  }
-  .post-image,
-  .no-image {
-    height: 120px;
-  }
-  .add-icon {
-    width: 48px !important;
-    height: 48px !important;
-    font-size: 2.2rem !important;
-    padding: 0.5rem;
-    border-radius: 12px;
+    /* Remove width/height/padding/margin overrides to preserve current look */
   }
 }
 
