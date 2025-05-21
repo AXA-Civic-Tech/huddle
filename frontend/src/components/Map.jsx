@@ -190,6 +190,8 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
         window.google.maps.ControlPosition.RIGHT_BOTTOM
       ].clear();
 
+      // Create and position the legend on the map. 
+      // Since the legend is inside of a google component, we use DOM manipulation to position it.
       const legendDiv = document.createElement("div");
       legendDiv.className = "map-legend";
       legendDiv.style.marginBottom = "5rem";
