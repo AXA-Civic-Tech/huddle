@@ -1,3 +1,11 @@
+/* ================================
+   Searchbar Container
+   - Positioned absolutely near top-left (24px from top and left)
+   - High z-index to appear above other content
+   - Fixed width of 500px
+   - No background, border radius, or padding (clean container)
+   - Uses playful "Comic Sans" font for input text
+   ================================ */
 .searchbar-container {
   position: absolute;
   top: 24px;
@@ -10,6 +18,18 @@
   font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 
+/* ================================
+   Searchbar Input Field
+   - Width almost full container (95%)
+   - Fixed height (45px)
+   - Large font size (24px) for readability
+   - Rounded corners (12px radius)
+   - Light gray border with moderate thickness (1.5px)
+   - Padding on sides for comfortable typing area
+   - No default outline on focus for cleaner look
+   - White background with subtle shadow for elevation
+   - Slight left margin to separate from container edge
+   ================================ */
 .searchbar-input {
   width: 95%;
   height: 45px;
@@ -23,10 +43,18 @@
   margin-left: 8px;
 }
 
+/* ================================
+   Searchbar Dropdown Menu
+   - Positioned absolutely below the search input (top: 100px)
+   - Full width of container
+   - White background with border except on top to connect seamlessly to input
+   - Rounded bottom corners (12px radius)
+   - Max height of 200px with vertical scroll if content overflows
+   - Higher z-index to appear above other elements including the search input
+   ================================ */
 .searchbar-dropdown {
   position: absolute;
-  /* Offset further down to appear below Google Places dropdown */
-  top: 100px;
+  top: 100px; /* offset to appear below Google Places dropdown */
   left: 0;
   width: 100%;
   background: #fff;
@@ -38,12 +66,24 @@
   border-radius: 0 0 12px 12px;
 }
 
+/* ================================
+   Individual Dropdown Item
+   - Padding for comfortable clickable area
+   - Cursor changes to pointer to indicate clickability
+   - Larger font size (18px) for readability
+   ================================ */
 .searchbar-dropdown-item {
   padding: 12px 16px;
   cursor: pointer;
   font-size: 18px;
 }
 
+/* ================================
+   Event Searchbar Container
+   - Full width container for search bar area in event-related layouts
+   - Top margin for spacing above
+   - No bottom margin
+   ================================ */
 .event-searchbar-container {
   width: 100%;
   margin: 16px 0 0px 0;

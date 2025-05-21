@@ -1,3 +1,13 @@
+/* ================================
+   Navbar Header Container
+   - Flex container to space logo and nav items apart
+   - Vertical center alignment
+   - Padding for spacing inside header
+   - Glassmorphism effect with semi-transparent white background and blur
+   - Subtle border and shadow for depth
+   - Sticky positioning to stay at top on scroll
+   - High z-index to appear above other elements
+   ================================ */
 .navbar-header {
   display: flex;
   justify-content: space-between;
@@ -15,6 +25,14 @@
   z-index: 10;
 }
 
+/* ================================
+   Navbar Logo Link
+   - Larger, bold font for branding
+   - No underline on text
+   - Flex container for icon + text alignment
+   - Small gap between icon and text
+   - Dark blue text color for emphasis
+   ================================ */
 .navbar-logo {
   font-size: 1.5rem;
   font-weight: bold;
@@ -25,16 +43,32 @@
   color: #1e3a8a;
 }
 
+/* ================================
+   Navbar Icon (usually inside logo)
+   - Fixed height for consistent sizing
+   - Vertically aligned in the middle with text
+   ================================ */
 .navbar-icon {
   height: 1.5rem;
   vertical-align: middle;
 }
 
+/* ================================
+   Navbar Navigation Container
+   - Flex container to align nav links horizontally and center vertically
+   ================================ */
 .navbar-nav {
   display: flex;
   align-items: center;
 }
 
+/* ================================
+   Navbar Links List
+   - Horizontal flex container for nav items
+   - No default padding or margin
+   - Remove default list styling (bullets)
+   - Adds gap between nav items
+   ================================ */
 .navbar-links {
   display: flex;
   gap: 1rem;
@@ -43,14 +77,29 @@
   list-style: none;
 }
 
+/* ================================
+   Individual Navbar List Item
+   - Removes default list styling (bullets)
+   ================================ */
 .navbar-item {
   list-style: none;
 }
 
+/* ================================
+   Navbar Link Styling
+   - Removes underline for links
+   ================================ */
 .navbar-link {
   text-decoration: none;
 }
 
+/* ================================
+   Active Navbar Link Styling
+   - Highlight active page/link with:
+     * Gold/yellow color
+     * Bold font weight
+     * Italic style
+   ================================ */
 .navbar-link.active {
   color: #eebc32;
   font-weight: bold;

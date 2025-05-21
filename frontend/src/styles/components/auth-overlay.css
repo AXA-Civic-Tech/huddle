@@ -1,22 +1,27 @@
-/* Overlay fills screen, glassmorphic style */
+/* Overlay that covers the entire viewport */
+/* Uses glassmorphism effect with translucent white background and heavy blur */
+/* Centers its content both vertically and horizontally */
+/* High z-index to appear above all other content */
 .glassmorphic-overlay {
-  position: fixed;
+  position: fixed; /* Fixed to viewport */
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 20000 !important;
+  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Full viewport height */
+  backdrop-filter: blur(12px); /* Blur effect behind the overlay */
+  background: rgba(255, 255, 255, 0.15); /* Semi-transparent white */
+  display: flex; /* Flexbox for centering content */
+  align-items: center; /* Vertical centering */
+  justify-content: center; /* Horizontal centering */
+  z-index: 20000 !important; /* Ensure overlay is above everything */
 }
 
-/* Dim and blur homepage when modal open */
+/* Applies a blur effect and dims the background content */
+/* Disables pointer events and text selection to prevent interaction */
+/* Used to visually and functionally disable homepage content when modal is open */
 .disabled-blur {
-  filter: blur(4px);
-  pointer-events: none; /* disables interactions */
-  user-select: none;
-  opacity: 0.6;
+  filter: blur(4px); /* Blur the content */
+  pointer-events: none; /* Prevent all mouse interactions */
+  user-select: none; /* Prevent text selection */
+  opacity: 0.6; /* Dim the content */
 }

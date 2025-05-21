@@ -16,8 +16,11 @@ import Button from "../Button";
  * Component for displaying and managing comments and upvotes on an event.
  * Handles loading comments, posting new comments, and upvoting functionality.
  *
- * @param {string|number} eventId - ID of the event to show comments for
- * @returns {JSX.Element} Comments and upvotes section
+ * @param {Object} props
+ * @param {string|number} props.eventId - ID of the event to show comments and upvotes for.
+ * @param {function} props.onClose - Callback function to close the comments section.
+ * @param {function} props.openAuthOverlay - Function to open the authentication overlay (login/signup).
+ * @returns {JSX.Element} Comments and upvotes UI section
  */
 
 export default function CommentsSection({ eventId, onClose, openAuthOverlay }) {
@@ -28,8 +31,9 @@ export default function CommentsSection({ eventId, onClose, openAuthOverlay }) {
   const [isLoading, setIsLoading] = useState(true);
 
   /**
-   * Load comments and upvote count when component mounts
-   * or when eventId changes
+   * Loads comments and upvotes when the component mounts
+   * or whenever the eventId changes.
+   * Sets loading state during fetch.
    */
   useEffect(() => {
     if (eventId) {
@@ -41,8 +45,10 @@ export default function CommentsSection({ eventId, onClose, openAuthOverlay }) {
   }, [eventId]);
 
   /**
-   * Fetch and process comments for the current event
-   * Handles nested arrays and filters out invalid comments
+   * Fetches comments for the event, flattens nested arrays,
+   * filters out invalid comments, and updates state.
+   * @async
+   * @returns {Promise<Array>} Array of comment objects
    */
   const loadComments = async () => {
     try {
@@ -58,7 +64,12 @@ export default function CommentsSection({ eventId, onClose, openAuthOverlay }) {
     }
   };
 
-  // Fetch the current upvotes (list) for the event
+  /**
+   * Fetches the current upvotes list for the event,
+   * filters invalid entries, and updates state.
+   * @async
+   * @returns {Promise<Array>} Array of upvote objects
+   */
   const loadUpvotes = async () => {
     try {
       const data = await getUpvoteCount(eventId);
@@ -73,14 +84,17 @@ export default function CommentsSection({ eventId, onClose, openAuthOverlay }) {
     }
   };
 
-  // Check if the current user has upvoted
+  // Boolean indicating if current user has upvoted the event
   const hasUpvoted =
     currentUser && upvotes.some((u) => u.user_id === currentUser.id);
+  // Total number of upvotes
   const upvoteCount = upvotes.length;
 
   /**
-   * Handle posting a new comment
-   * Validates user authentication and comment content
+   * Handles posting a new comment.
+   * Checks for empty comment or user authentication,
+   * posts the comment, clears input, and reloads comments.
+   * @async
    */
   const handlePostComment = async () => {
     if (!newComment.trim()) return;
@@ -108,8 +122,10 @@ export default function CommentsSection({ eventId, onClose, openAuthOverlay }) {
   };
 
   /**
-   * Handle upvoting an event
-   * Validates user authentication before processing
+   * Toggles upvote status for the event by the current user.
+   * Requires user to be authenticated.
+   * Calls API to add or remove upvote and reloads upvotes.
+   * @async
    */
   const handleUpvoteToggle = async () => {
     if (!currentUser?.id) {

@@ -7,16 +7,15 @@ import UpdateUsernameForm from "../components/UpdateUsernameForm";
 import Feed from "../components/Feed";
 
 /**
- * Current user can edit their username here
- * Current user can view their own posts and the posts they've upvoted
- * Current user can sort by favorited or their posts
+ * UserPage component displays a user's profile page.
  *
- * STRETCH: Turning UserPage into a reusable component
- * STRETCH: Current user can view other user's profile page that only have the user's posts
+ * Features include:
+ * - Current user can edit their username via a modal form.
+ * - Displays user's posts and allows filtering posts by type or value.
+ * - Shows user's basic info and post count.
+ * - Supports viewing own profile or other users' profiles.
  *
- * Profile will take in user and based on the userId, pass it into Feed and it will fetch all the events related to the user.
- * "Create a New Post" might change to an icon
- * @returns
+ * @returns {JSX.Element|null} User profile page or null if loading
  */
 
 export default function UserPage() {
@@ -24,6 +23,7 @@ export default function UserPage() {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const { id } = useParams();
 
+  // Check if viewing own profile based on currentUser id and URL param
   const isCurrentUserProfile = currentUser && currentUser.id === Number(id);
 
   const [userProfile, setUserProfile] = useState(null);
@@ -31,11 +31,17 @@ export default function UserPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [postCount, setPostCount] = useState(0);
 
-  // Add filter state
+  // Filters for posts
   const [filterType, setFilterType] = useState("all");
   const [filterValue, setFilterValue] = useState("");
 
-  // Add filter change handler
+  /**
+   * Handler for changing filter criteria based on user selection.
+   * Parses input string of format "type:value" to update filterType and filterValue.
+   * If format is invalid, resets filter to 'all'.
+   *
+   * @param {React.ChangeEvent<HTMLInputElement|HTMLSelectElement>} e - The filter change event
+   */
   const handleFilterChange = (e) => {
     const value = e.target.value;
     if (value.includes(":")) {
@@ -48,6 +54,10 @@ export default function UserPage() {
     }
   };
 
+  /**
+   * useEffect hook to fetch user profile data when the 'id' parameter changes.
+   * Calls async getUser API adapter, sets userProfile or error state accordingly.
+   */
   useEffect(() => {
     const loadUser = async () => {
       const [user, error] = await getUser(id);
@@ -58,6 +68,10 @@ export default function UserPage() {
     loadUser();
   }, [id]);
 
+  /**
+   * useEffect hook to control dialog modal visibility based on 'isOpen' state.
+   * Opens modal when isOpen becomes true, closes modal when false.
+   */
   useEffect(() => {
     const dialog = dialogRef.current;
     if (isOpen && dialog && !dialog.open) {
@@ -67,15 +81,27 @@ export default function UserPage() {
     }
   }, [isOpen]);
 
+  // Opens the update username modal dialog.
   const openModal = () => {
     setIsOpen(true);
   };
 
+  /**
+   * Closes the modal dialog.
+   * If an updated user is provided, updates the currentUser context.
+   *
+   * @param {Object} [updatedUser] - Optional updated user object to update context
+   */
   const closeModal = (updatedUser) => {
     setIsOpen(false);
     if (updatedUser) setCurrentUser(updatedUser);
   };
 
+  /**
+   * Updates the post count state when the Feed component reports a new post count.
+   *
+   * @param {number} count - The new post count
+   */
   const handlePostCountChange = (count) => {
     setPostCount(count);
   };
@@ -87,7 +113,8 @@ export default function UserPage() {
 
   if (!userProfile) return null;
 
-  // When we update the username, the userProfile state won't change but the currentUser state will.
+  // Determine username to show, using currentUser username if viewing own profile,
+  // otherwise use username from fetched userProfile
   const profileUsername = isCurrentUserProfile
     ? currentUser.username
     : userProfile.username;

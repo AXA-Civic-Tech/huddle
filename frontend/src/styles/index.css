@@ -1,9 +1,14 @@
-/* Google Font Import */
+/* --- Google Fonts --- */
+/* Import Cal Sans font from Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap");
-/* Base styles */
+
+/* --- Base Styles and Utilities --- */
+/* Core layout and utility styles */
 @import "layout.css";
 @import "utils.css";
-/* Components */
+
+/* --- Components --- */
+/* Individual UI components for modular styling */
 @import "components/auth-overlay.css";
 @import "components/button.css";
 @import "components/feed.css";
@@ -16,55 +21,72 @@
 @import "components/searchbar.css";
 @import "components/upvote-comments.css";
 @import "components/map-legend.css";
-/* Pages */
+
+/* --- Pages --- */
+/* Page-specific styles */
 @import "pages/homepage.css";
 @import "pages/login-signup.css";
 @import "pages/userpage.css";
-/* Responsive */
+
+/* --- Responsive --- */
+/* Media queries and responsive adjustments */
 @import "responsive.css";
 
-/* Force light mode */
+
+/* --- Global Styles --- */
+
+/* Force light color scheme for the entire document */
 :root {
   color-scheme: light;
 }
 
+/* Reset and global base styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
   font-family: "Cal Sans", sans-serif;
+  /* Uncomment for debugging layout borders */
   /* border: 1px solid red; */
 }
 
+/* Body defaults */
 body {
   font-family: "Cal Sans", system-ui, Avenir, Helvetica, Arial, sans-serif;
   margin: 0;
   background: transparent;
 }
 
+/* Remove default list styling */
 ul {
   list-style: none;
 }
 
+/* Buttons */
 button {
+  /* Uncomment to add horizontal padding */
   /* padding-inline: 0.25rem; */
   cursor: pointer;
 }
 
+/* Inputs and labels as block elements for layout */
 input,
 label {
   display: block;
 }
 
+/* Add spacing below input fields */
 input {
   margin-bottom: 1rem;
 }
 
+/* Ensure dialogs appear on top */
 dialog[open] {
   z-index: 10000 !important;
 }
 
+/* Error text styling */
 .error {
   color: red;
 }

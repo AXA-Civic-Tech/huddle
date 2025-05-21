@@ -1,3 +1,7 @@
+/* ===========================
+   Footer container styles
+   Centers text, adds padding and sets background and font colors
+   =========================== */
 .footer {
   text-align: center;
   padding: 1.5rem 1rem;
@@ -6,10 +10,13 @@
   font-size: 0.9rem;
 }
 
+/* Paragraphs inside footer - adds vertical spacing */
 .footer p {
   margin: 0.5rem 0;
 }
 
+/* Container for contributors section
+   Uses flexbox to center items, wrap if needed, and add gaps */
 .contributors {
   display: flex;
   justify-content: center;
@@ -18,29 +25,39 @@
   align-items: center;
 }
 
+/* Individual contributor item 
+   Displays contributor info inline with small spacing */
 .contributor {
   display: flex;
   align-items: center;
   gap: 0.25rem;
 }
 
+/* Icons used in the footer (e.g. social media or small icons)
+   Fixed size and vertically aligned middle */
 .footer-icon {
   width: 16px;
   height: 16px;
   vertical-align: middle;
 }
 
+/* Dot separator between contributors or items
+   Horizontal margin and muted grey color */
 .dot {
   margin: 0 0.5rem;
   color: #888;
 }
 
+/* Links inside footer 
+   Styled with brand blue color and no underline by default */
 .footer a {
   color: #0077cc;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
+/* Hover state for footer links 
+   Darker blue with underline for emphasis */
 .footer a:hover {
   color: #004d99;
   text-decoration: underline;

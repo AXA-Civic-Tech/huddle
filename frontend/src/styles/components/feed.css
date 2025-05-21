@@ -1,27 +1,34 @@
+/* Container for the feed panel on the home page */
+/* Positioned absolutely on the left with a fixed width and full height */
+/* Has padding, margin, rounded corners, and a subtle box shadow */
+/* Uses glassmorphism effect with transparent background and blur */
 .feed-home {
   position: absolute;
   top: 0;
   left: 0;
   width: 400px;
   height: calc(100% - 0rem);
-  z-index: 2; /* make sure it sits on top of the Map */
+  z-index: 2; /* Keep feed above the map */
   padding: 1rem;
-  margin: 6rem 0rem 1rem 1.5rem;
+  margin: 6rem 0 1rem 1.5rem;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
 
-  /* Original box shadow, slightly enhanced for depth */
+  /* Box shadow for subtle depth */
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.25);
 
-  /* Glassmorphism additions */
+  /* Glassmorphism style */
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
+/* Content wrapper inside the feed */
+/* Flex column with max width centered horizontally */
+/* Ensures proper height and width for child elements */
 .feed-content {
   flex: 1 1 auto;
   max-width: 1100px;
@@ -30,13 +37,18 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  min-height: 0;
+  min-height: 0; /* Prevent flex overflow */
 }
 
+/* Container for user info or user-specific feed content */
+/* Adds spacing above */
 .feed-user {
   margin-top: 1rem;
 }
 
+/* Controls section inside the feed */
+/* Flex container centered horizontally and vertically with gaps between items */
+/* Full width with margin for spacing */
 .feed-controls {
   display: flex;
   justify-content: center;
@@ -48,6 +60,10 @@
   max-width: 100%;
 }
 
+/* Styling for filter and sort dropdown selects */
+/* Rounded corners, padding, border, white background */
+/* Custom dropdown arrow using SVG as background image */
+/* Pointer cursor and no native appearance */
 .filter-section select,
 .sort-section select {
   border-radius: 8px;
@@ -64,11 +80,13 @@
   background-size: 1em;
 }
 
+/* Hover effect on filter and sort selects to darken border */
 .filter-section select:hover,
 .sort-section select:hover {
   border-color: #999;
 }
 
+/* Focus styles on selects with outline and subtle shadow */
 .filter-section select:focus,
 .sort-section select:focus {
   outline: none;
@@ -76,14 +94,18 @@
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
+/* Margin spacing for filter section */
 .filter-section {
   margin-right: 0.5rem;
 }
 
+/* Extra right padding on sort select for dropdown arrow spacing */
 .sort-section select {
   padding-right: 1.5rem;
 }
 
+/* Custom scrollbar styles for elements with .scroller */
+/* Hide scrollbar thumb and track by default */
 .scroller::-webkit-scrollbar-thumb {
   background: transparent;
 }
@@ -92,6 +114,7 @@
   background: transparent;
 }
 
+/* On hover, show styled scrollbar with colors from CSS variables */
 .scroller:hover::-webkit-scrollbar-thumb {
   background: var(--scrollbar-color-thumb);
 }
@@ -100,16 +123,23 @@
   background: var(--scrollbar-color-track);
 }
 
+/* Safari fix: forces style recomputation on hover */
 .scroller:hover {
-  --fix: ; /* This custom property invalidates styles on hover, thereby enforcing a style recomputation. This is needed to work around a bug in Safari. */
+  --fix: ; /* Custom property to workaround Safari bug */
 }
 
+/* Container for event search bar */
+/* Full width with vertical margin spacing */
 .event-searchbar-container {
   width: 100%;
   max-width: 100%;
   margin: 16px 0 24px 0;
 }
 
+/* Scroll container for posts */
+/* Flexible height with vertical overflow auto */
+/* Padding for right scrollbar space */
+/* Thin scrollbar with custom colors and hover effects */
 .posts-scroll-container {
   flex: 1 1 auto;
   overflow-y: auto;
@@ -120,6 +150,7 @@
   scrollbar-color: #ccc #f8f9fa;
 }
 
+/* Webkit scrollbar customization for posts scroll container */
 .posts-scroll-container::-webkit-scrollbar {
   width: 8px;
 }

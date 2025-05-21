@@ -1,3 +1,9 @@
+/* 
+  Basic form container styling
+  - Padding for inner spacing
+  - Border around the form
+  - Flex column layout to stack form elements vertically
+*/
 form {
   padding: 1rem;
   border: 1px solid #ccc;
@@ -5,11 +11,37 @@ form {
   flex-direction: column;
 }
 
+/* 
+  Header inside form
+  - Bottom margin to separate from following content
+*/
 form > h1 {
   margin-bottom: 0.75rem;
 }
 
-/* Reuse glassmorphic style for info-section and form-wrapper */
+/* --- Login/Signup Container --- */
+
+/* 
+  Container holding both info and form sections side by side
+  - Flexbox layout with gap between children
+  - Full viewport height and width
+  - Sets font family for contained text
+*/
+.login-signup-container {
+  display: flex;
+  gap: 2rem;
+  height: 100vh;
+  width: 100vw;
+  font-family: Arial, sans-serif;
+}
+
+/* 
+  Shared glassmorphic style for info and form wrapper sections
+  - Semi-transparent white background
+  - Rounded corners
+  - Padding for spacing
+  - Subtle box-shadow and blur effect for frosted glass look
+*/
 .login-signup-container .info-section,
 .login-signup-container .form-wrapper {
   background: rgba(255, 255, 255, 0.2);
@@ -20,16 +52,15 @@ form > h1 {
   -webkit-backdrop-filter: blur(10px);
 }
 
-/* Container holding both sections */
-.login-signup-container {
-  display: flex;
-  gap: 2rem;
-  height: 100vh;
-  width: 100vw;
-  font-family: Arial, sans-serif;
-}
+/* --- Info Section (Left Side) --- */
 
-/* Left Side - Info Section */
+/* 
+  Left side container for app information and messaging
+  - Half the container width
+  - Padding for spacing inside
+  - Flex column layout, centered vertically
+  - Text color styling
+*/
 .info-section {
   width: 50%;
   padding: 60px 40px;
@@ -39,6 +70,11 @@ form > h1 {
   color: #333;
 }
 
+/* 
+  Main app title styling
+  - Large, bold text with brand color
+  - Bottom margin for spacing
+*/
 .app-title {
   font-size: 3rem;
   font-weight: bold;
@@ -46,18 +82,34 @@ form > h1 {
   margin-bottom: 0.5rem;
 }
 
+/* 
+  Subtitle styling under app title
+  - Medium sized text with muted color
+  - Bottom margin for spacing
+*/
 .app-subtitle {
   font-size: 1.5rem;
   margin-bottom: 2rem;
   color: #475569;
 }
 
+/* 
+  Label style for sections inside info or forms
+  - Bold font with moderate size
+  - Bottom margin for spacing
+*/
 .section-label {
   font-weight: bold;
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
 }
 
+/* 
+  Mission or descriptive text paragraph
+  - Normal font size with increased line height for readability
+  - Muted text color
+  - Bottom margin and max width to constrain text line length
+*/
 .mission-text {
   font-size: 1rem;
   line-height: 1.6;
@@ -66,7 +118,15 @@ form > h1 {
   max-width: 500px;
 }
 
-/* Right Side - Form Section */
+/* --- Form Wrapper (Right Side) --- */
+
+/* 
+  Container for the login/signup form
+  - Max width constraint for layout consistency
+  - Padding for inner spacing
+  - Border and rounded corners for definition
+  - Subtle shadow for elevation effect
+*/
 .form-wrapper {
   width: 100%;
   max-width: 400px;
@@ -76,11 +136,22 @@ form > h1 {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* 
+  Container for prompt text below the form (e.g., "Don't have an account?")
+  - Center aligned text
+  - Top margin to separate from form content
+*/
 .switch-form-prompt {
   text-align: center;
   margin-top: 2rem;
 }
 
+/* 
+  Button for toggling between login and signup forms
+  - Styled with brand color background, white text
+  - Padding and rounded corners for clickable feel
+  - Pointer cursor for interactivity
+*/
 .switch-form-button {
   margin-top: 0.5rem;
   background-color: #1e3a8a;
@@ -91,20 +162,35 @@ form > h1 {
   cursor: pointer;
 }
 
+/* 
+  Hover state for switch form button
+  - Darker background color for feedback
+*/
 .switch-form-button:hover {
   background-color: #374151;
 }
 
-/* Style for first and last name side-by-side */
+/* --- Name Inputs Layout --- */
+
+/* 
+  Container to layout first and last name inputs side by side
+  - Flex layout with space between inputs
+*/
 .name-inputs {
   display: flex;
   justify-content: space-between;
 }
 
+/* 
+  Inputs inside name-inputs container take equal flexible space
+*/
 .name-inputs input {
   flex: 1;
 }
 
+/* 
+  Specific widths for first and last name inputs to keep them consistent size
+*/
 .first-name input,
 .last-name input {
   width: 8.5rem;

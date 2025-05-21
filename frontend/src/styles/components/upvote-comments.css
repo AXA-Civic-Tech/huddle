@@ -1,16 +1,34 @@
-/* Upvote Section */
+/* ================================
+   Upvote Section Container
+   - Horizontal flex container
+   - Vertically centers children (icon + count)
+   - Adds small gap between items
+   ================================ */
 .upvote-section {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
+/* ================================
+   Upvote Count Text
+   - Medium font weight and size
+   - Dark gray text color for readability
+   ================================ */
 .upvote-count {
   font-weight: 500;
   font-size: 15px;
   color: #333;
 }
 
+/* ================================
+   Upvote Button
+   - No background or border for clean icon-only button
+   - Fixed size (32x32px) and circular shape
+   - Flex to center icon inside
+   - Pointer cursor on hover
+   - Smooth background color transition on hover
+   ================================ */
 .upvote-button {
   background: none;
   border: none;
@@ -25,17 +43,31 @@
   transition: background-color 0.2s;
 }
 
+/* ================================
+   Upvote Button Hover State
+   - Light gray translucent background on hover for feedback
+   ================================ */
 .upvote-button:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-/* Comments Section */
+/* ================================
+   Comments Section Container
+   - Top border to separate from content above
+   - Padding and margin on top for spacing
+   ================================ */
 .comments {
   border-top: 1px solid #ddd;
   padding-top: 1rem;
   margin-top: 1rem;
 }
 
+/* ================================
+   Comments Heading (h3)
+   - Medium font size and dark color
+   - Bottom margin for spacing from content below
+   - Flex container to align title and possible controls (like count)
+   ================================ */
 .comments h3 {
   font-size: 18px;
   margin-bottom: 12px;
@@ -45,6 +77,12 @@
   align-items: center;
 }
 
+/* ================================
+   Comments Header Wrapper
+   - Flex container for header elements (title, buttons)
+   - Spaced apart horizontally and vertically centered
+   - Bottom margin for spacing below header
+   ================================ */
 .comments-header {
   display: flex;
   justify-content: space-between;
@@ -52,10 +90,20 @@
   margin-bottom: 1rem;
 }
 
+/* ================================
+   Comments Header h3 Reset Margin
+   - Removes bottom margin to align nicely inside header flex container
+   ================================ */
 .comments-header h3 {
   margin-bottom: 0;
 }
 
+/* ================================
+   Comment Input Container
+   - Flex container for input and buttons (e.g., submit)
+   - Vertically centers children and adds gap between
+   - Vertical margin for spacing from other elements
+   ================================ */
 .comment-input {
   display: flex;
   align-items: center;
@@ -63,6 +111,16 @@
   margin: 1rem 0;
 }
 
+/* ================================
+   Text Input Field for Comments
+   - Flexible width to fill container
+   - Fixed height for consistent sizing
+   - Comfortable font size
+   - Rounded corners and subtle border
+   - Light background for input area
+   - Smooth transitions on border and shadow when focused
+   - Box-sizing to include padding and border in width
+   ================================ */
 .comment-input input[type="text"] {
   flex: 1;
   height: 48px;
@@ -77,12 +135,25 @@
   line-height: 48px;
 }
 
+/* ================================
+   Comment Input Focus State
+   - Blue border and subtle blue shadow for focus indicator
+   - Removes default outline for cleaner look
+   ================================ */
 .comment-input input[type="text"]:focus {
   outline: none;
   border-color: #3498db;
   box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
+/* ================================
+   Single Comment Container
+   - Padding inside for spacing content
+   - Bottom margin for separation between comments
+   - Light background color for differentiation
+   - Rounded corners and subtle border
+   - Smooth transition on background color (for potential hover or focus states)
+   ================================ */
 .comment {
   padding: 1rem;
   margin-bottom: 1rem;
@@ -92,22 +163,44 @@
   transition: background-color 0.2s ease;
 }
 
+/* ================================
+   Comment Text Content
+   - Medium gray text color
+   - Allows line breaks and preserves whitespace formatting
+   ================================ */
 .comment-content {
   color: #495057;
   word-wrap: break-word;
   white-space: pre-wrap;
 }
 
+/* ================================
+   Links inside Comments
+   - No underline by default
+   - Blue color to indicate links
+   ================================ */
 .comment a {
   text-decoration: none;
   color: #007bff;
 }
 
+/* ================================
+   Link Hover State inside Comments
+   - Underlines links on hover
+   - Smooth transition on color
+   ================================ */
 .comment a:hover {
   text-decoration: underline;
   transition: #0056b3 0.2s;
 }
 
+/* ================================
+   No Comment Message
+   - Slightly larger font size
+   - Gray text color to indicate less emphasis
+   - Centered text horizontally
+   - Top margin to separate from other content
+   ================================ */
 .no-comment {
   font-size: 1.2rem;
   color: #6c757d;
@@ -115,6 +208,12 @@
   margin-top: 1rem;
 }
 
+/* ================================
+   Comments List Container
+   - Fixed max height with vertical scrolling enabled
+   - Right padding to prevent content cutoff near scrollbar
+   - Thin scrollbar styling for better aesthetics
+   ================================ */
 .comments-list {
   max-height: 200px;
   overflow-y: auto;
@@ -123,14 +222,25 @@
   scrollbar-color: #ccc #f8f9fa;
 }
 
+/* ================================
+   Webkit Scrollbar Styling for Comments List
+   - Width of scrollbar track
+   ================================ */
 .comments-list::-webkit-scrollbar {
   width: 8px;
 }
 
+/* ================================
+   Webkit Scrollbar Track Background
+   ================================ */
 .comments-list::-webkit-scrollbar-track {
   background: #f8f9fa;
 }
 
+/* ================================
+   Webkit Scrollbar Thumb Styling
+   - Rounded edges and gray color for scrollbar thumb
+   ================================ */
 .comments-list::-webkit-scrollbar-thumb {
   background-color: #ccc;
   border-radius: 4px;

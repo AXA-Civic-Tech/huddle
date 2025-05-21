@@ -17,6 +17,18 @@ const center = {
   lng: -74.005439,
 };
 
+/**
+ * Renders the interactive Google Map with markers, clustering, and a modal for viewing event details.
+ *
+ * @component
+ * @param {Object} props - Component props
+ * @param {{lat: number, lng: number}} props.mapCenter - Custom center for the map
+ * @param {number} props.mapZoom - Custom zoom level
+ * @param {(location: {lat: number, lng: number}, zoom: number) => void} props.onMapMove - Callback when the map should move to a new location
+ * @param {any} props.refreshTrigger - Triggers data reload when changed
+ * @returns {JSX.Element}
+ */
+
 const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -40,7 +52,12 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
     );
   }
 
-  // Load markers function
+  /**
+   * Load event markers and cluster them on the map.
+   *
+   * @param {google.maps.Map} map - The Google Map instance
+   * @param {Array<Object>} events - The array of event data
+   */
   const loadMarkers = (map, events) => {
     if (!window.google || !map) return;
 
@@ -126,7 +143,7 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
     clustererRef.current = new MarkerClusterer({ markers, map });
   };
 
-  // Fetch posts effect
+  // Fetch event posts from the backend and load them onto the map.
   useEffect(() => {
     getAllPosts().then(([data]) => {
       if (data) {
@@ -138,7 +155,7 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
     });
   }, [refreshTrigger]);
 
-  // Search marker effect
+  // Display a marker on the map for the searched location.
   useEffect(() => {
     if (searchMarker && mapRef.current && window.google) {
       // Clear previous search marker
@@ -166,7 +183,7 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
     };
   }, [searchMarker]);
 
-  // Legend effect
+  // Create and display a legend on the map showing marker types.
   useEffect(() => {
     if (mapInstance && window.google) {
       mapInstance.controls[
@@ -196,6 +213,7 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
     }
   }, [mapInstance]);
 
+  // Handle closing the modal popup for event details.
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedEvent(null);

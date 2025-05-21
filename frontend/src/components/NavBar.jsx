@@ -17,8 +17,8 @@ import Button from "./Button";
  * - UserPage with authenticated user: "My Profile" & "Log Out"
  *
  * @param {Object} props - Component props
- * @param {Function} props.openAuthOverlay - Handler to open the authentication overlay
- * @param {Function} props.closeAuthOverlay - Handler to close the authentication overlay
+ * @param {function(string):void} props.openAuthOverlay - Function to open the authentication overlay with a mode ('login' or 'signup')
+ * @param {function():void} props.closeAuthOverlay - Function to close the authentication overlay
  * @returns {JSX.Element} Navigation header with contextual navigation options
  */
 
@@ -29,9 +29,11 @@ export default function NavBar({ openAuthOverlay, closeAuthOverlay }) {
 
   /**
    * Handles user logout process:
-   * - Calls logout API
-   * - Clears user context
-   * - Redirects to homepage
+   * - Calls logout API to invalidate user session
+   * - Clears current user from context
+   * - Redirects user to homepage
+   *
+   * @returns {void}
    */
   const handleLogout = () => {
     logUserOut();

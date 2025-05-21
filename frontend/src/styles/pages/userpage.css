@@ -1,18 +1,12 @@
+/* --- Container and Layout --- */
+
+/* Main container for the user page, centered with a max width */
 .user-page-container {
   margin: 1.5rem auto;
   width: 70%;
 }
 
-.profile-username {
-  display: flex;
-  align-items: center;
-  gap: 1rem; /* Space between username and Edit button */
-}
-
-.profile-username h1 {
-  margin: 0;
-}
-
+/* Profile header section - vertically stacked, centered */
 .profile-header {
   display: flex;
   flex-direction: column;
@@ -21,6 +15,12 @@
   margin-bottom: 2rem;
 }
 
+/* Profile info container
+   - No background or borders by default
+   - Flex column layout aligned to start
+   - Responsive width with min and max constraints
+   - Centered horizontally with auto margins
+*/
 .profile-info {
   background: none;
   border: none;
@@ -38,11 +38,23 @@
   width: fit-content;
 }
 
+/* --- Username and Edit Button Section --- */
+
+/* Container for username and edit button aligned horizontally with gap */
+.profile-username {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Space between username and Edit button */
+}
+
+/* Row containing the username heading */
 .profile-username-row {
   margin-bottom: 0.7rem;
 }
 
-.profile-username-row h1 {
+/* Username heading styling */
+.profile-username-row h1,
+.profile-username h1 {
   font-size: 2.2rem;
   font-weight: 700;
   margin: 0;
@@ -50,6 +62,7 @@
   letter-spacing: -1px;
 }
 
+/* Edit button inside profile-info */
 .profile-info .edit {
   font-size: 1rem;
   padding: 0.4rem 1.2rem;
@@ -64,11 +77,15 @@
   background: #004d99;
 }
 
+/* --- Profile Meta Data --- */
+
+/* Container for all meta items (labels and values) */
 .profile-meta {
   gap: 0.15rem;
   margin-top: 0.2rem;
 }
 
+/* Row layout for meta info, horizontal with gaps */
 .profile-meta-row {
   display: flex;
   flex-direction: row;
@@ -80,6 +97,7 @@
   flex-wrap: nowrap;
 }
 
+/* Each meta item aligned horizontally with small gap */
 .profile-meta-item {
   display: flex;
   align-items: center;
@@ -88,36 +106,23 @@
   white-space: nowrap;
 }
 
+/* Labels for profile meta */
 .profile-label {
   font-weight: 600;
   color: #1e3a8a;
   font-size: 1.05rem;
 }
 
+/* Values for profile meta */
 .profile-value {
   font-weight: 500;
   color: #222;
   font-size: 1.05rem;
 }
 
-.profile-post-count {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #222;
-}
+/* --- Profile Stats Section --- */
 
-.profile-name {
-  font-size: 1.1rem;
-  color: #333;
-  font-weight: 500;
-}
-
-.profile-email {
-  font-size: 1rem;
-  color: #555;
-  font-style: italic;
-}
-
+/* Container bar holding multiple profile stats */
 .profile-stats-bar {
   display: flex;
   flex-direction: row;
@@ -133,6 +138,7 @@
   box-shadow: 0 1px 4px rgba(30, 58, 138, 0.04);
 }
 
+/* Individual stat container */
 .profile-stat {
   display: flex;
   flex-direction: column;
@@ -140,6 +146,7 @@
   min-width: 70px;
 }
 
+/* Number shown in stat */
 .profile-stat-number {
   font-size: 1.45rem;
   font-weight: 700;
@@ -147,6 +154,7 @@
   margin-bottom: 0.1rem;
 }
 
+/* Label for the stat */
 .profile-stat-label {
   font-size: 1.05rem;
   color: #222;
@@ -154,6 +162,9 @@
   letter-spacing: 0.01em;
 }
 
+/* --- Additional Profile Details --- */
+
+/* Row containing profile details */
 .profile-details-row {
   display: flex;
   flex-direction: row;
@@ -164,6 +175,7 @@
   width: 100%;
 }
 
+/* Real name styling */
 .profile-realname {
   font-size: 1.18rem;
   font-weight: 600;
@@ -172,6 +184,7 @@
   margin-left: 0;
 }
 
+/* Profile bio styling */
 .profile-bio {
   font-size: 1.02rem;
   color: #666;
@@ -182,6 +195,7 @@
   word-break: break-all;
 }
 
+/* Post count displayed in profile */
 .profile-posts-count {
   font-size: 1.08rem;
   color: #1e3a8a;
@@ -189,6 +203,9 @@
   text-align: left;
 }
 
+/* --- Username and Stats Row --- */
+
+/* Container for username and stats aligned horizontally */
 .profile-username-stats-row {
   display: flex;
   flex-direction: row;
@@ -199,7 +216,8 @@
   margin-bottom: 0.5rem;
 }
 
-/* Update Username Form */
+/* --- Update Username Form --- */
+
 #update-heading {
   font-size: 2rem;
 }
@@ -214,6 +232,9 @@
   font-size: 1.4rem;
 }
 
+/* --- Responsive Design --- */
+
+/* For smaller screens: stack meta rows vertically */
 @media (max-width: 600px) {
   .profile-meta-row {
     flex-direction: column;
@@ -222,6 +243,7 @@
   }
 }
 
+/* For smaller screens: stack username-stats row vertically */
 @media (max-width: 600px) {
   .profile-username-stats-row {
     flex-direction: column;

@@ -6,14 +6,19 @@ import ImageContainer from "./ImageContainer";
 
 /**
  * Component for editing or creating events/issues.
- * Handles form state management, validation, and submission.
+ * Handles form state management, validation, image uploading, and submission.
  *
- * @param {Object} event - The event/issue data object (empty for new events)
- * @param {string} username - Username of the event creator
- * @param {Object} currentUser - Currently logged in user data
- * @param {Function} onSave - Callback for form submission with form data
- * @param {Function} onCancel - Callback for canceling the edit operation
- * @returns {JSX.Element} Form component for event data
+ * @component
+ * @param {Object} props - Component props
+ * @param {Object} [props.event={}] - The event/issue data object (empty for new events)
+ * @param {string} props.username - Username of the event creator
+ * @param {Object} props.currentUser - Currently logged in user data
+ * @param {Function} props.onSave - Callback for form submission with form data
+ * @param {Function} props.onCancel - Callback for canceling the edit operation
+ * @param {Function} props.onClose - Callback to close the parent modal/dialog
+ * @param {Object} props.dialogRef - React ref to the parent dialog element
+ * @param {Function} props.setIsWidgetOpen - Function to set the state of the upload widget
+ * @returns {JSX.Element} Form component for event/issue data
  */
 
 export default function EventForm({
@@ -29,6 +34,19 @@ export default function EventForm({
   /**
    * Initialize form state with event data or defaults
    * This tracks all editable fields for the event/issue
+   *
+   * @state
+   * @type {Object}
+   * @property {boolean} is_issue - Whether this is an issue (true) or event (false)
+   * @property {boolean} status - Whether the event/issue is active (true) or closed (false)
+   * @property {string} title - Title of the event/issue
+   * @property {string} address - Physical address for the event/issue
+   * @property {string} borough - NYC borough where the event/issue is located
+   * @property {string} zipcode - ZIP code for the event/issue location
+   * @property {string} email - Contact email address
+   * @property {string} phone - Contact phone number
+   * @property {string} description - Detailed description of the event/issue
+   * @property {Array<string>} images - Array of image URLs for the event/issue
    */
   const [formData, setFormData] = useState(() => {
     const safeEvent = event || {};
@@ -47,8 +65,19 @@ export default function EventForm({
   });
 
   /**
-   * Reset form data when event prop changes
+   * Reference to the modal content div
+   * Used to show/hide modal when image widget is open
+   *
+   * @type {React.RefObject}
+   */
+  const modalRef = useRef(null);
+
+  /**
+   * Effect to reset form data when event prop changes
    * Ensures form reflects the current event being edited
+   *
+   * @effect
+   * @dependsOn {event}
    */
   useEffect(() => {
     if (!event) return;
@@ -71,6 +100,13 @@ export default function EventForm({
     });
   }, [event]);
 
+  /**
+   * Effect to load the Cloudinary upload widget script
+   * Adds the script to the document body on mount and removes it on unmount
+   *
+   * @effect
+   * @dependsOn {[]} - Runs only on component mount
+   */
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://widget.cloudinary.com/v2.0/global/all.js";
@@ -85,6 +121,9 @@ export default function EventForm({
   /**
    * Change handler for form fields
    * Updates form state with the new value
+   *
+   * @function
+   * @param {Event} e - DOM event object
    */
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -98,6 +137,9 @@ export default function EventForm({
   /**
    * Handler for zipcode field
    * Ensures zipcode only contains numbers and limits to 5 digits
+   *
+   * @function
+   * @param {Event} e - DOM event object
    */
   const handleZipcodeChange = (e) => {
     // Only allow numbers and limit to 5 digits for basic ZIP
@@ -108,14 +150,22 @@ export default function EventForm({
   /**
    * Form submission handler
    * Prevents default form behavior and calls parent's onSave with form data
+   *
+   * @function
+   * @param {Event} e - DOM form submit event
    */
   const handleSubmit = (e) => {
     e.preventDefault();
     onSave(formData);
   };
 
-  const modalRef = useRef(null);
-
+  /**
+   * Opens the Cloudinary upload widget for image selection
+   * Manages dialog state before and after widget interaction
+   * Updates the form data with newly uploaded image URLs
+   *
+   * @function
+   */
   const handleUploadWidget = () => {
     const widget = window.cloudinary.createUploadWidget(
       {
@@ -160,9 +210,12 @@ export default function EventForm({
   };
 
   /**
-   * Render creator information based on whether this is a new post or an edit
-   * - For existing posts: Shows original creator
+   * Renders creator information based on whether this is a new post or an edit
    * - For new posts: Shows current user as future creator
+   * - For existing posts: Shows original creator
+   *
+   * @function
+   * @returns {JSX.Element|null} UserLink component showing creator information or null
    */
   const renderCreatedBy = () => {
     if (!event?.id && currentUser) {
@@ -267,7 +320,7 @@ export default function EventForm({
               name="title"
               label="Title"
               value={formData.title}
-              onChange={e => {
+              onChange={(e) => {
                 if (e.target.value.length <= 50) handleChange(e);
               }}
               placeholder="Title*"
@@ -275,7 +328,14 @@ export default function EventForm({
               maxLength={50}
             />
 
-            <p style={{ fontSize: '0.95em', color: formData.title.length === 50 ? 'red' : '#666', marginTop: '-8px', marginBottom: '8px' }}>
+            <p
+              style={{
+                fontSize: "0.95em",
+                color: formData.title.length === 50 ? "red" : "#666",
+                marginTop: "-8px",
+                marginBottom: "8px",
+              }}
+            >
               {formData.title.length}/50 characters
             </p>
 
@@ -340,17 +400,28 @@ export default function EventForm({
               label="Description:"
               type="textarea"
               value={formData.description}
-              onChange={e => {
+              onChange={(e) => {
                 if (e.target.value.length <= 250) handleChange(e);
               }}
               rows="4"
               placeholder="Description*"
               required
               maxLength={250}
-              style={{ overflowWrap: 'break-word', wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}
+              style={{
+                overflowWrap: "break-word",
+                wordBreak: "break-word",
+                whiteSpace: "pre-wrap",
+              }}
             />
 
-            <p style={{ fontSize: '0.95em', color: formData.description.length === 250 ? 'red' : '#666', marginTop: '-8px', marginBottom: '8px' }}>
+            <p
+              style={{
+                fontSize: "0.95em",
+                color: formData.description.length === 250 ? "red" : "#666",
+                marginTop: "-8px",
+                marginBottom: "8px",
+              }}
+            >
               {formData.description.length}/250 characters
             </p>
 

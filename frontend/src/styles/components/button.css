@@ -1,3 +1,6 @@
+/* ===========================
+   Base button styles
+   =========================== */
 button {
   padding: 0.5rem 1.25rem;
   border-radius: 6px;
@@ -10,6 +13,7 @@ button {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
 }
 
+/* Hover and focus state for buttons */
 button:hover,
 button:focus {
   background: #004d99;
@@ -17,17 +21,24 @@ button:focus {
   outline: none;
 }
 
+/* Active (pressed) button state */
 button:active {
   background: #3498db;
   color: #fff;
 }
 
+/* Disabled button state */
 button:disabled {
   background: #ccc;
   color: #666;
   cursor: not-allowed;
 }
 
+/* ===========================
+   Icon buttons
+   =========================== */
+
+/* Close icon positioned top-right, usually for modals */
 .close-icon {
   position: absolute;
   top: 16px;
@@ -39,6 +50,7 @@ button:disabled {
   width: 2rem;
 }
 
+/* Add icon styling, clickable with hover effects */
 .add-icon {
   width: 2rem;
   height: auto;
@@ -47,11 +59,13 @@ button:disabled {
   color: #0077cc;
 }
 
+/* Edit profile icon, smaller and spaced from other elements */
 .edit-profile-icon {
   width: 1.5rem;
   margin-left: 0.5rem;
 }
 
+/* Shared styles for edit, delete, close, and edit-profile icons */
 .edit-icon,
 .delete-icon,
 .close-icon,
@@ -62,6 +76,7 @@ button:disabled {
   color: #6c757d;
 }
 
+/* Hover effects for editable icons: blue tint and slight scaling */
 .edit-icon:hover,
 .add-icon:hover,
 .edit-profile-icon:hover {
@@ -69,13 +84,18 @@ button:disabled {
   transform: scale(1.1);
 }
 
+/* Hover effects for destructive or close icons: red tint and scaling */
 .close-icon:hover,
 .delete-icon:hover {
   color: rgb(255, 0, 0);
   transform: scale(1.1);
 }
 
-/* EventForm */
+/* ===========================
+   EventForm buttons
+   =========================== */
+
+/* Button for changing an image in a form, styled prominently */
 .change-image-btn {
   position: static;
   bottom: unset;
@@ -96,12 +116,14 @@ button:disabled {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
 }
 
+/* Hover state for change image button */
 .change-image-btn:hover {
   opacity: 1;
   background: #004d99;
   color: #fff;
 }
 
+/* Wrapper to center the change image button */
 .change-image-btn-wrapper {
   width: 100%;
   display: flex;
@@ -109,6 +131,11 @@ button:disabled {
   margin-top: 1rem;
 }
 
+/* ===========================
+   Carousel buttons (ImageContainer)
+   =========================== */
+
+/* Circular navigation buttons for carousel */
 .carousel-button {
   position: absolute;
   top: 50%;
@@ -128,12 +155,13 @@ button:disabled {
   z-index: 2;
 }
 
-/* ImageContainer */
+/* Hover state for carousel buttons - darker background and scale up */
 .carousel-button:hover {
   background: rgba(0, 0, 0, 0.8);
   transform: translateY(-50%) scale(1.1);
 }
 
+/* Positioning for previous and next buttons */
 .carousel-button.prev {
   left: 10px;
 }
@@ -142,6 +170,7 @@ button:disabled {
   right: 10px;
 }
 
+/* Disabled state for carousel buttons - greyed out and no interaction */
 .carousel-button.disabled,
 .carousel-button:disabled {
   background: #e0e0e0 !important;
@@ -151,7 +180,11 @@ button:disabled {
   box-shadow: none;
 }
 
-/* Comment */
+/* ===========================
+   Comment input button styles
+   =========================== */
+
+/* Button inside comment input area */
 .comment-input button {
   height: 48px;
   min-width: 120px;

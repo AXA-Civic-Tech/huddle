@@ -1,4 +1,10 @@
-/* Modal Base Styling */
+/* ================================
+   Base Modal Styling
+   - Centered fixed modal with rounded corners and shadow
+   - Responsive max width and height with padding
+   - Scrollable vertical overflow inside modal
+   - White background for content clarity
+   ================================ */
 .modal {
   border: none;
   border-radius: 12px;
@@ -16,12 +22,22 @@
   overflow-y: auto;
 }
 
+/* ================================
+   Modal backdrop styling
+   - Semi-transparent dark background with blur effect behind modal
+   ================================ */
 .modal::backdrop {
   background-color: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(3px);
 }
 
-/* Modal Content Container Layout */
+/* ================================
+   Modal content container
+   - Flexbox layout with horizontal spacing (gap)
+   - Full width with relative positioning
+   - Padding on top for spacing from modal edge
+   - Hides overflow content except vertical scroll
+   ================================ */
 .modal-content {
   gap: 24px;
   flex: 1;
@@ -33,7 +49,12 @@
   padding-top: 2rem;
 }
 
-/* Content Container */
+/* ================================
+   Content container for event details
+   - Flexible width, prevents overflow
+   - Vertical scroll if content exceeds height
+   - Padding on right for scrollbar space
+   ================================ */
 .event-content {
   flex: 1;
   min-width: 0; /* Prevent flex item from overflowing */
@@ -43,10 +64,18 @@
   position: relative;
 }
 
+/* ================================
+   Container for event view section
+   - Adds bottom margin to separate from other content
+   ================================ */
 .event-view {
   margin-bottom: 20px;
 }
 
+/* ================================
+   Event title styling
+   - Larger, bold font with spacing and dark color
+   ================================ */
 .event-title {
   font-size: 24px;
   font-weight: 600;
@@ -55,12 +84,21 @@
   color: #222;
 }
 
+/* ================================
+   Created-by text styling
+   - Smaller, muted color for author info with bottom margin
+   ================================ */
 .created-by {
   font-size: 14px;
   color: #666;
   margin-bottom: 16px;
 }
 
+/* ================================
+   Created-by link styling
+   - Blue color link with no underline by default
+   - Underline and color transition on hover
+   ================================ */
 .created-by a {
   text-decoration: none;
   color: #007bff;
@@ -71,17 +109,31 @@
   transition: #0056b3 0.2s;
 }
 
-/* Description Section */
+/* ================================
+   Description section container
+   - Top margin for spacing from above elements
+   ================================ */
 .description-section {
   margin-top: 16px;
 }
 
+/* ================================
+   Heading inside description section
+   - Medium font size, bottom margin, blue color
+   ================================ */
 .description-section h3 {
   font-size: 16px;
   margin-bottom: 8px;
-  color: #004D99
+  color: #004d99;
 }
 
+/* ================================
+   Description text styling
+   - Comfortable line height
+   - Preserve white space and line breaks
+   - Wrap words properly to prevent overflow
+   - Neutral text color
+   ================================ */
 .description-text {
   line-height: 1.6;
   white-space: pre-wrap;
@@ -90,13 +142,22 @@
   word-break: break-word;
 }
 
+/* ================================
+   Containers for location details and contact info
+   - Vertical margin spacing and vertical padding
+   ================================ */
 .location-details,
 .contact-info {
   margin: 12px 0;
   padding: 10px 0;
 }
 
-/* Modal actions */
+/* ================================
+   Modal action buttons container
+   - Flexbox aligned to right
+   - Gap between buttons
+   - Full width for layout control
+   ================================ */
 .modal-actions {
   display: flex;
   justify-content: flex-end;
@@ -104,7 +165,13 @@
   width: 100%;
 }
 
-/* Responsive Styles */
+/* ================================
+   Responsive styles for tablets and smaller devices
+   - Stack modal content vertically
+   - Adjust image and content widths
+   - Make modal actions stack vertically
+   - Buttons take full width for easier tapping
+   ================================ */
 @media (max-width: 768px) {
   .modal-content {
     flex-direction: column;
@@ -137,6 +204,11 @@
   }
 }
 
+/* ================================
+   Responsive styles for small mobile devices
+   - Increase modal width slightly to 95%
+   - Reduce modal content padding for smaller screens
+   ================================ */
 @media (max-width: 480px) {
   .modal {
     width: 95%;
@@ -146,7 +218,13 @@
     padding: 15px;
   }
 }
+
+/* ================================
+   Label styling used in forms or fields
+   - Bold font weight
+   - Blue color enforced with !important
+   ================================ */
 .field-label {
   font-weight: 600;
-  color: #004D99 !important;
+  color: #004d99 !important;
 }

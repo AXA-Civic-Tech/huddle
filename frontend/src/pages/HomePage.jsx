@@ -14,6 +14,8 @@ import {
  * @param {Object} props - Component props
  * @param {boolean} props.authOverlayOpen - Controls visibility of authentication overlay
  * @param {Function} props.closeAuthOverlay - Handler to close the authentication overlay
+ * @param {Function} props.openAuthOverlay - Handler to open the authentication overlay
+ *
  * @returns {JSX.Element} HomePage component with Feed, Map, and conditional auth overlay
  */
 
@@ -28,7 +30,11 @@ export default function HomePage({
   const [filterValue, setFilterValue] = useState(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-  // Close modal on Escape key press
+  /**
+   * Effect to add a global keydown listener for Escape key.
+   * Closes the authentication overlay if open when Escape is pressed.
+   * Cleans up event listener on unmount or dependency change.
+   */
   useEffect(() => {
     const onEscKey = (event) => {
       if (event.key === "Escape" && authOverlayOpen) {
@@ -39,11 +45,25 @@ export default function HomePage({
     return () => window.removeEventListener("keydown", onEscKey);
   }, [authOverlayOpen, closeAuthOverlay]);
 
+  /**
+   * Handler for when the map moves.
+   * Updates map center and optionally the zoom level.
+   *
+   * @param {Object} center - The new center coordinates { lat, lng }
+   * @param {number} [zoom] - Optional new zoom level
+   */
   const handleMapMove = (center, zoom) => {
     setMapCenter(center);
     if (zoom) setMapZoom(zoom);
   };
 
+  /**
+   * Handler for changes in the filter selection.
+   * Parses filter type and value from selection, updates state,
+   * and adjusts map center and zoom based on borough or neighborhood selection.
+   *
+   * @param {React.ChangeEvent<HTMLSelectElement>} e - The change event from filter dropdown
+   */
   const handleFilterChange = (e) => {
     const value = e.target.value;
     if (value.includes(":")) {
@@ -67,6 +87,10 @@ export default function HomePage({
     }
   };
 
+  /**
+   * Handler to trigger a refresh of posts/feed.
+   * Increments the refreshTrigger state to cause refresh.
+   */
   const handlePostUpdate = () => {
     setRefreshTrigger((prev) => prev + 1);
   };

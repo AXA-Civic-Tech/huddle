@@ -1,4 +1,17 @@
-import React from "react";
+/**
+ * MapLegend Component
+ *
+ * A simple legend UI that explains the meaning of different map marker icons.
+ * It displays icon images with corresponding labels for:
+ * - Event (default/active event marker)
+ * - Issue (reported issue marker)
+ * - Closed (closed event marker)
+ *
+ * This component is meant to be used as a visual guide for interpreting markers
+ * on a Google Map instance.
+ *
+ * @returns {JSX.Element} A legend explaining map marker types.
+ */
 
 export default function MapLegend() {
   return (
@@ -17,4 +30,4 @@ export default function MapLegend() {
       </div>
     </div>
   );
-} 
+}

@@ -5,21 +5,22 @@ import CurrentUserContext from "../contexts/current-user-context";
 import Button from "./Button";
 
 /**
- * Login form component for user authentication.
- * Handles form state, validation, API communication, and post-login redirects.
- * Integrates with the application's user context to update authentication state.
+ * LoginForm component handles user authentication.
  *
- * Features:
- * - Username/password input collection and validation
- * - Error state handling and display
- * - Integration with auth adapter for login API requests
- * - Context updates on successful authentication
- * - Support for redirect after successful login
+ * This component:
+ * - Collects username and password input
+ * - Validates the form before submitting
+ * - Sends login requests through the `logUserIn` API adapter
+ * - Updates user context on successful login
+ * - Supports redirecting the user to a specific path after login
  *
- * @param {Object} props - Component props
- * @param {Function} props.onClose - Handler called after login attempt (success or failure)
- * @param {string} props.redirectAfterLogin - Path to redirect to after successful login
- * @returns {JSX.Element} Login form with username/password fields and submission button
+ * Displays any errors during login and provides a close handler for parent modals.
+ *
+ * @component
+ * @param {Object} props - Props passed to LoginForm
+ * @param {Function} props.onClose - Callback to close the form/modal after login
+ * @param {string} [props.redirectAfterLogin="/"] - Optional path to redirect to after successful login
+ * @returns {JSX.Element} A login form with inputs for username and password
  */
 
 export default function LoginForm({ onClose, redirectAfterLogin = "/" }) {
