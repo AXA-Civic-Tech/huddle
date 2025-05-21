@@ -17,7 +17,7 @@ export default function MapLegend() {
   return (
     <div>
       <div className="legend-row">
-        <img src="/event-marker2.png" alt="Event" />
+        <img src="/event-marker.png" alt="Event" />
         <span>Event</span>
       </div>
       <div className="legend-row">
