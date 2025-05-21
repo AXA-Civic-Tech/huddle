@@ -3,17 +3,31 @@ import { useNavigate } from "react-router-dom";
 import { updateUsername } from "../adapters/user-adapter";
 
 /**
- * @params currentUser, setCurrentUser
- * A form surrounded by `dialog` in UserPage
- * User can update their username
- * User will see error message if the username exists
- * @returns
+ * Renders a form inside a dialog allowing the current user to update their username.
+ * Displays error messages if the username is already taken or other errors occur.
+ * Upon successful update, updates the currentUser state and resets the form.
+ * Redirects to home page on certain authentication errors.
+ *
+ * @param {Object} props
+ * @param {Object} props.currentUser - The currently authenticated user object
+ * @param {Function} props.setCurrentUser - Function to update the currentUser state
+ * @returns {JSX.Element} The username update form component
  */
 
 export default function UpdateUsernameForm({ currentUser, setCurrentUser }) {
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState("");
 
+  /**
+   * Handles the form submission to update the username.
+   *
+   * Prevents default form submission behavior.
+   * Calls the updateUsername adapter with form data.
+   * Handles errors for username conflicts and authentication issues.
+   * On success, updates currentUser state and resets the form.
+   *
+   * @param {React.FormEvent<HTMLFormElement>} event - The form submit event
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrMsg("");

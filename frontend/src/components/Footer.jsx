@@ -1,5 +1,19 @@
 import { Link } from "react-router-dom";
 
+/**
+ * Footer component for the website.
+ *
+ * Displays:
+ * - Copyright with current year.
+ * - GitHub link to AXA Civic Tech project.
+ * - Attribution to project contributors with links to their GitHub, portfolio, and LinkedIn.
+ *
+ * This component is static and shared across all pages.
+ *
+ * @component
+ * @returns {JSX.Element} The footer section of the site.
+ */
+
 export default function Footer() {
   return (
     <footer className="footer">

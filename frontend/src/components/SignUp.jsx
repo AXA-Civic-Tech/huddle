@@ -22,12 +22,12 @@ import Button from "./Button";
  * - Support for redirect after successful registration
  *
  * @param {Object} props - Component props
- * @param {Function} props.onClose - Handler called after registration process completes
+ * @param {function():void} props.onClose - Callback fired after registration completes (success or cancel)
  * @returns {JSX.Element} Registration form with validation and submission handling
  */
 
 export default function SignUpForm({ onClose }) {
-  const SITE_KEY = "6Lf1FC8rAAAAAJ4egdXJ_RkeePpHowuY1ZFKb20S"; 
+  const SITE_KEY = "6Lf1FC8rAAAAAJ4egdXJ_RkeePpHowuY1ZFKb20S";
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -48,11 +48,11 @@ export default function SignUpForm({ onClose }) {
   const [usernameAvailable, setUsernameAvailable] = useState(true); // Tracks if the username is available
 
   /**
-   * Checks if a username is available by making an API call
-   * Updates the UI state based on the result
+   * Checks if a username is available by making an API call.
+   * Updates UI state to reflect checking and result.
    *
    * @param {string} username - The username to check
-   * @returns {Promise<void>} - Resolves when availability check completes
+   * @returns {Promise<void>} Resolves when availability check completes
    */
   const checkUsername = async (username) => {
     if (!username) {
@@ -74,11 +74,12 @@ export default function SignUpForm({ onClose }) {
   };
 
   /**
-   * Form submission handler
-   * Validates all inputs, verifies reCAPTCHA, and attempts user registration
+   * Handles form submission.
+   * Validates inputs, verifies reCAPTCHA, registers user via API,
+   * updates context, redirects user, and closes overlay.
    *
-   * @param {Event} event - Form submission event
-   * @returns {Promise<void>} - Resolves when registration process completes
+   * @param {React.FormEvent<HTMLFormElement>} event - Form submission event
+   * @returns {Promise<void>}
    */
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -121,10 +122,10 @@ export default function SignUpForm({ onClose }) {
   };
 
   /**
-   * Input change handler for all form fields
-   * Updates corresponding state and triggers validation when needed
+   * Handles input changes for all form fields.
+   * Updates corresponding state values and triggers username availability check when relevant.
    *
-   * @param {Event} event - Input change event
+   * @param {React.ChangeEvent<HTMLInputElement>} event - Input change event
    */
   const handleChange = (event) => {
     const { name, value } = event.target;

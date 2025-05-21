@@ -3,16 +3,24 @@ import { getUser } from "../adapters/user-adapter";
 import UserLink from "./UserLink";
 
 /**
- * @params event, onSelect
- * Renders exisitng issues/events on Feed
+ * Renders a clickable post card displaying summary information
+ * about an event or issue, including title, status, creator, and image.
  *
- * Styling: Hover Effect for indication that it's clickable
- * @returns
+ * @component
+ * @param {Object} props - Component props
+ * @param {Object} props.event - The event/issue object containing data to display
+ * @param {Function} props.onSelect - Callback triggered when the post is clicked
+ * @param {Function} [props.onClose] - Optional callback used to close a modal or overlay
+ * @returns {JSX.Element} The rendered post card component
  */
 
 export default function Post({ event, onSelect, onClose }) {
   const [username, setUsername] = useState("Loading...");
 
+  /**
+   * Fetch the username of the event's creator using the user ID.
+   * Sets fallback text if fetch fails or user is not found.
+   */
   useEffect(() => {
     // Fetch username when component shows or event.user_id changes
     const fetchUsername = async () => {
@@ -30,10 +38,15 @@ export default function Post({ event, onSelect, onClose }) {
     fetchUsername();
   }, [event?.user_id]);
 
+  /**
+   * Handles clicking on the post card.
+   * Triggers the onSelect callback with the event data.
+   */
   const handleClick = () => {
     if (onSelect) onSelect(event);
   };
 
+  // Determine the image URL and fallback logic
   const imageUrl = Array.isArray(event.images) ? event.images[0] : event.images;
   const validImage = imageUrl && imageUrl.trim() !== "";
 

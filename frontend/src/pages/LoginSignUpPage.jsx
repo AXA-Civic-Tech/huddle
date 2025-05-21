@@ -9,10 +9,11 @@ import Button from "../components/Button";
  * and signup forms while displaying the app's mission statement.
  *
  * @param {Object} props - Component props
- * @param {string} props.initialForm - Which form to display initially ('login' or 'signup')
+ * @param {string} [props.initialForm="signup"] - Which form to display initially ('login' or 'signup')
  * @param {Function} props.onClose - Handler called when auth process completes or is cancelled
- * @param {string} props.redirectAfterLogin - Path to redirect to after successful login
- * @returns {JSX.Element} Authentication page with togglable login/signup forms
+ * @param {string} [props.redirectAfterLogin] - Path to redirect to after successful login
+ *
+ * @returns {JSX.Element} Authentication page with togglable login/signup forms and mission info
  */
 
 export default function LoginSignUpPage({
@@ -22,14 +23,24 @@ export default function LoginSignUpPage({
 }) {
   const [activeForm, setActiveForm] = useState(initialForm);
 
-  // Update active form when initialForm changes (in case of mode switch)
+  /**
+   * Syncs the activeForm state with the initialForm prop.
+   * This allows the parent to control which form is shown dynamically.
+   */
   useEffect(() => {
     setActiveForm(initialForm);
   }, [initialForm]);
 
+  // Determine if current form is login or signup
   const isLogin = activeForm === "login";
+
+  // Prompt text shown below the form to toggle between login/signup
   const promptText = isLogin ? "Don't have an account?" : "Have an account?";
+
+  // Button label text for toggling forms
   const buttonText = isLogin ? "Sign Up" : "Log In";
+
+  // Form name to switch to on button click
   const nextForm = isLogin ? "signup" : "login";
 
   return (

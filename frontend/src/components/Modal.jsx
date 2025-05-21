@@ -9,14 +9,19 @@ import CommentsSection from "./Modal_children/CommentsSection";
 import ImageContainer from "./Modal_children/ImageContainer";
 
 /**
- * Main container component that orchestrates the display of event details.
- * Manages dialog state, determines edit/view mode, and handles user permissions.
+ * A modal dialog that displays either an event form (for creating or editing)
+ * or a detailed view of an event/issue. Includes logic for permissions,
+ * editing, deleting, saving, and fetching related user data.
  *
- * @param {Object} event - The event/issue data object
- * @param {boolean} isOpen - Controls whether the modal is displayed
- * @param {Function} onClose - Callback for when modal is closed
- * @param {boolean} viewing - Force view-only mode regardless of permissions
- * @returns {JSX.Element} Modal dialog component
+ * @component
+ * @param {Object} props
+ * @param {Object} props.event - Event or issue data object
+ * @param {boolean} props.isOpen - Controls whether the modal is displayed
+ * @param {Function} props.onClose - Callback to handle modal close
+ * @param {boolean} [props.viewing=false] - Optional view-only mode
+ * @param {Function} props.openAuthOverlay - Callback to show auth overlay if user not logged in
+ * @param {boolean} props.authOverlayOpen - Determines if auth overlay is currently open
+ * @returns {JSX.Element|null} A modal component for viewing/editing an event
  */
 
 export default function Modal({
@@ -27,17 +32,29 @@ export default function Modal({
   openAuthOverlay,
   authOverlayOpen,
 }) {
+  // Don't render modal if auth overlay is open
   if (authOverlayOpen) return null;
 
+  // DOM reference for modal dialog element
   const dialogRef = useRef();
+
+  // Access current logged-in user from context
   const { currentUser } = useContext(CurrentUserContext);
+
+  // Username of event owner
   const [username, setUsername] = useState("Loading...");
+
+  // Toggles whether any internal widgets (like image upload) are open
   const [isWidgetOpen, setIsWidgetOpen] = useState(false);
 
-  // Determine initial component state based on event data
+  // True if creating a new post
   const isNew = !event?.id;
+
+  // Determines if user has permission to edit post
   const isEditableByUser =
     isNew || (currentUser && currentUser.id === event.user_id && !viewing);
+
+  // Toggles between edit and view mode
   const [isEdit, setIsEdit] = useState(isNew);
 
   /**

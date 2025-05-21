@@ -1,12 +1,17 @@
 import { neighborhoodsByBorough } from "../../utils/neighborhoods";
 
 /**
- * Component for handling filter selection
+ * Component for handling filter selection in the feed interface
+ * Renders a dropdown with options for filtering posts by various criteria including
+ * status, type, borough, neighborhood, and upvoted posts (for users viewing their profiles)
+ *
+ * @component
  * @param {Object} props - Component props
- * @param {string} props.value - Current filter value
- * @param {Function} props.onChange - Handler for filter changes
- * @param {Object} props.currentUser - Current user data
- * @param {string} props.pathname - Current path
+ * @param {string} props.value - Current filter value in format "filterType:filterValue"
+ * @param {Function} props.onChange - Handler function called when filter selection changes
+ * @param {Object|null} props.currentUser - Current user data, null if not logged in
+ * @param {string} props.pathname - Current path from router
+ * @returns {JSX.Element} The rendered FilterSelect component
  */
 
 export default function FilterSelect({
@@ -15,6 +20,14 @@ export default function FilterSelect({
   currentUser,
   pathname,
 }) {
+  /**
+   * Generates neighborhood options grouped by borough
+   * Converts the neighborhoodsByBorough object into JSX option elements
+   * organized within optgroups for each borough
+   *
+   * @function
+   * @returns {JSX.Element[]} Array of optgroup elements containing neighborhood options
+   */
   const renderNeighborhoodOptions = () => {
     return Object.entries(neighborhoodsByBorough).map(
       ([borough, neighborhoods]) => (

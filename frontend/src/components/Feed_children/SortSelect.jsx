@@ -1,5 +1,6 @@
 /**
  * Component for handling sort selection
+ *
  * @param {Object} props - Component props
  * @param {string} props.value - Current sort value
  * @param {Function} props.onChange - Handler for sort changes

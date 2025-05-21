@@ -10,16 +10,25 @@ import FeedControls from "./Feed_children/FeedControls";
 import EventSearchBar from "./EventSearchBar";
 
 /**
- * Reusable component in both HomePage and UserPage
- * Displays on the left side and on top of the Map
- * Renders ALL posts && Post receive event as a prop
- * HomePage: Filter by All Posts, Status, Type, Borough, and different Neighborhoods based on Borough
- * HomePage: Sort by Most Recent and Most Upvotes
+ * Feed component displays a list of community posts.
  *
- * UserPage: Sort by Upvote (Most Recent) && Title is "Upvote"
+ * Reusable in both HomePage and UserPage.
+ * - Filters posts by status, type, borough, neighborhood, and upvotes.
+ * - Allows sorting by most recent and most urgent.
+ * - Displays a modal for post interaction.
  *
- * STRETCH: Feed should display different Posts based on the area when zoomed in or out
- * @returns
+ * @component
+ * @param {Object} props
+ * @param {Function} props.onPostCountChange - Callback to update the number of posts shown in user profile.
+ * @param {string} props.filterType - Type of filter applied (e.g., 'status', 'type', 'borough').
+ * @param {string} props.filterValue - The value for the selected filter type.
+ * @param {Function} props.onFilterChange - Handler for updating filter values.
+ * @param {Function} props.onMapMove - Callback for centering the map on post modal open.
+ * @param {Function} props.openAuthOverlay - Callback to open the authentication modal.
+ * @param {boolean} props.authOverlayOpen - Whether the auth modal is currently open.
+ * @param {Function} props.onPostUpdate - Callback after a post is updated.
+ *
+ * @returns {JSX.Element} Rendered feed of posts.
  */
 
 export default function Feed({
@@ -50,7 +59,10 @@ export default function Feed({
   const isViewing =
     currentUser && urlUserId && currentUser.id !== parseInt(urlUserId);
 
-  // Fetch posts and apply upvote filtering if needed
+  /**
+   * Fetches all posts and filters them based on upvotes (if viewing user page).
+   * Also sets post count when on a user profile.
+   */
   const fetchPosts = async () => {
     setLoading(true);
 
@@ -89,10 +101,18 @@ export default function Feed({
     setLoading(false);
   };
 
+  /**
+   * useEffect to fetch posts whenever the filter type or value changes.
+   * Triggers post reload and re-applies upvote logic if needed.
+   */
   useEffect(() => {
     fetchPosts();
   }, [filterType, filterValue]);
 
+  /**
+   * useEffect to update the feed title whenever sort or filter criteria change.
+   * Changes based on combinations of filterType and filterValue.
+   */
   useEffect(() => {
     let newTitle = "Community Posts";
 
@@ -117,6 +137,10 @@ export default function Feed({
     setTitle(newTitle);
   }, [sort, filterType, filterValue]);
 
+  /**
+   * Opens the modal with selected post details and moves the map to the post's location.
+   * @param {Object} event - The selected post object.
+   */
   const openModal = (event) => {
     setSelectedPost(event);
     setIsOpen(true);
@@ -131,7 +155,10 @@ export default function Feed({
     }
   };
 
-  // Simplified logic here, all we need to do is fetch all posts again any time a post is updated/deleted
+  /**
+   * Closes the post modal and refreshes the posts.
+   * Also triggers the onPostUpdate callback if provided.
+   */
   const closeModal = async () => {
     // Always re-fetch posts after an update or delete
     fetchPosts();
@@ -140,15 +167,29 @@ export default function Feed({
     setIsOpen(false);
   };
 
+  /**
+   * Opens the modal to create a new post.
+   */
   const handleNewPost = () => {
     setSelectedPost({});
     setIsOpen(true);
   };
 
+  /**
+   * Handles change in sorting method.
+   * @param {Event} e - The change event from the dropdown.
+   */
   const handleSortChange = (e) => {
     setSort(e.target.value);
   };
 
+  /**
+   * Applies filtering and sorting logic to the post list.
+   * Filters by user, status, type, borough, neighborhood, and search query.
+   * Sorts by most recent or most upvoted (urgent).
+   *
+   * @returns {Array} List of filtered and sorted post objects.
+   */
   const getFilteredAndSortedPosts = () => {
     // First apply filters
     let filtered = [...posts];
@@ -252,16 +293,14 @@ export default function Feed({
           </div>
         ) : (
           <div className="posts-scroll-container">
-            {sorted
-              .filter(Boolean)
-              .map((post) => (
-                <Post
-                  key={post.id}
-                  event={post}
-                  onSelect={openModal}
-                  onClose={closeModal}
-                />
-              ))}
+            {sorted.filter(Boolean).map((post) => (
+              <Post
+                key={post.id}
+                event={post}
+                onSelect={openModal}
+                onClose={closeModal}
+              />
+            ))}
           </div>
         )}
 

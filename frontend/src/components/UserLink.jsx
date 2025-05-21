@@ -1,14 +1,18 @@
 import { Link, useLocation } from "react-router-dom";
 
 /**
- * Component for rendering links to user profiles.
- * Includes callback capability for navigation events.
+ * UserLink component renders a link to a user's profile page.
  *
- * @param {string|number} userId - ID of the user to link to
- * @param {string} username - Username to display in the link
- * @param {Function} onClose - Optional callback when link is clicked
- * @param {ReactNode} children - Content to display inside the link
- * @returns {JSX.Element} Link to user profile
+ * It optionally triggers a callback function when the link is clicked (e.g., to close a modal).
+ * The link preserves the current location pathname in the navigation state.
+ *
+ * @param {Object} props
+ * @param {string|number} props.userId - The unique ID of the user to link to.
+ * @param {string} props.username - The username to display as link text if children are not provided.
+ * @param {Function} [props.onClose] - Optional callback function triggered on link click.
+ * @param {React.ReactNode} [props.children] - Optional children to render inside the link instead of username.
+ *
+ * @returns {JSX.Element} The rendered user profile link component.
  */
 
 export default function UserLink({ userId, username, onClose, children }) {
