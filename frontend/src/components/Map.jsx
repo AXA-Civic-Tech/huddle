@@ -83,7 +83,7 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
       if (group.length === 1) {
         // Single event at location
         const event = group[0];
-        let iconUrl = "/event-marker2.png";
+        let iconUrl = "/event-marker.png";
         if (event.status === false) {
           iconUrl = "/closed-marker.png";
         } else if (event.is_issue === true) {
@@ -113,7 +113,7 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
           const latOffset = Math.cos(angle) * OFFSET_RADIUS;
           const lngOffset = Math.sin(angle) * OFFSET_RADIUS;
 
-          let iconUrl = "/event-marker2.png";
+          let iconUrl = "/event-marker.png";
           if (event.status === false) {
             iconUrl = "/closed-marker.png";
           } else if (event.is_issue === true) {
@@ -194,7 +194,7 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
       legendDiv.className = "map-legend";
       legendDiv.innerHTML = `
         <div class='legend-row'>
-          <img src='/event-marker2.png' alt='Event' style='width:28px;height:28px;vertical-align:middle;margin-right:4px;'/>
+          <img src='/event-marker.png' alt='Event' style='width:28px;height:28px;vertical-align:middle;margin-right:4px;'/>
           <span>Event</span>
         </div>
         <div class='legend-row'>
