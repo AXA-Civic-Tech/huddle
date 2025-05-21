@@ -1,7 +1,7 @@
 # Huddle
 
 > **_Project Mission Statement:_**  
-> We’re ending loneliness in New York City by bridging the visibility gap between neighbors. Our platform surfaces hyper-local events and issues in real time—so you can spot what’s happening on your block and jump into the conversation. The goal: timely information that sparks connection, resilience, and a stronger sense of community for every New Yorker.
+> Our mission is to make local knowledge open and accessible—so New Yorkers can connect, care, and create change together. We believe that when communities share information, they build power—and turn scattered facts into shared momentum. Less hidden data. More collective strength.
 
 ## Team
 
