@@ -90,12 +90,12 @@ Media queries for responsive design
 
 /* Fix for feed overflow */
 .feed-home {
-  max-height: calc(100vh - 7rem);
+  max-height: calc(95vh - 7rem);
   overflow-y: auto;
 }
 
 .posts-scroll-container {
-  max-height: calc(100vh - 350px);
+  max-height: calc(95vh - 350px);
   overflow-y: auto;
 }
 

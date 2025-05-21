@@ -7,7 +7,7 @@
   top: 0;
   left: 0;
   width: var(--feed-width);
-  height: calc(100vh - 7rem); /* Significantly reduced height to ensure visibility */
+  height: calc(95vh - 7rem); /* Match the new homepage height */
   z-index: 2; /* Keep feed above the map */
   padding: 1rem;
   margin: var(--feed-top-margin) 0 3rem var(--feed-margin); /* Increased bottom margin */

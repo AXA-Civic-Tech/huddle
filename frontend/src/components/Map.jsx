@@ -192,6 +192,8 @@ const Map = ({ mapCenter, mapZoom, onMapMove, refreshTrigger }) => {
 
       const legendDiv = document.createElement("div");
       legendDiv.className = "map-legend";
+      legendDiv.style.marginBottom = "5rem";
+      legendDiv.style.marginRight = "50px";
       legendDiv.innerHTML = `
         <div class='legend-row'>
           <img src='/event-marker2.png' alt='Event' style='width:28px;height:28px;vertical-align:middle;margin-right:4px;'/>
