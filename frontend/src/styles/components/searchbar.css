@@ -87,4 +87,5 @@
 .event-searchbar-container {
   width: 100%;
   margin: 16px 0 0px 0;
+  margin-bottom: 0px !important;
 }
