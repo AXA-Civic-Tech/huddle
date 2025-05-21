@@ -128,13 +128,7 @@
   --fix: ; /* Custom property to workaround Safari bug */
 }
 
-/* Container for event search bar */
-/* Full width with vertical margin spacing */
-.event-searchbar-container {
-  width: 100%;
-  max-width: 100%;
-  margin: 1rem 0; /* Remove left margin for flush alignment */
-}
+
 
 /* Scroll container for posts */
 /* Flexible height with vertical overflow auto */
@@ -195,4 +189,17 @@
 .post-card {
   width: 90% !important;
   margin: 0.5rem auto;
+}
+
+.feed-content h1 {
+  text-align: left;
+  align-self: flex-start;
+  width: 100%;
+  margin-left: 1rem;
+}
+
+.event-searchbar-container input {
+  max-width: 95%;
+  margin: 0 auto;
+  display: block;
 }
