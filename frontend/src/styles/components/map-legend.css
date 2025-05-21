@@ -18,7 +18,9 @@
   flex-direction: column;
   gap: 10px;
   border: 1px solid #e0e0e0;
-  margin-right: 40px;
+  position: absolute;
+  bottom: 5rem;
+  right: 50px;
 }
 
 /* ================================

@@ -3,6 +3,191 @@ Responsive styles
 Media queries for responsive design
 */
 
+/* Base styles for all screen sizes */
+:root {
+  --feed-width: 450px;
+  --feed-margin: 1rem;
+  --feed-top-margin: 4rem;
+  --map-height: 100vh;
+}
+
+/* Large screens (1200px and up) */
+@media screen and (min-width: 1200px) {
+  .feed-home {
+    /* Remove width and margin overrides to preserve current look */
+  }
+  /* Remove .post-card width/margin overrides */
+}
+
+/* Medium screens (992px to 1199px) */
+@media screen and (max-width: 1199px) {
+  .feed-home {
+    /* Remove width and margin overrides to preserve current look */
+  }
+  /* Remove .post-card width/margin overrides */
+}
+
+/* Small screens (768px to 991px) */
+@media screen and (max-width: 991px) {
+  .feed-content h1 {
+    font-size: 1.2rem;
+  }
+  .feed-controls {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+/* Extra small screens (up to 767px) */
+@media screen and (max-width: 767px) {
+  .homepage {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 100vw;
+  }
+  .feed-home {
+    position: static;
+    width: 96vw;
+    max-width: 500px;
+    margin: 2.5vh auto 2vh auto;
+    border-radius: 24px;
+    background: rgba(234, 244, 251, 0.7);
+    box-shadow: 0 4px 32px rgba(31, 38, 135, 0.13);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    min-height: 60vh;
+    padding: 1.5rem 0.5rem 1rem 0.5rem;
+    border: 1.5px solid rgba(255,255,255,0.25);
+    z-index: 2;
+    height: 47.5vh;
+  }
+  .map {
+    width: 100%;
+    height: 50vh;
+    position: static;
+  }
+  .feed-content {
+    padding: 0;
+    width: 100%;
+    max-width: 100vw;
+  }
+  .feed-controls {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    margin: 1.2rem 0 1.2rem 0;
+  }
+  .filter-section,
+  .sort-section {
+    width: 100%;
+  }
+  .filter-section select,
+  .sort-section select {
+    width: 100%;
+  }
+  .posts-scroll-container {
+    max-height: calc(50vh - 200px);
+    width: 100%;
+  }
+  .event-searchbar-container {
+    max-width: 100%;
+    margin: 8px 0 0 0;
+  }
+  .post-card {
+    width: 95vw;
+    max-width: 420px;
+    margin: 0.5rem auto;
+    border-radius: 18px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+  .post-image, .no-image {
+    height: 140px;
+    border-radius: 14px;
+  }
+}
+
+/* Fix for feed overflow */
+.feed-home {
+  /* Remove background and box-shadow here, let feed.css handle glassmorphism for desktop */
+  max-height: calc(95vh - 7rem);
+  overflow-y: auto;
+  z-index: 2;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media screen and (max-width: 767px) {
+  .feed-home {
+    position: static;
+    width: 96vw;
+    max-width: 500px;
+    margin: 2.5vh auto 2vh auto;
+    border-radius: 24px;
+    background: rgba(234, 244, 251, 0.7);
+    box-shadow: 0 4px 32px rgba(31, 38, 135, 0.13);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    min-height: 60vh;
+    padding: 1.5rem 0.5rem 1rem 0.5rem;
+    border: 1.5px solid rgba(255,255,255,0.25);
+    z-index: 2;
+    height: 47.5vh;
+  }
+}
+
+.posts-scroll-container {
+  max-height: calc(95vh - 350px);
+  overflow-y: auto;
+}
+
+/* Ensure map container takes full height */
+.map {
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* Adjust feed content spacing */
+.feed-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Ensure proper spacing between feed elements */
+.feed-controls {
+  margin: 1rem 0;
+}
+
+/* Adjust search bar container */
+.event-searchbar-container {
+  margin: 1rem 0;
+}
+
+/* Ensure proper modal positioning */
+.modal {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Adjust map legend for different screen sizes */
+@media screen and (max-width: 767px) {
+  .map-legend {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    margin: 0;
+    padding: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .legend-row img {
+    width: 20px;
+    height: 20px;
+  }
+}
+
 /* Tablets and small laptops */
 @media (max-width: 992px) {
   /* Add tablet-specific adjustments */
@@ -59,6 +244,36 @@ Media queries for responsive design
   }
 
   .app-subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* --- New breakpoint for screens below 1214px --- */
+@media screen and (max-width: 1214px) {
+  .feed-home {
+    /* Remove width and margin overrides to preserve current look */
+  }
+  .event-searchbar-container {
+    /* Remove max-width and margin overrides to preserve current look */
+  }
+  .map {
+    left: 0;
+  }
+  .post-card {
+    /* Remove width/height/padding/margin overrides to preserve current look */
+  }
+}
+
+/* --- Small mobile screens --- */
+@media screen and (max-width: 480px) {
+  .feed-home {
+    font-size: 0.89rem;
+    padding: 0.5rem;
+  }
+  .event-searchbar-container {
+    margin: 4px 0 0 0;
+  }
+  .feed-content h1 {
     font-size: 1rem;
   }
 }
