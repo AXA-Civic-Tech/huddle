@@ -1,3 +1,12 @@
+/* ================================
+   Container for the map legend box
+   - White background with rounded corners
+   - Subtle shadow for elevation effect
+   - Padding inside for spacing content nicely
+   - High z-index to stay above map elements
+   - Uses flexbox column layout with vertical gap between items
+   - Light border and margin on the right side
+   ================================ */
 .map-legend {
   background: white;
   border-radius: 10px;
@@ -12,15 +21,27 @@
   margin-right: 40px;
 }
 
+/* ================================
+   Each row inside the legend 
+   - Horizontal flex layout
+   - Vertically centers items
+   - Spacing between elements in the row
+   ================================ */
 .legend-row {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
+/* ================================
+   Images inside legend rows
+   - Fixed size 28x28px for consistent icon sizing
+   - Vertically aligned to middle for better text alignment
+   - Small right margin for spacing from following text or elements
+   ================================ */
 .legend-row img {
   width: 28px;
   height: 28px;
   vertical-align: middle;
   margin-right: 4px;
-} 
+}

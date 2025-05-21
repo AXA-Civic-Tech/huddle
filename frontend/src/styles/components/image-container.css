@@ -1,4 +1,10 @@
-/* Base image container styles */
+/* ================================
+   Base container for a single event image
+   - Fixed height (400px)
+   - Centers content with flexbox
+   - Light background and muted text color
+   - Rounded corners and hides overflow to keep layout clean
+   ================================ */
 .event-image {
   width: 100%;
   height: 400px; /* Fixed height like in Post */
@@ -12,7 +18,12 @@
   overflow: hidden; /* Prevent large images from breaking layout */
 }
 
-/* Style for no-image state */
+/* ================================
+   Styles for empty event image container (no image)
+   - Dashed border to indicate placeholder
+   - Background with placeholder SVG icon centered
+   - Maintains same fixed height and width as .event-image
+   ================================ */
 .event-image:empty {
   border: 2px dashed #dee2e6;
   background: #f8f9fa url("data:image/svg+xml,...") center/48px no-repeat;
@@ -21,7 +32,11 @@
   height: 400px;
 }
 
-/* Image section styles */
+/* ================================
+   Container for multiple event images section
+   - Takes up 50% width but max 600px
+   - Vertical flex layout with gap between images
+   ================================ */
 .event-images {
   flex: 0 0 50%;
   max-width: 600px;
@@ -30,6 +45,13 @@
   gap: 1rem;
 }
 
+/* ================================
+   Image upload area styling
+   - Full width, fixed height
+   - Dashed border and rounded corners for dropzone look
+   - Flex layout to center content vertically and horizontally
+   - Cursor pointer and hover effect to indicate interactivity
+   ================================ */
 .image-upload {
   width: 100%;
   height: 400px;
@@ -44,23 +66,33 @@
   transition: border-color background-color 0.2s;
 }
 
+/* Paragraph styles inside image upload container */
 .image-upload p {
   margin: 0;
   color: #6c757d;
   font-size: 1.2rem;
 }
 
+/* Last paragraph inside image-upload styled italic and smaller font */
 .image-upload p:last-child {
   font-style: italic;
   font-size: 1rem;
 }
 
+/* Hover effect for image upload area */
 .image-upload:hover {
   background-color: #f0f0f0;
   border-color: #6c757d;
 }
 
-/* Image Carousel Styles */
+/* ================================
+   Carousel container styles
+   - Relative positioning for dots and controls
+   - Width constrained to max 800px but responsive
+   - Rounded corners and light background
+   - Vertical scroll enabled with fixed max height
+   - Custom scrollbar styles for better UI
+   ================================ */
 .carousel-container {
   position: relative;
   width: 100%;
@@ -68,11 +100,11 @@
   margin: 0 auto;
   background: #f8f9fa;
   border-radius: 8px;
-  overflow-y: auto; /* Added overflow-y */
-  max-height: 400px; /* Added max-height to enable scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: 400px; /* Fixed height to match image height */
 }
 
-/* Add custom scrollbar styles */
+/* Custom scrollbar track styling */
 .carousel-container::-webkit-scrollbar {
   width: 8px;
 }
@@ -82,6 +114,7 @@
   border-radius: 4px;
 }
 
+/* Scrollbar thumb styling with hover effect */
 .carousel-container::-webkit-scrollbar-thumb {
   background-color: #ccc;
   border-radius: 4px;
@@ -91,6 +124,11 @@
   background-color: #999;
 }
 
+/* ================================
+   Individual carousel image wrapper
+   - Fixed height (400px)
+   - Centers image with flexbox
+   ================================ */
 .carousel-image {
   position: relative;
   width: 100%;
@@ -100,14 +138,24 @@
   justify-content: center;
 }
 
+/* Carousel image styling
+   - Fill container while maintaining aspect ratio (contain)
+   - Background for letterboxing effect
+   - Smooth opacity transition for image changes */
 .carousel-image img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Changed from cover to maintain aspect ratio */
-  background: #f8f9fa; /* Background color for letterboxing */
+  object-fit: contain; /* Maintain aspect ratio */
+  background: #f8f9fa; /* Letterbox background */
   transition: opacity 0.3s ease;
 }
 
+/* ================================
+   Carousel navigation dots container
+   - Positioned at bottom center of carousel
+   - Flex layout with gap between dots
+   - High z-index to stay above images
+   ================================ */
 .carousel-dots {
   position: absolute;
   bottom: 15px;
@@ -118,6 +166,9 @@
   z-index: 2;
 }
 
+/* Individual carousel dot styling
+   - Small circular button with semi-transparent white background
+   - Cursor pointer and smooth transition on hover and active */
 .carousel-dot {
   width: 8px;
   height: 8px;
@@ -129,12 +180,18 @@
   transition: all 0.3s ease;
 }
 
+/* Active carousel dot styling
+   - Solid white background and slightly scaled up */
 .carousel-dot.active {
   background: white;
   transform: scale(1.2);
 }
 
-/* Responsive styles */
+/* ================================
+   Responsive adjustments for smaller screens (max width 768px)
+   - Carousel container expands to full width
+   - Carousel buttons resized for touch-friendly controls
+   ================================ */
 @media (max-width: 768px) {
   .carousel-container {
     max-width: 100%;

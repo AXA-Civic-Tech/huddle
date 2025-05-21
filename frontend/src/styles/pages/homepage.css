@@ -1,9 +1,20 @@
+/* 
+  Homepage Container
+  - Relative positioning to contain absolutely positioned children if needed
+  - Full viewport height and full width to cover entire screen
+*/
 .homepage {
   position: relative;
   width: 100%;
   height: 100vh;
 }
 
+/* 
+  Map Element
+  - Full width and height to fill parent container (.homepage)
+  - Positioned relative to allow layering with z-index
+  - z-index set to 1 to control stacking order, ensuring it sits above or below other elements as needed
+*/
 .map {
   width: 100%;
   height: 100%;

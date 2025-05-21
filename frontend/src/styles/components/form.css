@@ -1,9 +1,17 @@
+/* ================================
+   Edit Form Container
+   Sets full width and vertical stacking of form elements
+   ================================ */
 .edit-form {
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
+/* ================================
+   Two-column Grid for Dropdowns
+   Creates two equal columns with gap between them
+   ================================ */
 .edit-dropdown {
   width: 100%;
   display: grid;
@@ -11,17 +19,24 @@
   gap: 1rem;
 }
 
-/* Reset layout for elements after edit-dropdown */
+/* ================================
+   Override styles for all children of edit-form except .edit-dropdown
+   Forces full width and spans all columns in grid layouts
+   ================================ */
 .edit-form > *:not(.edit-dropdown) {
-  width: 100% !important; /* Use important to override any other styles */
-  grid-column: 1 / -1; /* Span all columns if grid is present */
+  width: 100% !important; /* Ensure width override */
+  grid-column: 1 / -1; /* Span across all grid columns */
 }
 
+/* Remove default bottom margin from input fields inside edit-form */
 .edit-form input {
   margin-bottom: 0;
 }
 
-/* Field Styling */
+/* ================================
+   Field Container
+   Vertical stack with spacing between label and input/select/textarea
+   ================================ */
 .field {
   display: flex;
   flex-direction: column;
@@ -29,17 +44,21 @@
   width: 100%;
 }
 
+/* Label styling within fields
+   Prevent shrinking and set a consistent minimum width */
 .field label {
-  flex: 0 0 auto; /* Prevent label from shrinking */
-  min-width: 80px; /* Give labels a consistent width */
+  flex: 0 0 auto;
+  min-width: 80px;
 }
 
+/* Input, select, and textarea styling for fields
+   Full width, padded, with subtle border and background */
 .field input,
 .field select,
 .field textarea {
   flex: 1;
   width: 100%;
-  min-width: 0; /* Allow input to shrink below content size */
+  min-width: 0; /* Allow shrinking smaller than content */
   padding: 0.5rem;
   border: 1px solid #ddd;
   border-radius: 6px;
@@ -48,6 +67,8 @@
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+/* Focus states for inputs, selects, and textareas
+   Highlight border and add subtle shadow */
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
@@ -56,26 +77,38 @@
   box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
+/* Textarea specific styles
+   Minimum height and vertical resizing allowed */
 .field textarea {
   min-height: 120px;
   resize: vertical;
 }
 
+/* ================================
+   Display-Only Field Container
+   Horizontal layout for label-value pairs with bottom margin */
 .display-field {
   display: flex;
   margin-bottom: 10px;
 }
 
+/* Strong text inside display fields
+   Styled as muted and slightly smaller with right spacing */
 .display-field strong {
   color: #555;
   font-size: 14px;
   margin-right: 8px;
 }
 
+/* Field value text style */
 .field-value {
   font-size: 15px;
 }
 
+/* ================================
+   API Key Error Message Styling
+   Red text with light red background, padding, and rounded borders
+   Center aligned and slightly larger bold font */
 .api-key-error {
   color: #b00020;
   background: #fff0f0;
@@ -88,4 +121,4 @@
   font-weight: 600;
 }
 
-/* Remove custom comment-input button styles to unify button appearance */
+/* Note: Custom styles for comment-input button removed to unify button appearance */

@@ -4,9 +4,15 @@ Core layout elements and containers
 */
 
 /* Main content area */
+/* 
+Sets the main container to use Flexbox for layout,
+arranging child elements vertically (column),
+adding space between them (gap),
+and aligning items to the start of the cross axis (left-aligned).
+*/
 main {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  align-items: start;
+  gap: 1rem; /* Space between child elements */
+  align-items: start; /* Align children to the left */
 }

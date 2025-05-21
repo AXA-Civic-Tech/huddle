@@ -1,3 +1,15 @@
+/* ================================
+   Post Card Container
+   - Card style container with padding and margin
+   - Semi-transparent white background with blur (glassmorphism)
+   - Rounded corners and subtle border
+   - Shadow for depth
+   - Smooth transform transition on hover
+   - Pointer cursor for clickable effect
+   - Fixed size (320x320px)
+   - Flex column layout to stack children vertically
+   - Center horizontally, align items to top vertically
+   ================================ */
 .post-card {
   padding: 1.5rem;
   margin: 0.5rem;
@@ -16,10 +28,18 @@
   justify-content: flex-start;
 }
 
+/* Hover effect for post card - slight lift */
 .post-card:hover {
   transform: translateY(-5px);
 }
 
+/* ================================
+   Post Image Styling
+   - Full width, fixed height image inside card
+   - Crop and scale image to fill container without distortion
+   - Rounded corners matching card
+   - Bottom margin spacing from content below
+   ================================ */
 .post-image {
   width: 100%;
   height: 160px;
@@ -28,6 +48,13 @@
   margin-bottom: 1rem;
 }
 
+/* ================================
+   Post Title Styling
+   - Larger font size for emphasis
+   - Bottom margin for spacing from other text
+   - Centered text alignment
+   - Word breaking and wrapping for long titles
+   ================================ */
 .post-title {
   font-size: 1.4rem;
   margin-bottom: 0.5rem;
@@ -38,6 +65,12 @@
   max-width: 100%;
 }
 
+/* ================================
+   Post Status and Creator Text
+   - Smaller font size
+   - Bottom margin to separate from other elements
+   - Center aligned text
+   ================================ */
 .post-status,
 .post-creator {
   font-size: 1rem;
@@ -45,6 +78,12 @@
   text-align: center;
 }
 
+/* ================================
+   Post Creator Link
+   - No underline for link
+   - Blue color for clickable links
+   - Underline on hover with smooth transition effect
+   ================================ */
 .post-creator a {
   text-decoration: none;
   color: #007bff;
@@ -55,6 +94,14 @@
   transition: #0056b3 0.2s;
 }
 
+/* ================================
+   No Image Placeholder
+   - Italic text to indicate no image available
+   - Fixed size matching post image height
+   - Center text vertically and horizontally
+   - Light grey background and rounded corners for visual style
+   - Bottom margin for spacing
+   ================================ */
 .no-image {
   font-style: italic;
   width: 100%;
@@ -67,7 +114,12 @@
   margin-bottom: 1rem;
 }
 
-/* Grid support for UserPage */
+/* ================================
+   Grid Layout for User Page Posts
+   - Responsive grid with auto-fit columns, min width 320px
+   - Gap between grid items
+   - Center grid items horizontally
+   ================================ */
 .userpage-posts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -76,11 +128,18 @@
   justify-content: center;
 }
 
+/* Special case: if only one post-card child, use flex and center it */
 .userpage-posts-grid:has(.post-card:only-child) {
   display: flex;
   justify-content: center;
 }
 
+/* ================================
+   Desktop Grid Adjustments (min width 900px)
+   - Fixed 3-column layout
+   - Increased gap between posts using viewport width units
+   - Max width for grid and center horizontally via auto margins
+   ================================ */
 @media (min-width: 900px) {
   .userpage-posts-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -90,6 +149,7 @@
     margin-right: auto;
     justify-content: center;
   }
+  /* Special case: if exactly two post cards, limit max width */
   .userpage-posts-grid:has(.post-card:nth-child(2):last-child) {
     max-width: 750px;
   }
