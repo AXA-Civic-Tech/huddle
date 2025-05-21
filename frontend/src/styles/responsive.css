@@ -3,6 +3,148 @@ Responsive styles
 Media queries for responsive design
 */
 
+/* Base styles for all screen sizes */
+:root {
+  --feed-width: 400px;
+  --feed-margin: 1.5rem;
+  --feed-top-margin: 6rem;
+  --map-height: 100vh;
+}
+
+/* Large screens (1200px and up) */
+@media screen and (min-width: 1200px) {
+  .feed-home {
+    width: var(--feed-width);
+    margin: var(--feed-top-margin) 0 1rem var(--feed-margin);
+  }
+}
+
+/* Medium screens (992px to 1199px) */
+@media screen and (max-width: 1199px) {
+  .feed-home {
+    width: 350px;
+    margin: var(--feed-top-margin) 0 1rem 1rem;
+  }
+}
+
+/* Small screens (768px to 991px) */
+@media screen and (max-width: 991px) {
+  .feed-home {
+    width: 300px;
+    margin: var(--feed-top-margin) 0 1rem 0.75rem;
+  }
+
+  .feed-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .feed-controls {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+/* Extra small screens (up to 767px) */
+@media screen and (max-width: 767px) {
+  .homepage {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .feed-home {
+    position: relative;
+    width: 100%;
+    height: 50vh;
+    margin: 0;
+    border-radius: 0;
+    overflow-y: auto;
+  }
+
+  .map {
+    height: 50vh;
+  }
+
+  .feed-content {
+    padding: 1rem;
+  }
+
+  .feed-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-section,
+  .sort-section {
+    width: 100%;
+  }
+
+  .filter-section select,
+  .sort-section select {
+    width: 100%;
+  }
+
+  .posts-scroll-container {
+    max-height: calc(50vh - 200px);
+  }
+}
+
+/* Fix for feed overflow */
+.feed-home {
+  max-height: calc(100vh - 7rem);
+  overflow-y: auto;
+}
+
+.posts-scroll-container {
+  max-height: calc(100vh - 350px);
+  overflow-y: auto;
+}
+
+/* Ensure map container takes full height */
+.map {
+  height: 100vh;
+  position: relative;
+}
+
+/* Adjust feed content spacing */
+.feed-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Ensure proper spacing between feed elements */
+.feed-controls {
+  margin: 1rem 0;
+}
+
+/* Adjust search bar container */
+.event-searchbar-container {
+  margin: 1rem 0;
+}
+
+/* Ensure proper modal positioning */
+.modal {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Adjust map legend for different screen sizes */
+@media screen and (max-width: 767px) {
+  .map-legend {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    margin: 0;
+    padding: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .legend-row img {
+    width: 20px;
+    height: 20px;
+  }
+}
+
 /* Tablets and small laptops */
 @media (max-width: 992px) {
   /* Add tablet-specific adjustments */
