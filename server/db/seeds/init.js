@@ -78,8 +78,6 @@ exports.seed = async (knex) => {
   // ========= 3. Create events =========
   // Event table fields in order: id, user_id, date_created, is_issue, images, title,
   // lat_location, long_location, address, borough, zipcode, email, phone, status, description
-  // Event table fields in order: id, user_id, date_created, is_issue, images, title,
-  // lat_location, long_location, address, borough, zipcode, email, phone, status, description
   const events = [
     {
       id: 1,
