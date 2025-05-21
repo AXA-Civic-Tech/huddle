@@ -177,12 +177,21 @@
 
 /* Add icon styling */
 .add-icon {
-  cursor: pointer;
+  width: 48px !important;
+  height: 48px !important;
+  font-size: 2.2rem !important;
   padding: 0.5rem;
-  border-radius: 8px;
+  border-radius: 12px;
+  cursor: pointer;
   transition: background-color 0.2s;
 }
 
 .add-icon:hover {
   background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Center feed controls on user profile page */
+.feed-user .feed-controls {
+  justify-content: center;
+  margin: 0 auto;
 }
