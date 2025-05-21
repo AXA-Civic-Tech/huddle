@@ -17,10 +17,6 @@ Media queries for responsive design
     width: var(--feed-width);
     margin-top: var(--feed-top-margin);
   }
-  .post-card {
-    width: 100%;
-    margin: 0.75rem auto;
-  }
 }
 
 /* Medium screens (992px to 1199px) */
@@ -28,10 +24,6 @@ Media queries for responsive design
   .feed-home {
     width: 400px;
     margin-top: var(--feed-top-margin);
-  }
-  .post-card {
-    width: 100%;
-    margin: 0.75rem auto;
   }
 }
 
@@ -67,6 +59,8 @@ Media queries for responsive design
     min-height: 60vh;
     padding: 1.5rem 0.5rem 1rem 0.5rem;
     border: 1.5px solid rgba(255,255,255,0.25);
+    z-index: 2;
+    height: 47.5vh;
   }
   .map {
     width: 100%;
@@ -115,13 +109,31 @@ Media queries for responsive design
 
 /* Fix for feed overflow */
 .feed-home {
+  /* Remove background and box-shadow here, let feed.css handle glassmorphism for desktop */
   max-height: calc(95vh - 7rem);
   overflow-y: auto;
-  z-index: 9999;
-  background: #eaf4fb;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 2;
   margin-left: auto;
   margin-right: auto;
+}
+
+@media screen and (max-width: 767px) {
+  .feed-home {
+    position: static;
+    width: 96vw;
+    max-width: 500px;
+    margin: 2.5vh auto 2vh auto;
+    border-radius: 24px;
+    background: rgba(234, 244, 251, 0.7);
+    box-shadow: 0 4px 32px rgba(31, 38, 135, 0.13);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    min-height: 60vh;
+    padding: 1.5rem 0.5rem 1rem 0.5rem;
+    border: 1.5px solid rgba(255,255,255,0.25);
+    z-index: 2;
+    height: 47.5vh;
+  }
 }
 
 .posts-scroll-container {
