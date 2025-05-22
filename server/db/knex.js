@@ -1,11 +1,13 @@
+const configFile = require('../knexfile');
+
+const env = process.env.NODE_ENV || 'development';
+
+console.log('==> [DEBUG] .env', process.env);
 console.log('==> [DEBUG] NODE_ENV:', process.env.NODE_ENV);
 console.log('==> [DEBUG] PG_CONNECTION_STRING:', process.env.PG_CONNECTION_STRING ? '[SET]' : '[NOT SET]');
 console.log('==> [DEBUG] PG_HOST:', process.env.PG_HOST);
 console.log('==> [DEBUG] PG_USER:', process.env.PG_USER);
 console.log('==> [DEBUG] PG_DB:', process.env.PG_DB);
-
-const env = process.env.NODE_ENV || 'development';
-const configFile = require('../knexfile');
 console.log('==> [DEBUG] knexfile keys:', Object.keys(configFile));
 console.log('==> [DEBUG] knexfile[env]:', configFile[env]);
 

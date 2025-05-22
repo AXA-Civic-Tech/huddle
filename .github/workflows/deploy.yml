@@ -1,0 +1,5 @@
+  - name: Build and Deploy
+    run: |
+      cd frontend && npm i && npm run build && cd ../server && npm i && NODE_ENV='production' npm run migrate:rollback \
+      && NODE_ENV='production' npm run migrate \
+      && NODE_ENV='production' npm run seed 
