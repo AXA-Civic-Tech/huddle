@@ -1,7 +1,7 @@
 # Huddle
 
 > **_Project Mission Statement:_**  
-> Our mission is to make local knowledge open and accessible—so New Yorkers can connect, care, and create change together. We believe that when communities share information, they build power—and turn scattered facts into shared momentum. Less hidden data. More collective strength.
+> Our mission is simple: empower every New Yorker to connect around what matters most in their own neighborhood. By giving people both the tools—and the purpose—to act, Huddle helps rebuild the social fabric of this city, one block at a time.
 
 ## Team
 
