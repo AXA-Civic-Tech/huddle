@@ -55,11 +55,10 @@ export default function LoginSignUpPage({
         </p>
 
         <p className="mission-text">
-          Our mission is to make local knowledge open and accessible—so New
-          Yorkers can connect, care, and create change together. We believe that
-          when communities share information, they build power—and turn
-          scattered facts into shared momentum. Less hidden data. More
-          collective strength.
+          Our mission is to empower every New Yorker to connect around what 
+          matters most in their own neighborhood. By providing the tools and 
+          purpose to take action, we aim to strengthen the city’s social 
+          fabric—one block, one conversation, and one community at a time.
         </p>
       </div>
 
