@@ -30,7 +30,7 @@ Every New Yorker can glance at a map and instantly understand what is happenin
 
 ## 🏙️  Mission Statement 
 <!-- content goes below -->
-Our mission is simple: empower every New Yorker to connect around what matters most in their own neighborhood. By giving people both the tools—and the purpose—to act, Huddle helps rebuild the social fabric of this city, one block at a time.
+Our mission is to empower every New Yorker to connect around what matters most in their own neighborhood. By providing the tools and purpose to take action, we aim to strengthen the city’s social fabric—one block, one conversation, and one community at a time.
 <!-- content goes above -->
 
 ## 🫂 Who do we serve?
