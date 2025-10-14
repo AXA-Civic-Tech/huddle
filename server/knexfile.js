@@ -10,7 +10,7 @@ module.exports = {
     connection: {
       host: PG_HOST || '127.0.0.1',
       user: PG_USER || 'postgres',
-      password: PG_PASSWORD || '',
+      password: PG_PASS || '',
       database: PG_DB || 'huddle_dev',
     },
     migrations: { directory: './db/migrations' },
