@@ -2,7 +2,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   server: {
@@ -15,4 +14,8 @@ export default defineConfig({
       },
     },
   },
-});
+  preview: {
+    host: '0.0.0.0', // <-- critical for Docker/Coolify
+    port: 4173,      // optional, default is 4173
+  },
+})
