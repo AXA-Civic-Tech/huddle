@@ -1,21 +1,24 @@
 [phases.setup]
 commands = [
-  "echo 'Setup phase - install root deps if any'"
+  "echo Setting up environment..."
+]
+
+[phases.install]
+commands = [
+  "cd frontend && npm install",
+  "cd backend && npm install"
 ]
 
 [phases.build]
 commands = [
-  # Install frontend deps and build
-  "cd frontend && npm install && npm run build",
-  # Install backend deps (without migrating/seeding)
-  "cd ../server && npm install"
+  "cd frontend && npm run build",
+  "cd backend && npm run build"
 ]
 
 [phases.start]
 commands = [
-  # Start backend only
-  "cd server && npm run start"
+  "cd backend && npm run start"
 ]
 
-[metadata]
-name = "huddle"
+[env]
+NODE_VERSION = "18"
