@@ -1,24 +1,22 @@
-[phases.setup]
-commands = [
-  "echo Setting up environment..."
-]
-
 [phases.install]
-commands = [
-  "cd frontend && npm install",
-  "cd server && npm install"
-]
+# Install frontend first, then backend
+install = """
+cd frontend
+npm install
+cd ../server
+npm install
+"""
 
 [phases.build]
-commands = [
-  "cd frontend && npm run build",
-  "cd server && npm run build"
-]
+# Build frontend, backend is JS so no build needed
+build = """
+cd frontend
+npm run build
+"""
 
 [phases.start]
-commands = [
-  "cd server && npm run start"
-]
-
-[env]
-NODE_VERSION = "18"
+# Start the backend
+start = """
+cd server
+npm start
+"""
