@@ -1,5 +1,5 @@
 const knex = require('../db/knex');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const SALT_ROUNDS = 12;
 
 class User {
