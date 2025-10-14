@@ -1,41 +1,26 @@
-require("dotenv").config();
-const path = require("path");
+const { PG_CONNECTION_STRING, PG_HOST, PG_PORT, PG_USER, PG_PASSWORD, PG_DB } = process.env;
 
-const migrationsDirectory = path.join(__dirname, "db/migrations");
-const seedsDirectory = path.join(__dirname, "/db/seeds");
-
-/* 
-We'll use environment variables to set the Postgres username and password
-so we don't share that information online.
-
-When we deploy in "production", we'll provide a PG_CONNECTION_STRING
-*/
+const connectionString =
+  PG_CONNECTION_STRING ||
+  `postgresql://${PG_USER}:${PG_PASSWORD || ''}@${PG_HOST}:${PG_PORT || 5432}/${PG_DB}`;
 
 module.exports = {
   development: {
-    client: "pg",
-    connection: process.env.PG_CONNECTION_STRING || {
-      host: process.env.PG_HOST || "127.0.0.1",
-      port: process.env.PG_PORT || 5432,
-      user: process.env.PG_USER || "postgres",
-      password: process.env.PG_PASS || "postgres",
-      database: process.env.PG_DB || "postgres",
+    client: 'pg',
+    connection: {
+      host: PG_HOST || '127.0.0.1',
+      user: PG_USER || 'postgres',
+      password: PG_PASSWORD || '',
+      database: PG_DB || 'huddle_dev',
     },
-    migrations: {
-      directory: migrationsDirectory,
-    },
-    seeds: {
-      directory: seedsDirectory,
-    },
+    migrations: { directory: './db/migrations' },
+    seeds: { directory: './db/seeds' },
   },
+
   production: {
-    client: "pg",
-    connection: process.env.PG_CONNECTION_STRING,
-    migrations: {
-      directory: migrationsDirectory,
-    },
-    seeds: {
-      directory: seedsDirectory,
-    },
+    client: 'pg',
+    connection: connectionString,
+    migrations: { directory: '/app/server/db/migrations' },
+    seeds: { directory: '/app/server/db/seeds' },
   },
 };
