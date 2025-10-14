@@ -1,8 +1,9 @@
-const { PG_CONNECTION_STRING, PG_HOST, PG_PORT, PG_USER, PG_PASSWORD, PG_DB } = process.env;
+const { PG_CONNECTION_STRING, PG_HOST, PG_PORT, PG_USER, PG_PASS, PG_DB } = process.env;
 
+console.log(PG_PASS)
 const connectionString =
   PG_CONNECTION_STRING ||
-  `postgresql://${PG_USER}:${PG_PASSWORD || ''}@${PG_HOST}:${PG_PORT || 5432}/${PG_DB}`;
+  `postgresql://${PG_USER}:${PG_PASS || ''}@${PG_HOST}:${PG_PORT || 5432}/${PG_DB}`;
 
 module.exports = {
   development: {
