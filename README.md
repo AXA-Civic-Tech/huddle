@@ -1,13 +1,35 @@
 # Huddle
 
 > **_Project Mission Statement:_**  
-> Our mission is to empower every New Yorker to connect around what matters most in their own neighborhood. By providing the tools and purpose to take action, we aim to strengthen the city’s social fabric—one block, one conversation, and one community at a time.
+> Huddle tackles the problem that NYC tools like 311 isolate neighborhood issues and hide them from the community. Instead of reports disappearing into a closed system, Huddle lets residents submit issues, share local events, and see everything on an interactive neighborhood map. By making reports and events visible, searchable, and organized by location, it helps neighbors stay informed, notice patterns, and support each other, especially elders, immigrants, and offline households.
 
 ## Team
 
-- _Autumn Lydon_: **Scrum Master, Developer**
-- _Xavier Campos_: **Developer**
-- _Athena Chang_: **Developer**
+- [_Autumn Lydon_](https://www.linkedin.com/in/autumnlydon/): **Scrum Master, Full-Stack Developer**
+- [_Xavier Campos_](https://www.linkedin.com/in/xavier-campos-theswe/): **Full-Stack Developer**
+- [_Athena Chang_](https://www.linkedin.com/in/athena-chang/): **Full-Stack Developer**
+
+## Project Screenshots
+Home Page
+<img width="1895" height="1026" alt="huddle-preview" src="https://github.com/user-attachments/assets/653fc941-a9f4-4d8c-be91-8daea28bf671" />
+
+
+Login Page
+<img width="1898" height="1030" alt="HUDDLE Login Page" src="https://github.com/user-attachments/assets/7fc4c935-2275-434e-9261-7af134c7c5ce" />
+
+
+Sign Up Page
+<img width="1919" height="1027" alt="HUDDLE Sign Up Page" src="https://github.com/user-attachments/assets/0b6f1e21-a91c-4aa2-b554-78c065facabb" />
+
+
+Event Modal
+<img width="1901" height="1033" alt="HUDDLE Modal Pop Up" src="https://github.com/user-attachments/assets/95e447d9-cef6-4b23-a6ed-4fac1b70e80f" />
+
+
+Profile Page
+<img width="1898" height="1030" alt="HUDDLE Profile Page" src="https://github.com/user-attachments/assets/52600be9-7158-4d83-afb9-6700d7eaf1f0" />
+
+
 
 ## Table of Contents
 
